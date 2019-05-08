@@ -17,31 +17,36 @@ public class Accordion : MonoBehaviour
 
     void Update()
     {
-        // if (Input.GetKeyDown(KeyCode.KeypadMinus) || Input.GetAxis("Mouse ScrollWheel") < 0) {
-        //     if (step > 0) {
-        //         step--;
-        //         Highlight();
-        //     }
-        // }
-
-        // if (Input.GetKeyDown(KeyCode.KeypadPlus) || Input.GetAxis("Mouse ScrollWheel") > 0 || Input.GetTouch(0).t) {
-        //     if (step < tiles.Length) { 
-        //        step++;
-        //        Highlight();
-        //     }
-        // }
-
-        if (Input.touchCount > 0) {
-            Touch touch = Input.GetTouch(0);
-
-            if (touch.phase == TouchPhase.Ended) {
-                if (step < tiles.Length) { 
-                    step++;
-                    Highlight();
-                }
+        if (Input.GetKeyDown(KeyCode.KeypadMinus) || Input.GetAxis("Mouse ScrollWheel") < 0) {
+            if (step > 0) {
+                step--;
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.KeypadPlus) || Input.GetAxis("Mouse ScrollWheel") > 0) {
+            if (step < tiles.Length) { 
+               step++;
+            }
+        }
+
+        if (Input.touchCount > 0) {
+            Touch touch = Input.GetTouch(0);
+            Debug.Log(touch.position);
+
+            if (touch.phase == TouchPhase.Ended) {
+                if (touch.position.x < 1000) {
+                    if (step > 0) { 
+                        step--;
+                    }
+                } else {
+                    if (step < tiles.Length) { 
+                        step++;
+                    }
+                }
+            }   
+        }
+                
+        Highlight();
         UpdatePositions();
     }
 
@@ -64,8 +69,7 @@ public class Accordion : MonoBehaviour
         if (step == 0) {
             return 0.0f;
         }
-        // return (step + index) * factor; // linear
-        return Mathf.Pow(step + index, 2); // quadratic
+        return Mathf.Pow((step + index) * factor, 2); // quadratic
     }
 
     private void Highlight() {
