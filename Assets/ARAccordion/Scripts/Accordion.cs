@@ -7,7 +7,7 @@ public class Accordion : MonoBehaviour
 {
     [SerializeField] GameObject[] tiles;
 
-    [SerializeField] float factor = 4.0f;
+    [SerializeField] float factor = 1.0f;
 
     private int step = 0;
 
@@ -69,7 +69,7 @@ public class Accordion : MonoBehaviour
         if (step == 0) {
             return 0.0f;
         }
-        return Mathf.Pow((step + index) * factor, 2); // quadratic
+        return Mathf.Pow((step + index) * factor, 3);
     }
 
     private void Highlight() {
