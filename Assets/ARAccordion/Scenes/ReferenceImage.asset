@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: ReferenceImage
   m_EditorClassIdentifier: 
   imageName: referenceimage
-  imageTexture: {fileID: 2800000, guid: 208f71f5b057c45fca7b0df56e1be855, type: 3}
+  imageTexture: {fileID: 2800000, guid: fa6b94f3923c84692899a35826098bb4, type: 3}
   physicalSize: 0.06
