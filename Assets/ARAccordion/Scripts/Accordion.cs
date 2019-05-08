@@ -61,7 +61,8 @@ public class Accordion : MonoBehaviour
                     tile.transform.localPosition.x, 
                     tile.transform.localPosition.y, 
                     -GetPositionZ(step, i)), 
-                20.0f * Time.deltaTime);    
+                20.0f * Time.deltaTime
+            );    
         }
     }
 
