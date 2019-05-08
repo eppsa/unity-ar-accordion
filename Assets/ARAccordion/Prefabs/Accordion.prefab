@@ -415,7 +415,7 @@ MonoBehaviour:
   - {fileID: 3510622231010285410}
   - {fileID: 2154106591144172893}
   - {fileID: 1805198397973049303}
-  factor: 0.6
+  factor: 0.3
 --- !u!1 &3510622231010285410
 GameObject:
   m_ObjectHideFlags: 0
