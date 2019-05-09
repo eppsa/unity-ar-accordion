@@ -78,10 +78,11 @@ public class Accordion : MonoBehaviour
         {
             GameObject tile = tiles[i];
             Color color = tile.GetComponent<Renderer>().material.GetColor("_Color");
+
             tile.GetComponent<Renderer>().material.SetColor("_Color", new Color(color.r, color.g, color.b, 0.5f));
         }
 
-        if (step != 0) {
+        if (step > 0) {
             GameObject activeTile = tiles[tiles.Length - step];
             Color activeTileColor = activeTile.GetComponent<Renderer>().material.GetColor("_Color");
             activeTile.GetComponent<Renderer>().material.SetColor("_Color", new Color(activeTileColor.r, activeTileColor.g, activeTileColor.b, 1.0f));
