@@ -1,14 +1,34 @@
 {
     "layer0" : {
       "id" : "0",
-      "information" : "Some useful text"
+      "information" : "Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf."
     },
     "layer1" : {
       "id" : "1",
-      "information" : "Some useful text ; -)"
+      "information" : "Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf."
     },
     "layer2" : {
       "id" : "2",
-      "information" : "Some useful text here"
+      "information" : "Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf."
+    },
+    "layer3" : {
+      "id" : "3",
+      "information" : "Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf."
+    },
+    "layer4" : {
+      "id" : "4",
+      "information" : "Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf."
+    },
+    "layer5" : {
+      "id" : "5",
+      "information" : "Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf."
+    },
+    "layer6" : {
+      "id" : "6",
+      "information" : "Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf."
+    },
+    "layer7" : {
+      "id" : "7",
+      "information" : "Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf."
     }
   }
