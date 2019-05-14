@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.iOS;
+using UnityEngine.Rendering.PostProcessing;
 
 public class Accordion : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class Accordion : MonoBehaviour
 
     [SerializeField] float factor = 1.0f;
 
-    private int step = 0;
+    private int step = 1;
 
     void Start()
     {    
@@ -27,24 +28,25 @@ public class Accordion : MonoBehaviour
             if (step < tiles.Length) { 
                step++;
             }
+            Debug.Log("KeyCode.KeypadPlus");
         }
 
-        if (Input.touchCount > 0) {
-            Touch touch = Input.GetTouch(0);
-            Debug.Log(touch.position);
+        // if (Input.touchCount > 0) {
+        //     Touch touch = Input.GetTouch(0);
+        //     Debug.Log(touch.position);
 
-            if (touch.phase == TouchPhase.Ended) {
-                if (touch.position.x < 1000) {
-                    if (step > 0) { 
-                        step--;
-                    }
-                } else {
-                    if (step < tiles.Length) { 
-                        step++;
-                    }
-                }
-            }   
-        }
+        //     if (touch.phase == TouchPhase.Ended) {
+        //         if (touch.position.x < 1000) {
+        //             if (step > 0) { 
+        //                 step--;
+        //             }
+        //         } else {
+        //             if (step < tiles.Length) { 
+        //                 step++;
+        //             }
+        //         }
+        //     }   
+        // }
                 
         Highlight();
         UpdatePositions();
@@ -68,9 +70,9 @@ public class Accordion : MonoBehaviour
 
     private float GetPositionZ(int step, int index) {
         if (step == 0) {
-            return 0.0f;
+            return 0.01f * index;
         }
-        return Mathf.Pow((step + index) * factor, 3);
+        return Mathf.Pow((step + index) * factor, 2);
     }
 
     private void Highlight() {
