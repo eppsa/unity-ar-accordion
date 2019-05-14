@@ -1,0 +1,14 @@
+{
+    "layer0" : {
+      "id" : "0",
+      "information" : "Some useful text"
+    },
+    "layer1" : {
+      "id" : "1",
+      "information" : "Some useful text ; -)"
+    },
+    "layer2" : {
+      "id" : "2",
+      "information" : "Some useful text here"
+    }
+  }
