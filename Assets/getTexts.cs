@@ -14,28 +14,16 @@ public class getTexts : MonoBehaviour
 
     void Start()
     {
+        DeserializeJson();    
+    }
+
+    void DeserializeJson() {
+        
         string jsonPath = Application.streamingAssetsPath + "/content.json";
         jsonString = File.ReadAllText(jsonPath);
 
         layerConfig = JsonConvert.DeserializeObject<Dictionary<string, Dictionary <string, string>>>(jsonString);
 
-        Debug.Log(layerConfig["layer2"]["information"]);
-        
+        Debug.Log(layerConfig["layer2"]["information"]);    
     }
-
-    // void loadJsonFile() {
-    //     string jsonPath = Application.dataPath + "/StreamingAssets/myData.Json";
-    //     string jsonString = File.ReadAllText(jsonPath);
-    //     JObject itemJson = JObject.Parse(jsonString);
-
-    //     Debug.Log(itemJson);
-
-    //      for (int i = 0; i < itemJson.Count; i++)
-    //     {
-
-    //         database.Add(i);
-    //     }
-    //     Debug.Log(database[1]);
-    // }
-
 }
