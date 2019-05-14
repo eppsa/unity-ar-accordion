@@ -17,15 +17,20 @@ public class Accordion : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.KeypadMinus) || Input.GetAxis("Mouse ScrollWheel") < 0) {
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetAxis("Mouse ScrollWheel") < 0) {
             if (step > 0) {
                 step--;
+                GameObject.Find("Canvas/Info Popup").GetComponent<getTexts>().UpdateInformation(step);
+                Debug.Log(step);
+
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.KeypadPlus) || Input.GetAxis("Mouse ScrollWheel") > 0) {
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetAxis("Mouse ScrollWheel") > 0) {
             if (step < tiles.Length) { 
                step++;
+                GameObject.Find("Canvas/Info Popup").GetComponent<getTexts>().UpdateInformation(step);
+
             }
         }
 
