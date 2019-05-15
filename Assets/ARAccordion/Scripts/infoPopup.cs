@@ -50,4 +50,16 @@ public class infoPopup : MonoBehaviour
 
         IconImage.GetComponent<Image>().sprite = sprite;
     }
+
+    public void TogglePopup()
+    {
+        if (this.gameObject.activeInHierarchy)
+        {
+            this.gameObject.SetActive(false);
+        }
+        else
+        {
+            this.gameObject.SetActive(true);
+        }
+    }
 }
