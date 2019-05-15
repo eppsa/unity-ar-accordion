@@ -1,34 +1,29 @@
 {
     "layer0" : {
-      "id" : "0",
-      "information" : "Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf."
+      "information" : "Touch to begin."
     },
     "layer1" : {
-      "id" : "1",
-      "information" : "Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf."
+      "information" : "1 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf."
     },
     "layer2" : {
-      "id" : "2",
-      "information" : "Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf."
+      "information" : "2 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf."
     },
     "layer3" : {
-      "id" : "3",
-      "information" : "Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf."
+      "information" : "3 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf."
     },
     "layer4" : {
-      "id" : "4",
-      "information" : "Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf."
+      "information" : "4 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf."
     },
     "layer5" : {
-      "id" : "5",
-      "information" : "Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf."
+      "information" : "5 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf."
     },
     "layer6" : {
-      "id" : "6",
-      "information" : "Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf."
+      "information" : "6 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf."
     },
     "layer7" : {
-      "id" : "7",
-      "information" : "Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf."
+      "information" : "7 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf."
+    },
+    "layer8" : {
+      "information" : "8 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf."
     }
   }
