@@ -10,7 +10,7 @@ using UnityEngine.Networking;
 public class infoPopup : MonoBehaviour
 {
 
- public GameObject Image;
+ public GameObject IconImage;
  private string jsonString;
 
  public Dictionary<string, Dictionary <string, string>> layerConfig;
@@ -18,52 +18,36 @@ public class infoPopup : MonoBehaviour
 
     void Start()
     {
-        DeserializeJson();    
-    }
-
-    void DeserializeJson() {  
-        string jsonPath = Path.Combine(Application.streamingAssetsPath, "content.json");
-        jsonString = File.ReadAllText(jsonPath);
-        layerConfig = JsonConvert.DeserializeObject<Dictionary<string, Dictionary <string, string>>>(jsonString);
+        DeserializeJson();
         UpdateInformation(0);
     }
 
-    public void UpdateInformation(int layerNumber) {
+    void DeserializeJson()
+    {  
+        string jsonPath = Path.Combine(Application.streamingAssetsPath, "content.json");
+        jsonString = File.ReadAllText(jsonPath);
+        layerConfig = JsonConvert.DeserializeObject<Dictionary<string, Dictionary <string, string>>>(jsonString);
+    }
+
+    public void UpdateInformation(int layerNumber)
+    {
         Text Information = this.transform.Find("Text").gameObject.GetComponent<Text>();
         Information.text = layerConfig["layer" + layerNumber]["information"];
-        StartCoroutine (GetTexture (layerNumber));
-
+        ChangeImage(layerNumber);
     }
 
-    IEnumerator GetTexture(int imageNumber) {
+    void ChangeImage(int layerNumber)
     {
+        string path = Path.Combine(Application.streamingAssetsPath, "Icons/icon"+layerNumber+".jpg");
 
-    string url = Path.Combine(Application.streamingAssetsPath, "Icons/icon"+imageNumber+".jpg");
+        byte[] imageData;
+        Texture2D Texture = new Texture2D(100, 100);
+        imageData = File.ReadAllBytes(path);
+        Texture.LoadImage(imageData);
 
-    byte[] imageData;
-    Texture2D tex = new Texture2D(100, 100);
+        Vector2 pivot = new Vector2(0.5f, 0.5f);
+        Sprite sprite = Sprite.Create(Texture, new Rect(0.0f, 0.0f, Texture.width, Texture.height), pivot, 100.0f);
 
-    //Check if we should use UnityWebRequest or File.ReadAllBytes
-    if (url.Contains("://") || url.Contains(":///"))
-    {
-        UnityWebRequest www = UnityWebRequest.Get(url);
-        yield return www.SendWebRequest();
-        imageData = www.downloadHandler.data;
+        IconImage.GetComponent<Image>().sprite = sprite;
     }
-    else
-    {
-        imageData = File.ReadAllBytes(url);
-    }
-    Debug.Log(imageData.Length);
-
-    //Load raw Data into Texture2D 
-    tex.LoadImage(imageData);
-
-    //Convert Texture2D to Sprite
-    Vector2 pivot = new Vector2(0.5f, 0.5f);
-    Sprite sprite = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), pivot, 100.0f);
-
-    Image.GetComponent<Image>().sprite = sprite;
-}
-}
 }
