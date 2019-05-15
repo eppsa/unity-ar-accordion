@@ -10,10 +10,9 @@ public class Accordion : MonoBehaviour
 
     [SerializeField] float factor = 1.0f;
 
-    private int step = 1;
+    public int step = 0;
 
-    void Start()
-    {    
+    void OnEnable() {
     }
 
     void Update()
@@ -26,29 +25,30 @@ public class Accordion : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.KeypadPlus) || Input.GetAxis("Mouse ScrollWheel") > 0) {
             if (step < tiles.Length) { 
-               step++;
+                step++;
             }
-            Debug.Log("KeyCode.KeypadPlus");
         }
 
-        // if (Input.touchCount > 0) {
-        //     Touch touch = Input.GetTouch(0);
-        //     Debug.Log(touch.position);
+        if (Input.touchCount > 0) {
+            Touch touch = Input.GetTouch(0);
+            Debug.Log(touch.position);
 
-        //     if (touch.phase == TouchPhase.Ended) {
-        //         if (touch.position.x < 1000) {
-        //             if (step > 0) { 
-        //                 step--;
-        //             }
-        //         } else {
-        //             if (step < tiles.Length) { 
-        //                 step++;
-        //             }
-        //         }
-        //     }   
-        // }
-                
-        Highlight();
+            if (touch.phase == TouchPhase.Ended) {
+                if (touch.position.y > 800) {
+                    if (touch.position.x < 1000) {
+                        if (step > 0) { 
+                            step--;
+                        }
+                    } else {
+                        if (step < tiles.Length) { 
+                            step++;
+                        }
+                    }
+                }
+            }   
+        }
+           
+        // Highlight();
         UpdatePositions();
     }
 
@@ -72,7 +72,7 @@ public class Accordion : MonoBehaviour
         if (step == 0) {
             return 0.01f * index;
         }
-        return Mathf.Pow((step + index) * factor, 2);
+        return Mathf.Pow((step + index) * factor, 3);
     }
 
     private void Highlight() {
