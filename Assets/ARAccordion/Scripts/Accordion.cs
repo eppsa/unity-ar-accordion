@@ -5,6 +5,10 @@ using UnityEngine.iOS;
 
 public class Accordion : MonoBehaviour
 {
+
+    public GameObject infoPopup;
+
+    [Header("Layer")]
     [SerializeField] GameObject[] tiles;
 
     [SerializeField] float factor = 1.0f;
@@ -12,7 +16,7 @@ public class Accordion : MonoBehaviour
     private int step = 0;
 
     void Start()
-    {    
+    {
     }
 
     void Update()
@@ -20,16 +24,14 @@ public class Accordion : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetAxis("Mouse ScrollWheel") < 0) {
             if (step > 0) {
                 step--;
-                GameObject.Find("Canvas/Info Popup").GetComponent<getTexts>().UpdateInformation(step);
-                Debug.Log(step);
-
+                infoPopup.GetComponent<infoPopup>().UpdateInformation(step);
             }
         }
 
         if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetAxis("Mouse ScrollWheel") > 0) {
             if (step < tiles.Length) { 
                step++;
-                GameObject.Find("Canvas/Info Popup").GetComponent<getTexts>().UpdateInformation(step);
+                infoPopup.GetComponent<infoPopup>().UpdateInformation(step);
 
             }
         }
@@ -48,6 +50,7 @@ public class Accordion : MonoBehaviour
                         step++;
                     }
                 }
+                infoPopup.GetComponent<infoPopup>().UpdateInformation(step);
             }   
         }
                 
