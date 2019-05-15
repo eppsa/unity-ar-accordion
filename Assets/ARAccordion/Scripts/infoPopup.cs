@@ -5,7 +5,7 @@ using System.IO;
 using UnityEngine.UI;
 using Newtonsoft.Json;
 
-public class getTexts : MonoBehaviour
+public class infoPopup : MonoBehaviour
 {
 
  private string jsonString;
@@ -18,18 +18,14 @@ public class getTexts : MonoBehaviour
         DeserializeJson();    
     }
 
-    void DeserializeJson() {
-        
+    void DeserializeJson() {  
         string jsonPath = Application.streamingAssetsPath + "/content.json";
         jsonString = File.ReadAllText(jsonPath);
-
         layerConfig = JsonConvert.DeserializeObject<Dictionary<string, Dictionary <string, string>>>(jsonString);
-
-        Debug.Log(layerConfig["layer2"]["information"]);    
+        UpdateInformation(0);
     }
 
     public void UpdateInformation(int layerNumber) {
-
         Text Information = this.transform.Find("Text").gameObject.GetComponent<Text>();
         Information.text = layerConfig["layer" + layerNumber]["information"];
     }
