@@ -28,19 +28,21 @@ public class Controller : MonoBehaviour
             Debug.Log("Size: " + arTrackedImage.size);
             Debug.Log("Position: " + arTrackedImage.transform.position);
 
-            Transform content = accordion.transform.GetChild(0);
-            Debug.Log("Child count: " + content.childCount);
+            Transform content = accordion.transform.Find("Content");
 
-            Transform layer = content.GetChild(content.childCount - step - 1); 
-            Debug.Log("Layer position: " + layer.position);
-            Debug.Log("Layer local position: " + layer.localPosition);
+            if (content != null) {
+                Debug.Log("Child count: " + content.childCount);
+
+                Transform layer = content.GetChild(content.childCount - step - 1); 
+                Debug.Log("Layer position: " + layer.position);
+                Debug.Log("Layer local position: " + layer.localPosition);
 
 
-            float distance = Vector3.Distance(arCamera.transform.localPosition, layer.position);
-            Debug.Log("Distance: " + distance);
+                float distance = Vector3.Distance(arCamera.transform.localPosition, layer.position);
+                Debug.Log("Distance: " + distance);
 
-            postFx.UpdateFocusDistance(distance);
+                // postFx.UpdateFocusDistance(distance);
+            }
         }
-
     }
 }

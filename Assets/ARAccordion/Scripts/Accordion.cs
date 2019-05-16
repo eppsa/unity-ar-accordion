@@ -61,17 +61,18 @@ public class Accordion : MonoBehaviour
                 tile.transform.localPosition, 
                 new Vector3(
                     tile.transform.localPosition.x, 
-                    tile.transform.localPosition.y, 
-                    -GetPositionZ(step, i)), 
-                20.0f * Time.deltaTime
+                    GetPositionY(step, i), 
+                    tile.transform.localPosition.z), 
+                0.5f * Time.deltaTime
             );    
         }
     }
 
-    private float GetPositionZ(int step, int index) {
+    private float GetPositionY(int step, int index) {
         if (step == 0) {
-            return 0.01f * index;
+            return 0.0001f * index + 0.0001f;
         }
+        Debug.Log(Mathf.Pow((step + index) * factor, 3));
         return Mathf.Pow((step + index) * factor, 3);
     }
 
