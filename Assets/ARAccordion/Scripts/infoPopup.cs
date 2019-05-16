@@ -11,6 +11,7 @@ public class infoPopup : MonoBehaviour
 {
 
  public GameObject IconImage;
+ public float fadeSpeed = 0.7f;
  private string jsonString;
 
  public Dictionary<string, Dictionary <string, string>> layerConfig;
@@ -19,7 +20,8 @@ public class infoPopup : MonoBehaviour
     void Start()
     {
         DeserializeJson();
-        UpdateInformation(0);
+        SwitchLayer(0);
+
     }
 
     void DeserializeJson()
@@ -29,16 +31,14 @@ public class infoPopup : MonoBehaviour
         layerConfig = JsonConvert.DeserializeObject<Dictionary<string, Dictionary <string, string>>>(jsonString);
     }
 
-    public void UpdateInformation(int layerNumber)
+    public void SwitchLayer(int newLayer)
     {
-        Text Information = this.transform.Find("Text").gameObject.GetComponent<Text>();
-        Information.text = layerConfig["layer" + layerNumber]["information"];
-        ChangeImage(layerNumber);
+        StartCoroutine(Fade(1,0,fadeSpeed, newLayer));
     }
 
-    void ChangeImage(int layerNumber)
+    void ChangeImage(int newLayer)
     {
-        string path = Path.Combine(Application.streamingAssetsPath, "Icons/icon"+layerNumber+".jpg");
+        string path = Path.Combine(Application.streamingAssetsPath, "Icons/icon"+newLayer+".jpg");
 
         byte[] imageData;
         Texture2D Texture = new Texture2D(100, 100);
@@ -61,5 +61,40 @@ public class infoPopup : MonoBehaviour
         {
             this.gameObject.SetActive(true);
         }
+    }
+
+    public IEnumerator Fade(float fadeFrom, float fadeTo, float lerpTime, int newLayer)
+    {
+        float startTime = Time.time;
+        float currentTime = Time.time - startTime;
+        float fadePercentage = currentTime / lerpTime;
+
+        while(fadePercentage < 1) {
+
+            currentTime = Time.time - startTime;
+            fadePercentage = currentTime / lerpTime;
+
+            float currentAlphaValue = Mathf.Lerp(fadeFrom, fadeTo, fadePercentage);
+
+            this.GetComponent<CanvasGroup>().alpha = currentAlphaValue;
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        Debug.Log("Fading done");
+
+        if (this.GetComponent<CanvasGroup>().alpha == 0)
+        {
+            UpdateInformation(newLayer);
+        }
+    }
+
+    void UpdateInformation(int newLayer)
+    {
+        Text Information = this.transform.Find("Text").gameObject.GetComponent<Text>();
+        Information.text = layerConfig["layer" + newLayer]["information"];
+        ChangeImage(newLayer);
+
+        StartCoroutine(Fade(0,1,fadeSpeed,0));
     }
 }
