@@ -97,6 +97,18 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+--- !u!225 &477786854
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5692244665854243294}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5692244665857474768
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,7 +122,7 @@ GameObject:
   - component: {fileID: 5692244665857474770}
   - component: {fileID: 5692244665857474771}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UICanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -404,14 +416,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 477786853, guid: 95ab15f22c1864f90ab32a9bf9377306, type: 3}
-      propertyPath: InfoPopup
-      value: 
-      objectReference: {fileID: 5692244665854243294}
-    - target: {fileID: 477786853, guid: 95ab15f22c1864f90ab32a9bf9377306, type: 3}
-      propertyPath: Popup
-      value: 
-      objectReference: {fileID: 5692244665854243294}
     - target: {fileID: 1813936532, guid: 95ab15f22c1864f90ab32a9bf9377306, type: 3}
       propertyPath: m_IsActive
       value: 1
