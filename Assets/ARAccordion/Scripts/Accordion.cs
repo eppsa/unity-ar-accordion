@@ -24,14 +24,14 @@ public class Accordion : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetAxis("Mouse ScrollWheel") < 0) {
             if (step > 0) {
                 step--;
-                infoPopup.GetComponent<infoPopup>().UpdateInformation(step);
+                infoPopup.GetComponent<infoPopup>().SwitchLayer(step);
             }
         }
 
         if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetAxis("Mouse ScrollWheel") > 0) {
             if (step < tiles.Length) { 
                step++;
-               infoPopup.GetComponent<infoPopup>().UpdateInformation(step);
+               infoPopup.GetComponent<infoPopup>().SwitchLayer(step);
             }
         }
 
@@ -43,13 +43,13 @@ public class Accordion : MonoBehaviour
                 if (touch.position.x < 1000) {
                     if (step > 0) { 
                         step--;
-                        infoPopup.GetComponent<infoPopup>().UpdateInformation(step);
+                        infoPopup.GetComponent<infoPopup>().SwitchLayer(step);
 
                     }
                 } else {
                     if (step < tiles.Length) { 
                         step++;
-                        infoPopup.GetComponent<infoPopup>().UpdateInformation(step);
+                        infoPopup.GetComponent<infoPopup>().SwitchLayer(step);
 
                     }
                 }
