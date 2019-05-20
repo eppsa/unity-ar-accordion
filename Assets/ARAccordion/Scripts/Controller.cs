@@ -7,15 +7,62 @@ using UnityEngine.XR.ARFoundation;
 
 public class Controller : MonoBehaviour
 {
-    [SerializeField] ARSessionOrigin sessionOrigin;
-    [SerializeField] Camera arCamera;
-    [SerializeField] PostFX postFx;
+    [SerializeField] private ARSessionOrigin sessionOrigin;
+    [SerializeField] private Camera arCamera;
+    [SerializeField] private PostFX postFx;
+    [SerializeField] private InfoPopup infoPopUp;
+
+    [SerializeField] private Transform accordionPrefab;
 
     private Accordion accordion;
     private ARTrackedImage arTrackedImage;
 
+    private int maxSteps;
+    private int step;
+
+    void Start() {
+        maxSteps = accordionPrefab.Find("Content").childCount;
+        Debug.Log("Max steps: " + maxSteps);
+    }
+
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetAxis("Mouse ScrollWheel") < 0) {
+            if (step > 0) {
+                step--;
+                infoPopUp.SwitchLayer(step);
+                accordion.UpdateStep(step);
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetAxis("Mouse ScrollWheel") > 0) {
+            if (step < maxSteps) { 
+                step++;
+                infoPopUp.SwitchLayer(step);
+                accordion.UpdateStep(step);
+            }
+        }
+
+        if (Input.touchCount > 0) {
+            Touch touch = Input.GetTouch(0);
+            Debug.Log(touch.position);
+
+            if (touch.phase == TouchPhase.Ended) {
+                if (touch.position.x < 1000) {
+                    if (step > 0) { 
+                        step--;
+                    }
+                } else {
+                    if (step < maxSteps) { 
+                        step++;
+                    }
+                }
+        
+                infoPopUp.GetComponent<InfoPopup>().SwitchLayer(step);
+                accordion.UpdateStep(step);
+            }   
+        }
+
         if (accordion == null) {
             Transform arTrackedImageTransform = sessionOrigin.trackablesParent.childCount != 0 ? sessionOrigin.trackablesParent.GetChild(0) : null;
             if (arTrackedImageTransform != null) {
@@ -23,8 +70,6 @@ public class Controller : MonoBehaviour
                 accordion = arTrackedImage.GetComponentInChildren<Accordion>();
             };
         } else {
-            int step = accordion.step;
-
             Debug.Log("Size: " + arTrackedImage.size);
             Debug.Log("Position: " + arTrackedImage.transform.position);
 
@@ -43,6 +88,8 @@ public class Controller : MonoBehaviour
 
                 // postFx.UpdateFocusDistance(distance);
             }
+
+            // infoPopUp.GetComponent<InfoPopup>().SwitchLayer(step);
         }
     }
 }

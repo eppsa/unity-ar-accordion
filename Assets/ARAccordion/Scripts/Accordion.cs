@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.iOS;
@@ -6,50 +6,24 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class Accordion : MonoBehaviour
 {
+
+    public GameObject infoPopup;
+
+    [Header("Layer")]
     [SerializeField] GameObject[] tiles;
 
     [SerializeField] float factor = 1.0f;
 
-    public int step = 0;
-
-    void OnEnable() {
-    }
+    private int step = 0;
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.KeypadMinus) || Input.GetAxis("Mouse ScrollWheel") < 0) {
-            if (step > 0) {
-                step--;
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.KeypadPlus) || Input.GetAxis("Mouse ScrollWheel") > 0) {
-            if (step < tiles.Length) { 
-                step++;
-            }
-        }
-
-        if (Input.touchCount > 0) {
-            Touch touch = Input.GetTouch(0);
-            Debug.Log(touch.position);
-
-            if (touch.phase == TouchPhase.Ended) {
-                if (touch.position.y > 800) {
-                    if (touch.position.x < 1000) {
-                        if (step > 0) { 
-                            step--;
-                        }
-                    } else {
-                        if (step < tiles.Length) { 
-                            step++;
-                        }
-                    }
-                }
-            }   
-        }
-           
-        // Highlight();
+        Highlight();
         UpdatePositions();
+    }
+
+    public void UpdateStep(int step) {
+        this.step = step;
     }
 
     private void UpdatePositions() {
@@ -88,6 +62,7 @@ public class Accordion : MonoBehaviour
         if (step > 0) {
             GameObject activeTile = tiles[tiles.Length - step];
             Color activeTileColor = activeTile.GetComponent<Renderer>().material.GetColor("_Color");
+
             activeTile.GetComponent<Renderer>().material.SetColor("_Color", new Color(activeTileColor.r, activeTileColor.g, activeTileColor.b, 1.0f));
         }
     }
