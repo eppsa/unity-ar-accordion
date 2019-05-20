@@ -15,6 +15,8 @@ public class Accordion : MonoBehaviour
     [SerializeField] float scaleFactorZ = 1.0f;
     [SerializeField] float speedFactor = 1.0f;
 
+    Vector3 targetPosition;
+
     private int step = 0;
 
     void Update()
@@ -28,22 +30,25 @@ public class Accordion : MonoBehaviour
     }
 
     private void UpdatePositions() {
+        if (step == 0) {
+            return;
+        }
+
         for (int i = 0; i < tiles.Length; i++)
         {
             GameObject tile = tiles[i];
 
+            Debug.Log(targetPosition);
+
             tile.transform.localPosition = Vector3.MoveTowards(
                 tile.transform.localPosition, 
-                new Vector3(
-                    tile.transform.localPosition.x, 
-                    GetPositionY(step, i), 
-                    tile.transform.localPosition.z), 
+                targetPosition * GetDistance(step, i),
                 speedFactor * Time.deltaTime
             );    
         }
     }
 
-    private float GetPositionY(int step, int index) {
+    private float GetDistance(int step, int index) {
         if (step == 0) {
             return 0.0001f * index + 0.0001f;
         }
@@ -70,5 +75,9 @@ public class Accordion : MonoBehaviour
 
     public void SetScaleFactorZ(float factor) {
         scaleFactorZ = factor;
+    }
+
+    public void SetTargetPosition(Vector3 targetPosition) {
+        this.targetPosition = targetPosition;
     }
 }

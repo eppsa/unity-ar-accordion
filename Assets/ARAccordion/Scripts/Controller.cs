@@ -73,6 +73,8 @@ public class Controller : MonoBehaviour
             Debug.Log("Size: " + arTrackedImage.size);
             Debug.Log("Position: " + arTrackedImage.transform.position);
 
+            accordion.SetTargetPosition(arCamera.transform.localPosition);
+
             Transform content = accordion.transform.Find("Content");
 
             if (content != null) {
