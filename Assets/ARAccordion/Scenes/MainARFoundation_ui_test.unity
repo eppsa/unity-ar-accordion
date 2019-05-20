@@ -1343,8 +1343,7 @@ MonoBehaviour:
   - {fileID: 9065024398656835182}
   - {fileID: 5805631885849412689}
   - {fileID: 6086625445863503579}
-  factor: 0.3
-  step: 0
+  scaleFactorZ: 1
 --- !u!1 &8423504672159076943
 GameObject:
   m_ObjectHideFlags: 0

@@ -92,4 +92,10 @@ public class Controller : MonoBehaviour
             // infoPopUp.GetComponent<InfoPopup>().SwitchLayer(step);
         }
     }
+
+    public void OnAccodrionScaleFactorZChange(float factor) {
+        if (accordion != null) {
+            accordion.SetScaleFactorZ(factor);
+        }
+    }
 }

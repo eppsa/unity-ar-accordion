@@ -12,7 +12,8 @@ public class Accordion : MonoBehaviour
     [Header("Layer")]
     [SerializeField] GameObject[] tiles;
 
-    [SerializeField] float factor = 1.0f;
+    [SerializeField] float scaleFactorZ = 1.0f;
+    [SerializeField] float speedFactor = 1.0f;
 
     private int step = 0;
 
@@ -37,7 +38,7 @@ public class Accordion : MonoBehaviour
                     tile.transform.localPosition.x, 
                     GetPositionY(step, i), 
                     tile.transform.localPosition.z), 
-                0.5f * Time.deltaTime
+                speedFactor * Time.deltaTime
             );    
         }
     }
@@ -46,8 +47,8 @@ public class Accordion : MonoBehaviour
         if (step == 0) {
             return 0.0001f * index + 0.0001f;
         }
-        Debug.Log(Mathf.Pow((step + index) * factor, 3));
-        return Mathf.Pow((step + index) * factor, 3);
+        Debug.Log(Mathf.Pow((step + index) * scaleFactorZ, 3));
+        return Mathf.Pow((step + index) * scaleFactorZ, 3);
     }
 
     private void Highlight() {
@@ -56,7 +57,7 @@ public class Accordion : MonoBehaviour
             GameObject tile = tiles[i];
             Color color = tile.GetComponent<Renderer>().material.GetColor("_Color");
 
-            tile.GetComponent<Renderer>().material.SetColor("_Color", new Color(color.r, color.g, color.b, 0.5f));
+            tile.GetComponent<Renderer>().material.SetColor("_Color", new Color(color.r, color.g, color.b, 0.3f));
         }
 
         if (step > 0) {
@@ -65,5 +66,9 @@ public class Accordion : MonoBehaviour
 
             activeTile.GetComponent<Renderer>().material.SetColor("_Color", new Color(activeTileColor.r, activeTileColor.g, activeTileColor.b, 1.0f));
         }
+    }
+
+    public void SetScaleFactorZ(float factor) {
+        scaleFactorZ = factor;
     }
 }
