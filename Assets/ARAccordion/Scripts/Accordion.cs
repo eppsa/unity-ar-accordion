@@ -6,20 +6,30 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class Accordion : MonoBehaviour
 {
-
     public GameObject infoPopup;
 
     [Header("Layer")]
     [SerializeField] GameObject[] tiles;
 
-    [SerializeField] float scaleFactorZ = 1.0f;
-    [SerializeField] float speedFactor = 1.0f;
-
-    Vector3 targetPosition;
+    Transform target;
 
     private int step = 0;
 
-    void Update()
+    private Vector3[] tilesOrigins;
+
+    void Start()
+    {    
+        tilesOrigins = new Vector3[tiles.Length];
+        for (int i = 0; i < tiles.Length; i++)
+        {
+            GameObject tile = tiles[i];
+            tilesOrigins[i] = new Vector3(tile.transform.position.x, tile.transform.position.y, tile.transform.position.z);
+                
+            Debug.Log("Origin " + i + ": " + tilesOrigins[i]);
+        }
+    }
+
+    void LateUpdate()
     {
         Highlight();
         UpdatePositions();
@@ -30,30 +40,30 @@ public class Accordion : MonoBehaviour
     }
 
     private void UpdatePositions() {
-        if (step == 0) {
-            return;
-        }
-
         for (int i = 0; i < tiles.Length; i++)
         {
             GameObject tile = tiles[i];
 
-            Debug.Log(targetPosition);
+            Vector3 newTarget;
+            if (step == 0) {
+                newTarget = tilesOrigins[i];
+            } else {
+                float distance = GetDistance(step, i);
+                Debug.Log(distance);
+                newTarget = tilesOrigins[i] + ((target.position - tilesOrigins[i]) * distance);
+                // tile.transform.LookAt(newTarget);
+                // tile.transform.Rotate(90, 0, 0);
+            }
 
-            tile.transform.localPosition = Vector3.MoveTowards(
-                tile.transform.localPosition, 
-                targetPosition * GetDistance(step, i),
-                speedFactor * Time.deltaTime
-            );    
+            tile.transform.position = Vector3.MoveTowards(
+                tile.transform.position,
+                newTarget,
+                5.0f * Time.deltaTime);    
         }
     }
 
     private float GetDistance(int step, int index) {
-        if (step == 0) {
-            return 0.0001f * index + 0.0001f;
-        }
-        Debug.Log(Mathf.Pow((step + index) * scaleFactorZ, 3));
-        return Mathf.Pow((step + index) * scaleFactorZ, 3);
+        return Mathf.Pow(step + index, 3) / Mathf.Pow(tiles.Length + 1.0f, 3); 
     }
 
     private void Highlight() {
@@ -73,11 +83,8 @@ public class Accordion : MonoBehaviour
         }
     }
 
-    public void SetScaleFactorZ(float factor) {
-        scaleFactorZ = factor;
-    }
-
-    public void SetTargetPosition(Vector3 targetPosition) {
-        this.targetPosition = targetPosition;
+    public void SetTargetPosition(Transform target) {
+        this.target = target;
+        Debug.Log("targetPosition: " + target.position);
     }
 }

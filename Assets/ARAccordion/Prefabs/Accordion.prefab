@@ -334,7 +334,7 @@ MonoBehaviour:
   - {fileID: 1442317454279374545}
   - {fileID: 9100793371251295951}
   - {fileID: 1054002921565844107}
-  scaleFactorZ: 0.18
+  scaleFactorZ: 0.25
   speedFactor: 1
 --- !u!1 &4752021684939702317
 GameObject:
