@@ -14,6 +14,8 @@ public class Controller : MonoBehaviour
 
     [SerializeField] private Transform accordionPrefab;
 
+    [SerializeField] private Transform canvasPrefab;
+
     private Accordion accordion;
     private ARTrackedImage arTrackedImage;
 
@@ -32,6 +34,7 @@ public class Controller : MonoBehaviour
                 step--;
                 infoPopUp.SwitchLayer(step);
                 accordion.UpdateStep(step);
+                canvasPrefab.GetComponent<CanvasSettings>().updateCanvasPosition(new Vector3 (1,1,1));
             }
         }
 
@@ -40,6 +43,9 @@ public class Controller : MonoBehaviour
                 step++;
                 infoPopUp.SwitchLayer(step);
                 accordion.UpdateStep(step);
+                canvasPrefab.GetComponent<CanvasSettings>().updateCanvasPosition(new Vector3 (1,1,2));
+
+
             }
         }
 
