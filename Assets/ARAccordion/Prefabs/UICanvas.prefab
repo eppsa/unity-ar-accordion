@@ -25,7 +25,6 @@ GameObject:
   - component: {fileID: 5692244665857474770}
   - component: {fileID: 5692244665857474771}
   - component: {fileID: 49749785}
-  - component: {fileID: 49749784}
   m_Layer: 5
   m_Name: UICanvas
   m_TagString: Untagged
@@ -126,18 +125,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &49749784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5692244665857474768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9776f6e01bb248a5a8c1d9731218e2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &3738098567621749432
 PrefabInstance:
   m_ObjectHideFlags: 0
