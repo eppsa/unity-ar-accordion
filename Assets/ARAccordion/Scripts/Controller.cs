@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.iOS;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.XR.ARFoundation;
 
@@ -24,7 +23,6 @@ public class Controller : MonoBehaviour
 
     void Start() {
         maxSteps = accordionPrefab.Find("Content").childCount;
-        Debug.Log("Max steps: " + maxSteps);
     }
 
     void Update()
@@ -59,7 +57,6 @@ public class Controller : MonoBehaviour
 
         if (Input.touchCount > 0) {
             Touch touch = Input.GetTouch(0);
-            Debug.Log(touch.position);
 
             if (touch.phase == TouchPhase.Ended) {
                 if (touch.position.x < 1000) {
@@ -85,21 +82,13 @@ public class Controller : MonoBehaviour
                 accordion = arTrackedImage.GetComponentInChildren<Accordion>();
             };
         } else {
-            Debug.Log("Size: " + arTrackedImage.size);
-            Debug.Log("Position: " + arTrackedImage.transform.position);
+            accordion.SetTargetPosition(arCamera.transform);
 
             Transform content = accordion.transform.Find("Content");
 
             if (content != null) {
-                Debug.Log("Child count: " + content.childCount);
-
                 Transform layer = content.GetChild(content.childCount - step - 1); 
-                Debug.Log("Layer position: " + layer.position);
-                Debug.Log("Layer local position: " + layer.localPosition);
-
-
                 float distance = Vector3.Distance(arCamera.transform.localPosition, layer.position);
-                Debug.Log("Distance: " + distance);
 
                 // postFx.UpdateFocusDistance(distance);
             }
@@ -110,7 +99,7 @@ public class Controller : MonoBehaviour
 
     public void OnAccodrionScaleFactorZChange(float factor) {
         if (accordion != null) {
-            accordion.SetScaleFactorZ(factor);
+            // accordion.SetScaleFactorZ(factor);
         }
     }
 }
