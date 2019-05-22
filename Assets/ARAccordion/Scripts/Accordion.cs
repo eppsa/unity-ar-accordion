@@ -65,6 +65,8 @@ public class Accordion : MonoBehaviour
             Color activeTileColor = activeTile.GetComponent<Renderer>().material.GetColor("_Color");
 
             activeTile.GetComponent<Renderer>().material.SetColor("_Color", new Color(activeTileColor.r, activeTileColor.g, activeTileColor.b, 1.0f));
+            Debug.Log("Active Position "+ activeTile.transform.position);
+            GameObject.Find("Canvas").transform.position = activeTile.transform.position;
         }
     }
 
