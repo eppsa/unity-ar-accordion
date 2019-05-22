@@ -33,7 +33,7 @@ public class ControllerTest : MonoBehaviour
                 step--;
                 infoPopUp.SwitchLayer(step);
                 accordionPrefab.GetComponent<Accordion>().UpdateStep(step);
-                canvasPrefab.transform.position = accordionPrefab.GetComponent<Accordion>().activeTilePosition;
+                canvasPrefab.transform.position = accordionPrefab.GetComponent<Accordion>().getActiveTilePosition();
 
                 // Update only z value of canvas
                 //
@@ -50,7 +50,7 @@ public class ControllerTest : MonoBehaviour
                 step++;
                 infoPopUp.SwitchLayer(step);
                 accordionPrefab.GetComponent<Accordion>().UpdateStep(step);
-                canvasPrefab.transform.position = accordionPrefab.GetComponent<Accordion>().activeTilePosition;
+                canvasPrefab.transform.position = accordionPrefab.GetComponent<Accordion>().getActiveTilePosition();
 
 
             }
@@ -72,7 +72,7 @@ public class ControllerTest : MonoBehaviour
         
                 infoPopUp.GetComponent<InfoPopup>().SwitchLayer(step);
                 accordionPrefab.GetComponent<Accordion>().UpdateStep(step);
-                canvasPrefab.transform.position = accordionPrefab.GetComponent<Accordion>().activeTilePosition;
+                canvasPrefab.transform.position = accordionPrefab.GetComponent<Accordion>().getActiveTilePosition();
             }   
         }
 

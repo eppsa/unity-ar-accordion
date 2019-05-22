@@ -32,7 +32,7 @@ public class Controller : MonoBehaviour
                 step--;
                 infoPopUp.SwitchLayer(step);
                 accordion.UpdateStep(step);
-                canvasPrefab.transform.position = accordion.activeTilePosition;
+                canvasPrefab.transform.position = accordion.getActiveTilePosition();
 
                 // Update only z value of canvas
                 //
@@ -49,7 +49,7 @@ public class Controller : MonoBehaviour
                 step++;
                 infoPopUp.SwitchLayer(step);
                 accordion.UpdateStep(step);
-                canvasPrefab.transform.position = accordion.activeTilePosition;
+                canvasPrefab.transform.position = accordion.getActiveTilePosition();
 
 
             }
@@ -71,7 +71,7 @@ public class Controller : MonoBehaviour
         
                 infoPopUp.GetComponent<InfoPopup>().SwitchLayer(step);
                 accordion.UpdateStep(step);
-                //canvasPrefab.transform.position = accordion.activeTilePosition;
+                canvasPrefab.transform.position = accordion.getActiveTilePosition();
             }   
         }
 

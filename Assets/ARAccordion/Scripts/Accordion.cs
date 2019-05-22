@@ -5,8 +5,6 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class Accordion : MonoBehaviour
 {
-    public Vector3 activeTilePosition;
-
     [Header("Layer")]
     [SerializeField] GameObject[] tiles;
 
@@ -79,9 +77,13 @@ public class Accordion : MonoBehaviour
             Color activeTileColor = activeTile.GetComponent<Renderer>().material.GetColor("_Color");
 
             activeTile.GetComponent<Renderer>().material.SetColor("_Color", new Color(activeTileColor.r, activeTileColor.g, activeTileColor.b, 1.0f));
-            GameObject.Find("Canvas").transform.position = activeTile.transform.position;
-            //activeTilePosition = activeTile.transform.position;
+            //GameObject.Find("Canvas").transform.position = activeTile.transform.position;
         }
+    }
+
+    public Vector3 getActiveTilePosition() {
+        GameObject activeTile = tiles[tiles.Length - step];
+        return activeTile.transform.position;
     }
 
     public void SetTargetPosition(Transform target) {
