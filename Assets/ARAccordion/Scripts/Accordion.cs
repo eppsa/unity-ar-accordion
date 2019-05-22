@@ -10,7 +10,7 @@ public class Accordion : MonoBehaviour
     [Header("Layer")]
     [SerializeField] GameObject[] tiles;
 
-    Transform target;
+    Vector3 targetPosition;
 
     private int step = 0;
 
@@ -49,7 +49,7 @@ public class Accordion : MonoBehaviour
             } else {
                 float distance = GetDistance(step, i);
                 Debug.Log(distance);
-                newTarget = tilesOrigins[i] + ((target.position - tilesOrigins[i]) * distance);
+                newTarget = tilesOrigins[i] + ((targetPosition - tilesOrigins[i]) * distance);
                 // tile.transform.LookAt(newTarget);
                 // tile.transform.Rotate(90, 0, 0);
             }
@@ -82,8 +82,8 @@ public class Accordion : MonoBehaviour
         }
     }
 
-    public void SetTargetPosition(Transform target) {
-        this.target = target;
-        Debug.Log("targetPosition: " + target.position);
+    public void SetTargetPosition(Vector3 targetPosition) {
+        this.targetPosition = targetPosition;
+        Debug.Log("targetPosition: " + targetPosition);
     }
 }

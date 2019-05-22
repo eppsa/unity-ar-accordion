@@ -21,7 +21,7 @@ MonoBehaviour:
     m_SerializedTextureGuid:
       m_GuidLow: 9540170216829652943
       m_GuidHigh: 14456158779335934713
-    m_Size: {x: 0.249, y: 0.20147471}
+    m_Size: {x: 0.247, y: 0.19985645}
     m_SpecifySize: 1
     m_Name: Orginal Juno und Argus
     m_Texture: {fileID: 0}

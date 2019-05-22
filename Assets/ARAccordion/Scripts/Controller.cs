@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.XR.ARFoundation;
 
@@ -18,6 +19,8 @@ public class Controller : MonoBehaviour
 
     private int maxSteps;
     private int step;
+
+    private bool towardsCamera = false;
 
     void Start() {
         maxSteps = accordionPrefab.Find("Content").childCount;
@@ -44,6 +47,11 @@ public class Controller : MonoBehaviour
         if (Input.touchCount > 0) {
             Touch touch = Input.GetTouch(0);
 
+            if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+            {
+                return;
+            }
+
             if (touch.phase == TouchPhase.Ended) {
                 if (touch.position.x < 1000) {
                     if (step > 0) { 
@@ -67,7 +75,11 @@ public class Controller : MonoBehaviour
                 accordion = arTrackedImage.GetComponentInChildren<Accordion>();
             };
         } else {
-            accordion.SetTargetPosition(arCamera.transform);
+            if (towardsCamera) {
+                accordion.SetTargetPosition(arCamera.transform.position);
+            } else {
+                accordion.SetTargetPosition(new Vector3(0.0f, 0.0f, 1.0f));
+            }
 
             Transform content = accordion.transform.Find("Content");
 
@@ -86,5 +98,9 @@ public class Controller : MonoBehaviour
         if (accordion != null) {
             // accordion.SetScaleFactorZ(factor);
         }
+    }
+
+    public void OnActivateTowardsCamera(bool active) {
+        this.towardsCamera = active;
     }
 }
