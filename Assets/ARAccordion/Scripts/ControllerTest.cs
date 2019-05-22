@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.iOS;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.XR.ARFoundation;
 
@@ -14,7 +13,9 @@ public class ControllerTest : MonoBehaviour
 
     [SerializeField] private Transform accordionPrefab;
 
-    private GameObject accordion;
+    [SerializeField] private Transform canvasPrefab;
+
+    private Accordion accordion;
     private ARTrackedImage arTrackedImage;
 
     private int maxSteps;
@@ -22,8 +23,7 @@ public class ControllerTest : MonoBehaviour
 
     void Start() {
         maxSteps = accordionPrefab.Find("Content").childCount;
-        Debug.Log("Max steps: " + maxSteps);
-        accordion = accordionPrefab.gameObject;
+        accordionPrefab.GetComponent<Accordion>().SetTargetPosition(arCamera.transform);
     }
 
     void Update()
@@ -32,7 +32,16 @@ public class ControllerTest : MonoBehaviour
             if (step > 0) {
                 step--;
                 infoPopUp.SwitchLayer(step);
-                accordion.GetComponent<Accordion>().UpdateStep(step);
+                accordionPrefab.GetComponent<Accordion>().UpdateStep(step);
+                canvasPrefab.transform.position = accordionPrefab.GetComponent<Accordion>().activeTilePosition;
+
+                // Update only z value of canvas
+                //
+                // canvasPrefab.transform.position = new Vector3 ( 
+                //     canvasPrefab.transform.position.x,
+                //     canvasPrefab.transform.position.y,
+                //     accordionPrefab.GetComponent<Accordion>().activeTilePosition.z
+                // );
             }
         }
 
@@ -40,14 +49,15 @@ public class ControllerTest : MonoBehaviour
             if (step < maxSteps) { 
                 step++;
                 infoPopUp.SwitchLayer(step);
-                accordion.GetComponent<Accordion>().UpdateStep(step);
+                accordionPrefab.GetComponent<Accordion>().UpdateStep(step);
+                canvasPrefab.transform.position = accordionPrefab.GetComponent<Accordion>().activeTilePosition;
+
 
             }
         }
 
         if (Input.touchCount > 0) {
             Touch touch = Input.GetTouch(0);
-            Debug.Log(touch.position);
 
             if (touch.phase == TouchPhase.Ended) {
                 if (touch.position.x < 1000) {
@@ -61,17 +71,36 @@ public class ControllerTest : MonoBehaviour
                 }
         
                 infoPopUp.GetComponent<InfoPopup>().SwitchLayer(step);
-                accordion.GetComponent<Accordion>().UpdateStep(step);
-
+                accordionPrefab.GetComponent<Accordion>().UpdateStep(step);
+                canvasPrefab.transform.position = accordionPrefab.GetComponent<Accordion>().activeTilePosition;
             }   
         }
 
-       
+        // if (accordion == null) {
+        //     Transform arTrackedImageTransform = sessionOrigin.trackablesParent.childCount != 0 ? sessionOrigin.trackablesParent.GetChild(0) : null;
+        //     if (arTrackedImageTransform != null) {
+        //         arTrackedImage = arTrackedImageTransform.GetComponent<ARTrackedImage>();
+        //         accordion = arTrackedImage.GetComponentInChildren<Accordion>();
+        //     };
+        // } else {
+        //     accordion.SetTargetPosition(arCamera.transform);
+
+        //     Transform content = accordion.transform.Find("Content");
+
+        //     if (content != null) {
+        //         Transform layer = content.GetChild(content.childCount - step - 1); 
+        //         float distance = Vector3.Distance(arCamera.transform.localPosition, layer.position);
+
+        //         // postFx.UpdateFocusDistance(distance);
+        //     }
+
+        //     // infoPopUp.GetComponent<InfoPopup>().SwitchLayer(step);
+        // }
     }
 
     public void OnAccodrionScaleFactorZChange(float factor) {
         if (accordion != null) {
-            accordion.GetComponent<Accordion>().SetScaleFactorZ(factor);
+            // accordion.SetScaleFactorZ(factor);
         }
     }
 }

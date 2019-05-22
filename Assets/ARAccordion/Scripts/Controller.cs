@@ -71,7 +71,7 @@ public class Controller : MonoBehaviour
         
                 infoPopUp.GetComponent<InfoPopup>().SwitchLayer(step);
                 accordion.UpdateStep(step);
-                canvasPrefab.transform.position = accordion.activeTilePosition;
+                //canvasPrefab.transform.position = accordion.activeTilePosition;
             }   
         }
 
