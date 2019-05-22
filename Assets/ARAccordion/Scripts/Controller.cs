@@ -33,8 +33,16 @@ public class Controller : MonoBehaviour
             if (step > 0) {
                 step--;
                 infoPopUp.SwitchLayer(step);
-                accordion.UpdateStep(step);
-                canvasPrefab.GetComponent<CanvasSettings>().updateCanvasPosition(new Vector3 (1,1,1));
+                accordionPrefab.GetComponent<Accordion>().UpdateStep(step);
+                canvasPrefab.transform.position = accordionPrefab.GetComponent<Accordion>().activeTilePosition;
+
+                // Update only z position of canvas
+                //
+                // canvasPrefab.transform.position = new Vector3 ( 
+                //     canvasPrefab.transform.position.x,
+                //     canvasPrefab.transform.position.y,
+                //     accordionPrefab.GetComponent<Accordion>().activeTilePosition.z
+                // );
             }
         }
 
@@ -42,8 +50,8 @@ public class Controller : MonoBehaviour
             if (step < maxSteps) { 
                 step++;
                 infoPopUp.SwitchLayer(step);
-                accordion.UpdateStep(step);
-                canvasPrefab.GetComponent<CanvasSettings>().updateCanvasPosition(new Vector3 (1,1,2));
+                accordionPrefab.GetComponent<Accordion>().UpdateStep(step);
+                canvasPrefab.transform.position = accordionPrefab.GetComponent<Accordion>().activeTilePosition;
 
 
             }
@@ -69,34 +77,36 @@ public class Controller : MonoBehaviour
             }   
         }
 
-        if (accordion == null) {
-            Transform arTrackedImageTransform = sessionOrigin.trackablesParent.childCount != 0 ? sessionOrigin.trackablesParent.GetChild(0) : null;
-            if (arTrackedImageTransform != null) {
-                arTrackedImage = arTrackedImageTransform.GetComponent<ARTrackedImage>();
-                accordion = arTrackedImage.GetComponentInChildren<Accordion>();
-            };
-        } else {
-            Debug.Log("Size: " + arTrackedImage.size);
-            Debug.Log("Position: " + arTrackedImage.transform.position);
+        // if (accordion == null) {
+        //     Transform arTrackedImageTransform = sessionOrigin.trackablesParent.childCount != 0 ? sessionOrigin.trackablesParent.GetChild(0) : null;
+        //     if (arTrackedImageTransform != null) {
+        //         arTrackedImage = arTrackedImageTransform.GetComponent<ARTrackedImage>();
+        //         accordion = arTrackedImage.GetComponentInChildren<Accordion>();
+        //     };
+        // } else {
+        //     Debug.Log("Size: " + arTrackedImage.size);
+        //     Debug.Log("Position: " + arTrackedImage.transform.position);
 
-            Transform content = accordion.transform.Find("Content");
+        //     accordion.SetTargetPosition(arCamera.transform.localPosition);
 
-            if (content != null) {
-                Debug.Log("Child count: " + content.childCount);
+        //     Transform content = accordion.transform.Find("Content");
 
-                Transform layer = content.GetChild(content.childCount - step - 1); 
-                Debug.Log("Layer position: " + layer.position);
-                Debug.Log("Layer local position: " + layer.localPosition);
+        //     if (content != null) {
+        //         Debug.Log("Child count: " + content.childCount);
+
+        //         Transform layer = content.GetChild(content.childCount - step - 1); 
+        //         Debug.Log("Layer position: " + layer.position);
+        //         Debug.Log("Layer local position: " + layer.localPosition);
 
 
-                float distance = Vector3.Distance(arCamera.transform.localPosition, layer.position);
-                Debug.Log("Distance: " + distance);
+        //         float distance = Vector3.Distance(arCamera.transform.localPosition, layer.position);
+        //         Debug.Log("Distance: " + distance);
 
-                // postFx.UpdateFocusDistance(distance);
-            }
+        //         // postFx.UpdateFocusDistance(distance);
+        //     }
 
-            // infoPopUp.GetComponent<InfoPopup>().SwitchLayer(step);
-        }
+        //     // infoPopUp.GetComponent<InfoPopup>().SwitchLayer(step);
+        // }
     }
 
     public void OnAccodrionScaleFactorZChange(float factor) {

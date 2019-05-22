@@ -7,9 +7,9 @@ using UnityEngine.Rendering.PostProcessing;
 public class Accordion : MonoBehaviour
 {
 
-    public GameObject infoPopup;
-
     [Header("Layer")]
+    public Vector3 activeTilePosition;
+
     [SerializeField] GameObject[] tiles;
 
     [SerializeField] float scaleFactorZ = 1.0f;
@@ -17,6 +17,11 @@ public class Accordion : MonoBehaviour
 
     private int step = 0;
 
+   
+
+    void Start() {
+        
+    }
     void Update()
     {
         Highlight();
@@ -65,8 +70,8 @@ public class Accordion : MonoBehaviour
             Color activeTileColor = activeTile.GetComponent<Renderer>().material.GetColor("_Color");
 
             activeTile.GetComponent<Renderer>().material.SetColor("_Color", new Color(activeTileColor.r, activeTileColor.g, activeTileColor.b, 1.0f));
-            Debug.Log("Active Position "+ activeTile.transform.position);
-            GameObject.Find("Canvas").transform.position = activeTile.transform.position;
+            //GameObject.Find("Canvas").transform.position = activeTile.transform.position;
+            activeTilePosition = activeTile.transform.position;
         }
     }
 
