@@ -16,11 +16,13 @@ public class Accordion : MonoBehaviour
     Transform target;
 
     private int step = 0;
+    private Vector3 activeTilePosition;
 
     private Vector3[] tilesOrigins;
 
     void Start()
     {    
+        canvasPrefab.GetComponent<Canvas>().worldCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         tilesOrigins = new Vector3[tiles.Length];
         for (int i = 0; i < tiles.Length; i++)
         {
@@ -40,7 +42,15 @@ public class Accordion : MonoBehaviour
     public void UpdateStep(int step) {
         this.step = step;
         infoPopUp.SwitchLayer(step);
-        canvasPrefab.transform.position = getActiveTilePosition();
+        canvasPrefab.transform.position = activeTilePosition;
+        
+        // Update only z value of canvas
+            //
+            // canvasPrefab.transform.position = new Vector3 ( 
+            //     canvasPrefab.transform.position.x,
+            //     canvasPrefab.transform.position.y,
+            //     accordionPrefab.GetComponent<Accordion>().activeTilePosition.z
+            // )
     }
 
     private void UpdatePositions() {
@@ -82,23 +92,9 @@ public class Accordion : MonoBehaviour
         if (step > 0) {
             GameObject activeTile = tiles[tiles.Length - step];
             Color activeTileColor = activeTile.GetComponent<Renderer>().material.GetColor("_Color");
-
             activeTile.GetComponent<Renderer>().material.SetColor("_Color", new Color(activeTileColor.r, activeTileColor.g, activeTileColor.b, 1.0f));
-            //GameObject.Find("Canvas").transform.position = activeTile.transform.position;
+            activeTilePosition = activeTile.transform.position;
         }
-    }
-
-    public Vector3 getActiveTilePosition() {
-        GameObject activeTile = tiles[tiles.Length - step];
-        return activeTile.transform.position;
-
-        // Update only z value of canvas
-            //
-            // canvasPrefab.transform.position = new Vector3 ( 
-            //     canvasPrefab.transform.position.x,
-            //     canvasPrefab.transform.position.y,
-            //     accordionPrefab.GetComponent<Accordion>().activeTilePosition.z
-            // )
     }
 
     public void SetTargetPosition(Transform target) {
