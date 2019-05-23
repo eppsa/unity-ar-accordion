@@ -23,6 +23,7 @@ public class Accordion : MonoBehaviour
     void Start()
     {    
         canvasPrefab.GetComponent<Canvas>().worldCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        
         tilesOrigins = new Vector3[tiles.Length];
         for (int i = 0; i < tiles.Length; i++)
         {
@@ -41,7 +42,14 @@ public class Accordion : MonoBehaviour
 
     public void UpdateStep(int step) {
         this.step = step;
-        infoPopUp.SwitchLayer(step);        
+
+        if (step > 0 && step < tiles.Length + 1) {
+            infoPopUp.transform.gameObject.SetActive(true);
+            infoPopUp.SwitchLayer(step);
+        }
+        else {
+            infoPopUp.gameObject.SetActive(false);
+        }
     }
 
     private void UpdatePositions() {

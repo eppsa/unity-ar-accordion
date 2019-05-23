@@ -19,6 +19,8 @@ public class InfoPopup : MonoBehaviour
     {
         ReadJson();
         SwitchLayer(0);
+        this.gameObject.SetActive(false);
+
     }
 
     void ReadJson()
