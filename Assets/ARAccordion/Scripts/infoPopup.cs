@@ -1,10 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
 using UnityEngine.UI;
-using Newtonsoft.Json;
-using UnityEngine.Networking;
 
 
 public class InfoPopup : MonoBehaviour
@@ -13,22 +10,7 @@ public class InfoPopup : MonoBehaviour
     [SerializeField] private GameObject image;
     [SerializeField] private Text text;
 
-    private Dictionary<string, Dictionary<string, string>> content;
-
-    void Start()
-    {
-        ReadJson();
-        SwitchLayer(0);
-        this.gameObject.SetActive(false);
-
-    }
-
-    void ReadJson()
-    {
-        string jsonPath = Path.Combine(Application.streamingAssetsPath, "content.json");
-        string jsonString = File.ReadAllText(jsonPath);
-        content = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(jsonString);
-    }
+    Dictionary<string, Dictionary<string, string>> content;
 
     public void SwitchLayer(int layer)
     {
@@ -85,5 +67,9 @@ public class InfoPopup : MonoBehaviour
         {
             this.gameObject.SetActive(true);
         }
+    }
+
+    public void SetContent(Dictionary<string, Dictionary<string, string>> content) {
+        this.content = content;
     }
 }

@@ -23,7 +23,7 @@ public class ControllerTest : MonoBehaviour
 
     void Start() {
         maxSteps = accordionPrefab.Find("Content").childCount;
-        accordionPrefab.GetComponent<Accordion>().SetTargetPosition(arCamera.transform);
+        // accordionPrefab.GetComponent<Accordion>().SetTargetPosition(arCamera.transform);
     }
 
     void Update()
