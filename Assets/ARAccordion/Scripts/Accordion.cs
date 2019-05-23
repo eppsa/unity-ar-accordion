@@ -5,6 +5,11 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class Accordion : MonoBehaviour
 {
+    [Header ("Canvas")]
+    [SerializeField] private Transform canvasPrefab;
+    [SerializeField] private InfoPopup infoPopUp;
+
+
     [Header("Layer")]
     [SerializeField] GameObject[] tiles;
 
@@ -34,6 +39,8 @@ public class Accordion : MonoBehaviour
 
     public void UpdateStep(int step) {
         this.step = step;
+        infoPopUp.SwitchLayer(step);
+        canvasPrefab.transform.position = getActiveTilePosition();
     }
 
     private void UpdatePositions() {
@@ -84,6 +91,14 @@ public class Accordion : MonoBehaviour
     public Vector3 getActiveTilePosition() {
         GameObject activeTile = tiles[tiles.Length - step];
         return activeTile.transform.position;
+
+        // Update only z value of canvas
+            //
+            // canvasPrefab.transform.position = new Vector3 ( 
+            //     canvasPrefab.transform.position.x,
+            //     canvasPrefab.transform.position.y,
+            //     accordionPrefab.GetComponent<Accordion>().activeTilePosition.z
+            // )
     }
 
     public void SetTargetPosition(Transform target) {

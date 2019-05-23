@@ -9,11 +9,11 @@ public class ControllerTest : MonoBehaviour
     [SerializeField] private ARSessionOrigin sessionOrigin;
     [SerializeField] private Camera arCamera;
     [SerializeField] private PostFX postFx;
-    [SerializeField] private InfoPopup infoPopUp;
+  
 
     [SerializeField] private Transform accordionPrefab;
 
-    [SerializeField] private Transform canvasPrefab;
+    
 
     private Accordion accordion;
     private ARTrackedImage arTrackedImage;
@@ -31,26 +31,14 @@ public class ControllerTest : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetAxis("Mouse ScrollWheel") < 0) {
             if (step > 0) {
                 step--;
-                infoPopUp.SwitchLayer(step);
                 accordionPrefab.GetComponent<Accordion>().UpdateStep(step);
-                canvasPrefab.transform.position = accordionPrefab.GetComponent<Accordion>().getActiveTilePosition();
-
-                // Update only z value of canvas
-                //
-                // canvasPrefab.transform.position = new Vector3 ( 
-                //     canvasPrefab.transform.position.x,
-                //     canvasPrefab.transform.position.y,
-                //     accordionPrefab.GetComponent<Accordion>().activeTilePosition.z
-                // );
             }
         }
 
         if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetAxis("Mouse ScrollWheel") > 0) {
             if (step < maxSteps) { 
                 step++;
-                infoPopUp.SwitchLayer(step);
                 accordionPrefab.GetComponent<Accordion>().UpdateStep(step);
-                canvasPrefab.transform.position = accordionPrefab.GetComponent<Accordion>().getActiveTilePosition();
 
 
             }
@@ -69,10 +57,7 @@ public class ControllerTest : MonoBehaviour
                         step++;
                     }
                 }
-        
-                infoPopUp.GetComponent<InfoPopup>().SwitchLayer(step);
-                accordionPrefab.GetComponent<Accordion>().UpdateStep(step);
-                canvasPrefab.transform.position = accordionPrefab.GetComponent<Accordion>().getActiveTilePosition();
+                accordion.UpdateStep(step);
             }   
         }
 

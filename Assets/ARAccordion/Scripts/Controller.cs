@@ -9,11 +9,11 @@ public class Controller : MonoBehaviour
     [SerializeField] private ARSessionOrigin sessionOrigin;
     [SerializeField] private Camera arCamera;
     [SerializeField] private PostFX postFx;
-    [SerializeField] private InfoPopup infoPopUp;
+  
 
     [SerializeField] private Transform accordionPrefab;
 
-    [SerializeField] private Transform canvasPrefab;
+    
 
     private Accordion accordion;
     private ARTrackedImage arTrackedImage;
@@ -30,26 +30,14 @@ public class Controller : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetAxis("Mouse ScrollWheel") < 0) {
             if (step > 0) {
                 step--;
-                infoPopUp.SwitchLayer(step);
                 accordion.UpdateStep(step);
-                canvasPrefab.transform.position = accordion.getActiveTilePosition();
-
-                // Update only z value of canvas
-                //
-                // canvasPrefab.transform.position = new Vector3 ( 
-                //     canvasPrefab.transform.position.x,
-                //     canvasPrefab.transform.position.y,
-                //     accordionPrefab.GetComponent<Accordion>().activeTilePosition.z
-                // );
             }
         }
 
         if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetAxis("Mouse ScrollWheel") > 0) {
             if (step < maxSteps) { 
                 step++;
-                infoPopUp.SwitchLayer(step);
                 accordion.UpdateStep(step);
-                canvasPrefab.transform.position = accordion.getActiveTilePosition();
 
 
             }
@@ -68,10 +56,7 @@ public class Controller : MonoBehaviour
                         step++;
                     }
                 }
-        
-                infoPopUp.GetComponent<InfoPopup>().SwitchLayer(step);
                 accordion.UpdateStep(step);
-                canvasPrefab.transform.position = accordion.getActiveTilePosition();
             }   
         }
 
