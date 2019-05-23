@@ -10,9 +10,12 @@ public class Controller : MonoBehaviour
     [SerializeField] private ARSessionOrigin sessionOrigin;
     [SerializeField] private Camera arCamera;
     [SerializeField] private PostFX postFx;
+
     [SerializeField] private InfoPopup infoPopUp;
 
     [SerializeField] private Transform accordionPrefab;
+
+    [SerializeField] private DebugView debugView;
 
     private Accordion accordion;
     private ARTrackedImage arTrackedImage;
@@ -28,6 +31,8 @@ public class Controller : MonoBehaviour
 
     void Update()
     {
+        debugView.Refresh(step);
+
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetAxis("Mouse ScrollWheel") < 0) {
             if (step > 0) {
                 step--;
@@ -52,7 +57,7 @@ public class Controller : MonoBehaviour
                 return;
             }
 
-            if (touch.phase == TouchPhase.Ended) {
+            if (touch.phase == TouchPhase.Began) {
                 if (touch.position.x < 1000) {
                     if (step > 0) { 
                         step--;
@@ -65,6 +70,7 @@ public class Controller : MonoBehaviour
         
                 infoPopUp.GetComponent<InfoPopup>().SwitchLayer(step);
                 accordion.UpdateStep(step);
+                debugView.Refresh(step);
             }   
         }
 
@@ -75,10 +81,12 @@ public class Controller : MonoBehaviour
                 accordion = arTrackedImage.GetComponentInChildren<Accordion>();
             };
         } else {
+            accordion.SetCamera(arCamera);
+
             if (towardsCamera) {
-                accordion.SetTargetPosition(arCamera.transform.position);
+                accordion.SetMoveTowardsCamera(true);
             } else {
-                accordion.SetTargetPosition(new Vector3(0.0f, 0.0f, 1.0f));
+                accordion.SetMoveTowardsCamera(false);
             }
 
             Transform content = accordion.transform.Find("Content");

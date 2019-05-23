@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,22 +11,21 @@ public class Accordion : MonoBehaviour
     [Header("Layer")]
     [SerializeField] GameObject[] tiles;
 
-    Vector3 targetPosition;
+    Camera camera;
+
+    Vector3 initialCameraPosition;
 
     private int step = 0;
 
     private Vector3[] tilesOrigins;
 
+    private bool moveTowardsCamera;
+
+    private bool savedOrigins = false;
+
     void Start()
     {    
         tilesOrigins = new Vector3[tiles.Length];
-        for (int i = 0; i < tiles.Length; i++)
-        {
-            GameObject tile = tiles[i];
-            tilesOrigins[i] = new Vector3(tile.transform.position.x, tile.transform.position.y, tile.transform.position.z);
-                
-            Debug.Log("Origin " + i + ": " + tilesOrigins[i]);
-        }
     }
 
     void LateUpdate()
@@ -39,6 +39,18 @@ public class Accordion : MonoBehaviour
     }
 
     private void UpdatePositions() {
+        if (!savedOrigins) {
+            for (int i = 0; i < tiles.Length; i++)
+            {
+                GameObject tile = tiles[i];
+                tilesOrigins[i] = new Vector3(tile.transform.position.x, tile.transform.position.y, tile.transform.position.z);
+                    
+                Debug.Log("Accordion: Origin " + i + ": " + tilesOrigins[i]);
+            }
+
+            savedOrigins = true;
+        }
+
         for (int i = 0; i < tiles.Length; i++)
         {
             GameObject tile = tiles[i];
@@ -46,18 +58,27 @@ public class Accordion : MonoBehaviour
             Vector3 newTarget;
             if (step == 0) {
                 newTarget = tilesOrigins[i];
+            } else if (moveTowardsCamera) {
+                if (initialCameraPosition == null) {
+                    this.initialCameraPosition = camera.transform.position;
+                }
+                newTarget = tilesOrigins[i] + ((camera.transform.position - tilesOrigins[i]) * GetDistance(step, i));
             } else {
-                float distance = GetDistance(step, i);
-                Debug.Log(distance);
-                newTarget = tilesOrigins[i] + ((targetPosition - tilesOrigins[i]) * distance);
-                // tile.transform.LookAt(newTarget);
-                // tile.transform.Rotate(90, 0, 0);
+                if (initialCameraPosition == null) {
+                    this.initialCameraPosition = camera.transform.position;
+                }
+                newTarget = tilesOrigins[i] + ((initialCameraPosition - tilesOrigins[i]) * GetDistance(step, i));
             }
+
+            Debug.Log("Accordion: Before Update position: " + tile.transform.position);
 
             tile.transform.position = Vector3.MoveTowards(
                 tile.transform.position,
                 newTarget,
-                5.0f * Time.deltaTime);    
+                1.0f * Time.deltaTime
+            );
+
+            Debug.Log("Accordion: After Update position: " + tile.transform.position);
         }
     }
 
@@ -82,8 +103,12 @@ public class Accordion : MonoBehaviour
         }
     }
 
-    public void SetTargetPosition(Vector3 targetPosition) {
-        this.targetPosition = targetPosition;
-        Debug.Log("targetPosition: " + targetPosition);
+    public void SetCamera(Camera camera) {
+        this.camera = camera;
+    }
+
+    internal void SetMoveTowardsCamera(bool moveTowardsCamera)
+    {
+        this.moveTowardsCamera = moveTowardsCamera;
     }
 }
