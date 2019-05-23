@@ -41,16 +41,7 @@ public class Accordion : MonoBehaviour
 
     public void UpdateStep(int step) {
         this.step = step;
-        infoPopUp.SwitchLayer(step);
-        canvasPrefab.transform.position = activeTilePosition;
-        
-        // Update only z value of canvas
-            //
-            // canvasPrefab.transform.position = new Vector3 ( 
-            //     canvasPrefab.transform.position.x,
-            //     canvasPrefab.transform.position.y,
-            //     accordionPrefab.GetComponent<Accordion>().activeTilePosition.z
-            // )
+        infoPopUp.SwitchLayer(step);        
     }
 
     private void UpdatePositions() {
@@ -93,7 +84,15 @@ public class Accordion : MonoBehaviour
             GameObject activeTile = tiles[tiles.Length - step];
             Color activeTileColor = activeTile.GetComponent<Renderer>().material.GetColor("_Color");
             activeTile.GetComponent<Renderer>().material.SetColor("_Color", new Color(activeTileColor.r, activeTileColor.g, activeTileColor.b, 1.0f));
-            activeTilePosition = activeTile.transform.position;
+            canvasPrefab.transform.position = activeTile.transform.position;
+
+            // Update only z value of canvas
+            //
+            // canvasPrefab.transform.position = new Vector3 ( 
+            //     canvasPrefab.transform.position.x,
+            //     canvasPrefab.transform.position.y,
+            //     accordionPrefab.GetComponent<Accordion>().activeTilePosition.z
+            // )
         }
     }
 
