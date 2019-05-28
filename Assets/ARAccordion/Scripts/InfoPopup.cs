@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.XR.ARFoundation;
 
 public class InfoPopup : MonoBehaviour
 {
@@ -17,7 +18,6 @@ public class InfoPopup : MonoBehaviour
     private Transform anchor;
 
     bool fadeRunning = false;
-
 
     public void Show(int layer)
     {

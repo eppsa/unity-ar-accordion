@@ -3,10 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.XR.ARFoundation;
 
 public class Accordion : MonoBehaviour
 {
     [Header ("Canvas")] [SerializeField] private InfoPopup infoPopUp;
+
+    [SerializeField] private Quiz quiz;
 
     [Header("Layer")] [SerializeField] GameObject[] tiles;
 
@@ -17,6 +20,8 @@ public class Accordion : MonoBehaviour
     private int step = 0;
 
     private bool savedOrigins = false;
+
+    private ARSessionOrigin sessionOrigin;
 
     private Vector3 initialCameraPosition;
     private Vector3 activeTilePosition;
@@ -31,6 +36,8 @@ public class Accordion : MonoBehaviour
     {    
         infoPopUp.GetComponent<Canvas>().worldCamera = Camera.main;
         infoPopUp.SetFadeDuration(0.5f);
+
+        quiz.GetComponent<Canvas>().worldCamera = Camera.main;
     }
 
     void LateUpdate()
@@ -118,6 +125,12 @@ public class Accordion : MonoBehaviour
                 tile.GetComponent<Renderer>().material.SetColor("_Color", new Color(color.r, color.g, color.b, 0.0f));
             }
         }
+    }
+
+    internal void SetSessionOrigin(ARSessionOrigin sessionOrigin)
+    {
+        this.sessionOrigin = sessionOrigin;
+        quiz.SetRaycastManager(sessionOrigin.GetComponent<ARRaycastManager>());
     }
 
     internal void ShowReferenceImage(bool show)

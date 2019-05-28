@@ -67,28 +67,28 @@ public class Controller : MonoBehaviour
             }
         }
 
-        if (Input.touchCount > 0) {
-            Touch touch = Input.GetTouch(0);
+        // if (Input.touchCount > 0) {
+        //     Touch touch = Input.GetTouch(0);
 
-            if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
-            {
-                return;
-            }
+        //     if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+        //     {
+        //         return;
+        //     }
 
-            if (touch.phase == TouchPhase.Began) {
-                if (touch.position.x < 1000) {
-                    if (step > 0) { 
-                        step--;
-                    }
-                } else {
-                    if (step < maxSteps) { 
-                        step++;
-                    }
-                }
-                accordion.UpdateStep(step);
-                debugView.Refresh(step);
-            }   
-        }
+        //     if (touch.phase == TouchPhase.Began) {
+        //         if (touch.position.x < 1000) {
+        //             if (step > 0) { 
+        //                 step--;
+        //             }
+        //         } else {
+        //             if (step < maxSteps) { 
+        //                 step++;
+        //             }
+        //         }
+        //         accordion.UpdateStep(step);
+        //         debugView.Refresh(step);
+        //     }   
+        // }
 
         if (accordion == null) {
             Transform arTrackedImageTransform = sessionOrigin.trackablesParent.childCount != 0 ? sessionOrigin.trackablesParent.GetChild(0) : null;
@@ -96,6 +96,7 @@ public class Controller : MonoBehaviour
                 arTrackedImage = arTrackedImageTransform.GetComponent<ARTrackedImage>();
                 accordion = arTrackedImage.GetComponentInChildren<Accordion>();
                 accordion.SetContent(this.content);
+                accordion.SetSessionOrigin(sessionOrigin);
             };
         } else {
             accordion.SetContent(this.content);
