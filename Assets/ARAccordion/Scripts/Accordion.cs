@@ -7,7 +7,6 @@ using UnityEngine.Rendering.PostProcessing;
 public class Accordion : MonoBehaviour
 {
     [Header ("Canvas")]
-    [SerializeField] private Canvas canvas;
     [SerializeField] private InfoPopup infoPopUp;
 
     [Header("Layer")]
@@ -20,52 +19,59 @@ public class Accordion : MonoBehaviour
 
     private Vector3[] tilesOrigins;
 
-    private bool moveTowardsCamera;
+    private bool moveTowardsCamera = false;
 
     private bool savedOrigins = false;
 
-    private Dictionary<string, Dictionary<string, string>>  content;
+    private Dictionary<string, Dictionary<string, string>> content;
+    
 
     void Start()
     {    
-        canvas.worldCamera = Camera.main;
-        tilesOrigins = new Vector3[tiles.Length];
-
-        infoPopUp.SetContent(content);
+        infoPopUp.GetComponent<Canvas>().worldCamera = Camera.main;
+        infoPopUp.SetFadeDuration(0.5f);
     }
 
     void LateUpdate()
     {
         Highlight();
-        UpdatePositions();
+        
+        if (tilesOrigins != null) {
+            UpdatePositions();
+        }
     }
 
     public void UpdateStep(int step) {
         this.step = step;
+
+        if (this.step > 0) {
+            if (!savedOrigins) {
+                tilesOrigins = new Vector3[tiles.Length];
+                for (int i = 0; i < tiles.Length; i++)
+                {
+                    GameObject tile = tiles[i];
+                    tilesOrigins[i] = new Vector3(tile.transform.position.x, tile.transform.position.y, tile.transform.position.z);
+
+                    tile.transform.position = tilesOrigins[i];
+                }
+
+                savedOrigins = true;
+            }
+
+            if (initialCameraPosition == null) {
+                this.initialCameraPosition = Camera.main.transform.position;
+            }
+
+            GameObject activeTile = tiles[tiles.Length - step];
+            infoPopUp.SetAnchor(activeTile.transform.Find("TagAnchor"));
+            infoPopUp.Show(tiles.Length - step);
+
+        } else {
+            infoPopUp.Hide();
+        }
     }
 
     private void UpdatePositions() {
-        Debug.Log(Camera.main.transform.position);
-
-        if (!savedOrigins) {
-            for (int i = 0; i < tiles.Length; i++)
-            {
-                GameObject tile = tiles[i];
-                tilesOrigins[i] = new Vector3(tile.transform.position.x, tile.transform.position.y, tile.transform.position.z);
-                    
-                Debug.Log("Accordion: Origin " + i + ": " + tilesOrigins[i]);
-            }
-
-            savedOrigins = true;
-        }
-
-        if (step > 0) {
-            infoPopUp.transform.gameObject.SetActive(true);
-            infoPopUp.SwitchLayer(step);
-        } else {
-            infoPopUp.gameObject.SetActive(false);
-        }
-
         for (int i = 0; i < tiles.Length; i++)
         {
             GameObject tile = tiles[i];
@@ -74,27 +80,25 @@ public class Accordion : MonoBehaviour
             if (step == 0) {
                 newTarget = tilesOrigins[i];
             } else if (moveTowardsCamera) {
-                if (initialCameraPosition == null) {
-                    this.initialCameraPosition = Camera.main.transform.position;
-                }
                 newTarget = tilesOrigins[i] + ((Camera.main.transform.position - tilesOrigins[i]) * GetDistance(step, i));
+                tile.transform.position = Vector3.MoveTowards(
+                   tile.transform.position,
+                   newTarget,
+                   1.0f * Time.deltaTime
+                );
             } else {
-                if (initialCameraPosition == null) {
-                    this.initialCameraPosition = Camera.main.transform.position;
-                }
                 newTarget = tilesOrigins[i] + ((initialCameraPosition - tilesOrigins[i]) * GetDistance(step, i));
+                tile.transform.position = Vector3.MoveTowards(
+                   tile.transform.position,
+                   newTarget,
+                   1.0f * Time.deltaTime
+                );
             }
-
-            tile.transform.position = Vector3.MoveTowards(
-                tile.transform.position,
-                newTarget,
-                1.0f * Time.deltaTime
-            );
         }
     }
 
     private float GetDistance(int step, int index) {
-        return Mathf.Pow(step + index, 3) / Mathf.Pow(tiles.Length + 1.0f, 3); 
+        return Mathf.Pow(step + index, 4) / Mathf.Pow(tiles.Length + 1.0f, 4); 
     }
 
     private void Highlight() {
@@ -111,15 +115,8 @@ public class Accordion : MonoBehaviour
             Color activeTileColor = activeTile.GetComponent<Renderer>().material.GetColor("_Color");
             activeTile.GetComponent<Renderer>().material.SetColor("_Color", new Color(activeTileColor.r, activeTileColor.g, activeTileColor.b, 1.0f));
             
-            canvas.transform.position = activeTile.transform.Find("TagAnchor").transform.position;
-
-            // Update only z value of canvas
-            //
-            // canvasPrefab.transform.position = new Vector3 ( 
-            //     canvasPrefab.transform.position.x,
-            //     canvasPrefab.transform.position.y,
-            //     accordionPrefab.GetComponent<Accordion>().activeTilePosition.z
-            // )
+            infoPopUp.SetFadeDuration(0.5f);
+            infoPopUp.SetAnchor(activeTile.transform.Find("TagAnchor"));
         }
     }
 
@@ -131,5 +128,6 @@ public class Accordion : MonoBehaviour
     internal void SetContent(Dictionary<string, Dictionary<string, string>> content)
     {
         this.content = content;
+        infoPopUp.SetContent(content);
     }
 }

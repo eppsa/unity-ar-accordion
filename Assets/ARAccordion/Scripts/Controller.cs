@@ -17,18 +17,27 @@ public class Controller : MonoBehaviour
 
     [SerializeField] private DebugView debugView;
 
+    [SerializeField] private GameObject development;
+
     private Accordion accordion;
+
     private ARTrackedImage arTrackedImage;
 
     private int maxSteps;
     private int step;
 
-    private bool towardsCamera = false;
-
     private Dictionary<string, Dictionary<string, string>> content;
 
     void OnEnable() {
         ReadJson();
+
+        if (Application.isEditor) {
+            development.SetActive(true);
+            accordion = development.GetComponentInChildren<Accordion>();
+        } else {
+            development.SetActive(false);
+            accordion = null;
+        }
     }
 
     void ReadJson()
@@ -44,7 +53,7 @@ public class Controller : MonoBehaviour
 
     void Update()
     {
-        debugView.Refresh(step);
+        // debugView.Refresh(step);
 
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetAxis("Mouse ScrollWheel") < 0) {
             if (step > 0) {
@@ -88,14 +97,10 @@ public class Controller : MonoBehaviour
             if (arTrackedImageTransform != null) {
                 arTrackedImage = arTrackedImageTransform.GetComponent<ARTrackedImage>();
                 accordion = arTrackedImage.GetComponentInChildren<Accordion>();
-                accordion.SetContent(content);
+                accordion.SetContent(this.content);
             };
         } else {
-            if (towardsCamera) {
-                accordion.SetMoveTowardsCamera(true);
-            } else {
-                accordion.SetMoveTowardsCamera(false);
-            }
+            accordion.SetContent(this.content);
 
             Transform content = accordion.transform.Find("Content");
 
@@ -117,6 +122,6 @@ public class Controller : MonoBehaviour
     }
 
     public void OnActivateTowardsCamera(bool active) {
-        this.towardsCamera = active;
+       accordion.SetMoveTowardsCamera(active);
     }
 }

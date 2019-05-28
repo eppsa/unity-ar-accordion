@@ -141,6 +141,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 477786853, guid: 95ab15f22c1864f90ab32a9bf9377306, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 477786853, guid: 95ab15f22c1864f90ab32a9bf9377306, type: 3}
+      propertyPath: image
+      value: 
+      objectReference: {fileID: 7101642996355280878}
+    - target: {fileID: 477786853, guid: 95ab15f22c1864f90ab32a9bf9377306, type: 3}
+      propertyPath: text
+      value: 
+      objectReference: {fileID: 5692244665118084621}
     - target: {fileID: 3202324252294473635, guid: 95ab15f22c1864f90ab32a9bf9377306,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -196,23 +208,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5735397853951557375, guid: 95ab15f22c1864f90ab32a9bf9377306,
-        type: 3}
-      propertyPath: m_Name
-      value: ImageContainer
-      objectReference: {fileID: 0}
-    - target: {fileID: 477786853, guid: 95ab15f22c1864f90ab32a9bf9377306, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 477786853, guid: 95ab15f22c1864f90ab32a9bf9377306, type: 3}
-      propertyPath: image
-      value: 
-      objectReference: {fileID: 7101642996355280878}
-    - target: {fileID: 477786853, guid: 95ab15f22c1864f90ab32a9bf9377306, type: 3}
-      propertyPath: text
-      value: 
-      objectReference: {fileID: 5692244665118084621}
     - target: {fileID: 3202324252527435705, guid: 95ab15f22c1864f90ab32a9bf9377306,
         type: 3}
       propertyPath: m_Name
@@ -225,6 +220,11 @@ PrefabInstance:
     - target: {fileID: 1813936532, guid: 95ab15f22c1864f90ab32a9bf9377306, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5735397853951557375, guid: 95ab15f22c1864f90ab32a9bf9377306,
+        type: 3}
+      propertyPath: m_Name
+      value: ImageContainer
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95ab15f22c1864f90ab32a9bf9377306, type: 3}

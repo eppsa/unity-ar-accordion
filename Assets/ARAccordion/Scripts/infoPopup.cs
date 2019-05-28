@@ -6,70 +6,87 @@ using UnityEngine.UI;
 
 public class InfoPopup : MonoBehaviour
 {
-    [SerializeField] private float fadeDuration = 0.7f;
+    private float duration = 0.7f;
+    
     [SerializeField] private GameObject image;
     [SerializeField] private Text text;
 
     Dictionary<string, Dictionary<string, string>> content;
 
-    public void SwitchLayer(int layer)
+    private int layer = 0;
+    private Transform anchor;
+
+    bool fadeRunning = false;
+
+
+    public void Show(int layer)
     {
-        StartCoroutine(Fade(1.0f, 0.0f, fadeDuration, layer));
+        this.layer = layer;
+
+        StartCoroutine(DoShow());
+    }
+
+    private IEnumerator DoShow() {
+        // Hide();
+
+        while (fadeRunning) {
+            yield return null;
+        }
+
+        UpdateInformation();
+        StartCoroutine(Fade(0.0f, 1.0f, duration));
+    }
+
+    public void Hide() {
+        if (this.GetComponent<CanvasGroup>().alpha == 0.0f) {
+            return;
+        }
+
+        StartCoroutine(Fade(1.0f, 0.0f, duration));
     }
     
-    private IEnumerator Fade(float fadeFrom, float fadeTo, float fadeDuration, int layer)
+    private IEnumerator Fade(float fadeFrom, float fadeTo, float duration)
     {
+        fadeRunning = true;
+
         float startTime = Time.time;
-        float currentTime = Time.time - startTime;
-        float progress = currentTime / fadeDuration;
+        float currentDuration = 0.0f;
+        float progress = 0.0f;
 
-        while (progress < 1.0f)
+        while (true)
         {
-            currentTime = Time.time - startTime;
-            progress = currentTime / fadeDuration;
+            currentDuration = Time.time - startTime;
+            progress = currentDuration / duration;
 
-            float currentAlphaValue = Mathf.Lerp(fadeFrom, fadeTo, progress);
-
-            this.GetComponent<CanvasGroup>().alpha = currentAlphaValue;
-
-            yield return new WaitForEndOfFrame();
-        }
-
-        if (this.GetComponent<CanvasGroup>().alpha == 0)
-        {
-            UpdateInformation(layer);
+            if (progress <= 1.0f) {
+                GetComponent<CanvasGroup>().alpha = Mathf.Lerp(fadeFrom, fadeTo, progress);
+                yield return new WaitForEndOfFrame();
+            } else {
+                this.GetComponent<CanvasGroup>().alpha = fadeTo;
+                fadeRunning = false;
+                yield break;
+            }
         }
     }
 
-    private void UpdateInformation(int layer)
+    private void UpdateInformation()
     {
-        text.gameObject.GetComponent<Text>();
+        transform.position = this.anchor.transform.position;
+        transform.parent = this.anchor.transform;
+
         text.text = content["layer" + layer]["information"];
-
-        ChangeImage(layer);
-
-        StartCoroutine(Fade(0.0f, 1.0f, fadeDuration, 0));
-    }
-
-    private void ChangeImage(int layer)
-    {
-        Sprite sprite = Resources.Load<Sprite>("Images/icon" + layer) ;
-        image.GetComponent<Image>().sprite = sprite;
-    }
-
-    public void TogglePopup()
-    {
-        if (this.gameObject.activeInHierarchy)
-        {
-            this.gameObject.SetActive(false);
-        }
-        else
-        {
-            this.gameObject.SetActive(true);
-        }
+        image.GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/icon" + layer);
     }
 
     public void SetContent(Dictionary<string, Dictionary<string, string>> content) {
         this.content = content;
+    }
+
+    public void SetAnchor(Transform anchor) {
+        this.anchor = anchor;
+    }
+    
+    public void SetFadeDuration(float duration) {
+        this.duration = duration;
     }
 }
