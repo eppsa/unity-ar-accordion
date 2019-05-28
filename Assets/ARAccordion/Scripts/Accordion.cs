@@ -12,6 +12,8 @@ public class Accordion : MonoBehaviour
     [Header("Layer")]
     [SerializeField] GameObject[] tiles;
 
+    [SerializeField] float speed = 1.0f;
+
     private Vector3 initialCameraPosition;
 
     private int step = 0;
@@ -51,8 +53,6 @@ public class Accordion : MonoBehaviour
                 {
                     GameObject tile = tiles[i];
                     tilesOrigins[i] = new Vector3(tile.transform.position.x, tile.transform.position.y, tile.transform.position.z);
-
-                    tile.transform.position = tilesOrigins[i];
                 }
 
                 savedOrigins = true;
@@ -65,7 +65,6 @@ public class Accordion : MonoBehaviour
             GameObject activeTile = tiles[tiles.Length - step];
             infoPopUp.SetAnchor(activeTile.transform.Find("TagAnchor"));
             infoPopUp.Show(tiles.Length - step);
-
         } else {
             infoPopUp.Hide();
         }
@@ -81,19 +80,15 @@ public class Accordion : MonoBehaviour
                 newTarget = tilesOrigins[i];
             } else if (moveTowardsCamera) {
                 newTarget = tilesOrigins[i] + ((Camera.main.transform.position - tilesOrigins[i]) * GetDistance(step, i));
-                tile.transform.position = Vector3.MoveTowards(
-                   tile.transform.position,
-                   newTarget,
-                   1.0f * Time.deltaTime
-                );
             } else {
                 newTarget = tilesOrigins[i] + ((initialCameraPosition - tilesOrigins[i]) * GetDistance(step, i));
-                tile.transform.position = Vector3.MoveTowards(
-                   tile.transform.position,
-                   newTarget,
-                   1.0f * Time.deltaTime
-                );
             }
+
+            tile.transform.position = Vector3.MoveTowards(
+                tile.transform.position,
+                newTarget,
+                speed * Time.deltaTime
+            );
         }
     }
 

@@ -72,7 +72,7 @@ public class InfoPopup : MonoBehaviour
     private void UpdateInformation()
     {
         transform.position = this.anchor.transform.position;
-        transform.parent = this.anchor.transform;
+        transform.SetParent(this.anchor.transform);
 
         text.text = content["layer" + layer]["information"];
         image.GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/icon" + layer);
