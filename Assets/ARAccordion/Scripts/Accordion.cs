@@ -6,24 +6,23 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class Accordion : MonoBehaviour
 {
-    [Header ("Canvas")]
-    [SerializeField] private InfoPopup infoPopUp;
+    [Header ("Canvas")] [SerializeField] private InfoPopup infoPopUp;
 
-    [Header("Layer")]
-    [SerializeField] GameObject[] tiles;
+    [Header("Layer")] [SerializeField] GameObject[] tiles;
 
     [SerializeField] float speed = 1.0f;
 
-    private Vector3 initialCameraPosition;
+    [SerializeField] GameObject referenceImage;
 
     private int step = 0;
-    private Vector3 activeTilePosition;
 
+    private bool savedOrigins = false;
+
+    private Vector3 initialCameraPosition;
+    private Vector3 activeTilePosition;
     private Vector3[] tilesOrigins;
 
     private bool moveTowardsCamera = false;
-
-    private bool savedOrigins = false;
 
     private Dictionary<string, Dictionary<string, string>> content;
     
@@ -97,22 +96,33 @@ public class Accordion : MonoBehaviour
     }
 
     private void Highlight() {
-        for (int i = 0; i < tiles.Length; i++)
-        {
-            GameObject tile = tiles[i];
-            Color color = tile.GetComponent<Renderer>().material.GetColor("_Color");
-
-            tile.GetComponent<Renderer>().material.SetColor("_Color", new Color(color.r, color.g, color.b, 0.3f));
-        }
-
         if (step > 0) {
+            for (int i = 0; i < tiles.Length; i++)
+            {
+                GameObject tile = tiles[i];
+                Color color = tile.GetComponent<Renderer>().material.GetColor("_Color");
+                tile.GetComponent<Renderer>().material.SetColor("_Color", new Color(color.r, color.g, color.b, 0.3f));
+            }
+
             GameObject activeTile = tiles[tiles.Length - step];
             Color activeTileColor = activeTile.GetComponent<Renderer>().material.GetColor("_Color");
             activeTile.GetComponent<Renderer>().material.SetColor("_Color", new Color(activeTileColor.r, activeTileColor.g, activeTileColor.b, 1.0f));
             
             infoPopUp.SetFadeDuration(0.5f);
             infoPopUp.SetAnchor(activeTile.transform.Find("TagAnchor"));
+        } else {
+            for (int i = 0; i < tiles.Length; i++)
+            {
+                GameObject tile = tiles[i];
+                Color color = tile.GetComponent<Renderer>().material.GetColor("_Color");
+                tile.GetComponent<Renderer>().material.SetColor("_Color", new Color(color.r, color.g, color.b, 0.0f));
+            }
         }
+    }
+
+    internal void ShowReferenceImage(bool show)
+    {
+        this.referenceImage.SetActive(show);
     }
 
     internal void SetMoveTowardsCamera(bool moveTowardsCamera)

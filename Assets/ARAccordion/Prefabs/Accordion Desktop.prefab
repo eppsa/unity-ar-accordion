@@ -367,6 +367,8 @@ MonoBehaviour:
   - {fileID: 4819319989108499949}
   - {fileID: 54477242080251811}
   - {fileID: 6001933059536561268}
+  speed: 1
+  referenceImage: {fileID: 6161705917134617877}
 --- !u!1 &3417944600474819888
 GameObject:
   m_ObjectHideFlags: 0
@@ -737,7 +739,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4864536768610162040}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -947,7 +949,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2236340858262527318
 Transform:
   m_ObjectHideFlags: 0

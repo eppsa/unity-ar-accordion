@@ -102,16 +102,14 @@ public class Controller : MonoBehaviour
         } else {
             accordion.SetContent(this.content);
 
-            Transform content = accordion.transform.Find("Content");
+            // Transform content = accordion.transform.Find("Content");
 
-            if (content != null) {
-                Transform layer = content.GetChild(content.childCount - step - 1); 
-                float distance = Vector3.Distance(arCamera.transform.localPosition, layer.position);
+            // if (content != null) {
+            //     Transform layer = content.GetChild(content.childCount - step - 1); 
+            //     float distance = Vector3.Distance(arCamera.transform.localPosition, layer.position);
 
-                // postFx.UpdateFocusDistance(distance);
-            }
-
-            // infoPopUp.GetComponent<InfoPopup>().SwitchLayer(step);
+            //     postFx.UpdateFocusDistance(distance);
+            // }
         }
     }
 
@@ -123,5 +121,9 @@ public class Controller : MonoBehaviour
 
     public void OnActivateTowardsCamera(bool active) {
        accordion.SetMoveTowardsCamera(active);
+    }
+
+    public void OnShowReferenceImage(bool show) {
+       accordion.ShowReferenceImage(show);
     }
 }
