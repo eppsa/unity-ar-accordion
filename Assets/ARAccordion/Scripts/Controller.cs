@@ -53,8 +53,6 @@ public class Controller : MonoBehaviour
 
     void Update()
     {
-        // debugView.Refresh(step);
-
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetAxis("Mouse ScrollWheel") < 0) {
             if (step > 0) {
                 step--;
@@ -101,21 +99,6 @@ public class Controller : MonoBehaviour
             };
         } else {
             accordion.SetContent(this.content);
-
-            // Transform content = accordion.transform.Find("Content");
-
-            // if (content != null) {
-            //     Transform layer = content.GetChild(content.childCount - step - 1); 
-            //     float distance = Vector3.Distance(arCamera.transform.localPosition, layer.position);
-
-            //     postFx.UpdateFocusDistance(distance);
-            // }
-        }
-    }
-
-    public void OnAccodrionScaleFactorZChange(float factor) {
-        if (accordion != null) {
-            // accordion.SetScaleFactorZ(factor);
         }
     }
 

@@ -27,8 +27,6 @@ public class InfoPopup : MonoBehaviour
     }
 
     private IEnumerator DoShow() {
-        // Hide();
-
         while (fadeRunning) {
             yield return null;
         }
