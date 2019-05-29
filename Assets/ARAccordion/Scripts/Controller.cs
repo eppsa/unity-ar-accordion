@@ -109,4 +109,11 @@ public class Controller : MonoBehaviour
     public void OnShowReferenceImage(bool show) {
        accordion.ShowReferenceImage(show);
     }
+
+    public void OnEnableDofDebugging(bool enable) {
+       arCamera.GetComponent<PostProcessDebug>().enabled = enable;
+       if (accordion != null){
+           accordion.transform.Find("Plane").gameObject.SetActive(enable);
+       }
+    }
 }

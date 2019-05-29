@@ -14,6 +14,9 @@ public class Accordion : MonoBehaviour
 
     [SerializeField] GameObject referenceImage;
 
+    [SerializeField] Material defaultSpriteMaterial;
+    [SerializeField] Material dofSpriteMaterial;
+
     private int step = 0;
 
     private bool savedOrigins = false;
@@ -31,12 +34,12 @@ public class Accordion : MonoBehaviour
     {    
         infoPopUp.GetComponent<Canvas>().worldCamera = Camera.main;
         infoPopUp.SetFadeDuration(0.5f);
+
+        Highlight();
     }
 
     void LateUpdate()
     {
-        Highlight();
-        
         if (tilesOrigins != null) {
             UpdatePositions();
         }
@@ -67,6 +70,8 @@ public class Accordion : MonoBehaviour
         } else {
             infoPopUp.Hide();
         }
+
+        Highlight();
     }
 
     private void UpdatePositions() {
@@ -101,11 +106,13 @@ public class Accordion : MonoBehaviour
             {
                 GameObject tile = tiles[i];
                 Color color = tile.GetComponent<Renderer>().material.GetColor("_Color");
+                tile.GetComponent<Renderer>().material = defaultSpriteMaterial;
                 tile.GetComponent<Renderer>().material.SetColor("_Color", new Color(color.r, color.g, color.b, 0.3f));
             }
 
             GameObject activeTile = tiles[tiles.Length - step];
             Color activeTileColor = activeTile.GetComponent<Renderer>().material.GetColor("_Color");
+            activeTile.GetComponent<Renderer>().material = dofSpriteMaterial;
             activeTile.GetComponent<Renderer>().material.SetColor("_Color", new Color(activeTileColor.r, activeTileColor.g, activeTileColor.b, 1.0f));
             
             infoPopUp.SetFadeDuration(0.5f);
@@ -115,6 +122,7 @@ public class Accordion : MonoBehaviour
             {
                 GameObject tile = tiles[i];
                 Color color = tile.GetComponent<Renderer>().material.GetColor("_Color");
+                tile.GetComponent<Renderer>().material = defaultSpriteMaterial;
                 tile.GetComponent<Renderer>().material.SetColor("_Color", new Color(color.r, color.g, color.b, 0.0f));
             }
         }
