@@ -130,7 +130,6 @@ public class Accordion : MonoBehaviour
     internal void SetSessionOrigin(ARSessionOrigin sessionOrigin)
     {
         this.sessionOrigin = sessionOrigin;
-        quiz.SetRaycastManager(sessionOrigin.GetComponent<ARRaycastManager>());
     }
 
     internal void ShowReferenceImage(bool show)
