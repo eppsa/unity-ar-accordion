@@ -94,6 +94,11 @@ public class Accordion : MonoBehaviour
                 speed * Time.deltaTime
             );
         }
+            //     Transform layer = content.GetChild(content.childCount - step - 1); 
+
+        
+        // float distance = Vector3.Distance(Camera.main.transform.position, tiles[tiles.Length - step].transform.position);
+        // GameObject.FindGameObjectWithTag("PostFX").GetComponent<PostFX>().UpdateFocusDistance(distance);
     }
 
     private float GetDistance(int step, int index) {
@@ -107,7 +112,7 @@ public class Accordion : MonoBehaviour
                 GameObject tile = tiles[i];
                 Color color = tile.GetComponent<Renderer>().material.GetColor("_Color");
                 tile.GetComponent<Renderer>().material = defaultSpriteMaterial;
-                tile.GetComponent<Renderer>().material.SetColor("_Color", new Color(color.r, color.g, color.b, 0.3f));
+                tile.GetComponent<Renderer>().material.SetColor("_Color", new Color(color.r, color.g, color.b, 0.5f));
             }
 
             GameObject activeTile = tiles[tiles.Length - step];

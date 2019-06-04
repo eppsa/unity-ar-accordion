@@ -6,18 +6,20 @@ using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.XR.ARFoundation;
 using Newtonsoft.Json;
 using System.IO;
+using System;
+using UnityEngine.UI;
+using UnityEngine.XR.ARSubsystems;
 
 public class Controller : MonoBehaviour
 {
-    [SerializeField] private ARSessionOrigin sessionOrigin;
+    [SerializeField] ARTrackedImageManager trackedImageManager;
     [SerializeField] private Camera arCamera;
-    [SerializeField] private PostFX postFx;
+    // [SerializeField] private PostFX postFx;
   
     [SerializeField] private Transform accordionPrefab;
 
-    [SerializeField] private DebugView debugView;
-
-    [SerializeField] private GameObject development;
+    // [SerializeField] private DebugView debugView;
+    // [SerializeField] private GameObject development;
 
     private Accordion accordion;
 
@@ -26,18 +28,79 @@ public class Controller : MonoBehaviour
     private int maxSteps;
     private int step;
 
+
     private Dictionary<string, Dictionary<string, string>> content;
 
     void OnEnable() {
+        maxSteps = accordionPrefab.Find("Content").childCount;
+
         ReadJson();
 
-        if (Application.isEditor) {
-            development.SetActive(true);
-            accordion = development.GetComponentInChildren<Accordion>();
-        } else {
-            development.SetActive(false);
-            accordion = null;
+        // if (Application.isEditor) {
+        //     development.SetActive(true);
+        //     accordion = development.GetComponentInChildren<Accordion>();
+        // } else {
+        //     development.SetActive(false);
+        //     accordion = null;
+        //     accordion.SetContent(this.content);
+        // }
+
+        trackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
+    }
+
+    void OnDisable()
+    {
+        trackedImageManager.trackedImagesChanged -= OnTrackedImagesChanged;
+    }
+
+    void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs eventArgs)
+    {
+        foreach (var trackedImage in eventArgs.added)
+        {
+            UpdateImage(trackedImage);
         }
+
+        foreach (var trackedImage in eventArgs.updated)
+            UpdateImage(trackedImage);
+    }
+
+    private void UpdateImage(ARTrackedImage trackedImage)
+    {
+        // // Set canvas camera
+        var canvas = trackedImage.GetComponentInChildren<Canvas>();
+        canvas.worldCamera = arCamera;
+
+        // Update information about the tracked image
+        var text = canvas.GetComponentInChildren<Text>();
+        text.text = string.Format(
+            "{0}\ntrackingState: {1}\nGUID: {2}\nReference size: {3} cm\nDetected size: {4} cm\nCamera Position: {5}\nTracked Image position: {6}",
+            trackedImage.referenceImage.name,
+            trackedImage.trackingState,
+            trackedImage.referenceImage.guid,
+            trackedImage.referenceImage.size * 100f,
+            trackedImage.size * 100f, // 0.249 * 100
+            arCamera.transform.position,
+            trackedImage.transform.position);
+
+        var planeParentGo = trackedImage.transform.Find("PlaneParent").gameObject;
+        var planeGo = planeParentGo.transform.GetChild(0).gameObject;
+
+        if (trackedImage.trackingState != TrackingState.None)
+        {
+            planeGo.SetActive(true);
+
+            trackedImage.transform.localScale = new Vector3(trackedImage.size.x, 1f, trackedImage.size.y);
+
+            var material = planeGo.GetComponentInChildren<MeshRenderer>().material;
+            material.mainTexture = trackedImage.referenceImage.texture;
+        }
+        else
+        {
+            planeGo.SetActive(false);
+        }
+
+        accordion = trackedImage.GetComponentInChildren<Accordion>();
+        accordion.SetContent(this.content);
     }
 
     void ReadJson()
@@ -45,10 +108,6 @@ public class Controller : MonoBehaviour
         string jsonPath = Path.Combine(Application.streamingAssetsPath, "content.json");
         string jsonString = File.ReadAllText(jsonPath);
         content = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(jsonString);
-    }
-
-    void Start() {
-        maxSteps = accordionPrefab.Find("Content").childCount;
     }
 
     void Update()
@@ -86,19 +145,8 @@ public class Controller : MonoBehaviour
                     }
                 }
                 accordion.UpdateStep(step);
-                debugView.Refresh(step);
+                // debugView.Refresh(step);
             }   
-        }
-
-        if (accordion == null) {
-            Transform arTrackedImageTransform = sessionOrigin.trackablesParent.childCount != 0 ? sessionOrigin.trackablesParent.GetChild(0) : null;
-            if (arTrackedImageTransform != null) {
-                arTrackedImage = arTrackedImageTransform.GetComponent<ARTrackedImage>();
-                accordion = arTrackedImage.GetComponentInChildren<Accordion>();
-                accordion.SetContent(this.content);
-            };
-        } else {
-            accordion.SetContent(this.content);
         }
     }
 

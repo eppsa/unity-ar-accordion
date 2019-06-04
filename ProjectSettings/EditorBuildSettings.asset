@@ -5,7 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/ARAccordion/Scenes/MainARFoundation.unity
     guid: ed9d1589071e04c0f86e0536c6364379
+  - enabled: 0
+    path: Assets/ARAccordion/Scenes/Main.unity
+    guid: 86d693c7d4fbb41ec8a84107956fe62b
+  - enabled: 0
+    path: Assets/ARAccordion/ImageTracking/ImageTracking.unity
+    guid: e0b018a3c3b5cfd4c8e316706ec0a18c
   m_configObjects: {}
