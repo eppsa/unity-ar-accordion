@@ -18,8 +18,10 @@ public class DropMe2 : MonoBehaviour, IDropHandler
 	
 	public void OnDrop(PointerEventData data)
 	{
+		GameObject dropObject = data.pointerDrag;
 		containerImage.color = normalColor;
-		Quiz.dropObject.transform.position = this.transform.position;
+		
+		dropObject.transform.position = this.transform.position;
 		
 	}
 }
