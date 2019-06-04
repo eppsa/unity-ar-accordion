@@ -10,16 +10,16 @@ public class DropArea : MonoBehaviour, IDropHandler, IPointerEnterHandler
 
 	public void OnPointerEnter(PointerEventData eventData)
 	{
-		if (Quiz.activeTile != null)
-		{
-			Debug.Log(Quiz.activeTile.name);
-		}
+		// if (Quiz.activeTile != null)
+		// {
+		// 	Debug.Log(Quiz.activeTile.name);
+		// }
 	}
 	
 	public void OnDrop(PointerEventData data)
 	{
-		//Debug.Log(data.pointerDrag);
-		GameObject dropObject = Quiz.activeTile;
-		dropObject.transform.position = this.transform.position;
+		// //Debug.Log(data.pointerDrag);
+		// GameObject dropObject = Quiz.activeTile;
+		// dropObject.transform.position = this.transform.position;
 	}
 }
