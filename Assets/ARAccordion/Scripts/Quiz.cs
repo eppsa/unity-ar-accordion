@@ -11,9 +11,15 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 	private Color heighlightCorrect = new Color (0,200,0);
 	private Color heightlightWrong = new Color (200,0,0);
 
+	private Color normalTileColor = new Color (255,255,255);
+
 	private string correctAnswer = "Weisheit";
 	private GameObject activeTile;
 	private Vector3 tileStartPosition;
+
+	private Vector3 selectedScale = new Vector3 (1.5f,1.5f,1.5f);
+	private Vector3 normalScale = new Vector3 (1.0f,1.0f,1.0f);
+
 
 	bool answerGiven;
 
@@ -34,7 +40,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 
 			if (activeTile.tag == "AnswerContainer" && !answerGiven)
 			{
-				activeTile.transform.localScale = new Vector3(1.5f,1.5f,1.5f);
+				activeTile.transform.localScale = selectedScale;
 			}
 		}
 	}
@@ -52,7 +58,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 			{
 				if (activeTile.tag == "AnswerContainer" && !answerGiven)
 				{
-					activeTile.transform.localScale = new Vector3(1,1,1);
+					activeTile.transform.localScale = normalScale;
 					activeTile.transform.position = worldPoint;
 				}
 			}
@@ -81,8 +87,8 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 			if (activeTile.tag == "AnswerContainer" && !answerGiven)
 			{
 				activeTile.transform.position = tileStartPosition;
-				activeTile.GetComponent<Image>().color = new Color (100,100,100);
-				activeTile.transform.localScale = new Vector3(1,1,1);
+				activeTile.GetComponent<Image>().color = normalTileColor;
+				activeTile.transform.localScale = normalScale;
 			}
 			activeTile = null;
 		}
