@@ -108,6 +108,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 		{
 			Debug.Log("Wrong");
 			activeTile.GetComponent<Image>().color = heightlightWrong;
+			StartCoroutine(ResetQuiz());
 		}
 	}
 
@@ -131,4 +132,11 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
             }
         }
     }
+
+	private IEnumerator ResetQuiz(){
+		yield return new WaitForSeconds(2);
+		activeTile.transform.position = tileStartPosition;
+		activeTile.GetComponent<Image>().color = normalTileColor;
+		answerGiven = false;
+	}
 }
