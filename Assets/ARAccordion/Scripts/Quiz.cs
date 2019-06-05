@@ -15,8 +15,6 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 	private GameObject activeTile;
 	private Vector3 tileStartPosition;
 
-	bool fadeRunning;
-
 	bool answerGiven;
 
 
@@ -34,7 +32,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 			activeTile = eventData.pointerEnter;
 			tileStartPosition = activeTile.transform.position;
 
-			if (activeTile.tag == "AnswerContainer")
+			if (activeTile.tag == "AnswerContainer" && !answerGiven)
 			{
 				activeTile.transform.localScale = new Vector3(1.5f,1.5f,1.5f);
 			}
@@ -52,7 +50,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 																	eventData.pressEventCamera,
 																	out worldPoint))
 			{
-				if (activeTile.tag == "AnswerContainer")
+				if (activeTile.tag == "AnswerContainer" && !answerGiven)
 				{
 					activeTile.transform.localScale = new Vector3(1,1,1);
 					activeTile.transform.position = worldPoint;
@@ -63,7 +61,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 
 	public void OnDrop(PointerEventData eventData)
 	{
-		if (eventData.pointerEnter.tag == "DropArea")
+		if (eventData.pointerEnter.tag == "DropArea" && activeTile != null)
 		{
 			answerGiven = true;
 			activeTile.transform.position = eventData.pointerEnter.transform.position;
@@ -82,7 +80,6 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 		{
 			if (activeTile.tag == "AnswerContainer" && !answerGiven)
 			{
-				Debug.Log("snapped away");
 				activeTile.transform.position = tileStartPosition;
 				activeTile.GetComponent<Image>().color = new Color (100,100,100);
 				activeTile.transform.localScale = new Vector3(1,1,1);
@@ -100,7 +97,6 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 			Debug.Log("Right");
 			activeTile.GetComponent<Image>().color = heighlightCorrect;
 			StartCoroutine(Fade(0.0f,1.0f,0.7f));
-
 		}
 		else
 		{
@@ -111,8 +107,6 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 
 	private IEnumerator Fade(float fadeFrom, float fadeTo, float duration)
     {
-        fadeRunning = true;
-
         float startTime = Time.time;
         float currentDuration = 0.0f;
         float progress = 0.0f;
@@ -127,7 +121,6 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
                 yield return new WaitForEndOfFrame();
             } else {
                 detailPopup.GetComponent<CanvasGroup>().alpha = fadeTo;
-                fadeRunning = false;
                 yield break;
             }
         }
