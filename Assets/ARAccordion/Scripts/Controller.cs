@@ -14,12 +14,11 @@ public class Controller : MonoBehaviour
 {
     [SerializeField] ARTrackedImageManager trackedImageManager;
     [SerializeField] private Camera arCamera;
-    // [SerializeField] private PostFX postFx;
   
     [SerializeField] private Transform accordionPrefab;
 
-    // [SerializeField] private DebugView debugView;
-    // [SerializeField] private GameObject development;
+    [SerializeField] private DebugView debugView;
+    [SerializeField] private GameObject development;
 
     private Accordion accordion;
 
@@ -36,16 +35,15 @@ public class Controller : MonoBehaviour
 
         ReadJson();
 
-        // if (Application.isEditor) {
-        //     development.SetActive(true);
-        //     accordion = development.GetComponentInChildren<Accordion>();
-        // } else {
-        //     development.SetActive(false);
-        //     accordion = null;
-        //     accordion.SetContent(this.content);
-        // }
-
-        trackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
+        if (Application.isEditor) {
+            development.SetActive(true);
+            accordion = development.GetComponentInChildren<Accordion>();
+            accordion.SetContent(this.content);
+        } else {
+            development.SetActive(false);
+            accordion = null;
+            trackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
+        }
     }
 
     void OnDisable()
@@ -57,17 +55,17 @@ public class Controller : MonoBehaviour
     {
         foreach (var trackedImage in eventArgs.added)
         {
-            UpdateImage(trackedImage);
+            UpdateTrackedImage(trackedImage);
         }
 
         foreach (var trackedImage in eventArgs.updated)
-            UpdateImage(trackedImage);
+            UpdateTrackedImage(trackedImage);
     }
 
-    private void UpdateImage(ARTrackedImage trackedImage)
+    private void UpdateTrackedImage(ARTrackedImage trackedImage)
     {
-        // // Set canvas camera
-        var canvas = trackedImage.GetComponentInChildren<Canvas>();
+        // Set canvas camera
+        var canvas = trackedImage.transform.Find("Canvas").GetComponent<Canvas>();
         canvas.worldCamera = arCamera;
 
         // Update information about the tracked image
@@ -145,7 +143,7 @@ public class Controller : MonoBehaviour
                     }
                 }
                 accordion.UpdateStep(step);
-                // debugView.Refresh(step);
+                debugView.Refresh(step);
             }   
         }
     }
@@ -155,7 +153,6 @@ public class Controller : MonoBehaviour
     }
 
     public void OnShowReferenceImage(bool show) {
-       accordion.ShowReferenceImage(show);
     }
 
     public void OnEnableDofDebugging(bool enable) {

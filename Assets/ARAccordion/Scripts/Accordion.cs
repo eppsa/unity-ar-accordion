@@ -12,8 +12,6 @@ public class Accordion : MonoBehaviour
 
     [SerializeField] float speed = 1.0f;
 
-    [SerializeField] GameObject referenceImage;
-
     [SerializeField] Material defaultSpriteMaterial;
     [SerializeField] Material dofSpriteMaterial;
 
@@ -25,7 +23,7 @@ public class Accordion : MonoBehaviour
     private Vector3 activeTilePosition;
     private Vector3[] tilesOrigins;
 
-    private bool moveTowardsCamera = false;
+    private bool moveTowardsCamera = true;
 
     private Dictionary<string, Dictionary<string, string>> content;
     
@@ -34,6 +32,9 @@ public class Accordion : MonoBehaviour
     {    
         infoPopUp.GetComponent<Canvas>().worldCamera = Camera.main;
         infoPopUp.SetFadeDuration(0.5f);
+
+        Camera.main.GetComponentInChildren<PostFX>().UpdateAperature(20.0f);
+        Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(55.0f);
 
         Highlight();
     }
@@ -49,6 +50,8 @@ public class Accordion : MonoBehaviour
         this.step = step;
 
         if (this.step > 0) {
+            Camera.main.GetComponentInChildren<PostProcessLayer>().enabled = true;
+
             if (!savedOrigins) {
                 tilesOrigins = new Vector3[tiles.Length];
                 for (int i = 0; i < tiles.Length; i++)
@@ -68,6 +71,8 @@ public class Accordion : MonoBehaviour
             infoPopUp.SetAnchor(activeTile.transform.Find("TagAnchor"));
             infoPopUp.Show(tiles.Length - step);
         } else {
+            Camera.main.GetComponentInChildren<PostProcessLayer>().enabled = false;
+
             infoPopUp.Hide();
         }
 
@@ -94,11 +99,11 @@ public class Accordion : MonoBehaviour
                 speed * Time.deltaTime
             );
         }
-            //     Transform layer = content.GetChild(content.childCount - step - 1); 
 
-        
-        // float distance = Vector3.Distance(Camera.main.transform.position, tiles[tiles.Length - step].transform.position);
-        // GameObject.FindGameObjectWithTag("PostFX").GetComponent<PostFX>().UpdateFocusDistance(distance);
+        if (step > 0) {
+            float distance = Vector3.Distance(Camera.main.transform.position, tiles[tiles.Length - step].transform.position);
+            Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(distance);
+        }
     }
 
     private float GetDistance(int step, int index) {
@@ -131,11 +136,6 @@ public class Accordion : MonoBehaviour
                 tile.GetComponent<Renderer>().material.SetColor("_Color", new Color(color.r, color.g, color.b, 0.0f));
             }
         }
-    }
-
-    internal void ShowReferenceImage(bool show)
-    {
-        this.referenceImage.SetActive(show);
     }
 
     internal void SetMoveTowardsCamera(bool moveTowardsCamera)

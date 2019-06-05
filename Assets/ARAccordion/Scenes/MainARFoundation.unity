@@ -4026,7 +4026,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1115420372}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
   m_Name: 
@@ -5234,13 +5234,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1fc0b2d170a1481fb9e6bc633494678, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sessionOrigin: {fileID: 1092680879}
+  trackedImageManager: {fileID: 0}
   arCamera: {fileID: 1115420378}
-  postFx: {fileID: 1716022336}
   accordionPrefab: {fileID: 833716451203112805, guid: 63b9fa99568fb40929592fea3f182595,
     type: 3}
-  debugView: {fileID: 1652453339}
-  development: {fileID: 1894346534}
 --- !u!4 &1523800793
 Transform:
   m_ObjectHideFlags: 0

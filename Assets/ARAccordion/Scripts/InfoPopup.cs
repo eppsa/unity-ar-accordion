@@ -18,6 +18,9 @@ public class InfoPopup : MonoBehaviour
 
     bool fadeRunning = false;
 
+    void OnEnable() {
+        GetComponent<CanvasGroup>().alpha = 0.0f;
+    }
 
     public void Show(int layer)
     {
