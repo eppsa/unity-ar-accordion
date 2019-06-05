@@ -82,7 +82,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 
 	public void OnPointerExit(PointerEventData eventData)
 	{
-		if (activeTile != null)
+		if (activeTile != null && !answerGiven)
 		{
 			if (activeTile.tag == "AnswerContainer" && !answerGiven)
 			{
@@ -138,5 +138,6 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 		activeTile.transform.position = tileStartPosition;
 		activeTile.GetComponent<Image>().color = normalTileColor;
 		answerGiven = false;
+		activeTile = null;
 	}
 }
