@@ -67,7 +67,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 
 	public void OnDrop(PointerEventData eventData)
 	{
-		if (eventData.pointerEnter.tag == "DropArea" && activeTile != null)
+		if (eventData.pointerEnter.tag == "DropArea" && activeTile.tag == "AnswerContainer")
 		{
 			answerGiven = true;
 			activeTile.transform.position = eventData.pointerEnter.transform.position;
