@@ -3,22 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using jsonObject;
 
 [RequireComponent(typeof(Image))]
 public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {	
 	private GameObject detailPopup;
+	private GameObject[] AnswerContainer;
+	private GameObject QuestionContainer;
+
 	private Color heighlightCorrect = new Color (0,200,0);
 	private Color heightlightWrong = new Color (200,0,0);
 
 	private Color normalTileColor = new Color (255,255,255);
 
-	private string correctAnswer = "Weisheit";
+	private string correctAnswer = "BWeisheit";
 	private GameObject activeTile;
 	private Vector3 tileStartPosition;
 
 	private Vector3 selectedScale = new Vector3 (1.5f,1.5f,1.5f);
 	private Vector3 normalScale = new Vector3 (1.0f,1.0f,1.0f);
+
+	private jsonObject.Quiz quiz;
+
+	private int currentQuestion = 0;
 
 
 	bool answerGiven;
@@ -26,13 +34,15 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 
 	private void Start()
 	{
-		detailPopup = GameObject.Find("InformationContainer");
+		detailPopup = GameObject.FindWithTag("DetailPopup");
+		QuestionContainer = GameObject.FindGameObjectWithTag("QuestionContainer");
+		AnswerContainer = GameObject.FindGameObjectsWithTag("AnswerContainer");
 		detailPopup.GetComponent<CanvasGroup>().alpha = 0;
-
 	}
 
 	public void OnPointerEnter(PointerEventData eventData)
 	{
+		
 		if (activeTile == null)
 		{
 			activeTile = eventData.pointerEnter;
@@ -139,5 +149,24 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 		activeTile.GetComponent<Image>().color = normalTileColor;
 		answerGiven = false;
 		activeTile = null;
+	}
+
+	public void SetContent(jsonObject.Quiz quiz) {
+        this.quiz = quiz;
+		UpdateQuizContent();
+    }
+
+	private void UpdateQuizContent() {
+
+		QuestionContainer.GetComponentInChildren<Text>().text = this.quiz.questions[currentQuestion].questionText;
+		detailPopup.GetComponentInChildren<Text>().text = this.quiz.questions[currentQuestion].extraInformation;
+
+		int answerNumber = 0;
+		foreach (GameObject answer in AnswerContainer)
+		{
+			answer.GetComponentInChildren<Text>().text = this.quiz.questions[currentQuestion].answers[answerNumber];
+			answerNumber++;
+		}
+
 	}
 }

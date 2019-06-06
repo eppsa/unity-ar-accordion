@@ -147,5 +147,6 @@ public class Accordion : MonoBehaviour
     {
         this.content = content;
         infoPopUp.SetContent(content);
+        quiz.SetContent(content.accordion.layers[0].quiz);
     }
 }
