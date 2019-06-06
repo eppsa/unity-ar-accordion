@@ -1,0 +1,97 @@
+{
+  "accordion" : {
+    "layers" : [
+      {
+        "information" : "1 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf.",
+        "quiz" : {
+          "questions" : [
+            {
+              "questionText":"Was symbolisieren die \"100 Augen\" auf Argus Kopf?",
+              "correctAnswer":"Weisheit",
+              "extraInformation":"Du bist sehr weise.",
+              "answers": [
+                "Macht",
+                "Weisheit",
+                "Verrat",
+                "Zwiespalt",
+              ]
+            },
+            {
+              "questionText":"",
+              "correctAnswer":"",
+              "extraInformation":"",
+              "answers": [
+                "Antwort 1",
+                "Antwort 2",
+                "Antwort 3",
+                "Antwort 4",
+              ]
+            },
+            {
+              "questionText":"",
+              "correctAnswer":"",
+              "extraInformation":"",
+              "answers": [
+                "Antwort 1",
+                "Antwort 2",
+                "Antwort 3",
+                "Antwort 4",
+              ]
+            },
+            {
+              "questionText":"",
+              "correctAnswer":"",
+              "extraInformation":"",
+              "answers": [
+                "Antwort 1",
+                "Antwort 2",
+                "Antwort 3",
+                "Antwort 4",
+              ]
+            },
+            {
+              "questionText":"",
+              "correctAnswer":"",
+              "extraInformation":"",
+              "answers": [
+                "Antwort 1",
+                "Antwort 2",
+                "Antwort 3",
+                "Antwort 4",
+              ]
+            }
+            ],
+          "resultText":"Du hast {0} von {1} Fragen richtig beantwortet.",
+          }
+      },
+      {
+        "information" : "2 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf.",
+        "game" : "",
+      },
+      {
+        "information" : "3 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf.",
+        "game" : "",
+      },
+      {
+        "information" : "4 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf.",
+        "game" : "",
+      },
+      {
+        "information" : "5 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf.",
+        "game" : "",
+      },
+      {
+        "information" : "6 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf.",
+        "game" : "",
+      },
+      {
+        "information" : "7 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf.",
+        "game" : "",
+      },
+      {
+        "information" : "8 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf.",
+        "game" : "",
+      }
+    ]
+  }
+}
