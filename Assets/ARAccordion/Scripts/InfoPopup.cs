@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
+using jsonObject;
 
 public class InfoPopup : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class InfoPopup : MonoBehaviour
     [SerializeField] private GameObject image;
     [SerializeField] private Text text;
 
-    Dictionary<string, Dictionary<string, string>> content;
+    Content content;
 
     private int layer = 0;
     private Transform anchor;
@@ -71,12 +72,11 @@ public class InfoPopup : MonoBehaviour
     {
         transform.position = this.anchor.transform.position;
         transform.SetParent(this.anchor.transform);
-
-        text.text = content["layer" + layer]["information"];
+        text.text = content.accordion.layers[layer].information;
         image.GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/icon" + layer);
     }
 
-    public void SetContent(Dictionary<string, Dictionary<string, string>> content) {
+    public void SetContent(Content content) {
         this.content = content;
     }
 

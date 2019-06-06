@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.XR.ARFoundation;
+using jsonObject;
 
 public class Accordion : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class Accordion : MonoBehaviour
 
     private bool moveTowardsCamera = false;
 
-    private Dictionary<string, Dictionary<string, string>> content;
+    private Content content;
     
 
     void Start()
@@ -142,7 +143,7 @@ public class Accordion : MonoBehaviour
         this.moveTowardsCamera = moveTowardsCamera;
     }
 
-    internal void SetContent(Dictionary<string, Dictionary<string, string>> content)
+    internal void SetContent(Content content)
     {
         this.content = content;
         infoPopUp.SetContent(content);

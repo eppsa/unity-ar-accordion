@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.XR.ARFoundation;
 using Newtonsoft.Json;
+using jsonObject;
 using System.IO;
 
 public class Controller : MonoBehaviour
@@ -26,7 +27,7 @@ public class Controller : MonoBehaviour
     private int maxSteps;
     private int step;
 
-    private Dictionary<string, Dictionary<string, string>> content;
+    private Content content;
 
     void OnEnable() {
         ReadJson();
@@ -44,7 +45,8 @@ public class Controller : MonoBehaviour
     {
         string jsonPath = Path.Combine(Application.streamingAssetsPath, "content.json");
         string jsonString = File.ReadAllText(jsonPath);
-        content = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(jsonString);
+        //content = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(jsonString);
+        content = JsonConvert.DeserializeObject<Content>(jsonString);
     }
 
     void Start() {
@@ -95,7 +97,7 @@ public class Controller : MonoBehaviour
             if (arTrackedImageTransform != null) {
                 arTrackedImage = arTrackedImageTransform.GetComponent<ARTrackedImage>();
                 accordion = arTrackedImage.GetComponentInChildren<Accordion>();
-                accordion.SetContent(this.content);
+                accordion.SetContent(content);
                 accordion.SetSessionOrigin(sessionOrigin);
             };
         } else {
