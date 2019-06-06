@@ -6,14 +6,14 @@
         "quiz" : {
           "questions" : [
             {
-              "questionText":"Was symbolisieren die \"100 Augen\" auf Argus Kopf?",
+              "questionText":":) :) :)Was symbolisieren die \"100 Augen\" auf Argus Kopf?",
               "correctAnswer":"Weisheit",
               "extraInformation":"Du bist sehr weise.",
               "answers": [
-                "Macht",
-                "Weisheit",
-                "Verrat",
-                "Zwiespalt",
+                "AMacht",
+                "BWeisheit",
+                "CVerrat",
+                "DZwiespalt",
               ]
             },
             {
