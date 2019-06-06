@@ -35,14 +35,20 @@ public class Controller : MonoBehaviour
 
         ReadJson();
 
+        var target = Camera.main.transform.Find("Target").transform;
+
         if (Application.isEditor) {
             development.SetActive(true);
             accordion = development.GetComponentInChildren<Accordion>();
             accordion.SetContent(this.content);
+
+            target.localPosition = new Vector3(0.0f, 0.0f, 1.0f);
         } else {
             development.SetActive(false);
             accordion = null;
             trackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
+
+            target.localPosition = new Vector3(0.0f, 0.0f, 0.2f);
         }
     }
 
@@ -87,7 +93,7 @@ public class Controller : MonoBehaviour
         {
             planeGo.SetActive(true);
 
-            trackedImage.transform.localScale = new Vector3(trackedImage.size.x, 1f, trackedImage.size.y);
+            trackedImage.transform.localScale = new Vector3(trackedImage.size.x, 0.1f, trackedImage.size.y);
 
             var material = planeGo.GetComponentInChildren<MeshRenderer>().material;
             material.mainTexture = trackedImage.referenceImage.texture;

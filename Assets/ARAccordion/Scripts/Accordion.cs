@@ -80,24 +80,44 @@ public class Accordion : MonoBehaviour
     }
 
     private void UpdatePositions() {
+        var target = Camera.main.transform.Find("Target").transform;
+
         for (int i = 0; i < tiles.Length; i++)
         {
             GameObject tile = tiles[i];
 
-            Vector3 newTarget;
+            Vector3 newPosition;
             if (step == 0) {
-                newTarget = tilesOrigins[i];
+                newPosition = tilesOrigins[i];
             } else if (moveTowardsCamera) {
-                newTarget = tilesOrigins[i] + ((Camera.main.transform.position - tilesOrigins[i]) * GetDistance(step, i));
+                newPosition = tilesOrigins[i] + ((target.transform.position - tilesOrigins[i]) * GetDistance(step, i));
             } else {
-                newTarget = tilesOrigins[i] + ((initialCameraPosition - tilesOrigins[i]) * GetDistance(step, i));
+                newPosition = tilesOrigins[i] + ((initialCameraPosition - tilesOrigins[i]) * GetDistance(step, i));
             }
 
-            tile.transform.position = Vector3.MoveTowards(
-                tile.transform.position,
-                newTarget,
-                speed * Time.deltaTime
-            );
+            // var newRotation = Quaternion.LookRotation(Camera.main.transform.position - tile.transform.position, Vector3.forward); // * Quaternion.Euler(0, 45, 0);
+            // transform.rotation = Quaternion.Slerp(tile.transform.rotation, newRotation, speed * 0.1f * Time.deltaTime);
+
+            // tile.transform.position = Vector3.MoveTowards(
+            //     tile.transform.position,
+            //     newPosition,
+            //     speed * Time.deltaTime
+            // );
+
+            // // tile.transform.LookAt(target.transform, target.transform.up);
+            // tile.transform.LookAt(Camera.main.transform, Camera.main.transform.up);
+
+            // tile.transform.localScale =  new Vector3(-1, 1, 1);
+            // // tile.transform.rotation = Vector3.RotateTowards(
+            // //     tile.transform.rotation,
+            // //     Camera.main.transform.rotation,
+            // //     speed * Time.deltaTime
+            // // );
+
+            Vector3 newDir = Vector3.RotateTowards(tile.transform.forward, Camera.main.transform.forward, 0.3f * Time.deltaTime, 0.0f);
+            tile.transform.rotation = Quaternion.LookRotation(newDir, Camera.main.transform.up);
+
+            tile.transform.position = Vector3.MoveTowards(tile.transform.position, newPosition, 0.5f * Time.deltaTime);
         }
 
         if (step > 0) {
@@ -107,7 +127,7 @@ public class Accordion : MonoBehaviour
     }
 
     private float GetDistance(int step, int index) {
-        return Mathf.Pow(step + index, 4) / Mathf.Pow(tiles.Length + 1.0f, 4); 
+        return Mathf.Pow(step + index, 4) / Mathf.Pow(tiles.Length, 4); 
     }
 
     private void Highlight() {

@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/ARAccordion/Scenes/Main.unity
     guid: 86d693c7d4fbb41ec8a84107956fe62b
   - enabled: 0
-    path: Assets/ARAccordion/ImageTracking/ImageTracking.unity
+    path: Assets/ARAccordion/Scenes/Main.unity
     guid: e0b018a3c3b5cfd4c8e316706ec0a18c
   m_configObjects: {}
