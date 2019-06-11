@@ -34,6 +34,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
     private jsonObject.Quiz quiz;
 
     private int currentQuestion = 1;
+    int questionNumber;
 
 
     bool answerChosen;
@@ -108,10 +109,10 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 
     private void checkAnswer()
     {
-        string currentAnswer = activeDraggable.GetComponentInChildren<Text>().text;
+        GameObject currentAnswer = activeDraggable;
 
         int answerIndex = Array.IndexOf(answerContainers, currentAnswer) + 1;
-        int correctAnswerIndex = this.quiz.questions[currentQuestion].correctAnswerId;
+        int correctAnswerIndex = this.quiz.questions[questionNumber].correctAnswerId;
 
         if (answerIndex == correctAnswerIndex)
         {
@@ -149,7 +150,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
         if (currentQuestion <= maxQuestions)
         {
             int totalQuestions = quiz.questions.Count;
-            int questionNumber = UnityEngine.Random.Range(0, totalQuestions);
+            questionNumber = UnityEngine.Random.Range(0, totalQuestions);
 
             if (randomSelectedQuestions.Contains(questionNumber))
             {
