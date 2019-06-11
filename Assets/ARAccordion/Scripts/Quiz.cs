@@ -4,13 +4,14 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using jsonObject;
+using System;
 
 [RequireComponent(typeof(Image))]
 public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    private GameObject[] answerContainers;
+    [SerializeField] private GameObject[] answerContainers;
     [SerializeField] private GameObject questionContainer;
-	[SerializeField] private GameObject dropArea;
+    [SerializeField] private GameObject dropArea;
 
     private Color heighlightCorrect = new Color(0, 200, 0);
     private Color heightlightWrong = new Color(200, 0, 0);
@@ -19,15 +20,15 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 
     private string correctAnswer;
 
-	private int countCorrectAnswers = 0;
+    private int countCorrectAnswers = 0;
 
-	private int maxQuestions = 5;
+    private int maxQuestions = 5;
 
-	private List<int> randomSelectedQuestions = new List<int>();
-    private GameObject activeTile;
-    private Vector3 tileStartPosition;
+    private List<int> randomSelectedQuestions = new List<int>();
+    private GameObject activeDraggable;
+    private Vector3 dragStartPosition;
 
-    private Vector3 selectedScale = new Vector3(1.5f, 1.5f, 1.5f);
+    private float scaleFactor = 1.5f;
     private Vector3 normalScale = new Vector3(1.0f, 1.0f, 1.0f);
 
     private jsonObject.Quiz quiz;
@@ -38,107 +39,108 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
     bool answerChosen;
 
 
-    private void Start()
-    {
-        answerContainers = GameObject.FindGameObjectsWithTag("AnswerContainer");
-    }
-
     public void OnPointerEnter(PointerEventData eventData)
     {
-
-        if (activeTile == null)
+        if (activeDraggable == null)
         {
-            activeTile = eventData.pointerEnter;
-            tileStartPosition = activeTile.transform.position;
-
-            if (activeTile.tag == "AnswerContainer" && !answerChosen)
+            activeDraggable = eventData.pointerEnter;
+            if (activeDraggable.tag != "AnswerContainer")
             {
-                activeTile.transform.localScale = selectedScale;
+                return;
+            }
+
+            dragStartPosition = activeDraggable.transform.position;
+
+            if (!answerChosen) // todo
+            {
+                activeDraggable.transform.localScale = activeDraggable.transform.localScale * scaleFactor;
             }
         }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        Vector3 worldPoint;
-
-        if (activeTile != null)
+        if (activeDraggable != null)
         {
-            if (RectTransformUtility.ScreenPointToWorldPointInRectangle(activeTile.GetComponent<RectTransform>(),
-                                                                    eventData.position,
-                                                                    eventData.pressEventCamera,
-                                                                    out worldPoint))
+            Vector3 worldPoint;
+
+            bool hit = RectTransformUtility.ScreenPointToWorldPointInRectangle(
+                activeDraggable.GetComponent<RectTransform>(),
+                eventData.position,
+                eventData.pressEventCamera,
+                out worldPoint
+            );
+
+            if (hit && !answerChosen)
             {
-                if (activeTile.tag == "AnswerContainer" && !answerChosen)
-                {
-                    activeTile.transform.localScale = normalScale;
-                    activeTile.transform.position = worldPoint;
-                }
+                activeDraggable.transform.localScale = normalScale;
+                activeDraggable.transform.position = worldPoint;
             }
         }
     }
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (eventData.pointerEnter.gameObject == dropArea && activeTile.tag == "AnswerContainer")
+        if (eventData.pointerEnter.gameObject == dropArea)
         {
+            activeDraggable.transform.position = eventData.pointerEnter.transform.position;
             answerChosen = true;
-            activeTile.transform.position = eventData.pointerEnter.transform.position;
             checkAnswer();
         }
         else
         {
-            activeTile.transform.position = tileStartPosition;
+            activeDraggable.transform.position = dragStartPosition;
+            answerChosen = false;
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (activeTile != null && !answerChosen)
+        if (activeDraggable != null && !answerChosen)
         {
-            if (activeTile.tag == "AnswerContainer" && !answerChosen)
-            {
-                activeTile.transform.position = tileStartPosition;
-                activeTile.GetComponent<Image>().color = normalTileColor;
-                activeTile.transform.localScale = normalScale;
-            }
-            activeTile = null;
+            activeDraggable.transform.position = dragStartPosition;
+            activeDraggable.GetComponent<Image>().color = normalTileColor;
+            activeDraggable.transform.localScale = normalScale;
+            activeDraggable = null;
         }
     }
 
     private void checkAnswer()
     {
-        string currentAnswer = activeTile.GetComponentInChildren<Text>().text;
+        string currentAnswer = activeDraggable.GetComponentInChildren<Text>().text;
 
-        if (currentAnswer == correctAnswer)
+        int answerIndex = Array.IndexOf(answerContainers, currentAnswer) + 1;
+        int correctAnswerIndex = this.quiz.questions[currentQuestion].correctAnswerId;
+
+        if (answerIndex == correctAnswerIndex)
         {
             Debug.Log("Right");
-			countCorrectAnswers++;
-            activeTile.GetComponent<Image>().color = heighlightCorrect;
-			Invoke("ResetQuizTiles", 1.0f);
+            countCorrectAnswers++;
+            activeDraggable.GetComponent<Image>().color = heighlightCorrect;
+            Invoke("ResetQuizTiles", 1.0f);
         }
         else
         {
             Debug.Log("Wrong");
-            activeTile.GetComponent<Image>().color = heightlightWrong;
-			Invoke("ResetQuizTiles", 1.0f);
+            activeDraggable.GetComponent<Image>().color = heightlightWrong;
+            Invoke("ResetQuizTiles", 1.0f);
         }
     }
 
     private void ResetQuizTiles()
     {
-		activeTile.transform.position = tileStartPosition;
-        activeTile.GetComponent<Image>().color = normalTileColor;
+        activeDraggable.transform.position = dragStartPosition;
+        activeDraggable.GetComponent<Image>().color = normalTileColor;
         answerChosen = false;
-        activeTile = null;
-		currentQuestion++;
+        activeDraggable = null;
+        currentQuestion++;
         UpdateQuizContent();
-
     }
 
     public void SetContent(jsonObject.Quiz quiz)
     {
         this.quiz = quiz;
+        UpdateQuizContent();
     }
 
     private void UpdateQuizContent()
@@ -146,41 +148,38 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
         if (currentQuestion <= maxQuestions)
         {
             int totalQuestions = quiz.questions.Count;
-            int questionNumber = Random.Range(0, totalQuestions);
+            int questionNumber = UnityEngine.Random.Range(0, totalQuestions);
 
-			if (randomSelectedQuestions.Contains(questionNumber))
-			{
-				UpdateQuizContent();
-			}
-			else
-			{
-				randomSelectedQuestions.Add(questionNumber);
-				int correctAnswerId = int.Parse(this.quiz.questions[questionNumber].correctAnswer);
-				correctAnswer = this.quiz.questions[questionNumber].answers[correctAnswerId - 1];
+            if (randomSelectedQuestions.Contains(questionNumber))
+            {
+                UpdateQuizContent();
+            }
+            else
+            {
+                randomSelectedQuestions.Add(questionNumber);
+                int correctAnswerId = this.quiz.questions[questionNumber].correctAnswerId;
+                correctAnswer = this.quiz.questions[questionNumber].answers[correctAnswerId - 1];
 
-				questionContainer.GetComponentInChildren<Text>().text = this.quiz.questions[questionNumber].questionText;
+                questionContainer.GetComponentInChildren<Text>().text = this.quiz.questions[questionNumber].questionText;
 
-				int answerNumber = 0;
-				foreach (GameObject answerContainer in answerContainers)
-				{
-					answerContainer.GetComponentInChildren<Text>().text = this.quiz.questions[questionNumber].answers[answerNumber];
-					answerNumber++;
-				}
-			}
+                int answerNumber = 0;
+                foreach (GameObject answerContainer in answerContainers)
+                {
+                    answerContainer.GetComponentInChildren<Text>().text = this.quiz.questions[questionNumber].answers[answerNumber];
+                    answerNumber++;
+                }
+            }
         }
         else
-        {	
-			string resultText = string.Format(this.quiz.resultText, countCorrectAnswers, maxQuestions);
-			questionContainer.GetComponentInChildren<Text>().text = resultText;
-			dropArea.SetActive(false);
+        {
+            string resultText = string.Format(this.quiz.resultText, countCorrectAnswers, maxQuestions);
+            questionContainer.GetComponentInChildren<Text>().text = resultText;
+            dropArea.SetActive(false);
 
-			foreach (GameObject answerContainer in answerContainers)
+            foreach (GameObject answerContainer in answerContainers)
             {
                 answerContainer.SetActive(false);
             }
-
-
         }
-
     }
 }
