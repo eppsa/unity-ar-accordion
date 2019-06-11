@@ -160,8 +160,11 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 		int totalQuestions = quiz.questions.Count;
 		int questionNumber = Random.Range(0, totalQuestions);
 
-		QuestionContainer.GetComponentInChildren<Text>().text = this.quiz.questions[questionNumber].questionText;
+		int correctAnswerId = int.Parse(this.quiz.questions[questionNumber].correctAnswer);
+		correctAnswer = this.quiz.questions[questionNumber].answers[correctAnswerId - 1];
 
+		QuestionContainer.GetComponentInChildren<Text>().text = this.quiz.questions[questionNumber].questionText;
+	
 		int answerNumber = 0;
 		foreach (GameObject answer in AnswerContainer)
 		{
