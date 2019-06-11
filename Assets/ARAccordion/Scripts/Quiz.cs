@@ -7,120 +7,119 @@ using jsonObject;
 
 [RequireComponent(typeof(Image))]
 public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler
-{	
-	private GameObject detailPopup;
-	private GameObject[] AnswerContainer;
-	private GameObject QuestionContainer;
+{
+    private GameObject[] answerContainers;
+    private GameObject QuestionContainer;
 
-	private Color heighlightCorrect = new Color (0,200,0);
-	private Color heightlightWrong = new Color (200,0,0);
+    private Color heighlightCorrect = new Color(0, 200, 0);
+    private Color heightlightWrong = new Color(200, 0, 0);
 
-	private Color normalTileColor = new Color (255,255,255);
+    private Color normalTileColor = new Color(255, 255, 255);
 
-	private string correctAnswer = "BWeisheit";
-	private GameObject activeTile;
-	private Vector3 tileStartPosition;
+    private string correctAnswer = "BWeisheit";
+    private GameObject activeTile;
+    private Vector3 tileStartPosition;
 
-	private Vector3 selectedScale = new Vector3 (1.5f,1.5f,1.5f);
-	private Vector3 normalScale = new Vector3 (1.0f,1.0f,1.0f);
+    private Vector3 selectedScale = new Vector3(1.5f, 1.5f, 1.5f);
+    private Vector3 normalScale = new Vector3(1.0f, 1.0f, 1.0f);
 
-	private jsonObject.Quiz quiz;
+    private jsonObject.Quiz quiz;
 
-	private int currentQuestion = 0;
-
-
-	bool answerGiven;
+    private int currentQuestion = 1;
 
 
-	private void Start()
-	{
-		QuestionContainer = GameObject.FindGameObjectWithTag("QuestionContainer");
-		AnswerContainer = GameObject.FindGameObjectsWithTag("AnswerContainer");
-	}
+    bool answerGiven;
 
-	public void OnPointerEnter(PointerEventData eventData)
-	{
-		
-		if (activeTile == null)
-		{
-			activeTile = eventData.pointerEnter;
-			tileStartPosition = activeTile.transform.position;
 
-			if (activeTile.tag == "AnswerContainer" && !answerGiven)
-			{
-				activeTile.transform.localScale = selectedScale;
-			}
-		}
-	}
+    private void Start()
+    {
+        QuestionContainer = GameObject.FindGameObjectWithTag("QuestionContainer");
+        answerContainers = GameObject.FindGameObjectsWithTag("AnswerContainer");
+    }
 
-	public void OnDrag(PointerEventData eventData)
-	{
-		Vector3 worldPoint;
-        
-		if (activeTile != null)
-		{
-			if (RectTransformUtility.ScreenPointToWorldPointInRectangle(activeTile.GetComponent<RectTransform>(),
-																	eventData.position,
-																	eventData.pressEventCamera,
-																	out worldPoint))
-			{
-				if (activeTile.tag == "AnswerContainer" && !answerGiven)
-				{
-					activeTile.transform.localScale = normalScale;
-					activeTile.transform.position = worldPoint;
-				}
-			}
-		}
-	}
+    public void OnPointerEnter(PointerEventData eventData)
+    {
 
-	public void OnDrop(PointerEventData eventData)
-	{
-		if (eventData.pointerEnter.tag == "DropArea" && activeTile.tag == "AnswerContainer")
-		{
-			answerGiven = true;
-			activeTile.transform.position = eventData.pointerEnter.transform.position;
-			checkAnswer();		
+        if (activeTile == null)
+        {
+            activeTile = eventData.pointerEnter;
+            tileStartPosition = activeTile.transform.position;
 
-		}
-		else 
-		{
-			activeTile.transform.position = tileStartPosition;
-		}
-	}
+            if (activeTile.tag == "AnswerContainer" && !answerGiven)
+            {
+                activeTile.transform.localScale = selectedScale;
+            }
+        }
+    }
 
-	public void OnPointerExit(PointerEventData eventData)
-	{
-		if (activeTile != null && !answerGiven)
-		{
-			if (activeTile.tag == "AnswerContainer" && !answerGiven)
-			{
-				activeTile.transform.position = tileStartPosition;
-				activeTile.GetComponent<Image>().color = normalTileColor;
-				activeTile.transform.localScale = normalScale;
-			}
-			activeTile = null;
-		}
-	}
+    public void OnDrag(PointerEventData eventData)
+    {
+        Vector3 worldPoint;
 
-	private void checkAnswer() 
-	{
-		string currentAnswer = activeTile.GetComponentInChildren<Text>().text;
+        if (activeTile != null)
+        {
+            if (RectTransformUtility.ScreenPointToWorldPointInRectangle(activeTile.GetComponent<RectTransform>(),
+                                                                    eventData.position,
+                                                                    eventData.pressEventCamera,
+                                                                    out worldPoint))
+            {
+                if (activeTile.tag == "AnswerContainer" && !answerGiven)
+                {
+                    activeTile.transform.localScale = normalScale;
+                    activeTile.transform.position = worldPoint;
+                }
+            }
+        }
+    }
 
-		if (currentAnswer == correctAnswer)
-		{
-			Debug.Log("Right");
-			activeTile.GetComponent<Image>().color = heighlightCorrect;
-			StartCoroutine(ResetQuiz());
-		}
-		else
-		{
-			Debug.Log("Wrong");
-			activeTile.GetComponent<Image>().color = heightlightWrong;
-			StartCoroutine(ResetQuiz());
-		}
-	}
+    public void OnDrop(PointerEventData eventData)
+    {
+        if (eventData.pointerEnter.tag == "DropArea" && activeTile.tag == "AnswerContainer")
+        {
+            answerGiven = true;
+            activeTile.transform.position = eventData.pointerEnter.transform.position;
+            checkAnswer();
 
-	private IEnumerator Fade(float fadeFrom, float fadeTo, float duration)
+        }
+        else
+        {
+            activeTile.transform.position = tileStartPosition;
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (activeTile != null && !answerGiven)
+        {
+            if (activeTile.tag == "AnswerContainer" && !answerGiven)
+            {
+                activeTile.transform.position = tileStartPosition;
+                activeTile.GetComponent<Image>().color = normalTileColor;
+                activeTile.transform.localScale = normalScale;
+            }
+            activeTile = null;
+        }
+    }
+
+    private void checkAnswer()
+    {
+        string currentAnswer = activeTile.GetComponentInChildren<Text>().text;
+
+        if (currentAnswer == correctAnswer)
+        {
+            Debug.Log("Right");
+            activeTile.GetComponent<Image>().color = heighlightCorrect;
+            StartCoroutine(ResetQuiz());
+        }
+        else
+        {
+            Debug.Log("Wrong");
+            activeTile.GetComponent<Image>().color = heightlightWrong;
+            StartCoroutine(ResetQuiz());
+        }
+    }
+
+    private IEnumerator Fade(float fadeFrom, float fadeTo, float duration)
     {
         float startTime = Time.time;
         float currentDuration = 0.0f;
@@ -131,46 +130,63 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
             currentDuration = Time.time - startTime;
             progress = currentDuration / duration;
 
-            if (progress <= 1.0f) {
+            if (progress <= 1.0f)
+            {
                 //detailPopup.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(fadeFrom, fadeTo, progress);
                 yield return new WaitForEndOfFrame();
-            } else {
+            }
+            else
+            {
                 //detailPopup.GetComponent<CanvasGroup>().alpha = fadeTo;
                 yield break;
             }
         }
     }
 
-	private IEnumerator ResetQuiz(){
-		yield return new WaitForSeconds(2);
-		activeTile.transform.position = tileStartPosition;
-		activeTile.GetComponent<Image>().color = normalTileColor;
-		answerGiven = false;
-		activeTile = null;
-		UpdateQuizContent();
+    private IEnumerator ResetQuiz()
+    {
+        yield return new WaitForSeconds(2);
+        activeTile.transform.position = tileStartPosition;
+        activeTile.GetComponent<Image>().color = normalTileColor;
+        answerGiven = false;
+        activeTile = null;
+        UpdateQuizContent();
 
-	}
+    }
 
-	public void SetContent(jsonObject.Quiz quiz) {
+    public void SetContent(jsonObject.Quiz quiz)
+    {
         this.quiz = quiz;
     }
 
-	private void UpdateQuizContent() {
+    private void UpdateQuizContent()
+    {
 
-		int totalQuestions = quiz.questions.Count;
-		int questionNumber = Random.Range(0, totalQuestions);
+        currentQuestion++;
 
-		int correctAnswerId = int.Parse(this.quiz.questions[questionNumber].correctAnswer);
-		correctAnswer = this.quiz.questions[questionNumber].answers[correctAnswerId - 1];
+        if (currentQuestion <= 5)
+        {
+            int totalQuestions = quiz.questions.Count;
+            int questionNumber = Random.Range(0, totalQuestions);
 
-		QuestionContainer.GetComponentInChildren<Text>().text = this.quiz.questions[questionNumber].questionText;
-	
-		int answerNumber = 0;
-		foreach (GameObject answer in AnswerContainer)
-		{
-			answer.GetComponentInChildren<Text>().text = this.quiz.questions[questionNumber].answers[answerNumber];
-			answerNumber++;
-		}
+            int correctAnswerId = int.Parse(this.quiz.questions[questionNumber].correctAnswer);
+            correctAnswer = this.quiz.questions[questionNumber].answers[correctAnswerId - 1];
 
-	}
+            QuestionContainer.GetComponentInChildren<Text>().text = this.quiz.questions[questionNumber].questionText;
+
+            int answerNumber = 0;
+            foreach (GameObject answerContainer in answerContainers)
+            {
+                answerContainer.GetComponentInChildren<Text>().text = this.quiz.questions[questionNumber].answers[answerNumber];
+                answerNumber++;
+            }
+        }
+        else
+        {
+
+        }
+
+
+
+    }
 }
