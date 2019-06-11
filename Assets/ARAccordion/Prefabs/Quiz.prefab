@@ -732,7 +732,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78b72b10f4ea54244ba6cecef17d3b44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomSelectedQuestions: 
+  questionContainer: {fileID: 5409071822122210989}
+  dropArea: {fileID: 7313388803348010657}
 --- !u!1 &7313388803310147199
 GameObject:
   m_ObjectHideFlags: 0
