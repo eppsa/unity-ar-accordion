@@ -110,7 +110,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 		{
 			Debug.Log("Right");
 			activeTile.GetComponent<Image>().color = heighlightCorrect;
-			StartCoroutine(Fade(0.0f,1.0f,0.7f));
+			StartCoroutine(ResetQuiz());
 		}
 		else
 		{
@@ -147,21 +147,25 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 		activeTile.GetComponent<Image>().color = normalTileColor;
 		answerGiven = false;
 		activeTile = null;
+		UpdateQuizContent();
+
 	}
 
 	public void SetContent(jsonObject.Quiz quiz) {
         this.quiz = quiz;
-		UpdateQuizContent();
     }
 
 	private void UpdateQuizContent() {
 
-		QuestionContainer.GetComponentInChildren<Text>().text = this.quiz.questions[currentQuestion].questionText;
+		int totalQuestions = quiz.questions.Count;
+		int questionNumber = Random.Range(0, totalQuestions);
+
+		QuestionContainer.GetComponentInChildren<Text>().text = this.quiz.questions[questionNumber].questionText;
 
 		int answerNumber = 0;
 		foreach (GameObject answer in AnswerContainer)
 		{
-			answer.GetComponentInChildren<Text>().text = this.quiz.questions[currentQuestion].answers[answerNumber];
+			answer.GetComponentInChildren<Text>().text = this.quiz.questions[questionNumber].answers[answerNumber];
 			answerNumber++;
 		}
 
