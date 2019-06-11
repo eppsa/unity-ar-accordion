@@ -17,6 +17,10 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
     private Color normalTileColor = new Color(255, 255, 255);
 
     private string correctAnswer = "BWeisheit";
+
+	private int countCorrectAnswers = 0;
+
+	private int maxQuestions = 5;
     private GameObject activeTile;
     private Vector3 tileStartPosition;
 
@@ -108,14 +112,15 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
         if (currentAnswer == correctAnswer)
         {
             Debug.Log("Right");
+			countCorrectAnswers++;
             activeTile.GetComponent<Image>().color = heighlightCorrect;
-            StartCoroutine(ResetQuiz());
+            StartCoroutine(ResetQuizTiles());
         }
         else
         {
             Debug.Log("Wrong");
             activeTile.GetComponent<Image>().color = heightlightWrong;
-            StartCoroutine(ResetQuiz());
+            StartCoroutine(ResetQuizTiles());
         }
     }
 
@@ -143,9 +148,9 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
         }
     }
 
-    private IEnumerator ResetQuiz()
+    private IEnumerator ResetQuizTiles()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(0.5f);
         activeTile.transform.position = tileStartPosition;
         activeTile.GetComponent<Image>().color = normalTileColor;
         answerGiven = false;
@@ -164,7 +169,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 
         currentQuestion++;
 
-        if (currentQuestion <= 5)
+        if (currentQuestion <= maxQuestions)
         {
             int totalQuestions = quiz.questions.Count;
             int questionNumber = Random.Range(0, totalQuestions);
@@ -182,11 +187,18 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
             }
         }
         else
-        {
+        {	
+			string resultText = string.Format(this.quiz.resultText, countCorrectAnswers, maxQuestions);
+			QuestionContainer.GetComponentInChildren<Text>().text = resultText;
+			GameObject.FindGameObjectWithTag("DropArea").SetActive(false);
+			
+			foreach (GameObject answerContainer in answerContainers)
+            {
+                answerContainer.SetActive(false);
+            }
+
 
         }
-
-
 
     }
 }
