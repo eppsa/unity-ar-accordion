@@ -7,7 +7,7 @@
           "questions" : [
             {
               "questionText":":) :) :)Was symbolisieren die \"100 Augen\" auf Argus Kopf?",
-              "correctAnswer":"Weisheit",
+              "correctAnswer":"2",
               "answers": [
                 "AMacht",
                 "BWeisheit",
@@ -17,7 +17,7 @@
             },
             {
               "questionText":"Frage 2",
-              "correctAnswer":"",
+              "correctAnswer":"1",
               "answers": [
                 "Antwort 1",
                 "Antwort 2",
@@ -27,7 +27,7 @@
             },
             {
               "questionText":"Frage 3",
-              "correctAnswer":"",
+              "correctAnswer":"3",
               "answers": [
                 "Antwort 1",
                 "Antwort 2",
@@ -37,7 +37,7 @@
             },
             {
               "questionText":"Frage 4",
-              "correctAnswer":"",
+              "correctAnswer":"4",
               "answers": [
                 "Antwort 1",
                 "Antwort 2",
@@ -47,7 +47,7 @@
             },
             {
               "questionText":"Frage 5",
-              "correctAnswer":"",
+              "correctAnswer":"2",
               "answers": [
                 "Antwort 1",
                 "Antwort 2",
@@ -57,7 +57,7 @@
             },
             {
               "questionText":"Frage 6",
-              "correctAnswer":"",
+              "correctAnswer":"1",
               "answers": [
                 "Antwort 1",
                 "Antwort 2",
@@ -67,7 +67,7 @@
             },
             {
               "questionText":"Frage 7",
-              "correctAnswer":"",
+              "correctAnswer":"2",
               "answers": [
                 "Antwort 1",
                 "Antwort 2",
@@ -77,7 +77,7 @@
             },
             {
               "questionText":"Frage 8",
-              "correctAnswer":"",
+              "correctAnswer":"2",
               "answers": [
                 "Antwort 1",
                 "Antwort 2",
@@ -87,7 +87,7 @@
             },
             {
               "questionText":"Frage 9",
-              "correctAnswer":"",
+              "correctAnswer":"1",
               "answers": [
                 "Antwort 1",
                 "Antwort 2",
@@ -97,7 +97,7 @@
             },
             {
               "questionText":"Frage 10",
-              "correctAnswer":"",
+              "correctAnswer":"4",
               "answers": [
                 "Antwort 1",
                 "Antwort 2",
