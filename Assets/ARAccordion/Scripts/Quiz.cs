@@ -34,10 +34,8 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 
 	private void Start()
 	{
-		detailPopup = GameObject.FindWithTag("DetailPopup");
 		QuestionContainer = GameObject.FindGameObjectWithTag("QuestionContainer");
 		AnswerContainer = GameObject.FindGameObjectsWithTag("AnswerContainer");
-		detailPopup.GetComponent<CanvasGroup>().alpha = 0;
 	}
 
 	public void OnPointerEnter(PointerEventData eventData)
@@ -134,10 +132,10 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
             progress = currentDuration / duration;
 
             if (progress <= 1.0f) {
-                detailPopup.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(fadeFrom, fadeTo, progress);
+                //detailPopup.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(fadeFrom, fadeTo, progress);
                 yield return new WaitForEndOfFrame();
             } else {
-                detailPopup.GetComponent<CanvasGroup>().alpha = fadeTo;
+                //detailPopup.GetComponent<CanvasGroup>().alpha = fadeTo;
                 yield break;
             }
         }
@@ -159,7 +157,6 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 	private void UpdateQuizContent() {
 
 		QuestionContainer.GetComponentInChildren<Text>().text = this.quiz.questions[currentQuestion].questionText;
-		detailPopup.GetComponentInChildren<Text>().text = this.quiz.questions[currentQuestion].extraInformation;
 
 		int answerNumber = 0;
 		foreach (GameObject answer in AnswerContainer)
