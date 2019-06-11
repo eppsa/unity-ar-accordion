@@ -32,7 +32,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
     private int currentQuestion = 1;
 
 
-    bool answerGiven;
+    bool answerChosen;
 
 
     private void Start()
@@ -49,7 +49,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
             activeTile = eventData.pointerEnter;
             tileStartPosition = activeTile.transform.position;
 
-            if (activeTile.tag == "AnswerContainer" && !answerGiven)
+            if (activeTile.tag == "AnswerContainer" && !answerChosen)
             {
                 activeTile.transform.localScale = selectedScale;
             }
@@ -67,7 +67,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
                                                                     eventData.pressEventCamera,
                                                                     out worldPoint))
             {
-                if (activeTile.tag == "AnswerContainer" && !answerGiven)
+                if (activeTile.tag == "AnswerContainer" && !answerChosen)
                 {
                     activeTile.transform.localScale = normalScale;
                     activeTile.transform.position = worldPoint;
@@ -80,7 +80,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
     {
         if (eventData.pointerEnter.tag == "DropArea" && activeTile.tag == "AnswerContainer")
         {
-            answerGiven = true;
+            answerChosen = true;
             activeTile.transform.position = eventData.pointerEnter.transform.position;
             checkAnswer();
 
@@ -93,9 +93,9 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (activeTile != null && !answerGiven)
+        if (activeTile != null && !answerChosen)
         {
-            if (activeTile.tag == "AnswerContainer" && !answerGiven)
+            if (activeTile.tag == "AnswerContainer" && !answerChosen)
             {
                 activeTile.transform.position = tileStartPosition;
                 activeTile.GetComponent<Image>().color = normalTileColor;
@@ -114,13 +114,13 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
             Debug.Log("Right");
 			countCorrectAnswers++;
             activeTile.GetComponent<Image>().color = heighlightCorrect;
-            StartCoroutine(ResetQuizTiles());
+			Invoke("ResetQuizTiles", 1.0f);
         }
         else
         {
             Debug.Log("Wrong");
             activeTile.GetComponent<Image>().color = heightlightWrong;
-            StartCoroutine(ResetQuizTiles());
+			Invoke("ResetQuizTiles", 1.0f);
         }
     }
 
@@ -148,13 +148,13 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
         }
     }
 
-    private IEnumerator ResetQuizTiles()
+    private void ResetQuizTiles()
     {
-        yield return new WaitForSeconds(0.5f);
-        activeTile.transform.position = tileStartPosition;
+		activeTile.transform.position = tileStartPosition;
         activeTile.GetComponent<Image>().color = normalTileColor;
-        answerGiven = false;
+        answerChosen = false;
         activeTile = null;
+		currentQuestion++;
         UpdateQuizContent();
 
     }
@@ -166,9 +166,6 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 
     private void UpdateQuizContent()
     {
-
-        currentQuestion++;
-
         if (currentQuestion <= maxQuestions)
         {
             int totalQuestions = quiz.questions.Count;
@@ -191,7 +188,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 			string resultText = string.Format(this.quiz.resultText, countCorrectAnswers, maxQuestions);
 			QuestionContainer.GetComponentInChildren<Text>().text = resultText;
 			GameObject.FindGameObjectWithTag("DropArea").SetActive(false);
-			
+
 			foreach (GameObject answerContainer in answerContainers)
             {
                 answerContainer.SetActive(false);
