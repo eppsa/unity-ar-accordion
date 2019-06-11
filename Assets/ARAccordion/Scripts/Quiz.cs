@@ -9,20 +9,21 @@ using jsonObject;
 public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
     private GameObject[] answerContainers;
-    private GameObject QuestionContainer;
+    [SerializeField] private GameObject questionContainer;
+	[SerializeField] private GameObject dropArea;
 
     private Color heighlightCorrect = new Color(0, 200, 0);
     private Color heightlightWrong = new Color(200, 0, 0);
 
     private Color normalTileColor = new Color(255, 255, 255);
 
-    private string correctAnswer = "BWeisheit";
+    private string correctAnswer;
 
 	private int countCorrectAnswers = 0;
 
 	private int maxQuestions = 5;
 
-	public List<int> randomSelectedQuestions = new List<int>();
+	private List<int> randomSelectedQuestions = new List<int>();
     private GameObject activeTile;
     private Vector3 tileStartPosition;
 
@@ -39,7 +40,6 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 
     private void Start()
     {
-        QuestionContainer = GameObject.FindGameObjectWithTag("QuestionContainer");
         answerContainers = GameObject.FindGameObjectsWithTag("AnswerContainer");
     }
 
@@ -80,12 +80,11 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (eventData.pointerEnter.tag == "DropArea" && activeTile.tag == "AnswerContainer")
+        if (eventData.pointerEnter.gameObject == dropArea && activeTile.tag == "AnswerContainer")
         {
             answerChosen = true;
             activeTile.transform.position = eventData.pointerEnter.transform.position;
             checkAnswer();
-
         }
         else
         {
@@ -126,30 +125,6 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
         }
     }
 
-    private IEnumerator Fade(float fadeFrom, float fadeTo, float duration)
-    {
-        float startTime = Time.time;
-        float currentDuration = 0.0f;
-        float progress = 0.0f;
-
-        while (true)
-        {
-            currentDuration = Time.time - startTime;
-            progress = currentDuration / duration;
-
-            if (progress <= 1.0f)
-            {
-                //detailPopup.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(fadeFrom, fadeTo, progress);
-                yield return new WaitForEndOfFrame();
-            }
-            else
-            {
-                //detailPopup.GetComponent<CanvasGroup>().alpha = fadeTo;
-                yield break;
-            }
-        }
-    }
-
     private void ResetQuizTiles()
     {
 		activeTile.transform.position = tileStartPosition;
@@ -183,7 +158,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 				int correctAnswerId = int.Parse(this.quiz.questions[questionNumber].correctAnswer);
 				correctAnswer = this.quiz.questions[questionNumber].answers[correctAnswerId - 1];
 
-				QuestionContainer.GetComponentInChildren<Text>().text = this.quiz.questions[questionNumber].questionText;
+				questionContainer.GetComponentInChildren<Text>().text = this.quiz.questions[questionNumber].questionText;
 
 				int answerNumber = 0;
 				foreach (GameObject answerContainer in answerContainers)
@@ -196,8 +171,8 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
         else
         {	
 			string resultText = string.Format(this.quiz.resultText, countCorrectAnswers, maxQuestions);
-			QuestionContainer.GetComponentInChildren<Text>().text = resultText;
-			GameObject.FindGameObjectWithTag("DropArea").SetActive(false);
+			questionContainer.GetComponentInChildren<Text>().text = resultText;
+			dropArea.SetActive(false);
 
 			foreach (GameObject answerContainer in answerContainers)
             {
