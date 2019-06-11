@@ -8,7 +8,6 @@
             {
               "questionText":":) :) :)Was symbolisieren die \"100 Augen\" auf Argus Kopf?",
               "correctAnswer":"Weisheit",
-              "extraInformation":"Du bist sehr weise.",
               "answers": [
                 "AMacht",
                 "BWeisheit",
@@ -17,9 +16,8 @@
               ]
             },
             {
-              "questionText":"",
+              "questionText":"Frage 2",
               "correctAnswer":"",
-              "extraInformation":"",
               "answers": [
                 "Antwort 1",
                 "Antwort 2",
@@ -28,9 +26,8 @@
               ]
             },
             {
-              "questionText":"",
+              "questionText":"Frage 3",
               "correctAnswer":"",
-              "extraInformation":"",
               "answers": [
                 "Antwort 1",
                 "Antwort 2",
@@ -39,9 +36,8 @@
               ]
             },
             {
-              "questionText":"",
+              "questionText":"Frage 4",
               "correctAnswer":"",
-              "extraInformation":"",
               "answers": [
                 "Antwort 1",
                 "Antwort 2",
@@ -50,9 +46,58 @@
               ]
             },
             {
-              "questionText":"",
+              "questionText":"Frage 5",
               "correctAnswer":"",
-              "extraInformation":"",
+              "answers": [
+                "Antwort 1",
+                "Antwort 2",
+                "Antwort 3",
+                "Antwort 4",
+              ]
+            },
+            {
+              "questionText":"Frage 6",
+              "correctAnswer":"",
+              "answers": [
+                "Antwort 1",
+                "Antwort 2",
+                "Antwort 3",
+                "Antwort 4",
+              ]
+            },
+            {
+              "questionText":"Frage 7",
+              "correctAnswer":"",
+              "answers": [
+                "Antwort 1",
+                "Antwort 2",
+                "Antwort 3",
+                "Antwort 4",
+              ]
+            },
+            {
+              "questionText":"Frage 8",
+              "correctAnswer":"",
+              "answers": [
+                "Antwort 1",
+                "Antwort 2",
+                "Antwort 3",
+                "Antwort 4",
+              ]
+            },
+            {
+              "questionText":"Frage 9",
+              "correctAnswer":"",
+              "answers": [
+                "Antwort 1",
+                "Antwort 2",
+                "Antwort 3",
+                "Antwort 4",
+              ]
+            },
+            {
+              "questionText":"Frage 10",
+              "correctAnswer":"",
               "answers": [
                 "Antwort 1",
                 "Antwort 2",
