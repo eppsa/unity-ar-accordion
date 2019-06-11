@@ -3783,12 +3783,12 @@ PrefabInstance:
     - target: {fileID: 833716451203112805, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.96
+      value: 0.0000003851434
       objectReference: {fileID: 0}
     - target: {fileID: 833716451203112805, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.051407564
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 833716451203112805, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
@@ -3798,22 +3798,22 @@ PrefabInstance:
     - target: {fileID: 833716451203112805, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.20175087
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 833716451203112805, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 833716451203112805, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 833716451203112805, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9794369
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 833716451203112805, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
@@ -3823,7 +3823,7 @@ PrefabInstance:
     - target: {fileID: 833716451203112805, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -23.279001
+      value: -90.00001
       objectReference: {fileID: 0}
     - target: {fileID: 833716451203112805, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
@@ -3915,6 +3915,16 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 2562380642929101516, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7318348207457623617, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 445236271370942807, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
       propertyPath: m_IsActive
@@ -3959,16 +3969,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2562380642929101516, guid: df41b1ea74d2742f6ae80d7632c10506,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7318348207457623617, guid: df41b1ea74d2742f6ae80d7632c10506,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df41b1ea74d2742f6ae80d7632c10506, type: 3}
@@ -4403,7 +4403,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1293506792
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4471,7 +4471,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1737283999}
         m_MethodName: OnActivateTowardsCamera
         m_Mode: 0
         m_Arguments:
@@ -4481,7 +4481,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 0
@@ -5687,7 +5687,7 @@ MonoBehaviour:
   arCamera: {fileID: 1247506530}
   accordionPrefab: {fileID: 833716451203112805, guid: df41b1ea74d2742f6ae80d7632c10506,
     type: 3}
-  debugView: {fileID: 0}
+  debugView: {fileID: 1652453339}
   development: {fileID: 1660130455}
 --- !u!4 &1737284000
 Transform:

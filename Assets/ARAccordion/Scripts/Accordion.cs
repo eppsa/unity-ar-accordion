@@ -23,7 +23,7 @@ public class Accordion : MonoBehaviour
     private Vector3 activeTilePosition;
     private Vector3[] tilesOrigins;
 
-    private bool moveTowardsCamera = true;
+    private bool moveTowardsCamera = false;
 
     private Dictionary<string, Dictionary<string, string>> content;
     
@@ -50,8 +50,6 @@ public class Accordion : MonoBehaviour
         this.step = step;
 
         if (this.step > 0) {
-            Camera.main.GetComponentInChildren<PostProcessLayer>().enabled = true;
-
             if (!savedOrigins) {
                 tilesOrigins = new Vector3[tiles.Length];
                 for (int i = 0; i < tiles.Length; i++)
@@ -91,33 +89,19 @@ public class Accordion : MonoBehaviour
                 newPosition = tilesOrigins[i];
             } else if (moveTowardsCamera) {
                 newPosition = tilesOrigins[i] + ((target.transform.position - tilesOrigins[i]) * GetDistance(step, i));
+                
+                Vector3 newDir = Vector3.RotateTowards(tile.transform.forward, Camera.main.transform.forward, 0.3f * Time.deltaTime, 0.0f);
+                tile.transform.rotation = Quaternion.LookRotation(newDir, Camera.main.transform.up);
+
+                tile.transform.position = Vector3.MoveTowards(tile.transform.position, newPosition, 0.5f * Time.deltaTime);
             } else {
-                newPosition = tilesOrigins[i] + ((initialCameraPosition - tilesOrigins[i]) * GetDistance(step, i));
+                float distanceToCamera = Vector3.Distance(tile.transform.InverseTransformPoint(this.initialCameraPosition), tile.transform.InverseTransformPoint(tilesOrigins[0]));
+
+                Debug.Log("Distance to Camera: " + distanceToCamera);
+
+                var newLocalPosition = tile.transform.InverseTransformPoint(tilesOrigins[i]) + (-Vector3.forward * GetDistance(step, i) * distanceToCamera * 0.9f);
+                tile.transform.position = Vector3.MoveTowards(tile.transform.position, tile.transform.TransformPoint(newLocalPosition), 0.5f * Time.deltaTime);
             }
-
-            // var newRotation = Quaternion.LookRotation(Camera.main.transform.position - tile.transform.position, Vector3.forward); // * Quaternion.Euler(0, 45, 0);
-            // transform.rotation = Quaternion.Slerp(tile.transform.rotation, newRotation, speed * 0.1f * Time.deltaTime);
-
-            // tile.transform.position = Vector3.MoveTowards(
-            //     tile.transform.position,
-            //     newPosition,
-            //     speed * Time.deltaTime
-            // );
-
-            // // tile.transform.LookAt(target.transform, target.transform.up);
-            // tile.transform.LookAt(Camera.main.transform, Camera.main.transform.up);
-
-            // tile.transform.localScale =  new Vector3(-1, 1, 1);
-            // // tile.transform.rotation = Vector3.RotateTowards(
-            // //     tile.transform.rotation,
-            // //     Camera.main.transform.rotation,
-            // //     speed * Time.deltaTime
-            // // );
-
-            Vector3 newDir = Vector3.RotateTowards(tile.transform.forward, Camera.main.transform.forward, 0.3f * Time.deltaTime, 0.0f);
-            tile.transform.rotation = Quaternion.LookRotation(newDir, Camera.main.transform.up);
-
-            tile.transform.position = Vector3.MoveTowards(tile.transform.position, newPosition, 0.5f * Time.deltaTime);
         }
 
         if (step > 0) {
