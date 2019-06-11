@@ -13,7 +13,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2450
+  m_CustomRenderQueue: 2451
   stringTagMap:
     AlphaDepth: False
     IGNOREPROJECTOR: true
@@ -93,7 +93,7 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _RenderQueue: 0
+    - _RenderQueue: 1
     - _RimPower: 2
     - _Saturation: 1
     - _ShadowAlphaCutoff: 0.1

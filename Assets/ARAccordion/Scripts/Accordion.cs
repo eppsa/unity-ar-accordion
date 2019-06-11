@@ -3,10 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.XR.ARFoundation;
+using jsonObject;
 
 public class Accordion : MonoBehaviour
 {
     [Header ("Canvas")] [SerializeField] private InfoPopup infoPopUp;
+
+    [SerializeField] private Quiz quiz;
 
     [Header("Layer")] [SerializeField] GameObject[] tiles;
 
@@ -19,13 +23,15 @@ public class Accordion : MonoBehaviour
 
     private bool savedOrigins = false;
 
+    private ARSessionOrigin sessionOrigin;
+
     private Vector3 initialCameraPosition;
     private Vector3 activeTilePosition;
     private Vector3[] tilesOrigins;
 
     private bool moveTowardsCamera = false;
 
-    private Dictionary<string, Dictionary<string, string>> content;
+    private Content content;
     
 
     void Start()
@@ -33,8 +39,7 @@ public class Accordion : MonoBehaviour
         infoPopUp.GetComponent<Canvas>().worldCamera = Camera.main;
         infoPopUp.SetFadeDuration(0.5f);
 
-        Camera.main.GetComponentInChildren<PostFX>().UpdateAperature(20.0f);
-        Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(55.0f);
+        quiz.GetComponent<Canvas>().worldCamera = Camera.main;
 
         Highlight();
     }
@@ -50,6 +55,8 @@ public class Accordion : MonoBehaviour
         this.step = step;
 
         if (this.step > 0) {
+            // Camera.main.GetComponentInChildren<PostProcessLayer>().enabled = true;   
+
             if (!savedOrigins) {
                 tilesOrigins = new Vector3[tiles.Length];
                 for (int i = 0; i < tiles.Length; i++)
@@ -66,12 +73,26 @@ public class Accordion : MonoBehaviour
             }
 
             GameObject activeTile = tiles[tiles.Length - step];
-            infoPopUp.SetAnchor(activeTile.transform.Find("TagAnchor"));
-            infoPopUp.Show(tiles.Length - step);
-        } else {
-            Camera.main.GetComponentInChildren<PostProcessLayer>().enabled = false;
 
-            infoPopUp.Hide();
+            if (infoPopUp.isActiveAndEnabled) {
+                infoPopUp.SetAnchor(activeTile.transform.Find("TagAnchor"));
+                infoPopUp.Show(tiles.Length - step);
+            }
+
+            if (quiz.isActiveAndEnabled) {
+                quiz.transform.position = activeTile.transform.Find("TagAnchor").transform.position;
+                quiz.transform.SetParent(activeTile.transform.Find("TagAnchor").transform);
+            }
+        } else {
+            // Camera.main.GetComponentInChildren<PostProcessLayer>().enabled = false;
+
+            if (infoPopUp.isActiveAndEnabled) {
+               infoPopUp.Hide();
+            }
+
+            if (quiz.isActiveAndEnabled) {
+                quiz.transform.gameObject.SetActive(false);
+            }
         }
 
         Highlight();
@@ -88,6 +109,9 @@ public class Accordion : MonoBehaviour
             if (step == 0) {
                 newPosition = tilesOrigins[i];
             } else if (moveTowardsCamera) {
+                float distanceToCamera = Vector3.Distance(this.initialCameraPosition, tilesOrigins[0]);
+                Vector3 targetPosition = new Vector3(this.initialCameraPosition.x, this.initialCameraPosition.y, this.initialCameraPosition.z + 0.5f * distanceToCamera);
+
                 newPosition = tilesOrigins[i] + ((target.transform.position - tilesOrigins[i]) * GetDistance(step, i));
                 
                 Vector3 newDir = Vector3.RotateTowards(tile.transform.forward, Camera.main.transform.forward, 0.3f * Time.deltaTime, 0.0f);
@@ -99,7 +123,7 @@ public class Accordion : MonoBehaviour
 
                 Debug.Log("Distance to Camera: " + distanceToCamera);
 
-                var newLocalPosition = tile.transform.InverseTransformPoint(tilesOrigins[i]) + (-Vector3.forward * GetDistance(step, i) * distanceToCamera * 0.9f);
+                var newLocalPosition = tile.transform.InverseTransformPoint(tilesOrigins[i]) + (-Vector3.forward * GetDistance(step, i) * distanceToCamera * 0.5f);
                 tile.transform.position = Vector3.MoveTowards(tile.transform.position, tile.transform.TransformPoint(newLocalPosition), 0.5f * Time.deltaTime);
             }
         }
@@ -147,9 +171,15 @@ public class Accordion : MonoBehaviour
         this.moveTowardsCamera = moveTowardsCamera;
     }
 
-    internal void SetContent(Dictionary<string, Dictionary<string, string>> content)
+    internal void ToggleQuiz() {
+        this.quiz.transform.gameObject.SetActive(!this.quiz.transform.gameObject.activeInHierarchy);
+        this.infoPopUp.transform.gameObject.SetActive(!this.quiz.transform.gameObject.activeInHierarchy);
+    }
+
+    internal void SetContent(Content content)
     {
         this.content = content;
         infoPopUp.SetContent(content);
+        quiz.SetContent(content.accordion.layers[0].quiz);
     }
 }

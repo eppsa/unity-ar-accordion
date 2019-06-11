@@ -11,7 +11,7 @@ public class PostFX : MonoBehaviour
 
     private DepthOfField dof;
 
-    void Start()
+    void OnEnable()
     {
         fxProfile.TryGetSettings(out dof);
     }

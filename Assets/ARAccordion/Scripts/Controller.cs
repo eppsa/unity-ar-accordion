@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.XR.ARFoundation;
 using Newtonsoft.Json;
+using jsonObject;
 using System.IO;
 using System;
 using UnityEngine.UI;
@@ -27,8 +28,7 @@ public class Controller : MonoBehaviour
     private int maxSteps;
     private int step;
 
-
-    private Dictionary<string, Dictionary<string, string>> content;
+    private Content content;
 
     void OnEnable() {
         maxSteps = accordionPrefab.Find("Content").childCount;
@@ -43,12 +43,18 @@ public class Controller : MonoBehaviour
             accordion.SetContent(this.content);
 
             target.localPosition = new Vector3(0.0f, 0.0f, 1.0f);
+
+            Camera.main.GetComponentInChildren<PostFX>().UpdateAperature(20.0f);
+            Camera.main.GetComponentInChildren<PostFX>().UpdateFocalLength(150.0f);
         } else {
             development.SetActive(false);
             accordion = null;
             trackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
 
             target.localPosition = new Vector3(0.0f, 0.0f, 0.2f);
+
+            Camera.main.GetComponentInChildren<PostFX>().UpdateAperature(20.0f);
+            Camera.main.GetComponentInChildren<PostFX>().UpdateFocalLength(50.0f);
         }
     }
 
@@ -111,7 +117,8 @@ public class Controller : MonoBehaviour
     {
         string jsonPath = Path.Combine(Application.streamingAssetsPath, "content.json");
         string jsonString = File.ReadAllText(jsonPath);
-        content = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(jsonString);
+        //content = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(jsonString);
+        content = JsonConvert.DeserializeObject<Content>(jsonString);
     }
 
     void Update()
@@ -161,6 +168,10 @@ public class Controller : MonoBehaviour
     }
 
     public void OnShowReferenceImage(bool show) {
+    }
+
+    public void OnToggleQuiz() {
+        accordion.ToggleQuiz();
     }
 
     public void OnEnableDofDebugging(bool enable) {

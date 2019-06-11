@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - PostFX
+  - AnswerContainer
+  - DropArea
+  - QuestionContainer
   layers:
   - Default
   - TransparentFX
