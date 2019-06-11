@@ -46,6 +46,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
             activeDraggable = eventData.pointerEnter;
             if (activeDraggable.tag != "AnswerContainer")
             {
+				activeDraggable = null;
                 return;
             }
 
