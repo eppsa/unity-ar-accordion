@@ -21,6 +21,8 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 	private int countCorrectAnswers = 0;
 
 	private int maxQuestions = 5;
+
+	public List<int> randomSelectedQuestions = new List<int>();
     private GameObject activeTile;
     private Vector3 tileStartPosition;
 
@@ -171,17 +173,25 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
             int totalQuestions = quiz.questions.Count;
             int questionNumber = Random.Range(0, totalQuestions);
 
-            int correctAnswerId = int.Parse(this.quiz.questions[questionNumber].correctAnswer);
-            correctAnswer = this.quiz.questions[questionNumber].answers[correctAnswerId - 1];
+			if (randomSelectedQuestions.Contains(questionNumber))
+			{
+				UpdateQuizContent();
+			}
+			else
+			{
+				randomSelectedQuestions.Add(questionNumber);
+				int correctAnswerId = int.Parse(this.quiz.questions[questionNumber].correctAnswer);
+				correctAnswer = this.quiz.questions[questionNumber].answers[correctAnswerId - 1];
 
-            QuestionContainer.GetComponentInChildren<Text>().text = this.quiz.questions[questionNumber].questionText;
+				QuestionContainer.GetComponentInChildren<Text>().text = this.quiz.questions[questionNumber].questionText;
 
-            int answerNumber = 0;
-            foreach (GameObject answerContainer in answerContainers)
-            {
-                answerContainer.GetComponentInChildren<Text>().text = this.quiz.questions[questionNumber].answers[answerNumber];
-                answerNumber++;
-            }
+				int answerNumber = 0;
+				foreach (GameObject answerContainer in answerContainers)
+				{
+					answerContainer.GetComponentInChildren<Text>().text = this.quiz.questions[questionNumber].answers[answerNumber];
+					answerNumber++;
+				}
+			}
         }
         else
         {	
