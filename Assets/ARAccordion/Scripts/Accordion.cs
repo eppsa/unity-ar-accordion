@@ -174,6 +174,8 @@ public class Accordion : MonoBehaviour
     internal void ToggleQuiz() {
         this.quiz.transform.gameObject.SetActive(!this.quiz.transform.gameObject.activeInHierarchy);
         this.infoPopUp.transform.gameObject.SetActive(!this.quiz.transform.gameObject.activeInHierarchy);
+
+        UpdateStep(this.step);
     }
 
     internal void SetContent(Content content)
