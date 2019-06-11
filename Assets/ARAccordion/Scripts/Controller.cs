@@ -155,7 +155,9 @@ public class Controller : MonoBehaviour
     }
 
     public void OnActivateTowardsCamera(bool active) {
-       accordion.SetMoveTowardsCamera(active);
+        if (accordion) {
+            accordion.SetMoveTowardsCamera(active);
+        }
     }
 
     public void OnShowReferenceImage(bool show) {
