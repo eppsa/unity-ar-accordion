@@ -114,7 +114,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 970, y: 229}
+  m_AnchoredPosition: {x: -1067, y: -68}
   m_SizeDelta: {x: 895.8, y: 210.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1036750902
@@ -268,7 +268,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1097, y: 648}
+  m_AnchoredPosition: {x: -1333, y: 549}
   m_SizeDelta: {x: 895.8, y: 210.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1856698394
@@ -422,7 +422,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1164, y: 644}
+  m_AnchoredPosition: {x: 1164, y: 229}
   m_SizeDelta: {x: 895.8, y: 210.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2064054911
@@ -576,7 +576,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 51.5, y: 991.1}
+  m_AnchoredPosition: {x: -9, y: 1105}
   m_SizeDelta: {x: 1215.9, y: 358.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3171072982591164160
@@ -630,7 +630,6 @@ GameObject:
   - component: {fileID: 7313388802489238179}
   - component: {fileID: 1586425332}
   - component: {fileID: 1586425330}
-  - component: {fileID: 1586425331}
   m_Layer: 0
   m_Name: Quiz
   m_TagString: Untagged
@@ -660,7 +659,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.36}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7313388802489238181
@@ -733,35 +732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78b72b10f4ea54244ba6cecef17d3b44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1586425331
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7313388802489238177}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
+  randomSelectedQuestions: 
 --- !u!1 &7313388803310147199
 GameObject:
   m_ObjectHideFlags: 0
@@ -797,7 +768,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -899, y: 237}
+  m_AnchoredPosition: {x: -291, y: -511}
   m_SizeDelta: {x: 895.8, y: 210.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7313388803310147184
@@ -871,7 +842,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 19, y: 583}
+  m_AnchoredPosition: {x: 19, y: 262}
   m_SizeDelta: {x: 895.8, y: 210.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7313388803348010661
