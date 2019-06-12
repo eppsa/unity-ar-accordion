@@ -97,9 +97,10 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
             if (hit && !questionAnswered)
             {
                 activeDraggable.transform.position = worldPoint;
+                activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.4f);
             }
 
-            if (eventData.pointerEnter.gameObject == dropArea) {
+            if (eventData.pointerEnter && eventData.pointerEnter.gameObject == dropArea) {
                 dropArea.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
             } else {
                 dropArea.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
@@ -133,6 +134,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         else 
         {
             activeDraggable.transform.position = activeDraggableStartPosition;
+            activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.2f);
             activeDraggable.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
             activeDraggable = null;
         }
@@ -162,6 +164,8 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private void Reset()
     {
         activeDraggable.transform.position = activeDraggableStartPosition;
+        activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.2f);
+
         activeDraggable.GetComponent<Image>().color = defaultColor;
         questionAnswered = false;
         activeDraggable = null;
