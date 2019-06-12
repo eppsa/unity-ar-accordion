@@ -44,19 +44,23 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
     {
         if (activeDraggable == null)
         {
-            activeDraggable = eventData.pointerEnter;
-            if (activeDraggable.tag != "AnswerContainer")
+            GameObject objectBelowPointer = eventData.pointerEnter;
+            if (objectBelowPointer.tag == "AnswerContainer")
             {
-				activeDraggable = null;
+                activeDraggable = objectBelowPointer;
+                dragStartPosition = activeDraggable.transform.position;
+
+                if (!answerChosen) // todo
+                {
+                    activeDraggable.transform.localScale = activeDraggable.transform.localScale * scaleFactor;
+                }
+            }
+            else
+            {
                 return;
             }
 
-            dragStartPosition = activeDraggable.transform.position;
 
-            if (!answerChosen) // todo
-            {
-                activeDraggable.transform.localScale = activeDraggable.transform.localScale * scaleFactor;
-            }
         }
     }
 
