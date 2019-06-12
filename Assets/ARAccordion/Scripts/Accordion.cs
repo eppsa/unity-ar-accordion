@@ -123,6 +123,7 @@ public class Accordion : MonoBehaviour
                 Debug.Log("Local Distance to Camera: " + distanceToCamera);
 
                 var newLocalPosition = tile.transform.InverseTransformPoint(tilesOrigins[i]) + (-Vector3.forward * GetDistance(step, i) * distanceToCamera * distanceFactor);
+                tile.transform.localRotation = Quaternion.Euler(0, 0, 0);
                 tile.transform.position = Vector3.MoveTowards(tile.transform.position, tile.transform.TransformPoint(newLocalPosition), 0.5f * Time.deltaTime);
             }
         }
