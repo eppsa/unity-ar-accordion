@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace jsonObject
+namespace Model
 {
 	public class Quiz {
 		public List<Question> questions { get; set; }

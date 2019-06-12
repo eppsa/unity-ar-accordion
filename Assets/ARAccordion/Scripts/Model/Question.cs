@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace jsonObject
+namespace Model
 {
 	public class Question {
 	  	public string questionText { get; set; }

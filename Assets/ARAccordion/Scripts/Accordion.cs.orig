@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.XR.ARFoundation;
-using jsonObject;
+using Model;
 
 public class Accordion : MonoBehaviour
 {

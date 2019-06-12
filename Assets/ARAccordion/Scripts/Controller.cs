@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.XR.ARFoundation;
 using Newtonsoft.Json;
-using jsonObject;
+using Model;
 using System.IO;
 using System;
 using UnityEngine.UI;
@@ -163,6 +163,8 @@ public class Controller : MonoBehaviour
                     debugView.Refresh(step);
                 }   
             }
+
+            toggleButton.SetActive(step > 0);
         }
     }
 

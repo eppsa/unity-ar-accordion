@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
-using jsonObject;
+using Model;
 
 public class InfoPopup : MonoBehaviour
 {

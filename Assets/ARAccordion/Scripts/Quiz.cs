@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using jsonObject;
+using Model;
 using System;
 using System.Linq;
 
@@ -26,7 +26,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private int correctAnswers = 0;
     private int maxQuestions = 5;
 
-    private jsonObject.Quiz quiz;
+    private Model.Quiz quiz;
     private List<Question> randomQuestions = new List<Question>();
     private int currentQuestionIndex = 0;
 
@@ -35,7 +35,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     bool questionAnswered;
 
 
-    public void SetContent(jsonObject.Quiz quiz)
+    public void SetContent(Model.Quiz quiz)
     {
         this.quiz = quiz;
         InitQuiz();
@@ -126,6 +126,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         {
             dropArea.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
             activeDraggable.transform.position = eventData.pointerEnter.transform.position;
+            activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.2f);
             activeDraggable.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
             questionAnswered = true;
 
