@@ -15,6 +15,7 @@ public class Accordion : MonoBehaviour
     [Header("Layer")] [SerializeField] GameObject[] tiles;
 
     [SerializeField] float speed = 1.0f;
+    [SerializeField] float distanceFactor = 0.7f;
 
     [SerializeField] Material defaultSpriteMaterial;
     [SerializeField] Material dofSpriteMaterial;
@@ -103,25 +104,25 @@ public class Accordion : MonoBehaviour
         {
             GameObject tile = tiles[i];
 
-            Vector3 newPosition;
+            // Vector3 newPosition;
             if (step == 0) {
-                newPosition = tilesOrigins[i];
+                // newPosition = tilesOrigins[i];
             } else if (moveTowardsCamera) {
-                float distanceToCamera = Vector3.Distance(this.initialCameraPosition, tilesOrigins[0]);
-                Vector3 targetPosition = new Vector3(this.initialCameraPosition.x, this.initialCameraPosition.y, this.initialCameraPosition.z + 0.5f * distanceToCamera);
-
-                newPosition = tilesOrigins[i] + ((targetPosition - tilesOrigins[i]) * GetDistance(step, i));
-                
-                Vector3 newDir = Vector3.RotateTowards(tile.transform.forward, Camera.main.transform.forward, 0.3f * Time.deltaTime, 0.0f);
-                tile.transform.rotation = Quaternion.LookRotation(newDir, Camera.main.transform.up);
-
-                tile.transform.position = Vector3.MoveTowards(tile.transform.position, newPosition, 0.5f * Time.deltaTime);
-            } else {
-                float distanceToCamera = Vector3.Distance(tile.transform.InverseTransformPoint(this.initialCameraPosition), tile.transform.InverseTransformPoint(tilesOrigins[0]));
-
+                float distanceToCamera = Vector3.Distance(Camera.main.transform.position, tilesOrigins[0]);
                 Debug.Log("Distance to Camera: " + distanceToCamera);
 
-                var newLocalPosition = tile.transform.InverseTransformPoint(tilesOrigins[i]) + (-Vector3.forward * GetDistance(step, i) * distanceToCamera * 0.5f);
+                Vector3 targetPosition = Camera.main.transform.position + Camera.main.transform.forward * distanceFactor * distanceToCamera;
+
+                Vector3 newPosition = tilesOrigins[i] + ((targetPosition - tilesOrigins[i]) * GetDistance(step, i));
+                tile.transform.position = Vector3.MoveTowards(tile.transform.position, newPosition, 0.5f * Time.deltaTime);
+                
+                Vector3 newDirection = Vector3.RotateTowards(tile.transform.forward, Camera.main.transform.forward, 0.3f * Time.deltaTime, 0.0f);
+                tile.transform.rotation = Quaternion.LookRotation(newDirection, Camera.main.transform.up);
+            } else {
+                float distanceToCamera = Vector3.Distance(tile.transform.InverseTransformPoint(this.initialCameraPosition), tile.transform.InverseTransformPoint(tilesOrigins[0]));
+                Debug.Log("Local Distance to Camera: " + distanceToCamera);
+
+                var newLocalPosition = tile.transform.InverseTransformPoint(tilesOrigins[i]) + (-Vector3.forward * GetDistance(step, i) * distanceToCamera * distanceFactor);
                 tile.transform.position = Vector3.MoveTowards(tile.transform.position, tile.transform.TransformPoint(newLocalPosition), 0.5f * Time.deltaTime);
             }
         }
