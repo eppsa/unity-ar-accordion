@@ -8,7 +8,7 @@ using System;
 using System.Linq;
 
 [RequireComponent(typeof(Image))]
-public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler
+public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 {
     [SerializeField] private GameObject[] answerContainers;
     [SerializeField] private GameObject dropArea;
@@ -33,6 +33,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
     private GameObject activeDraggable;
     private Vector3 activeDraggableStartPosition;
     bool questionAnswered;
+    
 
     public void SetContent(jsonObject.Quiz quiz)
     {
@@ -81,28 +82,9 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
         }
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (activeDraggable == null)
-        {
-            GameObject objectBelowPointer = eventData.pointerEnter;
-            if (objectBelowPointer.tag == "AnswerContainer")
-            {
-                activeDraggable = objectBelowPointer;
-                activeDraggableStartPosition = activeDraggable.transform.position;
-
-                if (!questionAnswered)
-                {
-                    activeDraggable.transform.localScale = activeDraggable.transform.localScale * scaleFactor;
-                }
-            }
-        }
-    }
-
     public void OnDrag(PointerEventData eventData)
     {
-        if (activeDraggable != null)
-        {
+        if (activeDraggable) {
             Vector3 worldPoint;
 
             bool hit = RectTransformUtility.ScreenPointToWorldPointInRectangle(
@@ -114,33 +96,36 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 
             if (hit && !questionAnswered)
             {
-                activeDraggable.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
                 activeDraggable.transform.position = worldPoint;
             }
+        } else {
+            if (eventData.pointerEnter && eventData.pointerEnter.tag == "AnswerContainer")
+            {
+                activeDraggable = eventData.pointerEnter;
+                activeDraggableStartPosition = activeDraggable.transform.position;
+
+                activeDraggable.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+            }   
         }
     }
 
     public void OnDrop(PointerEventData eventData)
     {
+        if (activeDraggable == null) {
+            return;
+        }
+
         if (eventData.pointerEnter.gameObject == dropArea)
         {
             activeDraggable.transform.position = eventData.pointerEnter.transform.position;
+            activeDraggable.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
             questionAnswered = true;
+
             CheckAnswer();
         }
-        else
+        else 
         {
             activeDraggable.transform.position = activeDraggableStartPosition;
-            questionAnswered = false;
-        }
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (activeDraggable != null && !questionAnswered)
-        {
-            activeDraggable.transform.position = activeDraggableStartPosition;
-            activeDraggable.GetComponent<Image>().color = normalTileColor;
             activeDraggable.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
             activeDraggable = null;
         }
@@ -148,6 +133,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerEnterHand
 
     private void CheckAnswer()
     {
+
         int correctAnswerId = randomQuestions[currentQuestionIndex].correctAnswerId;
         int draggableIndex = Array.IndexOf(answerContainers, activeDraggable);
 
