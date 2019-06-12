@@ -21,6 +21,8 @@ public class Controller : MonoBehaviour
     [SerializeField] private DebugView debugView;
     [SerializeField] private GameObject development;
 
+    [SerializeField] private GameObject toggleButton;
+
     private Accordion accordion;
 
     private ARTrackedImage arTrackedImage;
@@ -29,6 +31,8 @@ public class Controller : MonoBehaviour
     private int step;
 
     private Content content;
+
+    private bool quizActive;
 
     void OnEnable() {
         maxSteps = accordionPrefab.Find("Content").childCount;
@@ -122,41 +126,43 @@ public class Controller : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetAxis("Mouse ScrollWheel") < 0) {
-            if (step > 0) {
-                step--;
-                accordion.UpdateStep(step);
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetAxis("Mouse ScrollWheel") > 0) {
-            if (step < maxSteps) { 
-                step++;
-                accordion.UpdateStep(step);
-            }
-        }
-
-        if (Input.touchCount > 0) {
-            Touch touch = Input.GetTouch(0);
-
-            if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
-            {
-                return;
-            }
-
-            if (touch.phase == TouchPhase.Began) {
-                if (touch.position.x < 1000) {
-                    if (step > 0) { 
-                        step--;
-                    }
-                } else {
-                    if (step < maxSteps) { 
-                        step++;
-                    }
+        if (!quizActive) {
+            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetAxis("Mouse ScrollWheel") < 0) {
+                if (step > 0) {
+                    step--;
+                    accordion.UpdateStep(step);
                 }
-                accordion.UpdateStep(step);
-                debugView.Refresh(step);
-            }   
+            }
+
+            if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetAxis("Mouse ScrollWheel") > 0) {
+                if (step < maxSteps) { 
+                    step++;
+                    accordion.UpdateStep(step);
+                }
+            }
+
+            if (Input.touchCount > 0) {
+                Touch touch = Input.GetTouch(0);
+
+                if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+                {
+                    return;
+                }
+
+                if (touch.phase == TouchPhase.Began) {
+                    if (touch.position.x < 1000) {
+                        if (step > 0) { 
+                            step--;
+                        }
+                    } else {
+                        if (step < maxSteps) { 
+                            step++;
+                        }
+                    }
+                    accordion.UpdateStep(step);
+                    debugView.Refresh(step);
+                }   
+            }
         }
     }
 
@@ -170,7 +176,10 @@ public class Controller : MonoBehaviour
     }
 
     public void OnToggleQuiz() {
-        accordion.ToggleQuiz();
+        quizActive = !quizActive;
+        accordion.ShowQuiz(quizActive);
+
+        toggleButton.GetComponentInChildren<Text>().text = quizActive ? "Accordion" : "Quiz";
     }
 
     public void OnEnableDofDebugging(bool enable) {

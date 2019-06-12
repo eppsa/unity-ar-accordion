@@ -169,9 +169,9 @@ public class Accordion : MonoBehaviour
         this.moveTowardsCamera = moveTowardsCamera;
     }
 
-    internal void ToggleQuiz() {
-        this.quiz.transform.gameObject.SetActive(!this.quiz.transform.gameObject.activeInHierarchy);
-        this.infoPopUp.transform.gameObject.SetActive(!this.quiz.transform.gameObject.activeInHierarchy);
+    internal void ShowQuiz(bool show) {
+        this.quiz.transform.gameObject.SetActive(show);
+        this.infoPopUp.transform.gameObject.SetActive(!show);
 
         UpdateStep(this.step);
     }

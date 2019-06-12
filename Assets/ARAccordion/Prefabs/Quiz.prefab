@@ -105,7 +105,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1036750899}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 489161964}
@@ -259,7 +259,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1856698391}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2004438502}
@@ -413,7 +413,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2064054908}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1122422156}
@@ -739,10 +739,11 @@ MonoBehaviour:
   - {fileID: 1856698391}
   dropArea: {fileID: 7313388803348010657}
   questionText: {fileID: 2215749443625390497}
-  heighlightCorrect: {r: 0, g: 200, b: 0, a: 1}
-  heightlightWrong: {r: 200, g: 0, b: 0, a: 1}
-  normalTileColor: {r: 255, g: 255, b: 255, a: 1}
+  rightColor: {r: 0, g: 200, b: 0, a: 1}
+  wrongColor: {r: 200, g: 0, b: 0, a: 1}
+  defaultColor: {r: 255, g: 255, b: 255, a: 1}
   scaleFactor: 1.5
+  defaultScaleFactor: 1
 --- !u!1 &7313388803310147199
 GameObject:
   m_ObjectHideFlags: 0
@@ -769,7 +770,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7313388803310147199}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7313388803878799237}

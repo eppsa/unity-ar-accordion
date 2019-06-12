@@ -3841,6 +3841,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0.67
       objectReference: {fileID: 0}
+    - target: {fileID: 3508879756299385990, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: scaleFactor
+      value: 1.2
+      objectReference: {fileID: 0}
     - target: {fileID: 8610731845077535808, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
       propertyPath: m_Layer
@@ -3921,6 +3926,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6182434939703038933, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7318348207457623617, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
       propertyPath: m_IsActive
@@ -3970,11 +3980,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6182434939703038933, guid: df41b1ea74d2742f6ae80d7632c10506,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df41b1ea74d2742f6ae80d7632c10506, type: 3}
@@ -4940,7 +4945,7 @@ GameObject:
   - component: {fileID: 1400512987}
   - component: {fileID: 1400512986}
   m_Layer: 5
-  m_Name: QuizButton
+  m_Name: ToggleButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5906,6 +5911,7 @@ MonoBehaviour:
     type: 3}
   debugView: {fileID: 1652453339}
   development: {fileID: 1660130455}
+  toggleButton: {fileID: 1400512984}
 --- !u!4 &1737284000
 Transform:
   m_ObjectHideFlags: 0

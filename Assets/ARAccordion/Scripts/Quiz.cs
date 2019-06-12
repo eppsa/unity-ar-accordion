@@ -15,13 +15,13 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     [SerializeField] private Text questionText;
     
-    [SerializeField] private Color heighlightCorrect = new Color(0, 200, 0);
-    [SerializeField] private Color heightlightWrong = new Color(200, 0, 0);
-    [SerializeField] private Color normalTileColor = new Color(255, 255, 255);
+    [SerializeField] private Color rightColor = new Color(0, 200, 0);
+    [SerializeField] private Color wrongColor = new Color(200, 0, 0);
+    [SerializeField] private Color defaultColor = new Color(255, 255, 255);
 
-    [SerializeField] private float scaleFactor = 1.5f;
+    [SerializeField] private float scaleFactor = 1.2f;
     [SerializeField] private float defaultScaleFactor = 1.0f;
-
+    [SerializeField] private float nextQuestionDelay = 1.5f;
 
     private int correctAnswers = 0;
     private int maxQuestions = 5;
@@ -33,7 +33,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private GameObject activeDraggable;
     private Vector3 activeDraggableStartPosition;
     bool questionAnswered;
-    
+
 
     public void SetContent(jsonObject.Quiz quiz)
     {
@@ -98,6 +98,12 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
             {
                 activeDraggable.transform.position = worldPoint;
             }
+
+            if (eventData.pointerEnter.gameObject == dropArea) {
+                dropArea.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+            } else {
+                dropArea.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
+            }
         } else {
             if (eventData.pointerEnter && eventData.pointerEnter.tag == "AnswerContainer")
             {
@@ -105,7 +111,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
                 activeDraggableStartPosition = activeDraggable.transform.position;
 
                 activeDraggable.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
-            }   
+            }
         }
     }
 
@@ -117,6 +123,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
         if (eventData.pointerEnter.gameObject == dropArea)
         {
+            dropArea.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
             activeDraggable.transform.position = eventData.pointerEnter.transform.position;
             activeDraggable.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
             questionAnswered = true;
@@ -141,21 +148,21 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         {
             Debug.Log("Right");
             correctAnswers++;
-            activeDraggable.GetComponent<Image>().color = heighlightCorrect;
-            Invoke("Reset", 1.0f);
+            activeDraggable.GetComponent<Image>().color = rightColor;
+            Invoke("Reset", nextQuestionDelay);
         }
         else
         {
             Debug.Log("Wrong");
-            activeDraggable.GetComponent<Image>().color = heightlightWrong;
-            Invoke("Reset", 1.0f);
+            activeDraggable.GetComponent<Image>().color = wrongColor;
+            Invoke("Reset", nextQuestionDelay);
         }
     }
 
     private void Reset()
     {
         activeDraggable.transform.position = activeDraggableStartPosition;
-        activeDraggable.GetComponent<Image>().color = normalTileColor;
+        activeDraggable.GetComponent<Image>().color = defaultColor;
         questionAnswered = false;
         activeDraggable = null;
 
