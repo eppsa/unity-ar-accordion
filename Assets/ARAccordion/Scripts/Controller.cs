@@ -33,6 +33,8 @@ public class Controller : MonoBehaviour
     private Content content;
 
     private bool quizActive;
+    private GameObject planeGo;
+    private bool showReferenceImage = true;
 
     void OnEnable() {
         maxSteps = accordionPrefab.Find("Content").childCount;
@@ -82,6 +84,24 @@ public class Controller : MonoBehaviour
 
     private void UpdateTrackedImage(ARTrackedImage trackedImage)
     {
+        if (trackedImage.trackingState != TrackingState.None)
+        {
+            trackedImage.transform.localScale = new Vector3(trackedImage.size.x * 0.1f, 0.01f, trackedImage.size.y * 0.1f);
+
+            // ShowTrackingInformation(trackedImage);
+
+            if (showReferenceImage) {
+                ShowReferenceImage(trackedImage);
+            } else {
+                HideReferenceImage(trackedImage);
+            }
+        } else {
+            HideReferenceImage(trackedImage);
+        }
+    }
+
+    private void ShowTrackingInformation(ARTrackedImage trackedImage)
+    {
         // Set canvas camera
         var canvas = trackedImage.transform.Find("Canvas").GetComponent<Canvas>();
         canvas.worldCamera = arCamera;
@@ -97,23 +117,21 @@ public class Controller : MonoBehaviour
             trackedImage.size * 100f, // 0.249 * 100
             arCamera.transform.position,
             trackedImage.transform.position);
+    }
 
+    private void ShowReferenceImage(ARTrackedImage trackedImage)
+    {
         var planeParentGo = trackedImage.transform.Find("PlaneParent").gameObject;
-        var planeGo = planeParentGo.transform.GetChild(0).gameObject;
+        planeGo = planeParentGo.transform.GetChild(0).gameObject;
+        planeGo.SetActive(true);
 
-        if (trackedImage.trackingState != TrackingState.None)
-        {
-            planeGo.SetActive(true);
+        var material = planeGo.GetComponentInChildren<MeshRenderer>().material;
+        material.mainTexture = trackedImage.referenceImage.texture;
+    }
 
-            trackedImage.transform.localScale = new Vector3(trackedImage.size.x, 0.1f, trackedImage.size.y);
-
-            var material = planeGo.GetComponentInChildren<MeshRenderer>().material;
-            material.mainTexture = trackedImage.referenceImage.texture;
-        }
-        else
-        {
-            planeGo.SetActive(false);
-        }
+    private void HideReferenceImage(ARTrackedImage trackedImage)
+    {
+        planeGo.SetActive(false);
     }
 
     void ReadJson()
@@ -165,6 +183,8 @@ public class Controller : MonoBehaviour
             }
 
             toggleButton.SetActive(step > 0);
+            showReferenceImage = step == 0;
+            planeGo.SetActive(showReferenceImage);
         }
     }
 

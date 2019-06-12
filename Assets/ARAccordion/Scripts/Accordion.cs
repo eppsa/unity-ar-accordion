@@ -14,6 +14,8 @@ public class Accordion : MonoBehaviour
 
     [Header("Layer")] [SerializeField] GameObject[] tiles;
 
+    [SerializeField] GameObject background;
+
     [SerializeField] float speed = 1.0f;
     [SerializeField] float distanceFactor = 0.7f;
 
@@ -84,6 +86,8 @@ public class Accordion : MonoBehaviour
                 quiz.transform.position = activeTile.transform.Find("TagAnchor").transform.position;
                 quiz.transform.SetParent(activeTile.transform.Find("TagAnchor").transform);
             }
+
+            background.SetActive(true);
         } else {
             // Camera.main.GetComponentInChildren<PostProcessLayer>().enabled = false;
 
@@ -94,6 +98,8 @@ public class Accordion : MonoBehaviour
             if (quiz.isActiveAndEnabled) {
                 quiz.transform.gameObject.SetActive(false);
             }
+
+            background.SetActive(false);
         }
 
         Highlight();
