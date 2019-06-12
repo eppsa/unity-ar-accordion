@@ -915,7 +915,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 314634423}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 948f4100a11a5c24981795d21301da5c, type: 3}
   m_Name: 
@@ -3058,7 +3058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dea56a9eaadd1c439095de4f9a371cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ReferenceLibrary: {fileID: 11400000, guid: c86e375d7e7430442a1104e88fa21f21, type: 2}
+  m_ReferenceLibrary: {fileID: 11400000, guid: 634331e91b324461dbcc98f706978958, type: 2}
   m_MaxNumberOfMovingImages: 5
   m_TrackedImagePrefab: {fileID: 3236708473929559986, guid: df41b1ea74d2742f6ae80d7632c10506,
     type: 3}

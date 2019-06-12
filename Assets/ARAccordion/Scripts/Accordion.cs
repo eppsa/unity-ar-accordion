@@ -16,8 +16,8 @@ public class Accordion : MonoBehaviour
 
     [SerializeField] GameObject background;
 
-    [SerializeField] float speed = 1.0f;
-    [SerializeField] float distanceFactor = 0.7f;
+    [SerializeField] float speed = 5.0f;
+    [SerializeField] float distanceFactor = 0.3f;
 
     [SerializeField] Material defaultSpriteMaterial;
     [SerializeField] Material dofSpriteMaterial;
@@ -106,35 +106,32 @@ public class Accordion : MonoBehaviour
     }
 
     private void UpdatePositions() {
-        for (int i = 0; i < tiles.Length; i++)
-        {
-            GameObject tile = tiles[i];
-
-            // Vector3 newPosition;
-            if (step == 0) {
-                // newPosition = tilesOrigins[i];
-            } else if (moveTowardsCamera) {
-                float distanceToCamera = Vector3.Distance(Camera.main.transform.position, tilesOrigins[0]);
-                Debug.Log("Distance to Camera: " + distanceToCamera);
-
-                Vector3 targetPosition = Camera.main.transform.position + Camera.main.transform.forward * distanceFactor * distanceToCamera;
-
-                Vector3 newPosition = tilesOrigins[i] + ((targetPosition - tilesOrigins[i]) * GetDistance(step, i));
-                tile.transform.position = Vector3.MoveTowards(tile.transform.position, newPosition, 0.5f * Time.deltaTime);
-                
-                Vector3 newDirection = Vector3.RotateTowards(tile.transform.forward, Camera.main.transform.forward, 0.3f * Time.deltaTime, 0.0f);
-                tile.transform.rotation = Quaternion.LookRotation(newDirection, Camera.main.transform.up);
-            } else {
-                float distanceToCamera = Vector3.Distance(tile.transform.InverseTransformPoint(this.initialCameraPosition), tile.transform.InverseTransformPoint(tilesOrigins[0]));
-                Debug.Log("Local Distance to Camera: " + distanceToCamera);
-
-                var newLocalPosition = tile.transform.InverseTransformPoint(tilesOrigins[i]) + (-Vector3.forward * GetDistance(step, i) * distanceToCamera * distanceFactor);
-                tile.transform.localRotation = Quaternion.Euler(0, 0, 0);
-                tile.transform.position = Vector3.MoveTowards(tile.transform.position, tile.transform.TransformPoint(newLocalPosition), 0.5f * Time.deltaTime);
-            }
-        }
-
         if (step > 0) {
+            for (int i = 0; i < tiles.Length; i++)
+            {
+                GameObject tile = tiles[i];
+
+                if (moveTowardsCamera) {
+                    float distanceToCamera = Vector3.Distance(Camera.main.transform.position, tilesOrigins[0]);
+                    Debug.Log("Distance to Camera: " + distanceToCamera);
+
+                    Vector3 targetPosition = Camera.main.transform.position + Camera.main.transform.forward * distanceFactor * distanceToCamera;
+
+                    Vector3 newPosition = tilesOrigins[i] + ((targetPosition - tilesOrigins[i]) * GetDistance(step, i));
+                    tile.transform.position = Vector3.MoveTowards(tile.transform.position, newPosition, 0.5f * Time.deltaTime);
+                    
+                    Vector3 newDirection = Vector3.RotateTowards(tile.transform.forward, Camera.main.transform.forward, 0.3f * Time.deltaTime, 0.0f);
+                    tile.transform.rotation = Quaternion.LookRotation(newDirection, Camera.main.transform.up);
+                } else {
+                    float distanceToCamera = Vector3.Distance(tile.transform.InverseTransformPoint(this.initialCameraPosition), tile.transform.InverseTransformPoint(tilesOrigins[0]));
+                    Debug.Log("Local Distance to Camera: " + distanceToCamera);
+
+                    var newLocalPosition = tile.transform.InverseTransformPoint(tilesOrigins[i]) + (-Vector3.forward * GetDistance(step, i) * distanceToCamera * distanceFactor);
+                    tile.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                    tile.transform.position = Vector3.MoveTowards(tile.transform.position, tile.transform.TransformPoint(newLocalPosition), 0.5f * Time.deltaTime);
+                }
+            }
+
             float distance = Vector3.Distance(Camera.main.transform.position, tiles[tiles.Length - step].transform.position);
             Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(distance);
         }
