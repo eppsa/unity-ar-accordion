@@ -35,14 +35,10 @@ public class Controller : MonoBehaviour
 
         ReadJson();
 
-        var target = Camera.main.transform.Find("Target").transform;
-
         if (Application.isEditor) {
             development.SetActive(true);
             accordion = development.GetComponentInChildren<Accordion>();
             accordion.SetContent(this.content);
-
-            target.localPosition = new Vector3(0.0f, 0.0f, 1.0f);
 
             Camera.main.GetComponentInChildren<PostFX>().UpdateAperature(20.0f);
             Camera.main.GetComponentInChildren<PostFX>().UpdateFocalLength(150.0f);
@@ -50,8 +46,6 @@ public class Controller : MonoBehaviour
             development.SetActive(false);
             accordion = null;
             trackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
-
-            target.localPosition = new Vector3(0.0f, 0.0f, 0.2f);
 
             Camera.main.GetComponentInChildren<PostFX>().UpdateAperature(20.0f);
             Camera.main.GetComponentInChildren<PostFX>().UpdateFocalLength(50.0f);
@@ -67,11 +61,19 @@ public class Controller : MonoBehaviour
     {
         foreach (var trackedImage in eventArgs.added)
         {
-            UpdateTrackedImage(trackedImage);
+            AddTrackedImage(trackedImage);
         }
 
         foreach (var trackedImage in eventArgs.updated)
+        {
             UpdateTrackedImage(trackedImage);
+        }
+    }
+
+    private void AddTrackedImage(ARTrackedImage trackedImage)
+    {
+        accordion = trackedImage.GetComponentInChildren<Accordion>();
+        accordion.SetContent(this.content);
     }
 
     private void UpdateTrackedImage(ARTrackedImage trackedImage)
@@ -108,9 +110,6 @@ public class Controller : MonoBehaviour
         {
             planeGo.SetActive(false);
         }
-
-        accordion = trackedImage.GetComponentInChildren<Accordion>();
-        accordion.SetContent(this.content);
     }
 
     void ReadJson()

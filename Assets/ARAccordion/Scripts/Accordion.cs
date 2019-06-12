@@ -99,8 +99,6 @@ public class Accordion : MonoBehaviour
     }
 
     private void UpdatePositions() {
-        var target = Camera.main.transform.Find("Target").transform;
-
         for (int i = 0; i < tiles.Length; i++)
         {
             GameObject tile = tiles[i];
@@ -112,7 +110,7 @@ public class Accordion : MonoBehaviour
                 float distanceToCamera = Vector3.Distance(this.initialCameraPosition, tilesOrigins[0]);
                 Vector3 targetPosition = new Vector3(this.initialCameraPosition.x, this.initialCameraPosition.y, this.initialCameraPosition.z + 0.5f * distanceToCamera);
 
-                newPosition = tilesOrigins[i] + ((target.transform.position - tilesOrigins[i]) * GetDistance(step, i));
+                newPosition = tilesOrigins[i] + ((targetPosition - tilesOrigins[i]) * GetDistance(step, i));
                 
                 Vector3 newDir = Vector3.RotateTowards(tile.transform.forward, Camera.main.transform.forward, 0.3f * Time.deltaTime, 0.0f);
                 tile.transform.rotation = Quaternion.LookRotation(newDir, Camera.main.transform.up);

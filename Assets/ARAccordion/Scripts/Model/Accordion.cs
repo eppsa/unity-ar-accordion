@@ -3,6 +3,6 @@
 namespace jsonObject
 {
 	public class Accordion {
-		public IList<Layers> layers { get; set; }
+		public List<Layer> layers { get; set; }
 	}
 }

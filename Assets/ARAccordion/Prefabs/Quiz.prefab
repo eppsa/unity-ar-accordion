@@ -636,7 +636,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7313388802489238176
 RectTransform:
   m_ObjectHideFlags: 0
@@ -737,8 +737,12 @@ MonoBehaviour:
   - {fileID: 1036750899}
   - {fileID: 2064054908}
   - {fileID: 1856698391}
-  questionContainer: {fileID: 5409071822122210989}
   dropArea: {fileID: 7313388803348010657}
+  questionText: {fileID: 2215749443625390497}
+  heighlightCorrect: {r: 0, g: 200, b: 0, a: 1}
+  heightlightWrong: {r: 200, g: 0, b: 0, a: 1}
+  normalTileColor: {r: 255, g: 255, b: 255, a: 1}
+  scaleFactor: 1.5
 --- !u!1 &7313388803310147199
 GameObject:
   m_ObjectHideFlags: 0
