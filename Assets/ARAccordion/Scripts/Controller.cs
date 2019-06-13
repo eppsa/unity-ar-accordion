@@ -184,7 +184,10 @@ public class Controller : MonoBehaviour
 
             toggleButton.SetActive(step > 0);
             showReferenceImage = step == 0;
-            planeGo.SetActive(showReferenceImage);
+
+            if (planeGo) {
+                planeGo.SetActive(showReferenceImage);
+            }
         }
     }
 
