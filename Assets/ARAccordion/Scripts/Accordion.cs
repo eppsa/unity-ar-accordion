@@ -17,7 +17,8 @@ public class Accordion : MonoBehaviour
     [SerializeField] GameObject background;
 
     [SerializeField] float speed = 5.0f;
-    [SerializeField] float distanceFactor = 0.3f;
+    [SerializeField] float distanceFactor = 0.5f;
+    [SerializeField] float exponent = 1;
 
     [SerializeField] Material defaultSpriteMaterial;
     [SerializeField] Material dofSpriteMaterial;
@@ -128,7 +129,7 @@ public class Accordion : MonoBehaviour
 
                     var newLocalPosition = tile.transform.InverseTransformPoint(tilesOrigins[i]) + (-Vector3.forward * GetDistance(step, i) * distanceToCamera * distanceFactor);
                     tile.transform.localRotation = Quaternion.Euler(0, 0, 0);
-                    tile.transform.position = Vector3.MoveTowards(tile.transform.position, tile.transform.TransformPoint(newLocalPosition), 0.5f * Time.deltaTime);
+                    tile.transform.position = Vector3.MoveTowards(tile.transform.position, tile.transform.TransformPoint(newLocalPosition), speed * Time.deltaTime);
                 }
             }
 
@@ -138,7 +139,7 @@ public class Accordion : MonoBehaviour
     }
 
     private float GetDistance(int step, int index) {
-        return Mathf.Pow(step + index, 4) / Mathf.Pow(tiles.Length, 4); 
+        return Mathf.Pow(step + index, exponent) / Mathf.Pow(tiles.Length, exponent); 
     }
 
     private void Highlight() {

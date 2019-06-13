@@ -3058,8 +3058,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dea56a9eaadd1c439095de4f9a371cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ReferenceLibrary: {fileID: 11400000, guid: 634331e91b324461dbcc98f706978958, type: 2}
-  m_MaxNumberOfMovingImages: 5
+  m_ReferenceLibrary: {fileID: 11400000, guid: 6440874f71ed24471934fe8fba893552, type: 2}
+  m_MaxNumberOfMovingImages: 0
   m_TrackedImagePrefab: {fileID: 3236708473929559986, guid: df41b1ea74d2742f6ae80d7632c10506,
     type: 3}
 --- !u!1 &862463594
@@ -3784,7 +3784,7 @@ PrefabInstance:
     - target: {fileID: 833716451203112805, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.0000003851434
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 833716451203112805, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
@@ -3794,27 +3794,27 @@ PrefabInstance:
     - target: {fileID: 833716451203112805, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 88.2
+      value: 33.74
       objectReference: {fileID: 0}
     - target: {fileID: 833716451203112805, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.28150174
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 833716451203112805, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.031000111
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 833716451203112805, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.033658568
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 833716451203112805, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.95846903
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 833716451203112805, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
@@ -3824,17 +3824,17 @@ PrefabInstance:
     - target: {fileID: 833716451203112805, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -32.8
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 833716451203112805, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 2.76
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 833716451203112805, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 3.21
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6183333315626608710, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
@@ -4293,7 +4293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4966719baa26e4b0e8231a24d9bd491a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FocusMode: 1
+  m_FocusMode: 0
   m_LightEstimationMode: 0
 --- !u!1 &1268992295
 GameObject:

@@ -588,8 +588,9 @@ MonoBehaviour:
   - {fileID: 54477242080251811}
   - {fileID: 6001933059536561268}
   background: {fileID: 8639770171308828416}
-  speed: 1
-  distanceFactor: 0.7
+  speed: 5
+  distanceFactor: 0.5
+  exponent: 7
   defaultSpriteMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   dofSpriteMaterial: {fileID: 2100000, guid: c0ab97d32d395411fa9096f535d4af6a, type: 2}
 --- !u!1 &3417944600474819888
