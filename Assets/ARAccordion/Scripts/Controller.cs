@@ -23,6 +23,8 @@ public class Controller : MonoBehaviour
 
     [SerializeField] private GameObject toggleButton;
 
+    [SerializeField] private PostFX postFx;
+
     private Accordion accordion;
 
     private ARTrackedImage arTrackedImage;
@@ -46,16 +48,18 @@ public class Controller : MonoBehaviour
             accordion = development.GetComponentInChildren<Accordion>();
             accordion.SetContent(this.content);
 
-            Camera.main.GetComponentInChildren<PostFX>().UpdateAperature(20.0f);
-            Camera.main.GetComponentInChildren<PostFX>().UpdateFocalLength(150.0f);
+            postFx.UpdateAperature(20.0f);
+            postFx.UpdateFocalLength(150.0f);
         } else {
             development.SetActive(false);
             accordion = null;
             trackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
 
-            Camera.main.GetComponentInChildren<PostFX>().UpdateAperature(20.0f);
-            Camera.main.GetComponentInChildren<PostFX>().UpdateFocalLength(50.0f);
+            postFx.UpdateAperature(20.0f);
+            postFx.UpdateFocalLength(50.0f);
         }
+
+        debugView.gameObject.SetActive(false);
     }
 
     void OnDisable()
@@ -178,7 +182,7 @@ public class Controller : MonoBehaviour
                         }
                     }
                     accordion.UpdateStep(step);
-                    debugView.Refresh(step);
+                    debugView.UpdateStep(step);
                 }   
             }
 

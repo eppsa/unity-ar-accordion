@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
-using UnityEngine.XR.ARFoundation;
 
 
 public class PostFX : MonoBehaviour
@@ -11,20 +8,36 @@ public class PostFX : MonoBehaviour
 
     private DepthOfField dof;
 
-    void OnEnable()
+    public delegate void UpdateAction(float focusDistance, float aperture, float focalLength);
+    public static event UpdateAction OnUpdate;
+
+    void Awake()
     {
         fxProfile.TryGetSettings(out dof);
     }
 
+    void OnStart() {
+        OnChange();
+    }
+
     public void UpdateFocusDistance(float distance) {
         dof.focusDistance.value = distance;
+        OnChange();
     }
 
     public void UpdateAperature(float aperture) {
         dof.aperture.value = aperture;
+        OnChange();
     }
 
     public void UpdateFocalLength(float focalLength) {
         dof.focalLength.value = focalLength;
+        OnChange();
+    }
+
+    private void OnChange() {
+        if (OnUpdate != null) {
+            OnUpdate(dof.focusDistance.value, dof.aperture.value, dof.focalLength.value);
+        }
     }
 }
