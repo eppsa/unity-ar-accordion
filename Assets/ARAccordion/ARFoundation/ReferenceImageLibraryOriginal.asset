@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 848409ee8ba454f42a5ddff137688a27, type: 3}
-  m_Name: ReferenceImageLibraryMuseum
+  m_Name: ReferenceImageLibraryOriginal
   m_EditorClassIdentifier: 
   m_GuidLow: 5650568885869116846
   m_GuidHigh: 9402346405964197566
@@ -21,7 +21,7 @@ MonoBehaviour:
     m_SerializedTextureGuid:
       m_GuidLow: 9540170216829652943
       m_GuidHigh: 14456158779335934713
-    m_Size: {x: 2.49, y: 2.0147471}
+    m_Size: {x: 2.96, y: 2.3950408}
     m_SpecifySize: 1
     m_Name: Orginal Juno und Argus
     m_Texture: {fileID: 2800000, guid: 26e48fcf7e448465f982f65ad1979ec8, type: 3}
