@@ -88,7 +88,7 @@ public class Controller : MonoBehaviour
         {
             trackedImage.transform.localScale = new Vector3(trackedImage.size.x * 0.1f, 0.01f, trackedImage.size.y * 0.1f);
 
-            // ShowTrackingInformation(trackedImage);
+            debugView.UpdateTrackingInformation(trackedImage, arCamera);
 
             if (showReferenceImage) {
                 ShowReferenceImage(trackedImage);
@@ -100,7 +100,7 @@ public class Controller : MonoBehaviour
         }
     }
 
-    private void ShowTrackingInformation(ARTrackedImage trackedImage)
+    private void UpdateTrackingInformation(ARTrackedImage trackedImage)
     {
         // Set canvas camera
         var canvas = trackedImage.transform.Find("Canvas").GetComponent<Canvas>();

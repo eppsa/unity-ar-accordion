@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Sprites-DOF
+  m_Name: SpriteDepthOfField
   m_Shader: {fileID: 4800000, guid: ac2f92f6b286eea439e509d2343487ea, type: 3}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA _ALPHABLEND_ON _ALPHA_CLIP
   m_LightmapFlags: 4
