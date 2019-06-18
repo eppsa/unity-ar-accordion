@@ -14,18 +14,12 @@ using UnityEngine.XR.ARSubsystems;
 public class Controller : MonoBehaviour
 {
     [SerializeField] ARTrackedImageManager trackedImageManager;
+    [SerializeField] private GameObject axis;
     [SerializeField] private Camera arCamera;
-  
-    [SerializeField] private Transform accordionPrefab;
-
     [SerializeField] private DebugView debugView;
-    [SerializeField] private GameObject development;
-
     [SerializeField] private GameObject toggleButton;
-
     [SerializeField] private PostFX postFx;
-
-    private Accordion accordion;
+    [SerializeField] private Accordion accordion;
 
     private ARTrackedImage arTrackedImage;
 
@@ -38,21 +32,22 @@ public class Controller : MonoBehaviour
     private GameObject planeGo;
     private bool showReferenceImage = true;
 
+    private Vector3 velocity = Vector3.zero;
+
+    private Vector3 newPosition;
+    private Quaternion newRotation;
+
     void OnEnable() {
-        maxSteps = accordionPrefab.Find("Content").childCount;
+        maxSteps = accordion.transform.Find("Content").childCount;
 
         ReadJson();
 
-        if (Application.isEditor) {
-            development.SetActive(true);
-            accordion = development.GetComponentInChildren<Accordion>();
-            accordion.SetContent(this.content);
+        accordion.SetContent(this.content);
 
+        if (Application.isEditor) {
             postFx.UpdateAperature(20.0f);
             postFx.UpdateFocalLength(150.0f);
         } else {
-            development.SetActive(false);
-            accordion = null;
             trackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
 
             postFx.UpdateAperature(20.0f);
@@ -82,17 +77,22 @@ public class Controller : MonoBehaviour
 
     private void AddTrackedImage(ARTrackedImage trackedImage)
     {
-        accordion = trackedImage.GetComponentInChildren<Accordion>();
-        accordion.SetContent(this.content);
+        axis.transform.position = trackedImage.transform.position;
+        axis.transform.rotation = trackedImage.transform.rotation;
+
+        accordion.transform.position = trackedImage.transform.position;
+        accordion.transform.rotation = trackedImage.transform.rotation;
     }
 
     private void UpdateTrackedImage(ARTrackedImage trackedImage)
     {
+        debugView.UpdateTrackingInformation(trackedImage, arCamera);
+
         if (trackedImage.trackingState != TrackingState.None)
         {
-            trackedImage.transform.localScale = new Vector3(trackedImage.size.x * 0.1f, 0.01f, trackedImage.size.y * 0.1f);
-
-            debugView.UpdateTrackingInformation(trackedImage, arCamera);
+            newPosition = trackedImage.transform.position;
+            newRotation = trackedImage.transform.rotation;
+            accordion.transform.localScale = trackedImage.transform.localScale = new Vector3(trackedImage.size.x * 0.01f, 0.01f, trackedImage.size.y * 0.01f);
 
             if (showReferenceImage) {
                 ShowReferenceImage(trackedImage);
@@ -142,7 +142,6 @@ public class Controller : MonoBehaviour
     {
         string jsonPath = Path.Combine(Application.streamingAssetsPath, "content.json");
         string jsonString = File.ReadAllText(jsonPath);
-        //content = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(jsonString);
         content = JsonConvert.DeserializeObject<Content>(jsonString);
     }
 
@@ -193,6 +192,15 @@ public class Controller : MonoBehaviour
                 planeGo.SetActive(showReferenceImage);
             }
         }
+
+        if (newPosition != null && newRotation != null) {
+            accordion.transform.position = Vector3.SmoothDamp(accordion.transform.position, newPosition, ref velocity, 2f);
+            accordion.transform.rotation = Quaternion.Slerp(accordion.transform.rotation, newRotation, 2f);
+
+            axis.transform.position = Vector3.SmoothDamp(axis.transform.position, newPosition, ref velocity, 0.5f);
+            axis.transform.rotation = Quaternion.Slerp(axis.transform.rotation, newRotation, 0.5f);
+        }
+        // accordion.transform.localScale = 
     }
 
     public void OnActivateTowardsCamera(bool active) {
