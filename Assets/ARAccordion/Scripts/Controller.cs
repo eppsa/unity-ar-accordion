@@ -10,18 +10,20 @@ using System.IO;
 using System;
 using UnityEngine.UI;
 using UnityEngine.XR.ARSubsystems;
+using UnityEngine.SpatialTracking;
 
 public class Controller : MonoBehaviour
 {
     [SerializeField] ARTrackedImageManager trackedImageManager;
-    [SerializeField] private GameObject axis;
+    [SerializeField] private GameObject axes;
     [SerializeField] private Camera arCamera;
     [SerializeField] private DebugView debugView;
     [SerializeField] private GameObject toggleButton;
-    [SerializeField] private PostFX postFx;
+    [SerializeField] private Camera fxCamera;
     [SerializeField] private Accordion accordion;
+    [SerializeField] private float smoothTime = 10.0f;
 
-    private ARTrackedImage arTrackedImage;
+    private ARTrackedImage trackedImage;
 
     private int maxSteps;
     private int step;
@@ -29,32 +31,36 @@ public class Controller : MonoBehaviour
     private Content content;
 
     private bool quizActive;
-    private GameObject planeGo;
+    private GameObject referenceImagePlane;
     private bool showReferenceImage = true;
 
     private Vector3 velocity = Vector3.zero;
 
-    private Vector3 newPosition;
-    private Quaternion newRotation;
-
     void OnEnable() {
+        arCamera.GetComponent<UnityEngine.XR.ARFoundation.ARCameraManager>().focusMode = CameraFocusMode.Fixed;
+
         maxSteps = accordion.transform.Find("Content").childCount;
 
         ReadJson();
 
         accordion.SetContent(this.content);
 
+        PostFX postFx = fxCamera.GetComponent<PostFX>();
         if (Application.isEditor) {
-            postFx.UpdateAperature(20.0f);
+            postFx.UpdateAperture(20.0f);
             postFx.UpdateFocalLength(150.0f);
         } else {
             trackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
 
-            postFx.UpdateAperature(20.0f);
+            postFx.UpdateAperture(20.0f);
             postFx.UpdateFocalLength(50.0f);
         }
 
         debugView.gameObject.SetActive(false);
+        debugView.UpdateSmoothTime(smoothTime);
+        debugView.UpdateAxes(axes.activeInHierarchy);
+        debugView.UpdateDOF(fxCamera.GetComponent<PostProcessLayer>().enabled);
+        debugView.UpdateXRUpdateType((int) arCamera.GetComponent<TrackedPoseDriver>().updateType);
     }
 
     void OnDisable()
@@ -77,22 +83,27 @@ public class Controller : MonoBehaviour
 
     private void AddTrackedImage(ARTrackedImage trackedImage)
     {
-        axis.transform.position = trackedImage.transform.position;
-        axis.transform.rotation = trackedImage.transform.rotation;
+        this.trackedImage = trackedImage;
 
+        axes.transform.position = trackedImage.transform.position;
+        axes.transform.rotation = trackedImage.transform.rotation;
+        axes.transform.localScale = new Vector3(this.trackedImage.size.y * 0.5f, this.trackedImage.size.y * 0.5f, this.trackedImage.size.y * 0.5f);
+ 
         accordion.transform.position = trackedImage.transform.position;
         accordion.transform.rotation = trackedImage.transform.rotation;
+        accordion.transform.localScale = new Vector3(this.trackedImage.size.x * 0.1f, 0.1f, this.trackedImage.size.y * 0.1f);
+
+        referenceImagePlane = trackedImage.transform.Find("ReferenceImagePlane").gameObject;
+        referenceImagePlane.transform.localScale = new Vector3(trackedImage.size.x * 0.1f, 0.01f, trackedImage.size.y * 0.1f);
     }
 
     private void UpdateTrackedImage(ARTrackedImage trackedImage)
     {
-        debugView.UpdateTrackingInformation(trackedImage, arCamera);
-
         if (trackedImage.trackingState != TrackingState.None)
         {
-            newPosition = trackedImage.transform.position;
-            newRotation = trackedImage.transform.rotation;
-            accordion.transform.localScale = trackedImage.transform.localScale = new Vector3(trackedImage.size.x * 0.01f, 0.01f, trackedImage.size.y * 0.01f);
+            this.trackedImage = trackedImage;
+
+            debugView.UpdateTrackingInformation(trackedImage, arCamera, accordion);
 
             if (showReferenceImage) {
                 ShowReferenceImage(trackedImage);
@@ -104,38 +115,19 @@ public class Controller : MonoBehaviour
         }
     }
 
-    private void UpdateTrackingInformation(ARTrackedImage trackedImage)
-    {
-        // Set canvas camera
-        var canvas = trackedImage.transform.Find("Canvas").GetComponent<Canvas>();
-        canvas.worldCamera = arCamera;
-
-        // Update information about the tracked image
-        var text = canvas.GetComponentInChildren<Text>();
-        text.text = string.Format(
-            "{0}\ntrackingState: {1}\nGUID: {2}\nReference size: {3} cm\nDetected size: {4} cm\nCamera Position: {5}\nTracked Image position: {6}",
-            trackedImage.referenceImage.name,
-            trackedImage.trackingState,
-            trackedImage.referenceImage.guid,
-            trackedImage.referenceImage.size * 100f,
-            trackedImage.size * 100f, // 0.249 * 100
-            arCamera.transform.position,
-            trackedImage.transform.position);
-    }
-
     private void ShowReferenceImage(ARTrackedImage trackedImage)
     {
-        var planeParentGo = trackedImage.transform.Find("PlaneParent").gameObject;
-        planeGo = planeParentGo.transform.GetChild(0).gameObject;
-        planeGo.SetActive(true);
+        referenceImagePlane.SetActive(true);
 
-        var material = planeGo.GetComponentInChildren<MeshRenderer>().material;
+        var material = referenceImagePlane.GetComponentInChildren<MeshRenderer>().material;
         material.mainTexture = trackedImage.referenceImage.texture;
+
+        Debug.Log(trackedImage.referenceImage.texture);
     }
 
     private void HideReferenceImage(ARTrackedImage trackedImage)
     {
-        planeGo.SetActive(false);
+        referenceImagePlane.SetActive(false);
     }
 
     void ReadJson()
@@ -188,19 +180,22 @@ public class Controller : MonoBehaviour
             toggleButton.SetActive(step > 0);
             showReferenceImage = step == 0;
 
-            if (planeGo) {
-                planeGo.SetActive(showReferenceImage);
+            if (referenceImagePlane) {
+                referenceImagePlane.SetActive(showReferenceImage);
             }
         }
+    }
 
-        if (newPosition != null && newRotation != null) {
-            accordion.transform.position = Vector3.SmoothDamp(accordion.transform.position, newPosition, ref velocity, 2f);
-            accordion.transform.rotation = Quaternion.Slerp(accordion.transform.rotation, newRotation, 2f);
+    void FixedUpdate()
+    {
+        if (this.trackedImage != null) {
+            accordion.transform.position = Vector3.SmoothDamp(accordion.transform.position, this.trackedImage.transform.position, ref velocity, smoothTime);
+            accordion.transform.rotation = Quaternion.RotateTowards(accordion.transform.rotation, this.trackedImage.transform.rotation, smoothTime);
 
-            axis.transform.position = Vector3.SmoothDamp(axis.transform.position, newPosition, ref velocity, 0.5f);
-            axis.transform.rotation = Quaternion.Slerp(axis.transform.rotation, newRotation, 0.5f);
+            axes.transform.position = Vector3.SmoothDamp(axes.transform.position, this.trackedImage.transform.position, ref velocity, smoothTime);
+            axes.transform.rotation = Quaternion.RotateTowards(axes.transform.rotation, this.trackedImage.transform.rotation, smoothTime);
+            axes.transform.localScale = new Vector3(this.trackedImage.size.y * 0.5f, this.trackedImage.size.y * 0.5f, this.trackedImage.size.y * 0.5f);
         }
-        // accordion.transform.localScale = 
     }
 
     public void OnActivateTowardsCamera(bool active) {
@@ -224,5 +219,19 @@ public class Controller : MonoBehaviour
        if (accordion != null){
            accordion.transform.Find("Plane").gameObject.SetActive(enable);
        }
+    }
+
+    public void OnSmoothTimeChange(float smoothTime) {
+        this.smoothTime = smoothTime;
+        debugView.UpdateSmoothTime(smoothTime);
+    }
+
+    public void OnShowAxis(bool enable) {
+        axes.SetActive(enable);
+    }
+
+    public void OnUpdateTypeChange(Int32 updateType) {
+        arCamera.GetComponent<TrackedPoseDriver>().updateType = (TrackedPoseDriver.UpdateType) updateType; 
+        Debug.Log("OnUpdateTypeChange: " + updateType);
     }
 }

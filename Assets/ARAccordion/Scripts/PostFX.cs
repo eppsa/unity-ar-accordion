@@ -25,7 +25,7 @@ public class PostFX : MonoBehaviour
         OnChange();
     }
 
-    public void UpdateAperature(float aperture) {
+    public void UpdateAperture(float aperture) {
         dof.aperture.value = aperture;
         OnChange();
     }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 
@@ -7,13 +8,20 @@ public class DebugView : MonoBehaviour
     [SerializeField] private Text stepText;
     [SerializeField] private Text trackingInformation;
 
-    [SerializeField] Slider focusDistanceSlider;
     [SerializeField] Text focusDistanceValue;
     [SerializeField] Slider apertureSlider;
     [SerializeField] Text apertureValue;
     [SerializeField] Slider focalLengthSlider;
     [SerializeField] Text focalLengthValue;
-        
+    [SerializeField] Slider smoothTimeSlider;
+    [SerializeField] Text smoothTimeValue;
+
+    [SerializeField] Toggle axes;
+    [SerializeField] Toggle dof;
+
+    [SerializeField] Dropdown updateType;
+
+
     void Awake() {
         PostFX.OnUpdate += UpdateDepthOfField;
     }
@@ -23,16 +31,29 @@ public class DebugView : MonoBehaviour
         stepText.text = $"Step: {step}";
     }
 
-    public void UpdateTrackingInformation(ARTrackedImage trackedImage, Camera arCamera)
+    public void UpdateTrackingInformation(ARTrackedImage trackedImage, Camera arCamera, Accordion accordion)
     {
-        trackingInformation.text = string.Format("{0}\ntrackingState: {1}\nGUID: {2}\nReference size: {3} cm\nDetected size: {4} cm\nCamera Position: {5}\nTracked Image position: {6}",
+        trackingInformation.text = string.Format(
+            "{0}\n" + 
+            "trackingState: {1}\n" + 
+            "GUID: {2}\n" + 
+            "Reference size: {3} cm\n" + 
+            "Detected size: {4} cm\n" + 
+            "Camera Position: {5}\n" + 
+            "Tracked Image position: {6}\n" + 
+            "Tracked Image Local/ Lossy Scale: {7}\n" +
+            "Accordion Local/ Lossy Scale: {8}",
             trackedImage.referenceImage.name,
             trackedImage.trackingState,
             trackedImage.referenceImage.guid,
             trackedImage.referenceImage.size * 100f,
             trackedImage.size * 100f, // 0.249 * 100
             arCamera.transform.position,
-            trackedImage.transform.position);
+            trackedImage.transform.position,
+            trackedImage.transform.localScale,
+            trackedImage.transform.lossyScale,
+            accordion.transform.localScale,
+            accordion.transform.lossyScale);
     }
 
     public void UpdateDepthOfField(float focusDistance, float aperture, float focalLength) {
@@ -43,5 +64,24 @@ public class DebugView : MonoBehaviour
 
         focalLengthSlider.value = focalLength;
         focalLengthValue.text = string.Format("Focal Length {0}", focalLength);
+    }
+
+    internal void UpdateDOF(bool enabled)
+    {
+        dof.isOn = enabled;
+    }
+
+    internal void UpdateAxes(bool enabled)
+    {
+        axes.isOn = enabled;
+    }
+
+    public void UpdateSmoothTime(float smoothTime) {
+        smoothTimeSlider.value = smoothTime;
+        smoothTimeValue.text = string.Format("Smooth time {0}", smoothTime);
+    }
+
+    public void UpdateXRUpdateType(int type) {
+        updateType.value = type;
     }
 }
