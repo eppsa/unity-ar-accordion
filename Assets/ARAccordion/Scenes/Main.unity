@@ -1837,12 +1837,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 648280701}
   m_CullTransparentMesh: 0
---- !u!224 &721514255 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 5321918741474900519, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
-    type: 3}
-  m_PrefabInstance: {fileID: 1641345767}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &724940716
 GameObject:
   m_ObjectHideFlags: 0
@@ -5665,17 +5659,17 @@ PrefabInstance:
     - target: {fileID: 7155693989485210039, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1815
+      value: 1647
       objectReference: {fileID: 0}
     - target: {fileID: 7155693989485210039, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -797
+      value: -782
       objectReference: {fileID: 0}
     - target: {fileID: 7155693989485210039, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 7155693989485210039, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
         type: 3}
@@ -5712,61 +5706,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7155693989485210039, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7155693989485210039, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5321918741474900519, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -119.50415
-      objectReference: {fileID: 0}
-    - target: {fileID: 5321918741474900519, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
-        type: 3}
-      propertyPath: m_Pivot.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5321918741474900519, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
-        type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5321918741474900519, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5321918741474900519, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5321918741474900519, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5321918741474900519, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -149
-      objectReference: {fileID: 0}
-    - target: {fileID: 1835427859661797169, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
-        type: 3}
-      propertyPath: wheelContainer
-      value: 
-      objectReference: {fileID: 5303033367026794253}
-    - target: {fileID: 1835427859661797169, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
-        type: 3}
-      propertyPath: wheelRectTransform
-      value: 
-      objectReference: {fileID: 721514255}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca, type: 3}
 --- !u!224 &1641345768 stripped
@@ -7503,12 +7442,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2057052606}
   m_CullTransparentMesh: 0
---- !u!1 &5303033367026794253 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5303033367026794253, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
-    type: 3}
-  m_PrefabInstance: {fileID: 1641345767}
-  m_PrefabAsset: {fileID: 0}
 --- !u!225 &5692244666281876516
 CanvasGroup:
   m_ObjectHideFlags: 0
