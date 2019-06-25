@@ -5009,6 +5009,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1492232102}
   m_CullTransparentMesh: 0
+--- !u!114 &1530501504 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1835427859661797169, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
+    type: 3}
+  m_PrefabInstance: {fileID: 1641345767}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f4b443f681694604af737bee6210b2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1557100709
 GameObject:
   m_ObjectHideFlags: 0
@@ -5601,6 +5613,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RotationWheel
       objectReference: {fileID: 0}
+    - target: {fileID: 8287055429807173071, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7155693989485210039, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5706,6 +5723,38 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7155693989485210039, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7155693989485210039, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7155693989485210039, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2107598053598345127, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835427859661797169, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
+        type: 3}
+      propertyPath: wheelElementObject
+      value: 
+      objectReference: {fileID: 6134222849050149719, guid: 4860f7f0858914404962a59454a2ce47,
+        type: 3}
+    - target: {fileID: 1835427859661797169, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
+        type: 3}
+      propertyPath: wheelElementPrefab
+      value: 
+      objectReference: {fileID: 6134222849050149719, guid: 4860f7f0858914404962a59454a2ce47,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca, type: 3}
 --- !u!224 &1641345768 stripped
@@ -6026,6 +6075,7 @@ MonoBehaviour:
   toggleButton: {fileID: 1400512984}
   fxCamera: {fileID: 314634431}
   accordion: {fileID: 961593272}
+  rotationWheel: {fileID: 1530501504}
   smoothTime: 0.1
 --- !u!4 &1737284000
 Transform:
@@ -7442,6 +7492,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2057052606}
   m_CullTransparentMesh: 0
+--- !u!1 &5303033367026794253 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5303033367026794253, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
+    type: 3}
+  m_PrefabInstance: {fileID: 1641345767}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5303033367026794254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5303033367026794253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1297475563, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 40
+    m_Right: 40
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
 --- !u!225 &5692244666281876516
 CanvasGroup:
   m_ObjectHideFlags: 0

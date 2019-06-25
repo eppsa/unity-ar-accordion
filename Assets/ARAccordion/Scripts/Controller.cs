@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering.PostProcessing;
@@ -21,6 +19,8 @@ public class Controller : MonoBehaviour
     [SerializeField] private GameObject toggleButton;
     [SerializeField] private Camera fxCamera;
     [SerializeField] private Accordion accordion;
+    [SerializeField] private RotationWheel rotationWheel;
+
     [SerializeField] private float smoothTime = 10.0f;
 
     private ARTrackedImage trackedImage;
@@ -40,6 +40,8 @@ public class Controller : MonoBehaviour
         arCamera.GetComponent<UnityEngine.XR.ARFoundation.ARCameraManager>().focusMode = CameraFocusMode.Fixed;
 
         maxSteps = accordion.transform.Find("Content").childCount;
+
+        rotationWheel.Init(maxSteps);
 
         ReadJson();
 
