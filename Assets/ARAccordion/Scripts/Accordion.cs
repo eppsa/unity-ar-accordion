@@ -1,8 +1,5 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.XR.ARFoundation;
 using Model;
 
@@ -44,8 +41,6 @@ public class Accordion : MonoBehaviour
         infoPopUp.SetFadeDuration(0.5f);
 
         quiz.GetComponent<Canvas>().worldCamera = Camera.main;
-
-        Highlight();
     }
 
     void LateUpdate()
@@ -76,8 +71,19 @@ public class Accordion : MonoBehaviour
                 // Debug.Log("Local Distance to Camera: " + distanceToCamera);
 
                 var newLocalPosition = tile.transform.InverseTransformPoint(tilesOrigins[i]) + (-Vector3.forward * GetDistance(distance, i) * distanceToCamera * distanceFactor);
+
                 tile.transform.localRotation = Quaternion.Euler(0, 0, 0);
                 tile.transform.position = Vector3.MoveTowards(tile.transform.position, tile.transform.TransformPoint(newLocalPosition), speed * Time.deltaTime);
+
+                if (i == 7) {
+                    Debug.Log("====================");
+                    Debug.Log(newLocalPosition);
+                    Debug.Log(distance);
+                    Debug.Log(GetDistance(distance, i));
+                    Debug.Log(tile.transform.TransformPoint(newLocalPosition));
+                    Debug.Log(tile.transform.position);
+                    Debug.Log("====================");
+                }
             }
         }
 
@@ -138,28 +144,30 @@ public class Accordion : MonoBehaviour
 
     private void Highlight()
     {
-        if (distance > 0) {
-            for (int i = 0; i < tiles.Length; i++) {
-                GameObject tile = tiles[i];
-                Color color = tile.GetComponent<Renderer>().material.GetColor("_Color");
+        int activeTileIndex = tiles.Length - Mathf.CeilToInt(distance);
 
-                if (i == tiles.Length - Mathf.CeilToInt(distance)) {
-                    tile.GetComponent<Renderer>().material = dofSpriteMaterial;
-                    StartCoroutine(Fade(color.a, 1.0f, 1.0f, tile.GetComponent<Renderer>().material));
+        float distanceOfActiveTile = GetDistance(distance, activeTileIndex);
 
-                    infoPopUp.SetAnchor(tile.transform.Find("TagAnchor"));
-                } else {
-                    // tile.GetComponent<Renderer>().material = defaultSpriteMaterial;
-                    // StartCoroutine(Fade(color.a, 0.5f, 1.0f, tile.GetComponent<Renderer>().material));
-                }
+        // Debug.Log("activeTileIndex " + activeTileIndex);
+        // Debug.Log("activeTile: " + tiles[activeTileIndex]);
+        // Debug.Log("distanceOfActiveTile " + distanceOfActiveTile);
+
+        for (int i = 0; i < tiles.Length; i++) {
+            GameObject tile = tiles[i];
+            Color color = tile.GetComponent<Renderer>().material.GetColor("_Color");
+
+            if (i == activeTileIndex) {
+                tile.GetComponent<Renderer>().material = dofSpriteMaterial;
+                infoPopUp.SetAnchor(tile.transform.Find("TagAnchor"));
             }
-        } else {
-            for (int i = 0; i < tiles.Length; i++) {
-                GameObject tile = tiles[i];
-                Color color = tile.GetComponent<Renderer>().material.GetColor("_Color");
-                tile.GetComponent<Renderer>().material = defaultSpriteMaterial;
 
-                StartCoroutine(Fade(color.a, 1.0f, color.a, tile.GetComponent<Renderer>().material));
+            float distanceOfTile = GetDistance(distance, i);
+            if (distanceOfTile > distanceOfActiveTile) {
+                tile.GetComponent<Renderer>().material = defaultSpriteMaterial;
+                StartCoroutine(Fade(color.a, 0.5f, 1.0f, tile.GetComponent<Renderer>().material));
+            } else {
+                tile.GetComponent<Renderer>().material = dofSpriteMaterial;
+                StartCoroutine(Fade(color.a, 1.0f, 1.0f, tile.GetComponent<Renderer>().material));
             }
         }
     }
@@ -204,6 +212,9 @@ public class Accordion : MonoBehaviour
 
     private float GetDistance(float step, int index)
     {
+        if (step == 0.0f) {
+            return 0.0f;
+        }
         return Mathf.Pow(step + index, exponent) / Mathf.Pow(tiles.Length, exponent);
     }
 

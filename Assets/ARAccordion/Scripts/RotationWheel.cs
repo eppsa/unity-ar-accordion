@@ -59,7 +59,6 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IDropHandler
         }
 
         float newValue = wheelContainer.transform.localPosition.y / wheelElementHeight;
-        Debug.Log(newValue);
 
         if (newValue != this.value) {
             controller.OnUpdateRotationWheel(newValue);
