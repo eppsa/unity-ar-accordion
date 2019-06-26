@@ -71,13 +71,13 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IDropHandler
     {
         this.maxSteps = maxSteps;
 
-        for (int i = 0; i < maxSteps; i++) {
+        for (int i = 0; i <= maxSteps; i++) {
             GameObject wheelElement = Instantiate(wheelElementPrefab);
             wheelElement.transform.SetParent(wheelContainer.transform, false);
 
             wheelElement.name = "WheelElement" + i;
         }
 
-        maxY = wheelElementPrefab.GetComponent<RectTransform>().sizeDelta.y * (maxSteps - 1);
+        maxY = wheelElementPrefab.GetComponent<RectTransform>().sizeDelta.y * maxSteps;
     }
 }
