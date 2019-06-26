@@ -82,9 +82,9 @@ public class Accordion : MonoBehaviour
             }
         }
 
-        if (distance >= 1) {
-            float distance = Vector3.Distance(Camera.main.transform.position, tiles[tiles.Length - (int)this.distance].transform.position);
-            Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(distance);
+        if (distance > 0) {
+            float focusDistance = Vector3.Distance(Camera.main.transform.position, tiles[tiles.Length - Mathf.CeilToInt(this.distance)].transform.position);
+            Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(focusDistance);
         }
     }
 
@@ -109,8 +109,6 @@ public class Accordion : MonoBehaviour
             if (quiz.isActiveAndEnabled) {
                 quiz.transform.gameObject.SetActive(false);
             }
-
-            background.SetActive(false);
         }
 
         Highlight();
@@ -126,7 +124,7 @@ public class Accordion : MonoBehaviour
 
         if (infoPopUp.isActiveAndEnabled) {
             infoPopUp.SetAnchor(activeTile.transform.Find("TagAnchor"));
-            infoPopUp.Show(tiles.Length - (int)distance);
+            infoPopUp.Show(tiles.Length - Mathf.CeilToInt(distance));
         }
 
         if (quiz.isActiveAndEnabled) {
@@ -137,7 +135,7 @@ public class Accordion : MonoBehaviour
 
     private void Highlight()
     {
-        if (distance >= 1) {
+        if (distance > 0) {
             for (int i = 0; i < tiles.Length; i++) {
                 GameObject tile = tiles[i];
                 Color color = tile.GetComponent<Renderer>().material.GetColor("_Color");
@@ -146,7 +144,7 @@ public class Accordion : MonoBehaviour
                 StartCoroutine(Fade(color.a, 0.5f, 1.0f, tile.GetComponent<Renderer>().material));
             }
 
-            GameObject activeTile = tiles[tiles.Length - (int)distance];
+            GameObject activeTile = tiles[tiles.Length - Mathf.CeilToInt(distance)];
             Color activeTileColor = activeTile.GetComponent<Renderer>().material.GetColor("_Color");
             activeTile.GetComponent<Renderer>().material = dofSpriteMaterial;
             activeTile.GetComponent<Renderer>().material.SetColor("_Color", new Color(activeTileColor.r, activeTileColor.g, activeTileColor.b, 1.0f));
