@@ -9,7 +9,7 @@ using Model;
 public class InfoPopup : MonoBehaviour
 {
     private float duration = 0.7f;
-    
+
     [SerializeField] private GameObject image;
     [SerializeField] private Text text;
 
@@ -20,7 +20,8 @@ public class InfoPopup : MonoBehaviour
 
     bool fadeRunning = false;
 
-    void OnEnable() {
+    void OnEnable()
+    {
         GetComponent<CanvasGroup>().alpha = 0.0f;
     }
 
@@ -31,7 +32,8 @@ public class InfoPopup : MonoBehaviour
         StartCoroutine(DoShow());
     }
 
-    private IEnumerator DoShow() {
+    private IEnumerator DoShow()
+    {
         while (fadeRunning) {
             yield return null;
         }
@@ -40,14 +42,15 @@ public class InfoPopup : MonoBehaviour
         StartCoroutine(Fade(0.0f, 1.0f, duration));
     }
 
-    public void Hide() {
+    public void Hide()
+    {
         if (this.GetComponent<CanvasGroup>().alpha == 0.0f) {
             return;
         }
 
         StartCoroutine(Fade(1.0f, 0.0f, duration));
     }
-    
+
     private IEnumerator Fade(float fadeFrom, float fadeTo, float duration)
     {
         fadeRunning = true;
@@ -56,15 +59,15 @@ public class InfoPopup : MonoBehaviour
         float currentDuration = 0.0f;
         float progress = 0.0f;
 
-        while (true)
-        {
+        while (true) {
             currentDuration = Time.time - startTime;
             progress = currentDuration / duration;
 
             if (progress <= 1.0f) {
                 GetComponent<CanvasGroup>().alpha = Mathf.Lerp(fadeFrom, fadeTo, progress);
                 yield return new WaitForEndOfFrame();
-            } else {
+            }
+            else {
                 this.GetComponent<CanvasGroup>().alpha = fadeTo;
                 fadeRunning = false;
                 yield break;
@@ -80,15 +83,18 @@ public class InfoPopup : MonoBehaviour
         image.GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/icon" + layer);
     }
 
-    public void SetContent(Content content) {
+    public void SetContent(Content content)
+    {
         this.content = content;
     }
 
-    public void SetAnchor(Transform anchor) {
+    public void SetAnchor(Transform anchor)
+    {
         this.anchor = anchor;
     }
-    
-    public void SetFadeDuration(float duration) {
+
+    public void SetFadeDuration(float duration)
+    {
         this.duration = duration;
     }
 }
