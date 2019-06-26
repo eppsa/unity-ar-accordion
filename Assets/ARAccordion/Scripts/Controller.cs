@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.XR.ARFoundation;
 using Newtonsoft.Json;
@@ -25,8 +24,7 @@ public class Controller : MonoBehaviour
 
     private ARTrackedImage trackedImage;
 
-    private int maxSteps;
-    private int step;
+    private int maxDistance;
 
     private Content content;
 
@@ -36,12 +34,13 @@ public class Controller : MonoBehaviour
 
     private Vector3 velocity = Vector3.zero;
 
-    void OnEnable() {
+    void OnEnable()
+    {
         arCamera.GetComponent<UnityEngine.XR.ARFoundation.ARCameraManager>().focusMode = CameraFocusMode.Fixed;
 
-        maxSteps = accordion.transform.Find("Content").childCount;
+        maxDistance = accordion.transform.Find("Content").childCount;
 
-        rotationWheel.Init(maxSteps);
+        rotationWheel.Init(maxDistance);
 
         ReadJson();
 
@@ -51,7 +50,8 @@ public class Controller : MonoBehaviour
         if (Application.isEditor) {
             postFx.UpdateAperture(20.0f);
             postFx.UpdateFocalLength(150.0f);
-        } else {
+        }
+        else {
             trackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
 
             postFx.UpdateAperture(20.0f);
@@ -62,7 +62,7 @@ public class Controller : MonoBehaviour
         debugView.UpdateSmoothTime(smoothTime);
         debugView.UpdateAxes(axes.activeInHierarchy);
         debugView.UpdateDOF(fxCamera.GetComponent<PostProcessLayer>().enabled);
-        debugView.UpdateXRUpdateType((int) arCamera.GetComponent<TrackedPoseDriver>().updateType);
+        debugView.UpdateXRUpdateType((int)arCamera.GetComponent<TrackedPoseDriver>().updateType);
     }
 
     void OnDisable()
@@ -72,14 +72,16 @@ public class Controller : MonoBehaviour
 
     void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs eventArgs)
     {
-        foreach (var trackedImage in eventArgs.added)
-        {
+        foreach (var trackedImage in eventArgs.added) {
             AddTrackedImage(trackedImage);
         }
 
-        foreach (var trackedImage in eventArgs.updated)
-        {
+        foreach (var trackedImage in eventArgs.updated) {
             UpdateTrackedImage(trackedImage);
+        }
+
+        foreach (var trackedImage in eventArgs.removed) {
+            HideReferenceImage(trackedImage);
         }
     }
 
@@ -90,35 +92,30 @@ public class Controller : MonoBehaviour
         axes.transform.position = trackedImage.transform.position;
         axes.transform.rotation = trackedImage.transform.rotation;
         axes.transform.localScale = new Vector3(this.trackedImage.size.y * 0.5f, this.trackedImage.size.y * 0.5f, this.trackedImage.size.y * 0.5f);
- 
+
         accordion.transform.position = trackedImage.transform.position;
         accordion.transform.rotation = trackedImage.transform.rotation;
         accordion.transform.localScale = new Vector3(this.trackedImage.size.x * 0.1f, 0.1f, this.trackedImage.size.y * 0.1f);
 
-        referenceImagePlane = trackedImage.transform.Find("ReferenceImagePlane").gameObject;
-        referenceImagePlane.transform.localScale = new Vector3(trackedImage.size.x * 0.1f, 0.01f, trackedImage.size.y * 0.1f);
+        ShowReferenceImage(trackedImage);
     }
 
     private void UpdateTrackedImage(ARTrackedImage trackedImage)
     {
-        if (trackedImage.trackingState != TrackingState.None)
-        {
+        if (trackedImage.trackingState != TrackingState.None) {
             this.trackedImage = trackedImage;
 
             debugView.UpdateTrackingInformation(trackedImage, arCamera, accordion);
-
-            if (showReferenceImage) {
-                ShowReferenceImage(trackedImage);
-            } else {
-                HideReferenceImage(trackedImage);
-            }
-        } else {
-            HideReferenceImage(trackedImage);
         }
+        // else {
+        //     HideReferenceImage(trackedImage);
+        // }
     }
 
     private void ShowReferenceImage(ARTrackedImage trackedImage)
     {
+        referenceImagePlane = trackedImage.transform.Find("ReferenceImagePlane").gameObject;
+        referenceImagePlane.transform.localScale = new Vector3(trackedImage.size.x * 0.1f, 0.01f, trackedImage.size.y * 0.1f);
         referenceImagePlane.SetActive(true);
 
         var material = referenceImagePlane.GetComponentInChildren<MeshRenderer>().material;
@@ -139,55 +136,6 @@ public class Controller : MonoBehaviour
         content = JsonConvert.DeserializeObject<Content>(jsonString);
     }
 
-    void Update()
-    {
-        if (!quizActive) {
-            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetAxis("Mouse ScrollWheel") < 0) {
-                if (step > 0) {
-                    step--;
-                    accordion.UpdateStep(step);
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetAxis("Mouse ScrollWheel") > 0) {
-                if (step < maxSteps) { 
-                    step++;
-                    accordion.UpdateStep(step);
-                }
-            }
-
-            if (Input.touchCount > 0) {
-                Touch touch = Input.GetTouch(0);
-
-                if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
-                {
-                    return;
-                }
-
-                if (touch.phase == TouchPhase.Began) {
-                    if (touch.position.x < 1000) {
-                        if (step > 0) { 
-                            step--;
-                        }
-                    } else {
-                        if (step < maxSteps) { 
-                            step++;
-                        }
-                    }
-                    accordion.UpdateStep(step);
-                    debugView.UpdateStep(step);
-                }   
-            }
-
-            toggleButton.SetActive(step > 0);
-            showReferenceImage = step == 0;
-
-            if (referenceImagePlane) {
-                referenceImagePlane.SetActive(showReferenceImage);
-            }
-        }
-    }
-
     void FixedUpdate()
     {
         if (this.trackedImage != null) {
@@ -200,40 +148,62 @@ public class Controller : MonoBehaviour
         }
     }
 
-    public void OnActivateTowardsCamera(bool active) {
+    public void OnActivateTowardsCamera(bool active)
+    {
         if (accordion) {
             accordion.SetMoveTowardsCamera(active);
         }
     }
 
-    public void OnShowReferenceImage(bool show) {
+    public void OnShowReferenceImage(bool show)
+    {
     }
 
-    public void OnToggleQuiz() {
+    public void OnToggleQuiz()
+    {
         quizActive = !quizActive;
         accordion.ShowQuiz(quizActive);
 
         toggleButton.GetComponentInChildren<Text>().text = quizActive ? "Accordion" : "Quiz";
     }
 
-    public void OnEnableDofDebugging(bool enable) {
-       arCamera.GetComponent<PostProcessDebug>().enabled = enable;
-       if (accordion != null){
-           accordion.transform.Find("Plane").gameObject.SetActive(enable);
-       }
+    public void OnEnableDofDebugging(bool enable)
+    {
+        arCamera.GetComponent<PostProcessDebug>().enabled = enable;
+        if (accordion != null) {
+            accordion.transform.Find("Plane").gameObject.SetActive(enable);
+        }
     }
 
-    public void OnSmoothTimeChange(float smoothTime) {
+    public void OnSmoothTimeChange(float smoothTime)
+    {
         this.smoothTime = smoothTime;
         debugView.UpdateSmoothTime(smoothTime);
     }
 
-    public void OnShowAxis(bool enable) {
+    public void OnShowAxis(bool enable)
+    {
         axes.SetActive(enable);
     }
 
-    public void OnUpdateTypeChange(Int32 updateType) {
-        arCamera.GetComponent<TrackedPoseDriver>().updateType = (TrackedPoseDriver.UpdateType) updateType; 
+    public void OnUpdateTypeChange(Int32 updateType)
+    {
+        arCamera.GetComponent<TrackedPoseDriver>().updateType = (TrackedPoseDriver.UpdateType)updateType;
         Debug.Log("OnUpdateTypeChange: " + updateType);
+    }
+
+    public void OnUpdateRotationWheel(float value)
+    {
+        Debug.Log("Rotation wheel value: " + value);
+
+        toggleButton.SetActive(value > 0);
+        showReferenceImage = value == 0;
+
+        if (referenceImagePlane) {
+            referenceImagePlane.SetActive(value == 0);
+        }
+
+        accordion.UpdateDistance(value);
+        debugView.UpdateStep(value);
     }
 }

@@ -26,7 +26,7 @@ public class DebugView : MonoBehaviour
         PostFX.OnUpdate += UpdateDepthOfField;
     }
 
-    public void UpdateStep(int step)
+    public void UpdateStep(float step)
     {
         stepText.text = $"Step: {step}";
     }
