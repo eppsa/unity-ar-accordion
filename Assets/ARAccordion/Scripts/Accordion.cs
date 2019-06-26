@@ -25,7 +25,7 @@ public class Accordion : MonoBehaviour
 
     [SerializeField] private bool moveTowardsCamera = false;
 
-    private float step = 0f;
+    private float distance = 0f;
 
     private bool savedOrigins = false;
 
@@ -66,7 +66,7 @@ public class Accordion : MonoBehaviour
 
                 Vector3 targetPosition = Camera.main.transform.position + Camera.main.transform.forward * distanceFactor * distanceToCamera;
 
-                Vector3 newPosition = tilesOrigins[i] + ((targetPosition - tilesOrigins[i]) * GetDistance(step, i));
+                Vector3 newPosition = tilesOrigins[i] + ((targetPosition - tilesOrigins[i]) * GetDistance(distance, i));
                 tile.transform.position = Vector3.MoveTowards(tile.transform.position, newPosition, speed * Time.deltaTime);
 
                 Vector3 newDirection = Vector3.RotateTowards(tile.transform.forward, Camera.main.transform.forward, speed * 0.5f * Time.deltaTime, 0.0f);
@@ -76,32 +76,32 @@ public class Accordion : MonoBehaviour
                 float distanceToCamera = Vector3.Distance(tile.transform.InverseTransformPoint(this.initialCameraPosition), tile.transform.InverseTransformPoint(tilesOrigins[0]));
                 // Debug.Log("Local Distance to Camera: " + distanceToCamera);
 
-                var newLocalPosition = tile.transform.InverseTransformPoint(tilesOrigins[i]) + (-Vector3.forward * GetDistance(step, i) * distanceToCamera * distanceFactor);
+                var newLocalPosition = tile.transform.InverseTransformPoint(tilesOrigins[i]) + (-Vector3.forward * GetDistance(distance, i) * distanceToCamera * distanceFactor);
                 tile.transform.localRotation = Quaternion.Euler(0, 0, 0);
                 tile.transform.position = Vector3.MoveTowards(tile.transform.position, tile.transform.TransformPoint(newLocalPosition), speed * Time.deltaTime);
             }
         }
 
-        if (step >= 1) {
-            float distance = Vector3.Distance(Camera.main.transform.position, tiles[tiles.Length - (int)step].transform.position);
+        if (distance >= 1) {
+            float distance = Vector3.Distance(Camera.main.transform.position, tiles[tiles.Length - (int)this.distance].transform.position);
             Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(distance);
         }
     }
 
-    public void UpdateDistance(float step)
+    public void UpdateDistance(float distance)
     {
-        this.step = step;
+        this.distance = distance;
 
         if (!savedOrigins) {
             saveOrigins();
             savedOrigins = true;
         }
 
-        UpdateLayerUI();
+        if (distance % 1 == 0) {
+            UpdateLayerUI();
+        }
 
-        if (step < 1) {
-            // Camera.main.GetComponentInChildren<PostProcessLayer>().enabled = false;
-
+        if (distance == 0) {
             if (infoPopUp.isActiveAndEnabled) {
                 infoPopUp.Hide();
             }
@@ -110,15 +110,34 @@ public class Accordion : MonoBehaviour
                 quiz.transform.gameObject.SetActive(false);
             }
 
-            // background.SetActive(false);
+            background.SetActive(false);
         }
 
         Highlight();
     }
 
+    private void UpdateLayerUI()
+    {
+        if (distance == 0.0f) {
+            return;
+        }
+
+        GameObject activeTile = tiles[tiles.Length - Mathf.CeilToInt(distance)];
+
+        if (infoPopUp.isActiveAndEnabled) {
+            infoPopUp.SetAnchor(activeTile.transform.Find("TagAnchor"));
+            infoPopUp.Show(tiles.Length - (int)distance);
+        }
+
+        if (quiz.isActiveAndEnabled) {
+            quiz.transform.position = activeTile.transform.Find("TagAnchor").transform.position;
+            quiz.transform.SetParent(activeTile.transform.Find("TagAnchor").transform);
+        }
+    }
+
     private void Highlight()
     {
-        if (step >= 1) {
+        if (distance >= 1) {
             for (int i = 0; i < tiles.Length; i++) {
                 GameObject tile = tiles[i];
                 Color color = tile.GetComponent<Renderer>().material.GetColor("_Color");
@@ -127,7 +146,7 @@ public class Accordion : MonoBehaviour
                 StartCoroutine(Fade(color.a, 0.5f, 1.0f, tile.GetComponent<Renderer>().material));
             }
 
-            GameObject activeTile = tiles[tiles.Length - (int)step];
+            GameObject activeTile = tiles[tiles.Length - (int)distance];
             Color activeTileColor = activeTile.GetComponent<Renderer>().material.GetColor("_Color");
             activeTile.GetComponent<Renderer>().material = dofSpriteMaterial;
             activeTile.GetComponent<Renderer>().material.SetColor("_Color", new Color(activeTileColor.r, activeTileColor.g, activeTileColor.b, 1.0f));
@@ -172,25 +191,6 @@ public class Accordion : MonoBehaviour
         }
     }
 
-    private void UpdateLayerUI()
-    {
-        if (step < 1) {
-            return;
-        }
-
-        GameObject activeTile = tiles[tiles.Length - (int)step];
-
-        if (infoPopUp.isActiveAndEnabled) {
-            infoPopUp.SetAnchor(activeTile.transform.Find("TagAnchor"));
-            infoPopUp.Show(tiles.Length - (int)step);
-        }
-
-        if (quiz.isActiveAndEnabled) {
-            quiz.transform.position = activeTile.transform.Find("TagAnchor").transform.position;
-            quiz.transform.SetParent(activeTile.transform.Find("TagAnchor").transform);
-        }
-    }
-
     private void saveOrigins()
     {
         tilesOrigins = new Vector3[tiles.Length];
@@ -219,7 +219,7 @@ public class Accordion : MonoBehaviour
         this.quiz.transform.gameObject.SetActive(show);
         this.infoPopUp.transform.gameObject.SetActive(!show);
 
-        UpdateDistance(this.step);
+        UpdateDistance(this.distance);
     }
 
     internal void SetContent(Content content)
