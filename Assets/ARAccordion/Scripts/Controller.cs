@@ -46,17 +46,24 @@ public class Controller : MonoBehaviour
 
         accordion.SetContent(this.content);
 
+        referenceImagePlane = accordion.transform.Find("ReferenceImagePlane").gameObject;
+
         PostFX postFx = fxCamera.GetComponent<PostFX>();
         if (Application.isEditor) {
-            postFx.UpdateAperture(20.0f);
+            referenceImagePlane.SetActive(true);
+
+            postFx.UpdateAperture(0.1f);
             postFx.UpdateFocalLength(150.0f);
-        }
-        else {
+        } else {
+            referenceImagePlane.SetActive(false);
+
             trackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
 
             postFx.UpdateAperture(20.0f);
             postFx.UpdateFocalLength(50.0f);
         }
+
+        toggleButton.SetActive(false);
 
         debugView.gameObject.SetActive(false);
         debugView.UpdateSmoothTime(smoothTime);
@@ -114,14 +121,11 @@ public class Controller : MonoBehaviour
 
     private void ShowReferenceImage(ARTrackedImage trackedImage)
     {
-        referenceImagePlane = trackedImage.transform.Find("ReferenceImagePlane").gameObject;
         referenceImagePlane.transform.localScale = new Vector3(trackedImage.size.x * 0.1f, 0.01f, trackedImage.size.y * 0.1f);
         referenceImagePlane.SetActive(true);
 
         var material = referenceImagePlane.GetComponentInChildren<MeshRenderer>().material;
         material.mainTexture = trackedImage.referenceImage.texture;
-
-        Debug.Log(trackedImage.referenceImage.texture);
     }
 
     private void HideReferenceImage(ARTrackedImage trackedImage)

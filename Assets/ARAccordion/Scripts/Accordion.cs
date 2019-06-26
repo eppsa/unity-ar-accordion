@@ -71,8 +71,7 @@ public class Accordion : MonoBehaviour
 
                 Vector3 newDirection = Vector3.RotateTowards(tile.transform.forward, Camera.main.transform.forward, speed * 0.5f * Time.deltaTime, 0.0f);
                 tile.transform.rotation = Quaternion.LookRotation(newDirection, Camera.main.transform.up);
-            }
-            else {
+            } else {
                 float distanceToCamera = Vector3.Distance(tile.transform.InverseTransformPoint(this.initialCameraPosition), tile.transform.InverseTransformPoint(tilesOrigins[0]));
                 // Debug.Log("Local Distance to Camera: " + distanceToCamera);
 
@@ -93,15 +92,17 @@ public class Accordion : MonoBehaviour
         this.distance = distance;
 
         if (!savedOrigins) {
-            saveOrigins();
+            SaveOrigins();
             savedOrigins = true;
         }
 
-        if (distance % 1 == 0) {
-            UpdateLayerUI();
-        }
+        if (distance > 0) {
+            if (distance % 1 == 0) {
+                UpdateLayerUI();
+            }
 
-        if (distance == 0) {
+            background.SetActive(true);
+        } else {
             if (infoPopUp.isActiveAndEnabled) {
                 infoPopUp.Hide();
             }
@@ -109,6 +110,8 @@ public class Accordion : MonoBehaviour
             if (quiz.isActiveAndEnabled) {
                 quiz.transform.gameObject.SetActive(false);
             }
+
+            background.SetActive(false);
         }
 
         Highlight();
@@ -139,26 +142,24 @@ public class Accordion : MonoBehaviour
             for (int i = 0; i < tiles.Length; i++) {
                 GameObject tile = tiles[i];
                 Color color = tile.GetComponent<Renderer>().material.GetColor("_Color");
-                tile.GetComponent<Renderer>().material = defaultSpriteMaterial;
 
-                StartCoroutine(Fade(color.a, 0.5f, 1.0f, tile.GetComponent<Renderer>().material));
+                if (i == tiles.Length - Mathf.CeilToInt(distance)) {
+                    tile.GetComponent<Renderer>().material = dofSpriteMaterial;
+                    StartCoroutine(Fade(color.a, 1.0f, 1.0f, tile.GetComponent<Renderer>().material));
+
+                    infoPopUp.SetAnchor(tile.transform.Find("TagAnchor"));
+                } else {
+                    // tile.GetComponent<Renderer>().material = defaultSpriteMaterial;
+                    // StartCoroutine(Fade(color.a, 0.5f, 1.0f, tile.GetComponent<Renderer>().material));
+                }
             }
-
-            GameObject activeTile = tiles[tiles.Length - Mathf.CeilToInt(distance)];
-            Color activeTileColor = activeTile.GetComponent<Renderer>().material.GetColor("_Color");
-            activeTile.GetComponent<Renderer>().material = dofSpriteMaterial;
-            activeTile.GetComponent<Renderer>().material.SetColor("_Color", new Color(activeTileColor.r, activeTileColor.g, activeTileColor.b, 1.0f));
-
-            infoPopUp.SetFadeDuration(0.5f);
-            infoPopUp.SetAnchor(activeTile.transform.Find("TagAnchor"));
-        }
-        else {
+        } else {
             for (int i = 0; i < tiles.Length; i++) {
                 GameObject tile = tiles[i];
                 Color color = tile.GetComponent<Renderer>().material.GetColor("_Color");
                 tile.GetComponent<Renderer>().material = defaultSpriteMaterial;
 
-                StartCoroutine(Fade(color.a, 0.0f, color.a, tile.GetComponent<Renderer>().material));
+                StartCoroutine(Fade(color.a, 1.0f, color.a, tile.GetComponent<Renderer>().material));
             }
         }
     }
@@ -180,8 +181,7 @@ public class Accordion : MonoBehaviour
             if (progress <= 1.0f) {
                 material.SetColor("_Color", new Color(color.r, color.g, color.b, Mathf.Lerp(fadeFrom, fadeTo, progress)));
                 yield return new WaitForEndOfFrame();
-            }
-            else {
+            } else {
                 material.SetColor("_Color", new Color(color.r, color.g, color.b, fadeTo));
                 // fadeRunning = false;
                 yield break;
@@ -189,7 +189,7 @@ public class Accordion : MonoBehaviour
         }
     }
 
-    private void saveOrigins()
+    private void SaveOrigins()
     {
         tilesOrigins = new Vector3[tiles.Length];
         for (int i = 0; i < tiles.Length; i++) {
