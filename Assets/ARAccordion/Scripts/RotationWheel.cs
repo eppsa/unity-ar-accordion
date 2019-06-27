@@ -49,7 +49,6 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IDropHandler
     {
         nextStepLocalPosition = wheelContainer.transform.localPosition;
         wheelElementHeight = wheelElementPrefab.GetComponent<RectTransform>().sizeDelta.y;
-        Debug.Log(wheelElementHeight);
     }
 
     void Update()

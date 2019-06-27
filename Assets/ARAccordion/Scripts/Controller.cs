@@ -29,10 +29,11 @@ public class Controller : MonoBehaviour
     private Content content;
 
     private bool quizActive;
-    private GameObject referenceImagePlane;
     private bool showReferenceImage = true;
 
     private Vector3 velocity = Vector3.zero;
+
+    private GameObject referenceImagePlane;
 
     void OnEnable()
     {
@@ -50,17 +51,19 @@ public class Controller : MonoBehaviour
 
         PostFX postFx = fxCamera.GetComponent<PostFX>();
         if (Application.isEditor) {
+            accordion.gameObject.SetActive(true);
             referenceImagePlane.SetActive(true);
 
             postFx.UpdateAperture(0.1f);
             postFx.UpdateFocalLength(150.0f);
         } else {
+            accordion.gameObject.SetActive(false);
             referenceImagePlane.SetActive(false);
 
             trackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
 
             postFx.UpdateAperture(20.0f);
-            postFx.UpdateFocalLength(50.0f);
+            postFx.UpdateFocalLength(150.0f);
         }
 
         toggleButton.SetActive(false);
@@ -88,6 +91,7 @@ public class Controller : MonoBehaviour
         }
 
         foreach (var trackedImage in eventArgs.removed) {
+            accordion.gameObject.SetActive(false);
             HideReferenceImage(trackedImage);
         }
     }
@@ -95,6 +99,8 @@ public class Controller : MonoBehaviour
     private void AddTrackedImage(ARTrackedImage trackedImage)
     {
         this.trackedImage = trackedImage;
+
+        accordion.gameObject.SetActive(true);
 
         axes.transform.position = trackedImage.transform.position;
         axes.transform.rotation = trackedImage.transform.rotation;
@@ -113,15 +119,13 @@ public class Controller : MonoBehaviour
             this.trackedImage = trackedImage;
 
             debugView.UpdateTrackingInformation(trackedImage, arCamera, accordion);
+        } else {
+            HideReferenceImage(trackedImage);
         }
-        // else {
-        //     HideReferenceImage(trackedImage);
-        // }
     }
 
     private void ShowReferenceImage(ARTrackedImage trackedImage)
     {
-        referenceImagePlane.transform.localScale = new Vector3(trackedImage.size.x * 0.1f, 0.01f, trackedImage.size.y * 0.1f);
         referenceImagePlane.SetActive(true);
 
         var material = referenceImagePlane.GetComponentInChildren<MeshRenderer>().material;
@@ -193,21 +197,21 @@ public class Controller : MonoBehaviour
     public void OnUpdateTypeChange(Int32 updateType)
     {
         arCamera.GetComponent<TrackedPoseDriver>().updateType = (TrackedPoseDriver.UpdateType)updateType;
-        Debug.Log("OnUpdateTypeChange: " + updateType);
     }
 
     public void OnUpdateRotationWheel(float value)
     {
-        Debug.Log("Rotation wheel value: " + value);
+        // Debug.Log("Rotation wheel value: " + value);
 
         toggleButton.SetActive(value > 0);
         showReferenceImage = value == 0;
 
         if (referenceImagePlane) {
+            // todo: disable accordion content/tiles when value is 0
             referenceImagePlane.SetActive(value == 0);
         }
 
-        accordion.UpdateDistance(value);
+        accordion.UpdateStep(value);
         debugView.UpdateStep(value);
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using Model;
+using System;
 
 public class Accordion : MonoBehaviour
 {
@@ -20,9 +21,9 @@ public class Accordion : MonoBehaviour
     [SerializeField] private Material defaultSpriteMaterial;
     [SerializeField] private Material dofSpriteMaterial;
 
-    [SerializeField] private bool moveTowardsCamera = false;
+    [SerializeField] private bool towardsCamera = false;
 
-    private float distance = 0f;
+    private float step = 0f;
 
     private bool savedOrigins = false;
 
@@ -41,6 +42,8 @@ public class Accordion : MonoBehaviour
         infoPopUp.SetFadeDuration(0.5f);
 
         quiz.GetComponent<Canvas>().worldCamera = Camera.main;
+
+        background.SetActive(false);
     }
 
     void LateUpdate()
@@ -55,55 +58,64 @@ public class Accordion : MonoBehaviour
         for (int i = 0; i < tiles.Length; i++) {
             GameObject tile = tiles[i];
 
-            if (moveTowardsCamera) {
-                float distanceToCamera = Vector3.Distance(Camera.main.transform.position, tilesOrigins[0]);
-                // Debug.Log("Distance to Camera: " + distanceToCamera);
+            float distance = GetDistance(step, i);
 
-                Vector3 targetPosition = Camera.main.transform.position + Camera.main.transform.forward * distanceFactor * distanceToCamera;
+            if (i == 7) {
+                Debug.Log("Distance: " + distance);
+            }
 
-                Vector3 newPosition = tilesOrigins[i] + ((targetPosition - tilesOrigins[i]) * GetDistance(distance, i));
-                tile.transform.position = Vector3.MoveTowards(tile.transform.position, newPosition, speed * Time.deltaTime);
-
-                Vector3 newDirection = Vector3.RotateTowards(tile.transform.forward, Camera.main.transform.forward, speed * 0.5f * Time.deltaTime, 0.0f);
-                tile.transform.rotation = Quaternion.LookRotation(newDirection, Camera.main.transform.up);
+            if (towardsCamera) {
+                moveTowardsCamera(tile, tilesOrigins[i], distance);
             } else {
-                float distanceToCamera = Vector3.Distance(tile.transform.InverseTransformPoint(this.initialCameraPosition), tile.transform.InverseTransformPoint(tilesOrigins[0]));
-                // Debug.Log("Local Distance to Camera: " + distanceToCamera);
-
-                var newLocalPosition = tile.transform.InverseTransformPoint(tilesOrigins[i]) + (-Vector3.forward * GetDistance(distance, i) * distanceToCamera * distanceFactor);
-
-                tile.transform.localRotation = Quaternion.Euler(0, 0, 0);
-                tile.transform.position = Vector3.MoveTowards(tile.transform.position, tile.transform.TransformPoint(newLocalPosition), speed * Time.deltaTime);
-
-                if (i == 7) {
-                    Debug.Log("====================");
-                    Debug.Log(newLocalPosition);
-                    Debug.Log(distance);
-                    Debug.Log(GetDistance(distance, i));
-                    Debug.Log(tile.transform.TransformPoint(newLocalPosition));
-                    Debug.Log(tile.transform.position);
-                    Debug.Log("====================");
-                }
+                moveFromOrigin(tile, tilesOrigins[i], distance);
             }
         }
 
-        if (distance > 0) {
-            float focusDistance = Vector3.Distance(Camera.main.transform.position, tiles[tiles.Length - Mathf.CeilToInt(this.distance)].transform.position);
+        if (step > 0) {
+            float focusDistance = Vector3.Distance(Camera.main.transform.position, tiles[tiles.Length - Mathf.CeilToInt(this.step)].transform.position);
             Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(focusDistance);
         }
     }
 
-    public void UpdateDistance(float distance)
+    private float GetDistance(float step, int index)
     {
-        this.distance = distance;
+        float weight = step < 1 ? step : 1;
+        return Mathf.Pow(step + index * weight, exponent) / Mathf.Pow(tiles.Length, exponent);
+    }
+
+    private void moveFromOrigin(GameObject tile, Vector3 origin, float distance)
+    {
+        float distanceToCamera = Vector3.Distance(this.initialCameraPosition, origin);
+
+        Vector3 newPosition = origin + (-tile.transform.forward * distance * distanceToCamera * distanceFactor);
+
+        tile.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        tile.transform.position = newPosition;
+    }
+
+    private void moveTowardsCamera(GameObject tile, Vector3 origin, float distance)
+    {
+        float distanceToCamera = Vector3.Distance(Camera.main.transform.position, origin);
+
+        Vector3 targetPosition = Camera.main.transform.position + Camera.main.transform.forward * distanceFactor * distanceToCamera;
+        Vector3 newPosition = origin + ((targetPosition - origin) * distance);
+        tile.transform.position = Vector3.MoveTowards(tile.transform.position, newPosition, speed * Time.deltaTime);
+
+        Vector3 newDirection = Vector3.RotateTowards(tile.transform.forward, Camera.main.transform.forward, speed * 0.5f * Time.deltaTime, 0.0f);
+        tile.transform.rotation = Quaternion.LookRotation(newDirection, Camera.main.transform.up);
+    }
+
+    public void UpdateStep(float step)
+    {
+        this.step = step;
 
         if (!savedOrigins) {
             SaveOrigins();
             savedOrigins = true;
         }
 
-        if (distance > 0) {
-            if (distance % 1 == 0) {
+        if (step > 0) {
+            if (step % 1 == 0) {
                 UpdateLayerUI();
             }
 
@@ -125,15 +137,15 @@ public class Accordion : MonoBehaviour
 
     private void UpdateLayerUI()
     {
-        if (distance == 0.0f) {
+        if (step == 0.0f) {
             return;
         }
 
-        GameObject activeTile = tiles[tiles.Length - Mathf.CeilToInt(distance)];
+        GameObject activeTile = tiles[tiles.Length - Mathf.CeilToInt(step)];
 
         if (infoPopUp.isActiveAndEnabled) {
             infoPopUp.SetAnchor(activeTile.transform.Find("TagAnchor"));
-            infoPopUp.Show(tiles.Length - Mathf.CeilToInt(distance));
+            infoPopUp.Show(tiles.Length - Mathf.CeilToInt(step));
         }
 
         if (quiz.isActiveAndEnabled) {
@@ -144,13 +156,9 @@ public class Accordion : MonoBehaviour
 
     private void Highlight()
     {
-        int activeTileIndex = tiles.Length - Mathf.CeilToInt(distance);
+        int activeTileIndex = tiles.Length - Mathf.CeilToInt(step);
 
-        float distanceOfActiveTile = GetDistance(distance, activeTileIndex);
-
-        // Debug.Log("activeTileIndex " + activeTileIndex);
-        // Debug.Log("activeTile: " + tiles[activeTileIndex]);
-        // Debug.Log("distanceOfActiveTile " + distanceOfActiveTile);
+        float distanceOfActiveTile = GetDistance(step, activeTileIndex);
 
         for (int i = 0; i < tiles.Length; i++) {
             GameObject tile = tiles[i];
@@ -161,7 +169,7 @@ public class Accordion : MonoBehaviour
                 infoPopUp.SetAnchor(tile.transform.Find("TagAnchor"));
             }
 
-            float distanceOfTile = GetDistance(distance, i);
+            float distanceOfTile = GetDistance(step, i);
             if (distanceOfTile > distanceOfActiveTile) {
                 tile.GetComponent<Renderer>().material = defaultSpriteMaterial;
                 StartCoroutine(Fade(color.a, 0.5f, 1.0f, tile.GetComponent<Renderer>().material));
@@ -210,17 +218,9 @@ public class Accordion : MonoBehaviour
         }
     }
 
-    private float GetDistance(float step, int index)
+    internal void SetMoveTowardsCamera(bool towardsCamera)
     {
-        if (step == 0.0f) {
-            return 0.0f;
-        }
-        return Mathf.Pow(step + index, exponent) / Mathf.Pow(tiles.Length, exponent);
-    }
-
-    internal void SetMoveTowardsCamera(bool moveTowardsCamera)
-    {
-        this.moveTowardsCamera = moveTowardsCamera;
+        this.towardsCamera = towardsCamera;
     }
 
     internal void ShowQuiz(bool show)
@@ -228,7 +228,7 @@ public class Accordion : MonoBehaviour
         this.quiz.transform.gameObject.SetActive(show);
         this.infoPopUp.transform.gameObject.SetActive(!show);
 
-        UpdateDistance(this.distance);
+        UpdateStep(this.step);
     }
 
     internal void SetContent(Content content)

@@ -22,7 +22,8 @@ public class DebugView : MonoBehaviour
     [SerializeField] Dropdown updateType;
 
 
-    void Awake() {
+    void Awake()
+    {
         PostFX.OnUpdate += UpdateDepthOfField;
     }
 
@@ -34,13 +35,13 @@ public class DebugView : MonoBehaviour
     public void UpdateTrackingInformation(ARTrackedImage trackedImage, Camera arCamera, Accordion accordion)
     {
         trackingInformation.text = string.Format(
-            "{0}\n" + 
-            "trackingState: {1}\n" + 
-            "GUID: {2}\n" + 
-            "Reference size: {3} cm\n" + 
-            "Detected size: {4} cm\n" + 
-            "Camera Position: {5}\n" + 
-            "Tracked Image position: {6}\n" + 
+            "{0}\n" +
+            "trackingState: {1}\n" +
+            "GUID: {2}\n" +
+            "Reference size: {3} cm\n" +
+            "Detected size: {4} cm\n" +
+            "Camera Position: {5}\n" +
+            "Tracked Image position: {6}\n" +
             "Tracked Image Local/ Lossy Scale: {7}\n" +
             "Accordion Local/ Lossy Scale: {8}",
             trackedImage.referenceImage.name,
@@ -56,7 +57,8 @@ public class DebugView : MonoBehaviour
             accordion.transform.lossyScale);
     }
 
-    public void UpdateDepthOfField(float focusDistance, float aperture, float focalLength) {
+    public void UpdateDepthOfField(float focusDistance, float aperture, float focalLength)
+    {
         focusDistanceValue.text = string.Format("Focus distance {0}", focusDistance);
 
         apertureSlider.value = aperture;
@@ -76,12 +78,14 @@ public class DebugView : MonoBehaviour
         axes.isOn = enabled;
     }
 
-    public void UpdateSmoothTime(float smoothTime) {
+    public void UpdateSmoothTime(float smoothTime)
+    {
         smoothTimeSlider.value = smoothTime;
         smoothTimeValue.text = string.Format("Smooth time {0}", smoothTime);
     }
 
-    public void UpdateXRUpdateType(int type) {
+    public void UpdateXRUpdateType(int type)
+    {
         updateType.value = type;
     }
 }
