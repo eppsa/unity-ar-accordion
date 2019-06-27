@@ -33,13 +33,11 @@ public class Controller : MonoBehaviour
 
     private Vector3 velocity = Vector3.zero;
 
-    private GameObject referenceImagePlane;
-
     void OnEnable()
     {
         arCamera.GetComponent<UnityEngine.XR.ARFoundation.ARCameraManager>().focusMode = CameraFocusMode.Fixed;
 
-        maxDistance = accordion.transform.Find("Content").childCount;
+        maxDistance = accordion.transform.Find("Components").childCount;
 
         rotationWheel.Init(maxDistance);
 
@@ -47,18 +45,14 @@ public class Controller : MonoBehaviour
 
         accordion.SetContent(this.content);
 
-        referenceImagePlane = accordion.transform.Find("ReferenceImagePlane").gameObject;
-
         PostFX postFx = fxCamera.GetComponent<PostFX>();
         if (Application.isEditor) {
             accordion.gameObject.SetActive(true);
-            referenceImagePlane.SetActive(true);
 
             postFx.UpdateAperture(0.1f);
             postFx.UpdateFocalLength(150.0f);
         } else {
             accordion.gameObject.SetActive(false);
-            referenceImagePlane.SetActive(false);
 
             trackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
 
@@ -71,8 +65,9 @@ public class Controller : MonoBehaviour
         debugView.gameObject.SetActive(false);
         debugView.UpdateSmoothTime(smoothTime);
         debugView.UpdateAxes(axes.activeInHierarchy);
-        debugView.UpdateDOF(fxCamera.GetComponent<PostProcessLayer>().enabled);
         debugView.UpdateXRUpdateType((int)arCamera.GetComponent<TrackedPoseDriver>().updateType);
+
+        fxCamera.GetComponent<PostProcessLayer>().enabled = false;
     }
 
     void OnDisable()
@@ -92,7 +87,6 @@ public class Controller : MonoBehaviour
 
         foreach (var trackedImage in eventArgs.removed) {
             accordion.gameObject.SetActive(false);
-            HideReferenceImage(trackedImage);
         }
     }
 
@@ -109,8 +103,6 @@ public class Controller : MonoBehaviour
         accordion.transform.position = trackedImage.transform.position;
         accordion.transform.rotation = trackedImage.transform.rotation;
         accordion.transform.localScale = new Vector3(this.trackedImage.size.x * 0.1f, 0.1f, this.trackedImage.size.y * 0.1f);
-
-        ShowReferenceImage(trackedImage);
     }
 
     private void UpdateTrackedImage(ARTrackedImage trackedImage)
@@ -120,21 +112,8 @@ public class Controller : MonoBehaviour
 
             debugView.UpdateTrackingInformation(trackedImage, arCamera, accordion);
         } else {
-            HideReferenceImage(trackedImage);
+            accordion.gameObject.SetActive(false);
         }
-    }
-
-    private void ShowReferenceImage(ARTrackedImage trackedImage)
-    {
-        referenceImagePlane.SetActive(true);
-
-        var material = referenceImagePlane.GetComponentInChildren<MeshRenderer>().material;
-        material.mainTexture = trackedImage.referenceImage.texture;
-    }
-
-    private void HideReferenceImage(ARTrackedImage trackedImage)
-    {
-        referenceImagePlane.SetActive(false);
     }
 
     void ReadJson()
@@ -201,17 +180,10 @@ public class Controller : MonoBehaviour
 
     public void OnUpdateRotationWheel(float value)
     {
-        // Debug.Log("Rotation wheel value: " + value);
-
         toggleButton.SetActive(value > 0);
-        showReferenceImage = value == 0;
-
-        if (referenceImagePlane) {
-            // todo: disable accordion content/tiles when value is 0
-            referenceImagePlane.SetActive(value == 0);
-        }
-
         accordion.UpdateStep(value);
         debugView.UpdateStep(value);
+
+        fxCamera.GetComponent<PostProcessLayer>().enabled = value > 0;
     }
 }

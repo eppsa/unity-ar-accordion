@@ -2,7 +2,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using Model;
-using System;
 
 public class Accordion : MonoBehaviour
 {
@@ -13,6 +12,8 @@ public class Accordion : MonoBehaviour
     [Header("Layer")] [SerializeField] private GameObject[] tiles;
 
     [SerializeField] private GameObject background;
+    [SerializeField] private GameObject original;
+    [SerializeField] private GameObject components;
 
     [SerializeField] private float speed = 5.0f;
     [SerializeField] private float distanceFactor = 0.5f;
@@ -35,7 +36,6 @@ public class Accordion : MonoBehaviour
 
     private Content content;
 
-
     void Start()
     {
         infoPopUp.GetComponent<Canvas>().worldCamera = Camera.main;
@@ -48,6 +48,10 @@ public class Accordion : MonoBehaviour
 
     void LateUpdate()
     {
+        original.SetActive(step == 0);
+        background.SetActive(step > 0);
+        components.SetActive(step > 0);
+
         if (tilesOrigins != null) {
             UpdatePositions();
         }
@@ -118,8 +122,6 @@ public class Accordion : MonoBehaviour
             if (step % 1 == 0) {
                 UpdateLayerUI();
             }
-
-            background.SetActive(true);
         } else {
             if (infoPopUp.isActiveAndEnabled) {
                 infoPopUp.Hide();
@@ -128,8 +130,6 @@ public class Accordion : MonoBehaviour
             if (quiz.isActiveAndEnabled) {
                 quiz.transform.gameObject.SetActive(false);
             }
-
-            background.SetActive(false);
         }
 
         Highlight();
