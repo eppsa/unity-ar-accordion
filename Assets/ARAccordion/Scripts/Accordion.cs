@@ -41,6 +41,7 @@ public class Accordion : MonoBehaviour
 
     void Start()
     {
+        infoPopUp.gameObject.SetActive(true);
         infoPopUp.GetComponent<Canvas>().worldCamera = Camera.main;
         infoPopUp.SetFadeDuration(0.5f);
 
@@ -53,7 +54,6 @@ public class Accordion : MonoBehaviour
     {
         original.SetActive(step == 0);
         background.SetActive(step > 0);
-        components.SetActive(step > 0);
 
         if (tilesOrigins != null) {
             UpdatePositions();
@@ -66,10 +66,6 @@ public class Accordion : MonoBehaviour
             GameObject tile = tiles[i];
 
             float distance = GetDistance(step, i);
-
-            if (i == 7) {
-                Debug.Log("Distance: " + distance);
-            }
 
             if (towardsCamera) {
                 moveTowardsCamera(tile, tilesOrigins[i], distance);
@@ -140,15 +136,12 @@ public class Accordion : MonoBehaviour
 
     private void UpdateLayerUI()
     {
-        if (step == 0.0f) {
-            return;
-        }
-
-        GameObject activeTile = tiles[tiles.Length - Mathf.CeilToInt(step)];
+        int layer = tiles.Length - Mathf.CeilToInt(step);
+        GameObject activeTile = tiles[layer];
 
         if (infoPopUp.isActiveAndEnabled) {
             infoPopUp.SetAnchor(activeTile.transform.Find("TagAnchor"));
-            infoPopUp.Show(tiles.Length - Mathf.CeilToInt(step));
+            infoPopUp.Show(content.accordion.layers[layer].information);
         }
 
         if (quiz.isActiveAndEnabled) {
@@ -225,8 +218,8 @@ public class Accordion : MonoBehaviour
 
     internal void ShowQuiz(bool show)
     {
-        this.quiz.transform.gameObject.SetActive(show);
-        this.infoPopUp.transform.gameObject.SetActive(!show);
+        this.quiz.gameObject.SetActive(show);
+        this.infoPopUp.gameObject.SetActive(!show);
 
         UpdateStep(this.step);
     }
@@ -234,7 +227,6 @@ public class Accordion : MonoBehaviour
     internal void SetContent(Content content)
     {
         this.content = content;
-        infoPopUp.SetContent(content);
         quiz.SetContent(content.accordion.layers[0].quiz);
     }
 }

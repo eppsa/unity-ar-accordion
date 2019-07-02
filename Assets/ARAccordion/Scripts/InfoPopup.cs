@@ -13,7 +13,7 @@ public class InfoPopup : MonoBehaviour
     [SerializeField] private GameObject image;
     [SerializeField] private Text text;
 
-    Content content;
+    string content;
 
     private int layer = 0;
     private Transform anchor;
@@ -25,11 +25,12 @@ public class InfoPopup : MonoBehaviour
         GetComponent<CanvasGroup>().alpha = 0.0f;
     }
 
-    public void Show(int layer)
+    public void Show(string content)
     {
-        this.layer = layer;
+        this.content = content;
 
         StartCoroutine(DoShow());
+        DoShow();
     }
 
     private IEnumerator DoShow()
@@ -66,8 +67,7 @@ public class InfoPopup : MonoBehaviour
             if (progress <= 1.0f) {
                 GetComponent<CanvasGroup>().alpha = Mathf.Lerp(fadeFrom, fadeTo, progress);
                 yield return new WaitForEndOfFrame();
-            }
-            else {
+            } else {
                 this.GetComponent<CanvasGroup>().alpha = fadeTo;
                 fadeRunning = false;
                 yield break;
@@ -79,13 +79,8 @@ public class InfoPopup : MonoBehaviour
     {
         transform.position = this.anchor.transform.position;
         transform.SetParent(this.anchor.transform);
-        text.text = content.accordion.layers[layer].information;
+        text.text = content;
         image.GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/icon" + layer);
-    }
-
-    public void SetContent(Content content)
-    {
-        this.content = content;
     }
 
     public void SetAnchor(Transform anchor)
@@ -96,5 +91,10 @@ public class InfoPopup : MonoBehaviour
     public void SetFadeDuration(float duration)
     {
         this.duration = duration;
+    }
+
+    void OnDisable()
+    {
+        fadeRunning = false;
     }
 }
