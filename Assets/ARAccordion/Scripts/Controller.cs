@@ -19,8 +19,9 @@ public class Controller : MonoBehaviour
     [SerializeField] private Camera fxCamera;
     [SerializeField] private Accordion accordion;
     [SerializeField] private RotationWheel rotationWheel;
+    [SerializeField] private ARSession arSession;
 
-    [SerializeField] private float smoothTime = 10.0f;
+    [SerializeField] private float smoothTime;
 
     private ARTrackedImage trackedImage;
 
@@ -35,6 +36,8 @@ public class Controller : MonoBehaviour
 
     void OnEnable()
     {
+        trackedImageManager.enabled = true;
+
         arCamera.GetComponent<UnityEngine.XR.ARFoundation.ARCameraManager>().focusMode = CameraFocusMode.Fixed;
 
         maxDistance = accordion.transform.Find("Components").childCount;
@@ -66,13 +69,9 @@ public class Controller : MonoBehaviour
         debugView.UpdateSmoothTime(smoothTime);
         debugView.UpdateAxes(axes.activeInHierarchy);
         debugView.UpdateXRUpdateType((int)arCamera.GetComponent<TrackedPoseDriver>().updateType);
+        debugView.UpdateAccordionExponent(accordion.Exponent);
 
         fxCamera.GetComponent<PostProcessLayer>().enabled = false;
-    }
-
-    void OnDisable()
-    {
-        trackedImageManager.trackedImagesChanged -= OnTrackedImagesChanged;
     }
 
     void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs eventArgs)
@@ -102,14 +101,28 @@ public class Controller : MonoBehaviour
 
         accordion.transform.position = trackedImage.transform.position;
         accordion.transform.rotation = trackedImage.transform.rotation;
-        accordion.transform.localScale = new Vector3(this.trackedImage.size.x * 0.1f, 0.1f, this.trackedImage.size.y * 0.1f);
+        accordion.transform.localScale = new Vector3(this.trackedImage.size.x * 0.1f, 0.00001f, this.trackedImage.size.y * 0.1f);
+
+        // Invoke("StopTracking", 5);
+    }
+
+    void OnDisable()
+    {
+        StopTracking();
+    }
+
+    void StopTracking()
+    {
+        if (trackedImageManager) {
+            trackedImageManager.trackedImagesChanged -= OnTrackedImagesChanged;
+            trackedImageManager.enabled = false;
+        }
     }
 
     private void UpdateTrackedImage(ARTrackedImage trackedImage)
     {
         if (trackedImage.trackingState != TrackingState.None) {
             this.trackedImage = trackedImage;
-
             debugView.UpdateTrackingInformation(trackedImage, arCamera, accordion);
         } else {
             accordion.gameObject.SetActive(false);
@@ -140,10 +153,6 @@ public class Controller : MonoBehaviour
         if (accordion) {
             accordion.SetMoveTowardsCamera(active);
         }
-    }
-
-    public void OnShowReferenceImage(bool show)
-    {
     }
 
     public void OnToggleQuiz()
@@ -185,5 +194,11 @@ public class Controller : MonoBehaviour
         debugView.UpdateStep(value);
 
         fxCamera.GetComponent<PostProcessLayer>().enabled = value > 0;
+    }
+
+    public void OnAccordionExponentChange(float exponent)
+    {
+        accordion.Exponent = exponent;
+        debugView.UpdateAccordionExponent(exponent);
     }
 }

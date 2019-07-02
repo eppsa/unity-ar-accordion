@@ -15,6 +15,8 @@ public class DebugView : MonoBehaviour
     [SerializeField] Text focalLengthValue;
     [SerializeField] Slider smoothTimeSlider;
     [SerializeField] Text smoothTimeValue;
+    [SerializeField] Slider exponentSlider;
+    [SerializeField] Text exponentValue;
 
     [SerializeField] Toggle axes;
     [SerializeField] Toggle dof;
@@ -66,6 +68,12 @@ public class DebugView : MonoBehaviour
 
         focalLengthSlider.value = focalLength;
         focalLengthValue.text = string.Format("Focal Length {0}", focalLength);
+    }
+
+    internal void UpdateAccordionExponent(float exponent)
+    {
+        exponentSlider.value = exponent;
+        exponentValue.text = string.Format("Accordion Exponent {0}", exponent);
     }
 
     internal void UpdateDOF(bool enabled)

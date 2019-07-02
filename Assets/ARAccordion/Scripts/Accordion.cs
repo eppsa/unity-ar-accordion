@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using Model;
+using System;
 
 public class Accordion : MonoBehaviour
 {
@@ -35,6 +36,8 @@ public class Accordion : MonoBehaviour
     private Vector3[] tilesOrigins;
 
     private Content content;
+
+    public float Exponent { get => exponent; set => exponent = value; }
 
     void Start()
     {
@@ -182,8 +185,6 @@ public class Accordion : MonoBehaviour
 
     private IEnumerator Fade(float fadeFrom, float fadeTo, float duration, Material material)
     {
-        // fadeRunning = true;
-
         float startTime = Time.time;
         float currentDuration = 0.0f;
         float progress = 0.0f;
@@ -199,7 +200,6 @@ public class Accordion : MonoBehaviour
                 yield return new WaitForEndOfFrame();
             } else {
                 material.SetColor("_Color", new Color(color.r, color.g, color.b, fadeTo));
-                // fadeRunning = false;
                 yield break;
             }
         }
