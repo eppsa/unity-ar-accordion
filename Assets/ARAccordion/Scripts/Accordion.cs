@@ -33,7 +33,7 @@ public class Accordion : MonoBehaviour
 
     private Vector3 initialCameraPosition;
     private Vector3 activeTilePosition;
-    private Vector3[] tilesOrigins;
+    private Vector3[] origins;
 
     private Content content;
 
@@ -45,8 +45,6 @@ public class Accordion : MonoBehaviour
         infoPopUp.GetComponent<Canvas>().worldCamera = Camera.main;
         infoPopUp.SetFadeDuration(0.5f);
 
-        quiz.GetComponent<Canvas>().worldCamera = Camera.main;
-
         background.SetActive(false);
     }
 
@@ -54,9 +52,22 @@ public class Accordion : MonoBehaviour
     {
         original.SetActive(step == 0);
         background.SetActive(step > 0);
+        components.SetActive(true);
 
-        if (tilesOrigins != null) {
+        if (step == 0) {
+            SetOriginPositions();
+        } else if (origins != null) {
             UpdatePositions();
+        }
+    }
+
+    private void SetOriginPositions()
+    {
+        for (int i = 0; i < tiles.Length; i++) {
+            GameObject tile = tiles[i];
+
+            tile.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            tile.transform.position = origins[i];
         }
     }
 
@@ -68,9 +79,9 @@ public class Accordion : MonoBehaviour
             float distance = GetDistance(step, i);
 
             if (towardsCamera) {
-                moveTowardsCamera(tile, tilesOrigins[i], distance);
+                moveTowardsCamera(tile, origins[i], distance);
             } else {
-                moveFromOrigin(tile, tilesOrigins[i], distance);
+                moveFromOrigin(tile, origins[i], distance);
             }
         }
 
@@ -200,10 +211,10 @@ public class Accordion : MonoBehaviour
 
     private void SaveOrigins()
     {
-        tilesOrigins = new Vector3[tiles.Length];
+        origins = new Vector3[tiles.Length];
         for (int i = 0; i < tiles.Length; i++) {
             GameObject tile = tiles[i];
-            tilesOrigins[i] = new Vector3(tile.transform.position.x, tile.transform.position.y, tile.transform.position.z);
+            origins[i] = new Vector3(tile.transform.position.x, tile.transform.position.y, tile.transform.position.z);
         }
 
         if (initialCameraPosition == null) {

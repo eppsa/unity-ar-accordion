@@ -31,6 +31,7 @@ public class Controller : MonoBehaviour
 
     private bool quizActive;
     private bool showReferenceImage = true;
+    private bool dofEnabled = true;
 
     private Vector3 velocity = Vector3.zero;
 
@@ -70,6 +71,7 @@ public class Controller : MonoBehaviour
         debugView.UpdateAxes(axes.activeInHierarchy);
         debugView.UpdateXRUpdateType((int)arCamera.GetComponent<TrackedPoseDriver>().updateType);
         debugView.UpdateAccordionExponent(accordion.Exponent);
+        debugView.UpdateDOF(enabled);
 
         fxCamera.GetComponent<PostProcessLayer>().enabled = false;
     }
@@ -101,7 +103,7 @@ public class Controller : MonoBehaviour
 
         accordion.transform.position = trackedImage.transform.position;
         accordion.transform.rotation = trackedImage.transform.rotation;
-        accordion.transform.localScale = new Vector3(this.trackedImage.size.y, 0.00001f, this.trackedImage.size.y); //2.739377
+        accordion.transform.localScale = new Vector3(this.trackedImage.size.y, 1f, this.trackedImage.size.y); //2.739377
 
         // Invoke("StopTracking", 5);
     }
@@ -144,7 +146,6 @@ public class Controller : MonoBehaviour
 
             axes.transform.position = Vector3.SmoothDamp(axes.transform.position, this.trackedImage.transform.position, ref velocity, smoothTime);
             axes.transform.rotation = Quaternion.RotateTowards(axes.transform.rotation, this.trackedImage.transform.rotation, smoothTime);
-            axes.transform.localScale = new Vector3(this.trackedImage.size.y * 0.5f, this.trackedImage.size.y * 0.5f, this.trackedImage.size.y * 0.5f);
         }
     }
 
@@ -193,12 +194,20 @@ public class Controller : MonoBehaviour
         accordion.UpdateStep(value);
         debugView.UpdateStep(value);
 
-        fxCamera.GetComponent<PostProcessLayer>().enabled = value > 0;
+        if (dofEnabled) {
+            fxCamera.GetComponent<PostProcessLayer>().enabled = value > 0;
+        }
     }
 
     public void OnAccordionExponentChange(float exponent)
     {
         accordion.Exponent = exponent;
         debugView.UpdateAccordionExponent(exponent);
+    }
+
+    public void OnEnableDof(bool enable)
+    {
+        dofEnabled = enable;
+        fxCamera.GetComponent<PostProcessLayer>().enabled = enable;
     }
 }
