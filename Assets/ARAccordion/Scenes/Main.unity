@@ -3079,6 +3079,66 @@ PrefabInstance:
       propertyPath: distanceFactor
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 6182434938878985994, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6182434938842171348, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6182434939703038933, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3508879756033304940, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3508879755803929353, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3508879756849168704, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 726360825782734077, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8835360356396763921, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6182434938307319537, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3508879755602500754, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3508879756498083064, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3508879757383980440, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df41b1ea74d2742f6ae80d7632c10506, type: 3}
 --- !u!114 &961593272 stripped
@@ -5851,6 +5911,23 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1835427859661797169, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
+        type: 3}
+      propertyPath: wheelElementObject
+      value: 
+      objectReference: {fileID: 6134222849050149719, guid: 4860f7f0858914404962a59454a2ce47,
+        type: 3}
+    - target: {fileID: 1835427859661797169, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
+        type: 3}
+      propertyPath: wheelElementPrefab
+      value: 
+      objectReference: {fileID: 6134222849050149719, guid: 4860f7f0858914404962a59454a2ce47,
+        type: 3}
+    - target: {fileID: 1835427859661797169, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
+        type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 1737283999}
     - target: {fileID: 7155693989485210039, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5976,23 +6053,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1835427859661797169, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
-        type: 3}
-      propertyPath: wheelElementObject
-      value: 
-      objectReference: {fileID: 6134222849050149719, guid: 4860f7f0858914404962a59454a2ce47,
-        type: 3}
-    - target: {fileID: 1835427859661797169, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
-        type: 3}
-      propertyPath: wheelElementPrefab
-      value: 
-      objectReference: {fileID: 6134222849050149719, guid: 4860f7f0858914404962a59454a2ce47,
-        type: 3}
-    - target: {fileID: 1835427859661797169, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
-        type: 3}
-      propertyPath: controller
-      value: 
-      objectReference: {fileID: 1737283999}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca, type: 3}
 --- !u!224 &1641345768 stripped
@@ -6317,7 +6377,7 @@ MonoBehaviour:
   accordion: {fileID: 961593272}
   rotationWheel: {fileID: 1530501504}
   arSession: {fileID: 1338354116}
-  smoothTime: 1
+  smoothTime: 0.1
 --- !u!4 &1737284000
 Transform:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     [SerializeField] private GameObject dropArea;
 
     [SerializeField] private Text questionText;
-    
+
     [SerializeField] private Color rightColor = new Color(0, 200, 0);
     [SerializeField] private Color wrongColor = new Color(200, 0, 0);
     [SerializeField] private Color defaultColor = new Color(255, 255, 255);
@@ -40,20 +40,23 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         this.quiz = quiz;
         InitQuiz();
     }
-    
-    private void InitQuiz() {
+
+    private void InitQuiz()
+    {
         randomQuestions = GetRandomQuestions(maxQuestions);
         UpdateQuiz();
     }
 
-    private List<Question> GetRandomQuestions(int count) {
+    private List<Question> GetRandomQuestions(int count)
+    {
         var random = new System.Random();
         List<Question> randomQuestions = this.quiz.questions.OrderBy(question => random.Next()).ToList();
 
         return randomQuestions.GetRange(0, count);
     }
 
-    private void UpdateQuiz() {
+    private void UpdateQuiz()
+    {
         if (currentQuestionIndex < maxQuestions) {
             UpdateQuizContent();
         } else {
@@ -61,23 +64,23 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         }
     }
 
-    private void UpdateQuizContent() {
+    private void UpdateQuizContent()
+    {
         Question question = randomQuestions[currentQuestionIndex];
         questionText.text = question.questionText;
 
-        for (int i = 0; i < answerContainers.Length; i++)
-        {
+        for (int i = 0; i < answerContainers.Length; i++) {
             answerContainers[i].GetComponentInChildren<Text>().text = question.answers[i];
         }
     }
 
-    private void ShowResult() {
+    private void ShowResult()
+    {
         string resultText = string.Format(this.quiz.resultText, correctAnswers, maxQuestions);
         questionText.text = resultText;
 
         dropArea.SetActive(false);
-        foreach (GameObject answerContainer in answerContainers)
-        {
+        foreach (GameObject answerContainer in answerContainers) {
             answerContainer.SetActive(false);
         }
     }
@@ -94,8 +97,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
                 out worldPoint
             );
 
-            if (hit && !questionAnswered)
-            {
+            if (hit && !questionAnswered) {
                 activeDraggable.transform.position = worldPoint;
                 activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.4f);
             }
@@ -106,8 +108,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
                 dropArea.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
             }
         } else {
-            if (eventData.pointerEnter && eventData.pointerEnter.tag == "AnswerContainer")
-            {
+            if (eventData.pointerEnter && eventData.pointerEnter.tag == "AnswerContainer") {
                 activeDraggable = eventData.pointerEnter;
                 activeDraggableStartPosition = activeDraggable.transform.position;
 
@@ -122,8 +123,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
             return;
         }
 
-        if (eventData.pointerEnter.gameObject == dropArea)
-        {
+        if (eventData.pointerEnter.gameObject == dropArea) {
             dropArea.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
             activeDraggable.transform.position = eventData.pointerEnter.transform.position;
             activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.2f);
@@ -131,9 +131,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
             questionAnswered = true;
 
             CheckAnswer();
-        }
-        else 
-        {
+        } else {
             activeDraggable.transform.position = activeDraggableStartPosition;
             activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.2f);
             activeDraggable.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
@@ -147,15 +145,12 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         int correctAnswerId = randomQuestions[currentQuestionIndex].correctAnswerId;
         int draggableIndex = Array.IndexOf(answerContainers, activeDraggable);
 
-        if (draggableIndex == correctAnswerId)
-        {
+        if (draggableIndex == correctAnswerId) {
             Debug.Log("Right");
             correctAnswers++;
             activeDraggable.GetComponent<Image>().color = rightColor;
             Invoke("Reset", nextQuestionDelay);
-        }
-        else
-        {
+        } else {
             Debug.Log("Wrong");
             activeDraggable.GetComponent<Image>().color = wrongColor;
             Invoke("Reset", nextQuestionDelay);
