@@ -11,7 +11,7 @@ public class InfoPopup : MonoBehaviour
 
     string content;
 
-    private int layer = 0;
+    private string iconPath;
     private Transform anchor;
 
     bool fadeRunning = false;
@@ -21,9 +21,10 @@ public class InfoPopup : MonoBehaviour
         GetComponent<CanvasGroup>().alpha = 0.0f;
     }
 
-    public void Show(string content)
+    public void Show(string content, string iconPath)
     {
         this.content = content;
+        this.iconPath = iconPath;
 
         StartCoroutine(DoShow());
         DoShow();
@@ -76,7 +77,7 @@ public class InfoPopup : MonoBehaviour
         transform.position = this.anchor.transform.position;
         transform.SetParent(this.anchor.transform);
         text.text = content;
-        image.GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/icon" + layer);
+        image.GetComponent<Image>().sprite = Resources.Load<Sprite>(iconPath);
     }
 
     public void SetAnchor(Transform anchor)

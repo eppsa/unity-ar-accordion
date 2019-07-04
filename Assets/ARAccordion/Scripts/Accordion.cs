@@ -152,7 +152,7 @@ public class Accordion : MonoBehaviour
 
         if (infoPopUp.isActiveAndEnabled) {
             infoPopUp.SetAnchor(activeTile.transform.Find("TagAnchor"));
-            infoPopUp.Show(content.accordion.layers[layer].information);
+            infoPopUp.Show(content.accordion.layers[layer].information, "Images/icon" + layer);
         }
 
         if (quiz.isActiveAndEnabled) {
