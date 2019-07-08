@@ -138,7 +138,7 @@ public class Controller : MonoBehaviour
         content = JsonConvert.DeserializeObject<Content>(jsonString);
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (this.trackedImage != null) {
             accordion.transform.position = Vector3.SmoothDamp(accordion.transform.position, this.trackedImage.transform.position, ref velocity, smoothTime);
