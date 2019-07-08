@@ -52,7 +52,7 @@ public class Accordion : MonoBehaviour
     {
         original.SetActive(step == 0);
         background.SetActive(step > 0);
-        components.SetActive(true);
+        components.SetActive(step > 0);
 
         if (step == 0) {
             SetOriginPositions();
