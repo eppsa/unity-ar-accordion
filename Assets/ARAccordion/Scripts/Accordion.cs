@@ -104,13 +104,12 @@ public class Accordion : MonoBehaviour
 
     private float GetDistance(float step, int index)
     {
-        float weight = step < 1 ? step : 1;
-        return Mathf.Pow(step + index * weight, exponent) / Mathf.Pow(components.Length, exponent);
+        return Mathf.Pow(step + index, exponent) / Mathf.Pow(components.Length, exponent);
     }
 
     private void moveFromOrigin(GameObject component, float distance)
     {
-        float distanceToCamera = Vector3.Distance(this.initialCameraPosition, component.gameObject.transform.parent.transform.position);
+        float distanceToCamera = Mathf.Abs(Vector3.Distance(this.initialCameraPosition, component.gameObject.transform.parent.transform.position));
 
         Vector3 newPosition = -component.transform.forward * distance * distanceToCamera * distanceFactor;
 
