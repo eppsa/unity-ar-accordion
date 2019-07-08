@@ -10,11 +10,9 @@ public class Accordion : MonoBehaviour
 
     [SerializeField] private Quiz quiz;
 
-    [Header("Layer")] [SerializeField] private GameObject[] tiles;
-
     [SerializeField] private GameObject background;
     [SerializeField] private GameObject original;
-    [SerializeField] private GameObject components;
+    [SerializeField] private GameObject componentAnchors;
 
     [SerializeField] private float speed = 5.0f;
     [SerializeField] private float distanceFactor = 0.5f;
@@ -25,6 +23,8 @@ public class Accordion : MonoBehaviour
 
     [SerializeField] private bool towardsCamera = false;
 
+    private GameObject[] components;
+
     private float step = 0f;
 
     private bool savedOrigins = false;
@@ -33,11 +33,22 @@ public class Accordion : MonoBehaviour
 
     private Vector3 initialCameraPosition;
     private Vector3 activeTilePosition;
-    private Vector3[] origins;
 
     private Content content;
 
     public float Exponent { get => exponent; set => exponent = value; }
+
+    void OnEnable()
+    {
+        components = new GameObject[componentAnchors.transform.childCount];
+        for (int i = 0; i < componentAnchors.transform.childCount; i++) {
+            components[i] = componentAnchors.transform.GetChild(i).Find("Image").gameObject;
+        }
+
+        if (Application.isEditor) {
+            UpdateAnchors();
+        }
+    }
 
     void Start()
     {
@@ -52,41 +63,41 @@ public class Accordion : MonoBehaviour
     {
         original.SetActive(step == 0);
         background.SetActive(step > 0);
-        components.SetActive(step > 0);
+        componentAnchors.SetActive(step > 0);
 
         if (step == 0) {
             SetOriginPositions();
-        } else if (origins != null) {
-            UpdatePositions();
+        } else {
+            SetNewPositions();
         }
     }
 
     private void SetOriginPositions()
     {
-        for (int i = 0; i < tiles.Length; i++) {
-            GameObject tile = tiles[i];
+        for (int i = 0; i < components.Length; i++) {
+            GameObject tile = components[i];
 
             tile.transform.localRotation = Quaternion.Euler(0, 0, 0);
-            tile.transform.position = origins[i];
+            tile.transform.position = Vector3.zero;
         }
     }
 
-    private void UpdatePositions()
+    private void SetNewPositions()
     {
-        for (int i = 0; i < tiles.Length; i++) {
-            GameObject tile = tiles[i];
+        for (int i = 0; i < components.Length; i++) {
+            GameObject component = this.components[i];
 
             float distance = GetDistance(step, i);
 
             if (towardsCamera) {
-                moveTowardsCamera(tile, origins[i], distance);
+                moveTowardsCamera(component, component.gameObject.transform.parent.transform.position, distance);
             } else {
-                moveFromOrigin(tile, origins[i], distance);
+                moveFromOrigin(component, distance);
             }
         }
 
         if (step > 0) {
-            float focusDistance = Vector3.Distance(Camera.main.transform.position, tiles[tiles.Length - Mathf.CeilToInt(this.step)].transform.position);
+            float focusDistance = Vector3.Distance(Camera.main.transform.position, components[components.Length - Mathf.CeilToInt(this.step)].transform.position);
             Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(focusDistance);
         }
     }
@@ -94,17 +105,16 @@ public class Accordion : MonoBehaviour
     private float GetDistance(float step, int index)
     {
         float weight = step < 1 ? step : 1;
-        return Mathf.Pow(step + index * weight, exponent) / Mathf.Pow(tiles.Length, exponent);
+        return Mathf.Pow(step + index * weight, exponent) / Mathf.Pow(components.Length, exponent);
     }
 
-    private void moveFromOrigin(GameObject tile, Vector3 origin, float distance)
+    private void moveFromOrigin(GameObject component, float distance)
     {
-        float distanceToCamera = Vector3.Distance(this.initialCameraPosition, origin);
+        float distanceToCamera = Vector3.Distance(this.initialCameraPosition, component.gameObject.transform.parent.transform.position);
 
-        Vector3 newPosition = origin + (-tile.transform.forward * distance * distanceToCamera * distanceFactor);
+        Vector3 newPosition = -component.transform.forward * distance * distanceToCamera * distanceFactor;
 
-        tile.transform.localRotation = Quaternion.Euler(0, 0, 0);
-        tile.transform.position = newPosition;
+        component.transform.localPosition = newPosition;
     }
 
     private void moveTowardsCamera(GameObject tile, Vector3 origin, float distance)
@@ -122,11 +132,6 @@ public class Accordion : MonoBehaviour
     public void UpdateStep(float step)
     {
         this.step = step;
-
-        if (!savedOrigins) {
-            SaveOrigins();
-            savedOrigins = true;
-        }
 
         if (step > 0) {
             if (step % 1 == 0) {
@@ -147,8 +152,8 @@ public class Accordion : MonoBehaviour
 
     private void UpdateLayerUI()
     {
-        int layer = tiles.Length - Mathf.CeilToInt(step);
-        GameObject activeTile = tiles[layer];
+        int layer = components.Length - Mathf.CeilToInt(step);
+        GameObject activeTile = components[layer];
 
         if (infoPopUp.isActiveAndEnabled) {
             infoPopUp.SetAnchor(activeTile.transform.Find("TagAnchor"));
@@ -163,12 +168,12 @@ public class Accordion : MonoBehaviour
 
     private void Highlight()
     {
-        int activeTileIndex = tiles.Length - Mathf.CeilToInt(step);
+        int activeTileIndex = components.Length - Mathf.CeilToInt(step);
 
         float distanceOfActiveTile = GetDistance(step, activeTileIndex);
 
-        for (int i = 0; i < tiles.Length; i++) {
-            GameObject tile = tiles[i];
+        for (int i = 0; i < components.Length; i++) {
+            GameObject tile = components[i];
             Color color = tile.GetComponent<Renderer>().material.GetColor("_Color");
 
             if (i == activeTileIndex) {
@@ -209,14 +214,8 @@ public class Accordion : MonoBehaviour
         }
     }
 
-    private void SaveOrigins()
+    public void UpdateAnchors()
     {
-        origins = new Vector3[tiles.Length];
-        for (int i = 0; i < tiles.Length; i++) {
-            GameObject tile = tiles[i];
-            origins[i] = new Vector3(tile.transform.position.x, tile.transform.position.y, tile.transform.position.z);
-        }
-
         if (initialCameraPosition == null) {
             this.initialCameraPosition = Camera.main.transform.position;
         }

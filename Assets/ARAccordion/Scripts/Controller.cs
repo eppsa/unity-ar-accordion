@@ -41,7 +41,7 @@ public class Controller : MonoBehaviour
 
         arCamera.GetComponent<UnityEngine.XR.ARFoundation.ARCameraManager>().focusMode = CameraFocusMode.Fixed;
 
-        maxDistance = accordion.transform.Find("Components").childCount;
+        maxDistance = accordion.transform.Find("ComponentAnchors").childCount;
 
         rotationWheel.Init(maxDistance);
 
@@ -125,6 +125,7 @@ public class Controller : MonoBehaviour
     {
         if (trackedImage.trackingState != TrackingState.None) {
             this.trackedImage = trackedImage;
+
             debugView.UpdateTrackingInformation(trackedImage, arCamera, accordion);
         } else {
             accordion.gameObject.SetActive(false);
