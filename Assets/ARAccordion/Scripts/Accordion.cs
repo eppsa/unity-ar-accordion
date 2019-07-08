@@ -113,7 +113,6 @@ public class Accordion : MonoBehaviour
 
         float distanceToCamera = Mathf.Abs(Vector3.Distance(this.initialCameraPosition, origin));
 
-
         Vector3 newLocalPosition = new Vector3(0, 0, -1) * stepDistance * distanceToCamera * distanceFactor;
 
         component.transform.localPosition = newLocalPosition;
@@ -129,8 +128,13 @@ public class Accordion : MonoBehaviour
 
         component.transform.position = newPosition;
 
-        Vector3 newDirection = Vector3.RotateTowards(component.transform.forward, Camera.main.transform.forward, speed * 0.5f * Time.deltaTime, 0.0f);
-        component.transform.rotation = Quaternion.LookRotation(newDirection, Camera.main.transform.up);
+        if (Vector3.Distance(component.transform.position, origin) > 0.1f) {
+            Vector3 newDirection = Vector3.RotateTowards(component.transform.forward, Camera.main.transform.forward, speed * 0.001f * Time.deltaTime, 0.0f);
+            component.transform.rotation = Quaternion.LookRotation(newDirection, Camera.main.transform.up);
+        } else {
+            Vector3 newDirection = Vector3.RotateTowards(component.transform.forward, component.gameObject.transform.parent.transform.forward, speed * 0.01f * Time.deltaTime, 0.0f);
+            component.transform.rotation = Quaternion.LookRotation(newDirection, Camera.main.transform.up);
+        }
     }
 
     public void UpdateStep(float step)
