@@ -111,7 +111,7 @@ public class Accordion : MonoBehaviour
     {
         float distanceToCamera = Mathf.Abs(Vector3.Distance(this.initialCameraPosition, component.gameObject.transform.parent.transform.position));
 
-        Vector3 newPosition = -component.transform.forward * distance * distanceToCamera * distanceFactor;
+        Vector3 newPosition = new Vector3(0, 0, -1) * distance * distanceToCamera * distanceFactor;
 
         component.transform.localPosition = newPosition;
     }
