@@ -61,7 +61,7 @@ public class Controller : MonoBehaviour
             trackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
 
             postFx.UpdateAperture(1.0f);
-            postFx.UpdateFocalLength(75.0f);
+            postFx.UpdateFocalLength(42.0f);
 
             // postFx.UpdateAperture(32.0f); // Desktop Image 
             // postFx.UpdateFocalLength(140.0f); // Desktop Image
