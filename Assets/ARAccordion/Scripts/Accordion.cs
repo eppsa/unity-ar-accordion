@@ -15,13 +15,13 @@ public class Accordion : MonoBehaviour
     [SerializeField] private GameObject componentAnchors;
 
     [SerializeField] private float speed = 5.0f;
-    [SerializeField] private float distanceFactor = 0.5f;
+    private float distanceFactor = 0.5f;
     [SerializeField] private float exponent = 1;
 
     [SerializeField] private Material defaultSpriteMaterial;
     [SerializeField] private Material dofSpriteMaterial;
 
-    [SerializeField] private bool towardsCamera = false;
+    private bool towardsCamera = false;
 
     private GameObject[] components;
 
@@ -90,7 +90,7 @@ public class Accordion : MonoBehaviour
             float distance = GetDistance(step, i);
 
             if (towardsCamera) {
-                moveTowardsCamera(component, component.gameObject.transform.parent.transform.position, distance);
+                moveTowardsCamera(component, distance);
             } else {
                 moveFromOrigin(component, distance);
             }
@@ -107,25 +107,30 @@ public class Accordion : MonoBehaviour
         return Mathf.Pow(step + index, exponent) / Mathf.Pow(components.Length, exponent);
     }
 
-    private void moveFromOrigin(GameObject component, float distance)
+    private void moveFromOrigin(GameObject component, float stepDistance)
     {
-        float distanceToCamera = Mathf.Abs(Vector3.Distance(this.initialCameraPosition, component.gameObject.transform.parent.transform.position));
+        Vector3 origin = component.gameObject.transform.parent.transform.position;
 
-        Vector3 newPosition = new Vector3(0, 0, -1) * distance * distanceToCamera * distanceFactor;
+        float distanceToCamera = Mathf.Abs(Vector3.Distance(this.initialCameraPosition, origin));
 
-        component.transform.localPosition = newPosition;
+
+        Vector3 newLocalPosition = new Vector3(0, 0, -1) * stepDistance * distanceToCamera * distanceFactor;
+
+        component.transform.localPosition = newLocalPosition;
     }
 
-    private void moveTowardsCamera(GameObject tile, Vector3 origin, float distance)
+    private void moveTowardsCamera(GameObject component, float stepDistance)
     {
-        float distanceToCamera = Vector3.Distance(Camera.main.transform.position, origin);
+        Vector3 origin = component.gameObject.transform.parent.transform.position;
 
-        Vector3 targetPosition = Camera.main.transform.position + Camera.main.transform.forward * distanceFactor * distanceToCamera;
-        Vector3 newPosition = origin + ((targetPosition - origin) * distance);
-        tile.transform.position = Vector3.MoveTowards(tile.transform.position, newPosition, speed * Time.deltaTime);
+        Vector3 distanceVector = Camera.main.transform.position - origin;
 
-        Vector3 newDirection = Vector3.RotateTowards(tile.transform.forward, Camera.main.transform.forward, speed * 0.5f * Time.deltaTime, 0.0f);
-        tile.transform.rotation = Quaternion.LookRotation(newDirection, Camera.main.transform.up);
+        Vector3 newPosition = origin + distanceVector * distanceFactor * stepDistance;
+
+        component.transform.position = newPosition;
+
+        Vector3 newDirection = Vector3.RotateTowards(component.transform.forward, Camera.main.transform.forward, speed * 0.5f * Time.deltaTime, 0.0f);
+        component.transform.rotation = Quaternion.LookRotation(newDirection, Camera.main.transform.up);
     }
 
     public void UpdateStep(float step)
@@ -161,6 +166,7 @@ public class Accordion : MonoBehaviour
 
         if (quiz.isActiveAndEnabled) {
             quiz.transform.position = activeTile.transform.Find("TagAnchor").transform.position;
+            quiz.transform.rotation = activeTile.transform.Find("TagAnchor").transform.rotation;
             quiz.transform.SetParent(activeTile.transform.Find("TagAnchor").transform);
         }
     }

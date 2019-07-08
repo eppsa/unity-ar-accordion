@@ -75,6 +75,7 @@ public class InfoPopup : MonoBehaviour
     private void UpdateInformation()
     {
         transform.position = this.anchor.transform.position;
+        transform.rotation = this.anchor.transform.rotation;
         transform.SetParent(this.anchor.transform);
         text.text = content;
         image.GetComponent<Image>().sprite = Resources.Load<Sprite>(iconPath);
