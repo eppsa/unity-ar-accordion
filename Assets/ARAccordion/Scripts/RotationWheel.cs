@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class RotationWheel : MonoBehaviour, IDragHandler, IDropHandler
+public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
 {
     [SerializeField] private GameObject wheelContainer;
     [SerializeField] private GameObject wheelElementPrefab;
@@ -61,7 +61,7 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IDropHandler
         );
     }
 
-    void IDropHandler.OnDrop(PointerEventData eventData)
+    void IEndDragHandler.OnEndDrag(PointerEventData eventData)
     {
         float newLocalY = Mathf.Max(Mathf.Min(wheelContainer.transform.localPosition.y + eventData.delta.y, maxY), 0);
 
