@@ -165,7 +165,14 @@ public class Controller : MonoBehaviour
         quizActive = !quizActive;
         accordion.ShowQuiz(quizActive);
 
-        toggleButton.GetComponentInChildren<Text>().text = quizActive ? "Accordion" : "Quiz";
+        if (quizActive) {
+            toggleButton.transform.GetChild(0).transform.gameObject.SetActive(false);
+            toggleButton.transform.GetChild(1).transform.gameObject.SetActive(true);
+        } else {
+            toggleButton.transform.GetChild(0).transform.gameObject.SetActive(true);
+            toggleButton.transform.GetChild(1).transform.gameObject.SetActive(false);
+        }
+
     }
 
     public void OnEnableDofDebugging(bool enable)
