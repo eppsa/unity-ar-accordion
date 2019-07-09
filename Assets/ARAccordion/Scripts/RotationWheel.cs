@@ -10,12 +10,43 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IDropHandler
     private float minY;
     private float maxY;
 
-    private int maxSteps = 3;
+    private int maxSteps;
     private Vector3 nextStepLocalPosition;
     private float wheelElementHeight;
     private bool dragging = false;
 
     private float value;
+
+    internal void Init(int maxSteps)
+    {
+        this.maxSteps = maxSteps;
+
+        for (int i = 0; i <= maxSteps; i++) {
+            GameObject wheelElement = Instantiate(wheelElementPrefab);
+            wheelElement.transform.SetParent(wheelContainer.transform, false);
+
+            wheelElement.name = "WheelElement" + i;
+        }
+
+        wheelElementHeight = wheelElementPrefab.GetComponent<RectTransform>().sizeDelta.y;
+        maxY = wheelElementHeight * maxSteps;
+
+        nextStepLocalPosition = wheelContainer.transform.localPosition;
+    }
+
+    void Update()
+    {
+        if (!dragging) {
+            wheelContainer.transform.localPosition = Vector3.MoveTowards(wheelContainer.transform.localPosition, nextStepLocalPosition, Time.deltaTime * 200f);
+        }
+
+        float newValue = wheelContainer.transform.localPosition.y / wheelElementHeight; // newValue: [0..maxsteps]
+
+        if (newValue != this.value) {
+            controller.OnUpdateRotationWheel(newValue);
+            this.value = newValue;
+        }
+    }
 
     void IDragHandler.OnDrag(PointerEventData eventData)
     {
@@ -43,39 +74,5 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IDropHandler
         );
 
         dragging = false;
-    }
-
-    void Start()
-    {
-        nextStepLocalPosition = wheelContainer.transform.localPosition;
-        wheelElementHeight = wheelElementPrefab.GetComponent<RectTransform>().sizeDelta.y;
-    }
-
-    void Update()
-    {
-        if (!dragging) {
-            wheelContainer.transform.localPosition = Vector3.MoveTowards(wheelContainer.transform.localPosition, nextStepLocalPosition, Time.deltaTime * 200f);
-        }
-
-        float newValue = wheelContainer.transform.localPosition.y / wheelElementHeight;
-
-        if (newValue != this.value) {
-            controller.OnUpdateRotationWheel(newValue);
-            this.value = newValue;
-        }
-    }
-
-    internal void Init(int maxSteps)
-    {
-        this.maxSteps = maxSteps;
-
-        for (int i = 0; i <= maxSteps; i++) {
-            GameObject wheelElement = Instantiate(wheelElementPrefab);
-            wheelElement.transform.SetParent(wheelContainer.transform, false);
-
-            wheelElement.name = "WheelElement" + i;
-        }
-
-        maxY = wheelElementPrefab.GetComponent<RectTransform>().sizeDelta.y * maxSteps;
     }
 }
