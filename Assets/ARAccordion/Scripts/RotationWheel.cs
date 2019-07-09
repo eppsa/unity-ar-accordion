@@ -15,7 +15,7 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
     private float wheelElementHeight;
     private bool dragging = false;
 
-    private float value;
+    private float step;
 
     internal void Init(int maxSteps)
     {
@@ -40,11 +40,11 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
             wheelContainer.transform.localPosition = Vector3.MoveTowards(wheelContainer.transform.localPosition, nextStepLocalPosition, Time.deltaTime * 200f);
         }
 
-        float newValue = wheelContainer.transform.localPosition.y / wheelElementHeight; // newValue: [0..maxsteps]
+        float step = wheelContainer.transform.localPosition.y / wheelElementHeight;
 
-        if (newValue != this.value) {
-            controller.OnUpdateRotationWheel(newValue);
-            this.value = newValue;
+        if (step != this.step) {
+            controller.OnUpdateRotationWheel(step);
+            this.step = step;
         }
     }
 
