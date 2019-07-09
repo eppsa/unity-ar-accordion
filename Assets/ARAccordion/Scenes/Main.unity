@@ -688,7 +688,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dea56a9eaadd1c439095de4f9a371cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ReferenceLibrary: {fileID: 11400000, guid: 6440874f71ed24471934fe8fba893552, type: 2}
+  m_ReferenceLibrary: {fileID: 11400000, guid: a78855bff29b94eb7855419369b1a2c6, type: 2}
   m_MaxNumberOfMovingImages: 1
   m_TrackedImagePrefab: {fileID: 334245234023292731, guid: 6b449fbf66fc34d00a391441da4cb551,
     type: 3}
@@ -1863,7 +1863,7 @@ PrefabInstance:
     - target: {fileID: 942288331927368040, guid: c4bc114b55a8c4defbde411c264a5ec2,
         type: 3}
       propertyPath: m_IsOn
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 942288332533335755, guid: c4bc114b55a8c4defbde411c264a5ec2,
         type: 3}

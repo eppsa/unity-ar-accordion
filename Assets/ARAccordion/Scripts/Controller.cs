@@ -53,18 +53,18 @@ public class Controller : MonoBehaviour
         if (Application.isEditor) {
             accordion.gameObject.SetActive(true);
 
-            postFx.UpdateAperture(0.1f);
-            postFx.UpdateFocalLength(150.0f);
+            postFx.UpdateAperture(4f);
+            postFx.UpdateFocalLength(80.0f);
         } else {
             accordion.gameObject.SetActive(false);
 
             trackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
 
-            postFx.UpdateAperture(1.0f);
-            postFx.UpdateFocalLength(42.0f);
+            // postFx.UpdateAperture(1.0f); // Original Image 
+            // postFx.UpdateFocalLength(42.0f); // Original Image 
 
-            // postFx.UpdateAperture(32.0f); // Desktop Image 
-            // postFx.UpdateFocalLength(140.0f); // Desktop Image
+            postFx.UpdateAperture(32.0f); // Desktop Image 
+            postFx.UpdateFocalLength(140.0f); // Desktop Image
         }
 
         toggleButton.SetActive(false);
