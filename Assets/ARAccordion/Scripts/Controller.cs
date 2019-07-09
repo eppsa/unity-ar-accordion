@@ -15,7 +15,7 @@ public class Controller : MonoBehaviour
     [SerializeField] private GameObject axes;
     [SerializeField] private Camera arCamera;
     [SerializeField] private DebugView debugView;
-    [SerializeField] private GameObject toggleButton;
+    [SerializeField] private ToggleButton toggleButton;
     [SerializeField] private Camera fxCamera;
     [SerializeField] private Accordion accordion;
     [SerializeField] private RotationWheel rotationWheel;
@@ -67,7 +67,7 @@ public class Controller : MonoBehaviour
             postFx.UpdateFocalLength(140.0f); // Desktop Image
         }
 
-        toggleButton.SetActive(false);
+        toggleButton.gameObject.SetActive(false);
 
         debugView.gameObject.SetActive(false);
         debugView.UpdateSmoothTime(smoothTime);
@@ -164,15 +164,7 @@ public class Controller : MonoBehaviour
     {
         quizActive = !quizActive;
         accordion.ShowQuiz(quizActive);
-
-        if (quizActive) {
-            toggleButton.transform.GetChild(0).transform.gameObject.SetActive(false);
-            toggleButton.transform.GetChild(1).transform.gameObject.SetActive(true);
-        } else {
-            toggleButton.transform.GetChild(0).transform.gameObject.SetActive(true);
-            toggleButton.transform.GetChild(1).transform.gameObject.SetActive(false);
-        }
-
+        toggleButton.Toggle(quizActive);
     }
 
     public void OnEnableDofDebugging(bool enable)
@@ -201,7 +193,7 @@ public class Controller : MonoBehaviour
 
     public void OnUpdateRotationWheel(float value)
     {
-        toggleButton.SetActive(value > 0);
+        toggleButton.gameObject.SetActive(value > 0);
         accordion.UpdateStep(value);
         debugView.UpdateStep(value);
 

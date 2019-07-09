@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.49641275, b: 0.57481736, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.49641287, b: 0.5748173, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 232513170}
   - component: {fileID: 232513169}
   m_Layer: 5
-  m_Name: QuizIcon
+  m_Name: QuizImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -716,7 +716,7 @@ GameObject:
   - component: {fileID: 785035780}
   - component: {fileID: 785035779}
   m_Layer: 5
-  m_Name: AccordionIcon
+  m_Name: AccordionImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -907,15 +907,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 8
       objectReference: {fileID: 0}
-    - target: {fileID: 8066719452758723401, guid: df41b1ea74d2742f6ae80d7632c10506,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.002
-      objectReference: {fileID: 0}
     - target: {fileID: 4113677120138547642, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
       propertyPath: distanceFactor
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8066719452758723401, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.002
       objectReference: {fileID: 0}
     - target: {fileID: 4864536767874116276, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
@@ -1018,6 +1018,7 @@ GameObject:
   - component: {fileID: 1138625221}
   - component: {fileID: 1138625220}
   - component: {fileID: 1138625219}
+  - component: {fileID: 1138625222}
   m_Layer: 5
   m_Name: GameToggleButton
   m_TagString: Untagged
@@ -1139,6 +1140,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1138625217}
   m_CullTransparentMesh: 0
+--- !u!114 &1138625222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138625217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5548897614b0a4622ae8213954f62c41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quizImage: {fileID: 232513167}
+  accordionImage: {fileID: 785035777}
 --- !u!1 &1247506529
 GameObject:
   m_ObjectHideFlags: 0
@@ -1566,7 +1581,7 @@ MonoBehaviour:
   axes: {fileID: 1972314050}
   arCamera: {fileID: 1247506530}
   debugView: {fileID: 1652453339}
-  toggleButton: {fileID: 1138625217}
+  toggleButton: {fileID: 1138625222}
   fxCamera: {fileID: 314634431}
   accordion: {fileID: 961593272}
   rotationWheel: {fileID: 1530501504}
