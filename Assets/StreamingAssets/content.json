@@ -1,141 +1,187 @@
 {
   "accordion" : {
+    "resultText":"Du hast {0} von {1} Fragen richtig beantwortet.",
+
     "layers" : [
       {
-        "information" : "1 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf.",
-        "quiz" : {
-          "questions" : [
+        "information" : "Woman",
+        "questions" : [
             {
-              "questionText":"Was symbolisieren die \"100 Augen\" auf Argus Kopf?",
-              "correctAnswerId": 1,
-              "answers": [
-                "Macht",
-                "Weisheit",
-                "Verrat",
-                "Zwiespalt"
-              ]
-            },
-            {
-              "questionText":"Ich habe einen Ozean aber kein Wasser. Wer bin ich?",
-              "correctAnswerId": 2,
-              "answers": [
-                "Fluß",
-                "Bach",
-                "Weltkarte",
-                "Stein"
-              ]
-            },
-            {
-              "questionText":"Was wird beim Trocknen nass?",
+              "questionText":"Welchen Zweck hat die Anwesenheit der Dienerin?",
               "correctAnswerId": 0,
               "answers": [
-                "Handtuch",
-                "Stein",
-                "Ozean",
-                "Papier"
-              ]
-            },
-            {
-              "questionText":"Wo geht man durch ein Loch rein und durch zwei wieder raus?",
-              "correctAnswerId": 3,
-              "answers": [
-                "Jacke",
-                "Stiefel",
-                "Ärmel",
-                "Hose"
-              ]
-            },
-            {
-              "questionText":"Was spricht ohne Mund?",
-              "correctAnswerId": 1,
-              "answers": [
-                "Duden",
-                "Echo",
-                "Plakat",
-                "Zeitung"
-              ]
-            },
-            {
-              "questionText":"Was liegt zwischen Meer und Land?",
-              "correctAnswerId": 2,
-              "answers": [
-                "Kuhweide",
-                "Wald",
-                "und",
-                "Strand"
-              ]
-            },
-            {
-              "questionText":"Welcher Zahn beißt nie?",
-              "correctAnswerId": 0,
-              "answers": [
-                "Löwenzahn",
-                "Tigerzahn",
-                "Backenzahn",
-                "Zahnfee"
-              ]
-            },
-            {
-              "questionText":"Was kann man niemals mit Worten ausdrücken?",
-              "correctAnswerId": 3,
-              "answers": [
-                "Liebe",
-                "Frieden",
-                "Logig",
-                "Schwamm"
-              ]
-            },
-            {
-              "questionText":"Was setzt der Gärtner als erstes in seinen Garten?",
-              "correctAnswerId": 2,
-              "answers": [
-                "Samen",
-                "Möhren",
-                "Füße",
-                "Salat"
-              ]
-            },
-            {
-              "questionText":"Was hat zwei Beine und kann nicht laufen?",
-              "correctAnswerId": 2,
-              "answers": [
-                "Ente",
-                "Flamingo",
-                "Hose",
-                "Känguruh"
+                "Bildkomposition",
+                "Anstandsdame",
+                "Zur Wache",
+                "Hält das Gewand"
               ]
             }
-            ],
-          "resultText":"Du hast {0} von {1} Fragen richtig beantwortet.",
-          }
+          ]         
       },
       {
-        "information" : "2 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf.",
-        "game" : "",
+        "information" : "Peacock Background",
+        "questions" : [
+            {
+              "questionText":"Von wem stammen die Augen im Federkleid des Pfaus?",
+              "correctAnswerId": 0,
+              "answers": [
+                "Argus",
+                "Jupiter",
+                "Iris",
+                "Juno"
+              ]
+            }
+          ]
       },
       {
-        "information" : "3 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf.",
-        "game" : "",
+        "information" : "Woman Naked",
+        "questions" : [
+            {
+              "questionText":"Was bedeutet Iris übersetzt aus dem Griechischen?",
+              "correctAnswerId": 2,
+              "answers": [
+                "Traum",
+                "Sonnenschein",
+                "Regenbogen",
+                "Wachstum"
+              ]
+            },
+            {
+              "questionText":"Wieso wirkt das Gemälde besonders plastisch?",
+              "correctAnswerId": 0,
+              "answers": [
+                "Breite Pinselstriche und hoher Kontrast",
+                "Bildaufbau in unterschiedlichen Ebenen",
+                "Schönheit der Gesichter",
+                "Viele unterschiedliche Farben"
+              ]
+            }
+          ]
       },
       {
-        "information" : "4 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf.",
-        "game" : "",
+        "information" : "Argus Head",
+        "questions" : [
+            {
+              "questionText":"Was symbolisieren die “100 Augen” auf Argus Kopf?",
+              "correctAnswerId": 2,
+              "answers": [
+                "Macht",
+                "Zwiespalt",
+                "Kontrolle",
+                "Weisheit"
+              ]
+            },
+            {
+              "questionText":"Wie wird Argus überlistet?",
+              "correctAnswerId": 2,
+              "answers": [
+                "Weggelockt",
+                "Überrascht",
+                "In Schlaf versetzt",
+                "Abgelenkt"
+              ]
+            },
+            {
+              "questionText":"Ergänze das Sprichwort: “Etwas mit … .”",
+              "correctAnswerId": 0,
+              "answers": [
+                "Argusaugen beobachten",
+                "Argusohren hören",
+                "der Argusnase riechen",
+                "Argushänden erschaffen"
+              ]
+            }
+          ]
       },
       {
-        "information" : "5 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf.",
-        "game" : "",
+        "information" : "Juno",
+        "questions" : [
+            {
+              "questionText":"Wessen Gattin ist die eifersüchtige Juno?",
+              "correctAnswerId": 0,
+              "answers": [
+                "Jupiter",
+                "Merkur",
+                "Mars",
+                "Neptun"
+              ]
+            },
+            {
+              "questionText":"Wen beauftragte Juno mit der Bewachung der verdächtigen Kuh?",
+              "correctAnswerId": 1,
+              "answers": [
+                "Iris",
+                "Argus",
+                "Jupiter",
+                "Die Pfauen"
+              ]
+            },
+            {
+              "questionText":"Welches Symbol der Juno ist im Bild zu sehen?",
+              "correctAnswerId": 0,
+              "answers": [
+                "Pfauen",
+                "Augen",
+                "Regenbogen",
+                "Rote Seide"
+              ]
+            }
+          ]
       },
       {
-        "information" : "6 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf.",
-        "game" : "",
+        "information" : "Peacock",
+        "questions" : [
+            {
+              "questionText":"Wozu stehen die beiden Pfauen in besonderem Kontrast?",
+              "correctAnswerId": 3,
+              "answers": [
+                "Zur traurigen Szenerie",
+                "Zur Verspieltheit der Putten",
+                "Zur Hautfarbe des Argus",
+                "Zur bläulich-grauen Helle des Bildgrundes"
+              ]
+            }
+          ]
       },
       {
-        "information" : "7 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf.",
-        "game" : "",
+        "information" : "Angles",
+        "questions" : [
+            {
+              "questionText":"Welchen Sinn haben die Putten im Bild?",
+              "correctAnswerId": 1,
+              "answers": [
+                "Junos Kinder",
+                "Unterstreichen die Handlung",
+                "Helfen den Göttinnen",
+                "Himmlische Begleitung"
+              ]
+            }
+          ]
       },
       {
-        "information" : "8 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf.",
-        "game" : "",
+        "information" : "Argus Body",
+        "questions" : [
+            {
+              "questionText":"Welches Tier bewachte Argus mit seinen “100 Augen”?",
+              "correctAnswerId": 1,
+              "answers": [
+                "Esel",
+                "Kuh",
+                "Gans",
+                "Pferd"
+              ]
+            },
+            {
+              "questionText":"Welche Göttin verbirgt sich hinter der Form einer Kuh?",
+              "correctAnswerId": 1,
+              "answers": [
+                "Juno",
+                "Io",
+                "Venus",
+                "Iris"
+              ]
+            }
+          ]
       }
     ]
   }
