@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 using Model;
 using System.IO;
 using System;
-using UnityEngine.UI;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.SpatialTracking;
 
@@ -107,8 +106,6 @@ public class Controller : MonoBehaviour
         accordion.transform.position = trackedImage.transform.position;
         accordion.transform.rotation = trackedImage.transform.rotation;
         accordion.transform.localScale = new Vector3(this.trackedImage.size.y, 1f, this.trackedImage.size.y); //2.739377
-
-        // Invoke("StopTracking", 5);
     }
 
     void OnDisable()
