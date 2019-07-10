@@ -26,7 +26,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private int correctAnswers = 0;
     private int maxQuestions = 5;
 
-    private Model.Quiz quiz;
+    private Model.Accordion quiz;
     private List<Question> randomQuestions = new List<Question>();
     private int currentQuestionIndex = 0;
 
@@ -35,7 +35,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     bool questionAnswered;
 
 
-    public void SetContent(Model.Quiz quiz)
+    public void SetContent(Model.Accordion quiz)
     {
         this.quiz = quiz;
         InitQuiz();
@@ -43,30 +43,32 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     private void InitQuiz()
     {
-        randomQuestions = GetRandomQuestions(maxQuestions);
+        //randomQuestions = GetRandomQuestions(maxQuestions);
         UpdateQuiz();
     }
 
-    private List<Question> GetRandomQuestions(int count)
-    {
-        var random = new System.Random();
-        List<Question> randomQuestions = this.quiz.questions.OrderBy(question => random.Next()).ToList();
+    // private List<Question> GetRandomQuestions(int count)
+    // {
+    //     var random = new System.Random();
+    //     List<Question> randomQuestions = this.quiz.questions.OrderBy(question => random.Next()).ToList();
 
-        return randomQuestions.GetRange(0, count);
-    }
+    //     return randomQuestions.GetRange(0, count);
+    // }
 
     private void UpdateQuiz()
     {
-        if (currentQuestionIndex < maxQuestions) {
-            UpdateQuizContent();
-        } else {
-            ShowResult();
-        }
+        UpdateQuizContent();
+        // if (currentQuestionIndex < maxQuestions) {
+        //     UpdateQuizContent();
+        // } else {
+        //     ShowResult();
+        // }
     }
 
     private void UpdateQuizContent()
     {
-        Question question = randomQuestions[currentQuestionIndex];
+        // Question question = randomQuestions[currentQuestionIndex];
+        Question question = quiz.layers[7].questions[1];
         questionText.text = question.questionText;
 
         for (int i = 0; i < answerContainers.Length; i++) {
@@ -74,16 +76,16 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         }
     }
 
-    private void ShowResult()
-    {
-        string resultText = string.Format(this.quiz.resultText, correctAnswers, maxQuestions);
-        questionText.text = resultText;
+    // private void ShowResult()
+    // {
+    //     string resultText = string.Format(this.quiz.resultText, correctAnswers, maxQuestions);
+    //     questionText.text = resultText;
 
-        dropArea.SetActive(false);
-        foreach (GameObject answerContainer in answerContainers) {
-            answerContainer.SetActive(false);
-        }
-    }
+    //     dropArea.SetActive(false);
+    //     foreach (GameObject answerContainer in answerContainers) {
+    //         answerContainer.SetActive(false);
+    //     }
+    // }
 
     public void OnDrag(PointerEventData eventData)
     {

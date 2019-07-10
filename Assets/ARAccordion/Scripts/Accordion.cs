@@ -144,6 +144,7 @@ public class Accordion : MonoBehaviour
         if (step > 0) {
             if (step % 1 == 0) {
                 UpdateLayerUI();
+                UpdateLayerUI();
             }
         } else {
             if (infoPopUp.isActiveAndEnabled) {
@@ -246,6 +247,6 @@ public class Accordion : MonoBehaviour
     internal void SetContent(Content content)
     {
         this.content = content;
-        quiz.SetContent(content.accordion.layers[0].quiz);
+        quiz.SetContent(content.accordion);
     }
 }
