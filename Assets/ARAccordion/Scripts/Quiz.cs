@@ -27,12 +27,46 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private int maxQuestions = 5;
 
     private Model.Accordion accordion;
-    private List<Question> randomQuestions = new List<Question>();
+
+    private List<KeyValuePair<int, Layer>> pickedLayers = new List<KeyValuePair<int, Layer>>();
+
+    private List<Layer> randomQuestions = new List<Layer>();
     private int currentQuestionIndex = 0;
 
     private GameObject activeDraggable;
     private Vector3 activeDraggableStartPosition;
     bool questionAnswered;
+
+
+    void Start()
+    {
+        pickedLayers = GetRandomLayers();
+
+
+
+        for (int i = 0; i < pickedLayers.Count; i++) {
+            Debug.Log(pickedLayers[i].Key + " ** " + pickedLayers[i].Value.id + "**" + pickedLayers[i].Value.questions[0].questionText);
+            //Debug.Log(pickedLayers[i].Key);
+        }
+
+    }
+
+
+    private List<KeyValuePair<int, Layer>> GetRandomLayers()
+    {
+        var random = new System.Random();
+        List<KeyValuePair<int, Layer>> randomLayers = this.accordion.layers.Select((index, layer) => new KeyValuePair<int, Layer>(layer, index))
+                                                        .OrderBy(layer => random.Next())
+                                                        .ToList();
+
+        List<KeyValuePair<int, Layer>> pickedLayers = randomLayers.GetRange(0, 5);
+
+        List<KeyValuePair<int, Layer>> sortedLayers = pickedLayers.Select((index, layer) => new KeyValuePair<int, Layer>(layer, index.Value))
+                                                        .OrderBy(index => index.Value.id)
+                                                        .ToList();
+        return sortedLayers;
+    }
+
 
     public void SetContent(Model.Accordion accordion)
     {
@@ -43,7 +77,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private void InitQuiz()
     {
         //randomQuestions = GetRandomQuestions(maxQuestions);
-        UpdateQuiz();
+        // UpdateQuiz();
     }
 
     // private List<Question> GetRandomQuestions(int count)
@@ -52,6 +86,8 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     //     List<Question> randomQuestions = this.quiz.questions.OrderBy(question => random.Next()).ToList();
 
     //     return randomQuestions.GetRange(0, count);
+
+
     // }
 
     private void UpdateQuiz()
@@ -131,7 +167,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
             activeDraggable.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
             questionAnswered = true;
 
-            CheckAnswer();
+            //CheckAnswer();
         } else {
             activeDraggable.transform.position = activeDraggableStartPosition;
             activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.002f);
@@ -140,23 +176,23 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         }
     }
 
-    private void CheckAnswer()
-    {
+    // private void CheckAnswer()
+    // {
 
-        int correctAnswerId = randomQuestions[currentQuestionIndex].correctAnswerId;
-        int draggableIndex = Array.IndexOf(answerContainers, activeDraggable);
+    //     int correctAnswerId = randomQuestions[currentQuestionIndex].correctAnswerId;
+    //     int draggableIndex = Array.IndexOf(answerContainers, activeDraggable);
 
-        if (draggableIndex == correctAnswerId) {
-            Debug.Log("Right");
-            correctAnswers++;
-            activeDraggable.GetComponent<Image>().color = rightColor;
-            Invoke("Reset", nextQuestionDelay);
-        } else {
-            Debug.Log("Wrong");
-            activeDraggable.GetComponent<Image>().color = wrongColor;
-            Invoke("Reset", nextQuestionDelay);
-        }
-    }
+    //     if (draggableIndex == correctAnswerId) {
+    //         Debug.Log("Right");
+    //         correctAnswers++;
+    //         activeDraggable.GetComponent<Image>().color = rightColor;
+    //         Invoke("Reset", nextQuestionDelay);
+    //     } else {
+    //         Debug.Log("Wrong");
+    //         activeDraggable.GetComponent<Image>().color = wrongColor;
+    //         Invoke("Reset", nextQuestionDelay);
+    //     }
+    // }
 
     private void Reset()
     {
