@@ -4,6 +4,7 @@
 
     "layers" : [
       {
+        "id":0,
         "information" : "Woman",
         "questions" : [
             {
@@ -19,6 +20,7 @@
           ]         
       },
       {
+        "id":1,
         "information" : "Peacock Background",
         "questions" : [
             {
@@ -34,6 +36,7 @@
           ]
       },
       {
+        "id":2,
         "information" : "Woman Naked",
         "questions" : [
             {
@@ -59,6 +62,7 @@
           ]
       },
       {
+        "id":3,
         "information" : "Argus Head",
         "questions" : [
             {
@@ -94,6 +98,7 @@
           ]
       },
       {
+        "id":4,
         "information" : "Juno",
         "questions" : [
             {
@@ -129,6 +134,7 @@
           ]
       },
       {
+        "id":5,
         "information" : "Peacock",
         "questions" : [
             {
@@ -144,6 +150,7 @@
           ]
       },
       {
+        "id":6,
         "information" : "Angles",
         "questions" : [
             {
@@ -159,6 +166,7 @@
           ]
       },
       {
+        "id":7,
         "information" : "Argus Body",
         "questions" : [
             {
