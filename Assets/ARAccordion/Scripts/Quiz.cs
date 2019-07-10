@@ -26,7 +26,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private int correctAnswers = 0;
     private int maxQuestions = 5;
 
-    private Model.Accordion quiz;
+    private Model.Accordion accordion;
     private List<Question> randomQuestions = new List<Question>();
     private int currentQuestionIndex = 0;
 
@@ -34,10 +34,9 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private Vector3 activeDraggableStartPosition;
     bool questionAnswered;
 
-
-    public void SetContent(Model.Accordion quiz)
+    public void SetContent(Model.Accordion accordion)
     {
-        this.quiz = quiz;
+        this.accordion = accordion;
         InitQuiz();
     }
 
@@ -68,7 +67,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private void UpdateQuizContent()
     {
         // Question question = randomQuestions[currentQuestionIndex];
-        Question question = quiz.layers[7].questions[1];
+        Question question = accordion.layers[7].questions[1];
         questionText.text = question.questionText;
 
         for (int i = 0; i < answerContainers.Length; i++) {
