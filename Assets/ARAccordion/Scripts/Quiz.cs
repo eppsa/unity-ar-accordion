@@ -26,30 +26,29 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private int correctAnswers = 0;
     private int maxQuestions = 5;
 
-    private Model.Accordion accordion;
+    private Model.Accordion content;
 
     private List<KeyValuePair<int, Layer>> pickedLayers = new List<KeyValuePair<int, Layer>>();
 
-    private List<Layer> randomQuestions = new List<Layer>();
     private int currentQuestionIndex = 0;
 
     private GameObject activeDraggable;
     private Vector3 activeDraggableStartPosition;
     bool questionAnswered;
 
-    int randomQuestion;
+    int pickedQuestion;
 
 
-    // void Start()
-    // {
-    //     for (int i = 0; i < pickedLayers.Count; i++) {
-    //         Debug.Log(pickedLayers[i].Key + " ** " + pickedLayers[i].Value.id + "**" + pickedLayers[i].Value.questions[0].questionText);
-    //     }
-    // }
-
-    public void SetContent(Model.Accordion accordion)
+    void Start()
     {
-        this.accordion = accordion;
+        for (int i = 0; i < pickedLayers.Count; i++) {
+            Debug.Log(pickedLayers[i].Key + " ** " + pickedLayers[i].Value.id + "**" + pickedLayers[i].Value.questions[pickedQuestion].questionText);
+        }
+    }
+
+    public void SetContent(Model.Accordion content)
+    {
+        this.content = content;
         InitQuiz();
     }
 
@@ -62,7 +61,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private List<KeyValuePair<int, Layer>> GetRandomLayers(int count)
     {
         var random = new System.Random();
-        List<KeyValuePair<int, Layer>> randomLayers = this.accordion.layers.Select((index, layer) => new KeyValuePair<int, Layer>(layer, index))
+        List<KeyValuePair<int, Layer>> randomLayers = this.content.layers.Select((index, layer) => new KeyValuePair<int, Layer>(layer, index))
                                                         .OrderBy(layer => random.Next())
                                                         .ToList();
 
@@ -85,8 +84,8 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     private void UpdateQuizContent()
     {
-        randomQuestion = UnityEngine.Random.Range(0, pickedLayers[currentQuestionIndex].Value.questions.Count);
-        Question question = pickedLayers[currentQuestionIndex].Value.questions[randomQuestion];
+        pickedQuestion = UnityEngine.Random.Range(0, pickedLayers[currentQuestionIndex].Value.questions.Count);
+        Question question = pickedLayers[currentQuestionIndex].Value.questions[pickedQuestion];
         questionText.text = question.questionText;
 
         for (int i = 0; i < answerContainers.Length; i++) {
@@ -96,7 +95,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     private void ShowResult()
     {
-        string resultText = string.Format(this.accordion.resultText, correctAnswers, maxQuestions);
+        string resultText = string.Format(this.content.resultText, correctAnswers, maxQuestions);
         questionText.text = resultText;
 
         dropArea.SetActive(false);
@@ -161,7 +160,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     private void CheckAnswer()
     {
-        int correctAnswerId = pickedLayers[currentQuestionIndex].Value.questions[randomQuestion].correctAnswerId;
+        int correctAnswerId = pickedLayers[currentQuestionIndex].Value.questions[pickedQuestion].correctAnswerId;
         int draggableIndex = Array.IndexOf(answerContainers, activeDraggable);
 
         if (draggableIndex == correctAnswerId) {
