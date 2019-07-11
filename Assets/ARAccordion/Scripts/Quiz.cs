@@ -37,36 +37,15 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private Vector3 activeDraggableStartPosition;
     bool questionAnswered;
 
-
-    void Start()
-    {
-        pickedLayers = GetRandomLayers();
+    int randomQuestion;
 
 
-
-        for (int i = 0; i < pickedLayers.Count; i++) {
-            Debug.Log(pickedLayers[i].Key + " ** " + pickedLayers[i].Value.id + "**" + pickedLayers[i].Value.questions[0].questionText);
-            //Debug.Log(pickedLayers[i].Key);
-        }
-
-    }
-
-
-    private List<KeyValuePair<int, Layer>> GetRandomLayers()
-    {
-        var random = new System.Random();
-        List<KeyValuePair<int, Layer>> randomLayers = this.accordion.layers.Select((index, layer) => new KeyValuePair<int, Layer>(layer, index))
-                                                        .OrderBy(layer => random.Next())
-                                                        .ToList();
-
-        List<KeyValuePair<int, Layer>> pickedLayers = randomLayers.GetRange(0, 5);
-
-        List<KeyValuePair<int, Layer>> sortedLayers = pickedLayers.Select((index, layer) => new KeyValuePair<int, Layer>(layer, index.Value))
-                                                        .OrderBy(index => index.Value.id)
-                                                        .ToList();
-        return sortedLayers;
-    }
-
+    // void Start()
+    // {
+    //     for (int i = 0; i < pickedLayers.Count; i++) {
+    //         Debug.Log(pickedLayers[i].Key + " ** " + pickedLayers[i].Value.id + "**" + pickedLayers[i].Value.questions[0].questionText);
+    //     }
+    // }
 
     public void SetContent(Model.Accordion accordion)
     {
@@ -76,34 +55,38 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     private void InitQuiz()
     {
-        //randomQuestions = GetRandomQuestions(maxQuestions);
-        // UpdateQuiz();
+        pickedLayers = GetRandomLayers(maxQuestions);
+        UpdateQuiz();
     }
 
-    // private List<Question> GetRandomQuestions(int count)
-    // {
-    //     var random = new System.Random();
-    //     List<Question> randomQuestions = this.quiz.questions.OrderBy(question => random.Next()).ToList();
+    private List<KeyValuePair<int, Layer>> GetRandomLayers(int count)
+    {
+        var random = new System.Random();
+        List<KeyValuePair<int, Layer>> randomLayers = this.accordion.layers.Select((index, layer) => new KeyValuePair<int, Layer>(layer, index))
+                                                        .OrderBy(layer => random.Next())
+                                                        .ToList();
 
-    //     return randomQuestions.GetRange(0, count);
+        List<KeyValuePair<int, Layer>> pickedLayers = randomLayers.GetRange(0, count);
 
-
-    // }
+        List<KeyValuePair<int, Layer>> sortedLayers = pickedLayers.Select((index, layer) => new KeyValuePair<int, Layer>(layer, index.Value))
+                                                        .OrderBy(index => index.Value.id)
+                                                        .ToList();
+        return sortedLayers;
+    }
 
     private void UpdateQuiz()
     {
-        UpdateQuizContent();
-        // if (currentQuestionIndex < maxQuestions) {
-        //     UpdateQuizContent();
-        // } else {
-        //     ShowResult();
-        // }
+        if (currentQuestionIndex < maxQuestions) {
+            UpdateQuizContent();
+        } else {
+            ShowResult();
+        }
     }
 
     private void UpdateQuizContent()
     {
-        // Question question = randomQuestions[currentQuestionIndex];
-        Question question = accordion.layers[7].questions[1];
+        randomQuestion = UnityEngine.Random.Range(0, pickedLayers[currentQuestionIndex].Value.questions.Count);
+        Question question = pickedLayers[currentQuestionIndex].Value.questions[randomQuestion];
         questionText.text = question.questionText;
 
         for (int i = 0; i < answerContainers.Length; i++) {
@@ -111,16 +94,16 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         }
     }
 
-    // private void ShowResult()
-    // {
-    //     string resultText = string.Format(this.quiz.resultText, correctAnswers, maxQuestions);
-    //     questionText.text = resultText;
+    private void ShowResult()
+    {
+        string resultText = string.Format(this.accordion.resultText, correctAnswers, maxQuestions);
+        questionText.text = resultText;
 
-    //     dropArea.SetActive(false);
-    //     foreach (GameObject answerContainer in answerContainers) {
-    //         answerContainer.SetActive(false);
-    //     }
-    // }
+        dropArea.SetActive(false);
+        foreach (GameObject answerContainer in answerContainers) {
+            answerContainer.SetActive(false);
+        }
+    }
 
     public void OnDrag(PointerEventData eventData)
     {
@@ -167,7 +150,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
             activeDraggable.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
             questionAnswered = true;
 
-            //CheckAnswer();
+            CheckAnswer();
         } else {
             activeDraggable.transform.position = activeDraggableStartPosition;
             activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.002f);
@@ -176,23 +159,22 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         }
     }
 
-    // private void CheckAnswer()
-    // {
+    private void CheckAnswer()
+    {
+        int correctAnswerId = pickedLayers[currentQuestionIndex].Value.questions[randomQuestion].correctAnswerId;
+        int draggableIndex = Array.IndexOf(answerContainers, activeDraggable);
 
-    //     int correctAnswerId = randomQuestions[currentQuestionIndex].correctAnswerId;
-    //     int draggableIndex = Array.IndexOf(answerContainers, activeDraggable);
-
-    //     if (draggableIndex == correctAnswerId) {
-    //         Debug.Log("Right");
-    //         correctAnswers++;
-    //         activeDraggable.GetComponent<Image>().color = rightColor;
-    //         Invoke("Reset", nextQuestionDelay);
-    //     } else {
-    //         Debug.Log("Wrong");
-    //         activeDraggable.GetComponent<Image>().color = wrongColor;
-    //         Invoke("Reset", nextQuestionDelay);
-    //     }
-    // }
+        if (draggableIndex == correctAnswerId) {
+            Debug.Log("Right");
+            correctAnswers++;
+            activeDraggable.GetComponent<Image>().color = rightColor;
+            Invoke("Reset", nextQuestionDelay);
+        } else {
+            Debug.Log("Wrong");
+            activeDraggable.GetComponent<Image>().color = wrongColor;
+            Invoke("Reset", nextQuestionDelay);
+        }
+    }
 
     private void Reset()
     {
