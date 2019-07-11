@@ -4,95 +4,59 @@
 
     "layers" : [
       {
-        "id":0,
-        "information" : "Woman",
-        "questions" : [
-            {
-              "questionText":"Welchen Zweck hat die Anwesenheit der Dienerin?",
-              "correctAnswerId": 0,
-              "answers": [
-                "Bildkomposition",
-                "Anstandsdame",
-                "Zur Wache",
-                "Hält das Gewand"
-              ]
-            }
-          ]         
-      },
-      {
         "id":1,
-        "information" : "Peacock Background",
+        "information" : "Argus Body",
         "questions" : [
             {
-              "questionText":"Von wem stammen die Augen im Federkleid des Pfaus?",
-              "correctAnswerId": 0,
+              "questionText":"Welches Tier bewachte Argus mit seinen “100 Augen”?",
+              "correctAnswerId": 1,
               "answers": [
-                "Argus",
-                "Jupiter",
-                "Iris",
-                "Juno"
+                "Esel",
+                "Kuh",
+                "Gans",
+                "Pferd"
               ]
-            }
+            },
+            {
+              "questionText":"Welche Göttin verbirgt sich hinter der Form einer Kuh?",
+              "correctAnswerId": 1,
+              "answers": [
+                "Juno",
+                "Io",
+                "Venus",
+                "Iris"
+              ]
+            },
           ]
       },
       {
         "id":2,
-        "information" : "Woman Naked",
+        "information" : "Angles",
         "questions" : [
             {
-              "questionText":"Was bedeutet Iris übersetzt aus dem Griechischen?",
-              "correctAnswerId": 2,
+              "questionText":"Welchen Sinn haben die Putten im Bild?",
+              "correctAnswerId": 1,
               "answers": [
-                "Traum",
-                "Sonnenschein",
-                "Regenbogen",
-                "Wachstum"
-              ]
-            },
-            {
-              "questionText":"Wieso wirkt das Gemälde besonders plastisch?",
-              "correctAnswerId": 0,
-              "answers": [
-                "Breite Pinselstriche und hoher Kontrast",
-                "Bildaufbau in unterschiedlichen Ebenen",
-                "Schönheit der Gesichter",
-                "Viele unterschiedliche Farben"
+                "Junos Kinder",
+                "Unterstreichen die Handlung",
+                "Helfen den Göttinnen",
+                "Himmlische Begleitung"
               ]
             }
           ]
       },
       {
         "id":3,
-        "information" : "Argus Head",
+        "information" : "Peacock",
         "questions" : [
             {
-              "questionText":"Was symbolisieren die “100 Augen” auf Argus Kopf?",
-              "correctAnswerId": 2,
+              "questionText":"Wozu stehen die beiden Pfauen in besonderem Kontrast?",
+              "correctAnswerId": 3,
               "answers": [
-                "Macht",
-                "Zwiespalt",
-                "Kontrolle",
-                "Weisheit"
-              ]
-            },
-            {
-              "questionText":"Wie wird Argus überlistet?",
-              "correctAnswerId": 2,
-              "answers": [
-                "Weggelockt",
-                "Überrascht",
-                "In Schlaf versetzt",
-                "Abgelenkt"
-              ]
-            },
-            {
-              "questionText":"Ergänze das Sprichwort: “Etwas mit … .”",
-              "correctAnswerId": 0,
-              "answers": [
-                "Argusaugen beobachten",
-                "Argusohren hören",
-                "der Argusnase riechen",
-                "Argushänden erschaffen"
+                "Zur traurigen Szenerie",
+                "Zur Verspieltheit der Putten",
+                "Zur Hautfarbe des Argus",
+                "Zur bläulich-grauen Helle des Bildgrundes"
               ]
             }
           ]
@@ -135,61 +99,97 @@
       },
       {
         "id":5,
-        "information" : "Peacock",
+        "information" : "Argus Head",
         "questions" : [
             {
-              "questionText":"Wozu stehen die beiden Pfauen in besonderem Kontrast?",
-              "correctAnswerId": 3,
+              "questionText":"Was symbolisieren die “100 Augen” auf Argus Kopf?",
+              "correctAnswerId": 2,
               "answers": [
-                "Zur traurigen Szenerie",
-                "Zur Verspieltheit der Putten",
-                "Zur Hautfarbe des Argus",
-                "Zur bläulich-grauen Helle des Bildgrundes"
+                "Macht",
+                "Zwiespalt",
+                "Kontrolle",
+                "Weisheit"
+              ]
+            },
+            {
+              "questionText":"Wie wird Argus überlistet?",
+              "correctAnswerId": 2,
+              "answers": [
+                "Weggelockt",
+                "Überrascht",
+                "In Schlaf versetzt",
+                "Abgelenkt"
+              ]
+            },
+            {
+              "questionText":"Ergänze das Sprichwort: “Etwas mit … .”",
+              "correctAnswerId": 0,
+              "answers": [
+                "Argusaugen beobachten",
+                "Argusohren hören",
+                "der Argusnase riechen",
+                "Argushänden erschaffen"
               ]
             }
           ]
       },
       {
         "id":6,
-        "information" : "Angles",
+        "information" : "Woman Naked",
         "questions" : [
             {
-              "questionText":"Welchen Sinn haben die Putten im Bild?",
-              "correctAnswerId": 1,
+              "questionText":"Was bedeutet Iris übersetzt aus dem Griechischen?",
+              "correctAnswerId": 2,
               "answers": [
-                "Junos Kinder",
-                "Unterstreichen die Handlung",
-                "Helfen den Göttinnen",
-                "Himmlische Begleitung"
+                "Traum",
+                "Sonnenschein",
+                "Regenbogen",
+                "Wachstum"
+              ]
+            },
+            {
+              "questionText":"Wieso wirkt das Gemälde besonders plastisch?",
+              "correctAnswerId": 0,
+              "answers": [
+                "Breite Pinselstriche und hoher Kontrast",
+                "Bildaufbau in unterschiedlichen Ebenen",
+                "Schönheit der Gesichter",
+                "Viele unterschiedliche Farben"
               ]
             }
           ]
       },
       {
         "id":7,
-        "information" : "Argus Body",
+        "information" : "Peacock Background",
         "questions" : [
             {
-              "questionText":"Welches Tier bewachte Argus mit seinen “100 Augen”?",
-              "correctAnswerId": 1,
+              "questionText":"Von wem stammen die Augen im Federkleid des Pfaus?",
+              "correctAnswerId": 0,
               "answers": [
-                "Esel",
-                "Kuh",
-                "Gans",
-                "Pferd"
-              ]
-            },
-            {
-              "questionText":"Welche Göttin verbirgt sich hinter der Form einer Kuh?",
-              "correctAnswerId": 1,
-              "answers": [
-                "Juno",
-                "Io",
-                "Venus",
-                "Iris"
+                "Argus",
+                "Jupiter",
+                "Iris",
+                "Juno"
               ]
             }
           ]
+      },
+      {
+        "id":8,
+        "information" : "Woman",
+        "questions" : [
+            {
+              "questionText":"Welchen Zweck hat die Anwesenheit der Dienerin?",
+              "correctAnswerId": 0,
+              "answers": [
+                "Bildkomposition",
+                "Anstandsdame",
+                "Zur Wache",
+                "Hält das Gewand"
+              ]
+            }
+          ]         
       }
     ]
   }
