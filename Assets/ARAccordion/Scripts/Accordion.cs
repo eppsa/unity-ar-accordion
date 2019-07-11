@@ -58,14 +58,14 @@ public class Accordion : MonoBehaviour
 
         background.SetActive(false);
 
-
+    }
     public IEnumerator MoveToBeginning()
     {
         for (float i = step; i > 0; i -= 0.05f) {
             UpdateStep(i);
             yield return new WaitForSeconds(0.001f);
         }
-        quiz.UpdateQuizContent();
+        //quiz.UpdateQuizContent();
     }
 
     void LateUpdate()
