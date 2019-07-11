@@ -36,13 +36,13 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private Vector3 activeDraggableStartPosition;
     bool questionAnswered;
 
-    int pickedQuestion;
+    int pickedId;
 
 
     void Start()
     {
         for (int i = 0; i < pickedLayers.Count; i++) {
-            Debug.Log(pickedLayers[i].Key + " ** " + pickedLayers[i].Value.id + "**" + pickedLayers[i].Value.questions[pickedQuestion].questionText);
+            Debug.Log(pickedLayers[i].Key + " ** " + pickedLayers[i].Value.id + "**" + pickedLayers[i].Value.questions[pickedId].questionText);
         }
     }
 
@@ -84,8 +84,9 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     private void UpdateQuizContent()
     {
-        pickedQuestion = UnityEngine.Random.Range(0, pickedLayers[currentQuestionIndex].Value.questions.Count);
-        Question question = pickedLayers[currentQuestionIndex].Value.questions[pickedQuestion];
+        List<Question> questions = pickedLayers[currentQuestionIndex].Value.questions;
+        pickedId = UnityEngine.Random.Range(0, questions.Count);
+        Question question = questions[pickedId];
         questionText.text = question.questionText;
 
         for (int i = 0; i < answerContainers.Length; i++) {
@@ -160,7 +161,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     private void CheckAnswer()
     {
-        int correctAnswerId = pickedLayers[currentQuestionIndex].Value.questions[pickedQuestion].correctAnswerId;
+        int correctAnswerId = pickedLayers[currentQuestionIndex].Value.questions[pickedId].correctAnswerId;
         int draggableIndex = Array.IndexOf(answerContainers, activeDraggable);
 
         if (draggableIndex == correctAnswerId) {
