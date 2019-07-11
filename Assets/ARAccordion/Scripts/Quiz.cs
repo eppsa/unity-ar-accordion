@@ -59,6 +59,20 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         }
     }
 
+    public IEnumerator StartQuiz()
+    {
+        StartCoroutine(accordion.MoveToLayer(pickedLayers[currentQuestionIndex].id));
+
+        while (accordion.isMoving) {
+            yield return null;
+        }
+
+        foreach (Transform child in transform) {
+            child.gameObject.SetActive(true);
+        }
+
+    }
+
 
     public void SetContent(Model.Accordion content)
     {
@@ -69,7 +83,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private void InitQuiz()
     {
         pickedLayers = GetRandomLayers(maxQuestions);
-        UpdateQuiz();
+        UpdateQuizContent();
     }
 
     private List<Layer> GetRandomLayers(int count)
@@ -82,9 +96,10 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         return sortedLayers;
     }
 
-    private void UpdateQuiz()
+    public void UpdateQuiz()
     {
         if (currentQuestionIndex < maxQuestions) {
+            StartCoroutine(accordion.MoveToLayer(pickedLayers[currentQuestionIndex].id));
             UpdateQuizContent();
         } else {
             ShowResult();

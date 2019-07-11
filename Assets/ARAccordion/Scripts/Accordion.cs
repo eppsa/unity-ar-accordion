@@ -8,7 +8,7 @@ public class Accordion : MonoBehaviour
 {
     [Header("Canvas")] [SerializeField] private InfoPopup infoPopUp;
 
-    [SerializeField] private Quiz quiz;
+    [SerializeField] public Quiz quiz;
 
     [SerializeField] private GameObject background;
     [SerializeField] private GameObject original;
@@ -25,7 +25,7 @@ public class Accordion : MonoBehaviour
 
     private GameObject[] components;
 
-    private float step = 0f;
+    public float step = 0f;
 
     private bool savedOrigins = false;
 
@@ -35,6 +35,8 @@ public class Accordion : MonoBehaviour
     private Vector3 activeTilePosition;
 
     private Content content;
+
+    public bool isMoving;
 
     public float Exponent { get => exponent; set => exponent = value; }
 
@@ -57,15 +59,33 @@ public class Accordion : MonoBehaviour
         infoPopUp.SetFadeDuration(0.5f);
 
         background.SetActive(false);
-
     }
+
     public IEnumerator MoveToBeginning()
     {
         for (float i = step; i > 0; i -= 0.05f) {
             UpdateStep(i);
             yield return new WaitForSeconds(0.001f);
         }
-        //quiz.UpdateQuizContent();
+
+        yield return new WaitForSeconds(1f);
+        StartCoroutine(quiz.StartQuiz());
+    }
+
+
+    public IEnumerator MoveToLayer(float target)
+    {
+        isMoving = true;
+
+        for (float i = step; i < target; i += 0.05f) {
+            UpdateStep(i);
+            yield return new WaitForSeconds(0.001f);
+        }
+
+        step = target;
+        UpdateStep(step);
+        isMoving = false;
+
     }
 
     void LateUpdate()
