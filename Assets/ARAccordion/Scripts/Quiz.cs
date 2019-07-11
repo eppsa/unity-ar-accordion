@@ -10,6 +10,9 @@ using System.Linq;
 [RequireComponent(typeof(Image))]
 public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 {
+
+    [SerializeField] private Accordion accordion;
+
     [SerializeField] private GameObject[] answerContainers;
     [SerializeField] private GameObject dropArea;
 
@@ -39,12 +42,23 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     int pickedId;
 
 
+    public void OnEnable()
+    {
+        foreach (Transform child in transform) {
+            child.gameObject.SetActive(false);
+        }
+
+        StartCoroutine(accordion.MoveToBeginning());
+    }
+
+
     void Start()
     {
         for (int i = 0; i < pickedLayers.Count; i++) {
             Debug.Log(pickedLayers[i].id);
         }
     }
+
 
     public void SetContent(Model.Accordion content)
     {
