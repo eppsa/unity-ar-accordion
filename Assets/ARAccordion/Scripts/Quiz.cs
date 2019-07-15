@@ -49,34 +49,24 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     IEnumerator StartQuiz()
     {
-        foreach (Transform child in transform) {
-            child.gameObject.SetActive(false);
-        }
+        foreach (Transform child in transform) child.gameObject.SetActive(false);
 
-        StartCoroutine(accordion.MoveToBeginning());
-
-        while (accordion.isMoving) {
-            yield return null;
-        }
+        StartCoroutine(accordion.MoveToLayer(0));
+        while (accordion.isMoving) yield return null;
+        yield return new WaitForSeconds(0.5f);
 
         StartCoroutine(accordion.MoveToLayer(pickedLayers[currentQuestionIndex].id));
+        while (accordion.isMoving) yield return null;
 
-        while (accordion.isMoving) {
-            yield return null;
-        }
-
-        foreach (Transform child in transform) {
-            child.gameObject.SetActive(true);
-        }
-
+        foreach (Transform child in transform) child.gameObject.SetActive(true);
     }
 
 
     void Start()
     {
-        for (int i = 0; i < pickedLayers.Count; i++) {
-            Debug.Log(pickedLayers[i].id);
-        }
+        // for (int i = 0; i < pickedLayers.Count; i++) {
+        //     Debug.Log(pickedLayers[i].id);
+        // }
     }
 
 
@@ -102,10 +92,11 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         return sortedLayers;
     }
 
-    public void UpdateQuiz()
+    IEnumerator UpdateQuiz()
     {
         if (currentQuestionIndex < maxQuestions) {
             StartCoroutine(accordion.MoveToLayer(pickedLayers[currentQuestionIndex].id));
+            while (accordion.isMoving) yield return null;
             UpdateQuizContent();
         } else {
             ShowResult();
@@ -216,6 +207,6 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         activeDraggable = null;
 
         currentQuestionIndex++;
-        UpdateQuiz();
+        StartCoroutine(UpdateQuiz());
     }
 }

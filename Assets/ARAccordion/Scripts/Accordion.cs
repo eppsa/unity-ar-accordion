@@ -18,6 +18,10 @@ public class Accordion : MonoBehaviour
     private float distanceFactor = 0.5f;
     [SerializeField] private float exponent = 1;
 
+    [SerializeField] private float moveDurationIn = 2;
+    [SerializeField] private float moveDurationOut = 5f;
+
+
     [SerializeField] private Material defaultSpriteMaterial;
     [SerializeField] private Material dofSpriteMaterial;
 
@@ -61,32 +65,31 @@ public class Accordion : MonoBehaviour
         background.SetActive(false);
     }
 
-    public IEnumerator MoveToBeginning()
-    {
-        isMoving = true;
-        for (float i = step; i > 0; i -= 0.05f) {
-            UpdateStep(i);
-            yield return new WaitForSeconds(0.001f);
-        }
-
-        yield return new WaitForSeconds(1f);
-        isMoving = false;
-    }
-
-
-    public IEnumerator MoveToLayer(float target)
+    public IEnumerator MoveToLayer(float moveTo)
     {
         isMoving = true;
 
-        for (float i = step; i < target; i += 0.05f) {
-            UpdateStep(i);
-            yield return new WaitForSeconds(0.001f);
+        float moveFrom = step;
+        float distanceFactor = moveTo - moveFrom;
+        float moveDuration = moveTo > 0 ? moveDurationOut * distanceFactor : moveDurationIn;
+
+        float startTime = Time.time;
+        float currentDuration = 0.0f;
+        float progress = 0.0f;
+
+        while (true) {
+            currentDuration = Time.time - startTime;
+            progress = currentDuration / moveDuration;
+
+            if (progress <= 1.0f) {
+                UpdateStep(Mathf.Lerp(moveFrom, moveTo, progress));
+                yield return new WaitForEndOfFrame();
+            } else {
+                if (moveTo > 0) UpdateStep(moveTo);
+                isMoving = false;
+                yield break;
+            }
         }
-
-        step = target;
-        UpdateStep(step);
-        isMoving = false;
-
     }
 
     void LateUpdate()
