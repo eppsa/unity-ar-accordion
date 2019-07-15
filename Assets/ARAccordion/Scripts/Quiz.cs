@@ -29,6 +29,10 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private int correctAnswers = 0;
     private int maxQuestions = 5;
 
+    [SerializeField] private int maxCharacters = 12;
+    [SerializeField] private int normalTextSize = 40;
+    [SerializeField] private int smallTextSize = 30;
+
     private Model.Accordion content;
 
     private List<Layer> pickedLayers = new List<Layer>();
@@ -111,7 +115,15 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         questionText.text = question.questionText;
 
         for (int i = 0; i < answerContainers.Length; i++) {
-            answerContainers[i].GetComponentInChildren<Text>().text = question.answers[i];
+
+            Text containerText = answerContainers[i].GetComponentInChildren<Text>();
+            containerText.text = question.answers[i];
+
+            if (containerText.text.Length > maxCharacters) {
+                containerText.fontSize = smallTextSize;
+            } else {
+                containerText.fontSize = normalTextSize;
+            }
         }
     }
 
