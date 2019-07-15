@@ -161,6 +161,7 @@ public class Controller : MonoBehaviour
     {
         quizActive = !quizActive;
         accordion.ShowQuiz(quizActive);
+        rotationWheel.Toggle(!quizActive);
         toggleButton.Toggle(quizActive);
     }
 

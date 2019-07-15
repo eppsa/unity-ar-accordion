@@ -75,4 +75,9 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
 
         dragging = false;
     }
+
+    public void Toggle(bool active)
+    {
+        this.gameObject.SetActive(active);
+    }
 }
