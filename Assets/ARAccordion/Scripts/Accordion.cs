@@ -63,13 +63,14 @@ public class Accordion : MonoBehaviour
 
     public IEnumerator MoveToBeginning()
     {
+        isMoving = true;
         for (float i = step; i > 0; i -= 0.05f) {
             UpdateStep(i);
             yield return new WaitForSeconds(0.001f);
         }
 
         yield return new WaitForSeconds(1f);
-        StartCoroutine(quiz.StartQuiz());
+        isMoving = false;
     }
 
 

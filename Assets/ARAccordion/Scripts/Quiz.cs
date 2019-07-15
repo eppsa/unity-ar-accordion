@@ -44,23 +44,21 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     public void OnEnable()
     {
+        StartCoroutine(StartQuiz());
+    }
+
+    IEnumerator StartQuiz()
+    {
         foreach (Transform child in transform) {
             child.gameObject.SetActive(false);
         }
 
         StartCoroutine(accordion.MoveToBeginning());
-    }
 
-
-    void Start()
-    {
-        for (int i = 0; i < pickedLayers.Count; i++) {
-            Debug.Log(pickedLayers[i].id);
+        while (accordion.isMoving) {
+            yield return null;
         }
-    }
 
-    public IEnumerator StartQuiz()
-    {
         StartCoroutine(accordion.MoveToLayer(pickedLayers[currentQuestionIndex].id));
 
         while (accordion.isMoving) {
@@ -71,6 +69,14 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
             child.gameObject.SetActive(true);
         }
 
+    }
+
+
+    void Start()
+    {
+        for (int i = 0; i < pickedLayers.Count; i++) {
+            Debug.Log(pickedLayers[i].id);
+        }
     }
 
 
