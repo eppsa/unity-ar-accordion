@@ -53,6 +53,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     public void OnEnable()
     {
+        InitQuiz();
         StartCoroutine(StartQuiz());
     }
 
@@ -82,11 +83,12 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     public void SetContent(Model.Accordion content)
     {
         this.content = content;
-        InitQuiz();
     }
 
     private void InitQuiz()
     {
+        currentQuestionIndex = 0;
+        correctAnswers = 0;
         pickedLayers = GetRandomLayers(maxQuestions);
         UpdateQuizContent();
     }
