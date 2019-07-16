@@ -29,7 +29,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private int correctAnswers = 0;
     private int maxQuestions = 5;
 
-    [SerializeField] private int maxCharacters = 12;
+    [SerializeField] private int maxCharacters = 14;
     [SerializeField] private int normalTextSize = 40;
     [SerializeField] private int smallTextSize = 30;
 
