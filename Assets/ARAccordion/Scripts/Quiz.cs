@@ -114,6 +114,8 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     private void UpdateQuizContent()
     {
+        foreach (Transform child in transform) child.gameObject.SetActive(true);
+
         List<Question> questions = pickedLayers[currentQuestionIndex].questions;
         pickedId = UnityEngine.Random.Range(0, questions.Count);
         Question question = questions[pickedId];
@@ -134,13 +136,11 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     private void ShowResult()
     {
+        this.gameObject.transform.GetChild(0).gameObject.SetActive(true);
         string resultText = string.Format(this.content.resultText, correctAnswers, maxQuestions);
         questionText.text = resultText;
 
         dropArea.SetActive(false);
-        foreach (GameObject answerContainer in answerContainers) {
-            answerContainer.SetActive(false);
-        }
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -216,6 +216,8 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     private void Reset()
     {
+        foreach (Transform child in transform) child.gameObject.SetActive(false);
+
         activeDraggable.transform.position = activeDraggableStartPosition;
         activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.002f);
 
