@@ -21,7 +21,7 @@ public class Accordion : MonoBehaviour
     [SerializeField] private Material defaultSpriteMaterial;
     [SerializeField] private Material dofSpriteMaterial;
 
-    private bool towardsCamera = false;
+    private bool towardsCamera = true;
 
     private GameObject[] components;
 
