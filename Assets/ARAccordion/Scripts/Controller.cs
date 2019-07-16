@@ -159,10 +159,12 @@ public class Controller : MonoBehaviour
 
     public void OnToggleQuiz()
     {
-        quizActive = !quizActive;
-        accordion.ShowQuiz(quizActive);
-        rotationWheel.Toggle(!quizActive);
-        toggleButton.Toggle(quizActive);
+        if (!accordion.isMoving) {
+            quizActive = !quizActive;
+            accordion.ShowQuiz(quizActive);
+            rotationWheel.Toggle(!quizActive);
+            toggleButton.Toggle(quizActive);
+        }
     }
 
     public void OnEnableDofDebugging(bool enable)
