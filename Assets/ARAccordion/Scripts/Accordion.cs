@@ -173,7 +173,6 @@ public class Accordion : MonoBehaviour
         if (step > 0) {
             if (step % 1 == 0) {
                 UpdateLayerUI();
-                UpdateLayerUI();
             }
         } else {
             if (infoPopUp.isActiveAndEnabled) {
