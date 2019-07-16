@@ -18,9 +18,7 @@ public class Accordion : MonoBehaviour
     private float distanceFactor = 0.5f;
     [SerializeField] private float exponent = 1;
 
-    [SerializeField] private float moveDurationIn = 2;
-    [SerializeField] private float moveDurationOut = 5f;
-
+    [SerializeField] private float moveDuration = 1.5f;
 
     [SerializeField] private Material defaultSpriteMaterial;
     [SerializeField] private Material dofSpriteMaterial;
@@ -70,8 +68,6 @@ public class Accordion : MonoBehaviour
         isMoving = true;
 
         float moveFrom = step;
-        float distanceFactor = moveTo - moveFrom;
-        float moveDuration = moveTo > 0 ? moveDurationOut * distanceFactor : moveDurationIn;
 
         float startTime = Time.time;
         float currentDuration = 0.0f;
