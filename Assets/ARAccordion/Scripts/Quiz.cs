@@ -11,7 +11,7 @@ using System.Linq;
 public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 {
 
-    [SerializeField] private Accordion accordion;
+    private Accordion accordion;
 
     [SerializeField] private GameObject[] answerContainers;
     [SerializeField] private GameObject dropArea;
@@ -45,6 +45,11 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     int pickedId;
 
+
+    public void Awake()
+    {
+        accordion = this.transform.parent.GetComponent<Accordion>();
+    }
 
     public void OnEnable()
     {
