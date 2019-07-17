@@ -25,13 +25,15 @@ public class InfoFactory : MonoBehaviour
         Debug.Log("Clear");
 
         foreach (Transform anchor in anchors) {
-            GameObject infoPoint = anchor.GetChild(0).gameObject;
-            infoPoint.SetActive(false);
+            if (anchor.childCount > 0) {
+                GameObject infoPoint = anchor.GetChild(0).gameObject;
+                infoPoint.SetActive(false);
 
-            anchor.DetachChildren();
+                anchor.DetachChildren();
 
-            Destroy(infoPoint);
-            Debug.Log("Cleared " + infoPoint);
+                Destroy(infoPoint);
+                Debug.Log("Cleared " + infoPoint);
+            }
         }
     }
 
