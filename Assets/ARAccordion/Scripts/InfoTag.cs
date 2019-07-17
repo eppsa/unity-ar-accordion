@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InfoPopup : MonoBehaviour
+public class InfoTag : MonoBehaviour
 {
     private float duration = 0.7f;
 
@@ -11,8 +11,7 @@ public class InfoPopup : MonoBehaviour
 
     string content;
 
-    private string iconPath;
-    private Transform anchor;
+    private string imagePath;
 
     bool fadeRunning = false;
 
@@ -21,10 +20,10 @@ public class InfoPopup : MonoBehaviour
         GetComponent<CanvasGroup>().alpha = 0.0f;
     }
 
-    public void Show(string content, string iconPath)
+    public void Show(string content, string imagePath)
     {
         this.content = content;
-        this.iconPath = iconPath;
+        this.imagePath = imagePath;
 
         StartCoroutine(DoShow());
         DoShow();
@@ -74,16 +73,8 @@ public class InfoPopup : MonoBehaviour
 
     private void UpdateInformation()
     {
-        transform.position = this.anchor.transform.position;
-        transform.rotation = this.anchor.transform.rotation;
-        transform.SetParent(this.anchor.transform);
         text.text = content;
-        image.GetComponent<Image>().sprite = Resources.Load<Sprite>(iconPath);
-    }
-
-    public void SetAnchor(Transform anchor)
-    {
-        this.anchor = anchor;
+        image.GetComponent<Image>().sprite = Resources.Load<Sprite>(imagePath);
     }
 
     public void SetFadeDuration(float duration)

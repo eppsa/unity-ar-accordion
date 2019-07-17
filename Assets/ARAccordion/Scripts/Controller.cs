@@ -40,7 +40,7 @@ public class Controller : MonoBehaviour
 
         arCamera.GetComponent<UnityEngine.XR.ARFoundation.ARCameraManager>().focusMode = CameraFocusMode.Fixed;
 
-        maxDistance = accordion.transform.Find("ComponentAnchors").childCount;
+        maxDistance = accordion.transform.Find("Components").childCount;
 
         rotationWheel.Init(maxDistance);
 

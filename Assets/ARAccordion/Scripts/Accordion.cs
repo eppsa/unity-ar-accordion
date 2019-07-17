@@ -3,16 +3,17 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using Model;
 using System;
+using System.Collections.Generic;
 
 public class Accordion : MonoBehaviour
 {
-    [Header("Canvas")] [SerializeField] private InfoPopup infoPopUp;
+    [Header("Canvas")] [SerializeField] private InfoFactory infoFactory;
 
     [SerializeField] private Quiz quiz;
 
     [SerializeField] private GameObject background;
     [SerializeField] private GameObject original;
-    [SerializeField] private GameObject componentAnchors;
+    [SerializeField] private GameObject components;
 
     [SerializeField] private float speed = 5.0f;
     private float distanceFactor = 0.5f;
@@ -23,9 +24,11 @@ public class Accordion : MonoBehaviour
 
     private bool towardsCamera = true;
 
-    private GameObject[] components;
+    private List<GameObject> images = new List<GameObject>();
 
     private float step = 0f;
+    private int currentLayer = 0;
+    private GameObject activeImage = null;
 
     private bool savedOrigins = false;
 
@@ -40,9 +43,8 @@ public class Accordion : MonoBehaviour
 
     void OnEnable()
     {
-        components = new GameObject[componentAnchors.transform.childCount];
-        for (int i = 0; i < componentAnchors.transform.childCount; i++) {
-            components[i] = componentAnchors.transform.GetChild(i).Find("Image").gameObject;
+        foreach (Transform component in components.transform) {
+            images.Add(component.Find("Image").gameObject);
         }
 
         if (Application.isEditor) {
@@ -52,9 +54,8 @@ public class Accordion : MonoBehaviour
 
     void Start()
     {
-        infoPopUp.gameObject.SetActive(true);
-        infoPopUp.GetComponent<Canvas>().worldCamera = Camera.main;
-        infoPopUp.SetFadeDuration(0.5f);
+        infoFactory.gameObject.SetActive(true);
+        infoFactory.GetComponent<Canvas>().worldCamera = Camera.main;
 
         background.SetActive(false);
     }
@@ -63,7 +64,7 @@ public class Accordion : MonoBehaviour
     {
         original.SetActive(step == 0);
         background.SetActive(step > 0);
-        componentAnchors.SetActive(step > 0);
+        components.SetActive(step > 0);
 
         if (step == 0) {
             SetOriginPositions();
@@ -74,8 +75,8 @@ public class Accordion : MonoBehaviour
 
     private void SetOriginPositions()
     {
-        for (int i = 0; i < components.Length; i++) {
-            GameObject tile = components[i];
+        for (int i = 0; i < images.Count; i++) {
+            GameObject tile = images[i];
 
             tile.transform.localRotation = Quaternion.Euler(0, 0, 0);
             tile.transform.position = Vector3.zero;
@@ -84,8 +85,8 @@ public class Accordion : MonoBehaviour
 
     private void SetNewPositions()
     {
-        for (int i = 0; i < components.Length; i++) {
-            GameObject component = this.components[i];
+        for (int i = 0; i < images.Count; i++) {
+            GameObject component = this.images[i];
 
             float distance = GetDistance(step, i);
 
@@ -97,14 +98,14 @@ public class Accordion : MonoBehaviour
         }
 
         if (step > 0) {
-            float focusDistance = Vector3.Distance(Camera.main.transform.position, components[components.Length - Mathf.CeilToInt(this.step)].transform.position);
+            float focusDistance = Vector3.Distance(Camera.main.transform.position, images[images.Count - Mathf.CeilToInt(this.step)].transform.position);
             Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(focusDistance);
         }
     }
 
     private float GetDistance(float step, int index)
     {
-        return Mathf.Pow(step + index, exponent) / Mathf.Pow(components.Length, exponent);
+        return Mathf.Pow(step + index, exponent) / Mathf.Pow(images.Count, exponent);
     }
 
     private void moveFromOrigin(GameObject component, float stepDistance)
@@ -139,20 +140,36 @@ public class Accordion : MonoBehaviour
 
     public void UpdateStep(float step)
     {
+        if (this.step == step) {
+            return;
+        }
+
         this.step = step;
 
         if (step > 0) {
             if (step % 1 == 0) {
+                if (activeImage != null) {
+                    infoFactory.Clear(activeImage.transform.Find("Anchors"));
+                }
+
+                this.currentLayer = images.Count - Mathf.CeilToInt(step);
+                this.activeImage = images[currentLayer];
+
                 UpdateLayerUI();
             }
         } else {
-            if (infoPopUp.isActiveAndEnabled) {
-                infoPopUp.Hide();
+            if (infoFactory.isActiveAndEnabled) {
+                if (activeImage != null) {
+                    infoFactory.Clear(activeImage.transform.Find("Anchors"));
+                }
             }
 
             if (quiz.isActiveAndEnabled) {
                 quiz.transform.gameObject.SetActive(false);
             }
+
+            activeImage = null;
+            this.currentLayer = 0;
         }
 
         Highlight();
@@ -160,43 +177,41 @@ public class Accordion : MonoBehaviour
 
     private void UpdateLayerUI()
     {
-        int layer = components.Length - Mathf.CeilToInt(step);
-        GameObject activeTile = components[layer];
+        if (infoFactory.isActiveAndEnabled) {
+            Transform anchors = activeImage.transform.Find("Anchors");
 
-        if (infoPopUp.isActiveAndEnabled) {
-            infoPopUp.SetAnchor(activeTile.transform.Find("TagAnchor"));
-            infoPopUp.Show(content.accordion.layers[layer].information, "Images/icon" + layer);
+            infoFactory.Create(content.accordion.layers[this.currentLayer].infos, anchors, "Images/icon" + this.currentLayer);
         }
 
         if (quiz.isActiveAndEnabled) {
-            quiz.transform.position = activeTile.transform.Find("TagAnchor").transform.position;
-            quiz.transform.rotation = activeTile.transform.Find("TagAnchor").transform.rotation;
-            quiz.transform.SetParent(activeTile.transform.Find("TagAnchor").transform);
+            quiz.transform.position = activeImage.transform.Find("TagAnchor").transform.position;
+            quiz.transform.rotation = activeImage.transform.Find("TagAnchor").transform.rotation;
+            quiz.transform.SetParent(activeImage.transform.Find("TagAnchor").transform);
         }
     }
 
     private void Highlight()
     {
-        int activeTileIndex = components.Length - Mathf.CeilToInt(step);
+        int activeTileIndex = images.Count - Mathf.CeilToInt(step);
 
         float distanceOfActiveTile = GetDistance(step, activeTileIndex);
 
-        for (int i = 0; i < components.Length; i++) {
-            GameObject tile = components[i];
-            Color color = tile.GetComponent<Renderer>().material.GetColor("_Color");
+        for (int i = 0; i < images.Count; i++) {
+            GameObject component = images[i];
+            Color color = component.GetComponentInChildren<Renderer>().material.GetColor("_Color");
 
             if (i == activeTileIndex) {
-                tile.GetComponent<Renderer>().material = dofSpriteMaterial;
-                infoPopUp.SetAnchor(tile.transform.Find("TagAnchor"));
+                component.GetComponentInChildren<Renderer>().material = dofSpriteMaterial;
+                // infos.SetAnchor(tile.transform.Find("TagAnchor"));
             }
 
             float distanceOfTile = GetDistance(step, i);
             if (distanceOfTile > distanceOfActiveTile) {
-                tile.GetComponent<Renderer>().material = defaultSpriteMaterial;
-                StartCoroutine(Fade(color.a, 0.5f, 1.0f, tile.GetComponent<Renderer>().material));
+                component.GetComponentInChildren<Renderer>().material = defaultSpriteMaterial;
+                StartCoroutine(Fade(color.a, 0.5f, 1.0f, component.GetComponentInChildren<Renderer>().material));
             } else {
-                tile.GetComponent<Renderer>().material = dofSpriteMaterial;
-                StartCoroutine(Fade(color.a, 1.0f, 1.0f, tile.GetComponent<Renderer>().material));
+                component.GetComponentInChildren<Renderer>().material = dofSpriteMaterial;
+                StartCoroutine(Fade(color.a, 1.0f, 1.0f, component.GetComponentInChildren<Renderer>().material));
             }
         }
     }
@@ -238,7 +253,7 @@ public class Accordion : MonoBehaviour
     internal void ShowQuiz(bool show)
     {
         this.quiz.gameObject.SetActive(show);
-        this.infoPopUp.gameObject.SetActive(!show);
+        this.infoFactory.gameObject.SetActive(!show);
 
         UpdateStep(this.step);
     }
