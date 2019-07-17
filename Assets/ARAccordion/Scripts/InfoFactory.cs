@@ -32,15 +32,15 @@ public class InfoFactory : MonoBehaviour
                 anchor.DetachChildren();
 
                 Destroy(infoPoint);
-                Debug.Log("Cleared " + infoPoint);
             }
         }
     }
 
     private void OnInfoPointClick(InfoPoint infoPoint)
     {
-        // 1. Play Click Aninmation
         Debug.Log("OnPointerClick()");
+
+        // 1. Play click aninmation
 
         // 2. Hide opened info tag
         if (selectedInfoPoint != null) {
