@@ -263,6 +263,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: InfoTag
       objectReference: {fileID: 0}
+    - target: {fileID: 3202324252294473636, guid: 95ab15f22c1864f90ab32a9bf9377306,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3691580435576511092, guid: 95ab15f22c1864f90ab32a9bf9377306,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -381,6 +386,11 @@ PrefabInstance:
     - target: {fileID: 3691580435576511092, guid: 95ab15f22c1864f90ab32a9bf9377306,
         type: 3}
       propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3202324252106308974, guid: 95ab15f22c1864f90ab32a9bf9377306,
+        type: 3}
+      propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

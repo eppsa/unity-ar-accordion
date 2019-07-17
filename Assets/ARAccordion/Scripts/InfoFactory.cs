@@ -42,7 +42,6 @@ public class InfoFactory : MonoBehaviour
 
         // 1. Play click aninmation
 
-        // 2. Hide opened info tag
         if (selectedInfoPoint != null) {
             selectedInfoPoint.HideInfoTag();
         }

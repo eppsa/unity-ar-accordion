@@ -13,11 +13,15 @@ public class InfoTag : MonoBehaviour
 
     private string imagePath;
 
-    bool fadeRunning = false;
+    bool backgroundScaleRunning = false;
+    bool imageScaleRunning = false;
+
 
     void OnEnable()
     {
-        GetComponent<CanvasGroup>().alpha = 0.0f;
+        transform.Find("Background").localScale = new Vector3(0, 1, 1);
+        transform.Find("Image").localScale = new Vector3(0, 0, 0);
+        transform.Find("Text").GetComponent<Text>().color = new Color(0, 0, 0, 0);
     }
 
     public void Show(string content, string imagePath)
@@ -25,32 +29,38 @@ public class InfoTag : MonoBehaviour
         this.content = content;
         this.imagePath = imagePath;
 
-        StartCoroutine(DoShow());
-        DoShow();
+        DoShowBackground();
+        StartCoroutine(DoShowImage());
+        StartCoroutine(DoShowText());
     }
 
-    private IEnumerator DoShow()
+    private void DoShowBackground()
     {
-        while (fadeRunning) {
+        UpdateInformation();
+        StartCoroutine(ScaleBackground(0.0f, 1.0f, duration));
+    }
+
+    private IEnumerator DoShowImage()
+    {
+        while (backgroundScaleRunning) {
             yield return null;
         }
 
-        UpdateInformation();
-        StartCoroutine(Fade(0.0f, 1.0f, duration));
+        StartCoroutine(ScaleImage(0.0f, 1.0f, duration));
     }
 
-    public void Hide()
+    private IEnumerator DoShowText()
     {
-        if (this.GetComponent<CanvasGroup>().alpha == 0.0f) {
-            return;
+        while (backgroundScaleRunning || imageScaleRunning) {
+            yield return null;
         }
 
-        StartCoroutine(Fade(1.0f, 0.0f, duration));
+        StartCoroutine(FadeText(0.0f, 1.0f, duration));
     }
 
-    private IEnumerator Fade(float fadeFrom, float fadeTo, float duration)
+    private IEnumerator ScaleBackground(float from, float to, float duration)
     {
-        fadeRunning = true;
+        backgroundScaleRunning = true;
 
         float startTime = Time.time;
         float currentDuration = 0.0f;
@@ -61,11 +71,57 @@ public class InfoTag : MonoBehaviour
             progress = currentDuration / duration;
 
             if (progress <= 1.0f) {
-                GetComponent<CanvasGroup>().alpha = Mathf.Lerp(fadeFrom, fadeTo, progress);
+                transform.Find("Background").localScale = new Vector3(Mathf.Lerp(from, to, progress), 1, 1);
                 yield return new WaitForEndOfFrame();
             } else {
-                this.GetComponent<CanvasGroup>().alpha = fadeTo;
-                fadeRunning = false;
+                transform.Find("Background").localScale = new Vector3(to, 1, 1);
+                backgroundScaleRunning = false;
+                yield break;
+            }
+        }
+    }
+
+    private IEnumerator ScaleImage(float from, float to, float duration)
+    {
+        imageScaleRunning = true;
+
+        float startTime = Time.time;
+        float currentDuration = 0.0f;
+        float progress = 0.0f;
+
+        while (true) {
+            currentDuration = Time.time - startTime;
+            progress = currentDuration / duration;
+
+            if (progress <= 1.0f) {
+                float value = Mathf.Lerp(from, to, progress);
+                transform.Find("Image").localScale = new Vector3(value, value, 1);
+                yield return new WaitForEndOfFrame();
+            } else {
+                transform.Find("Image").localScale = new Vector3(to, to, 1);
+                imageScaleRunning = false;
+                yield break;
+            }
+        }
+    }
+
+    private IEnumerator FadeText(float from, float to, float duration)
+    {
+        float startTime = Time.time;
+        float currentDuration = 0.0f;
+        float progress = 0.0f;
+
+        while (true) {
+            currentDuration = Time.time - startTime;
+            progress = currentDuration / duration;
+
+            Text text = transform.Find("Text").GetComponent<Text>();
+
+            if (progress <= 1.0f) {
+                text.color = new Color(text.color.r, text.color.g, text.color.b, Mathf.Lerp(from, to, progress));
+                yield return new WaitForEndOfFrame();
+            } else {
+                text.color = new Color(text.color.r, text.color.g, text.color.b, to);
                 yield break;
             }
         }
@@ -82,8 +138,15 @@ public class InfoTag : MonoBehaviour
         this.duration = duration;
     }
 
+    public void Hide()
+    {
+        StartCoroutine(ScaleBackground(1.0f, 0.0f, duration));
+        StartCoroutine(ScaleImage(1.0f, 0.0f, duration));
+        StartCoroutine(FadeText(1.0f, 0.0f, duration));
+    }
+
     void OnDisable()
     {
-        fadeRunning = false;
+        backgroundScaleRunning = false;
     }
 }
