@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -31,15 +32,13 @@ public class InfoPoint : Button
         this.imagePath = imagePath;
     }
 
-    public override void OnPointerClick(PointerEventData eventData)
+    internal void HideInfoTag()
     {
-        Debug.Log("OnPointerClick()");
+        infoTag.Hide();
+    }
 
-        // 1. Play Click Aninmation
-
-        // 2. Hide opened info tag
-
-        // 3. Show info tag and set content
+    internal void ShowInfoTag()
+    {
         infoTag.gameObject.SetActive(true);
         infoTag.Show(content, imagePath);
     }
