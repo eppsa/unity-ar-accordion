@@ -1,12 +1,17 @@
 {
-  "accordion" : {
-    "layers" : [
+  "accordion": {
+    "layers": [
       {
-        "information" : "1 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf.",
-        "quiz" : {
-          "questions" : [
+        "infos": [
+          "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*",
+          "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*",
+          "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*",
+          "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+        ],
+        "quiz": {
+          "questions": [
             {
-              "questionText":"Was symbolisieren die \"100 Augen\" auf Argus Kopf?",
+              "questionText": "Was symbolisieren die \"100 Augen\" auf Argus Kopf?",
               "correctAnswerId": 1,
               "answers": [
                 "Macht",
@@ -16,7 +21,7 @@
               ]
             },
             {
-              "questionText":"Ich habe einen Ozean aber kein Wasser. Wer bin ich?",
+              "questionText": "Ich habe einen Ozean aber kein Wasser. Wer bin ich?",
               "correctAnswerId": 2,
               "answers": [
                 "Fluß",
@@ -26,7 +31,7 @@
               ]
             },
             {
-              "questionText":"Was wird beim Trocknen nass?",
+              "questionText": "Was wird beim Trocknen nass?",
               "correctAnswerId": 0,
               "answers": [
                 "Handtuch",
@@ -36,7 +41,7 @@
               ]
             },
             {
-              "questionText":"Wo geht man durch ein Loch rein und durch zwei wieder raus?",
+              "questionText": "Wo geht man durch ein Loch rein und durch zwei wieder raus?",
               "correctAnswerId": 3,
               "answers": [
                 "Jacke",
@@ -46,7 +51,7 @@
               ]
             },
             {
-              "questionText":"Was spricht ohne Mund?",
+              "questionText": "Was spricht ohne Mund?",
               "correctAnswerId": 1,
               "answers": [
                 "Duden",
@@ -56,7 +61,7 @@
               ]
             },
             {
-              "questionText":"Was liegt zwischen Meer und Land?",
+              "questionText": "Was liegt zwischen Meer und Land?",
               "correctAnswerId": 2,
               "answers": [
                 "Kuhweide",
@@ -66,7 +71,7 @@
               ]
             },
             {
-              "questionText":"Welcher Zahn beißt nie?",
+              "questionText": "Welcher Zahn beißt nie?",
               "correctAnswerId": 0,
               "answers": [
                 "Löwenzahn",
@@ -76,7 +81,7 @@
               ]
             },
             {
-              "questionText":"Was kann man niemals mit Worten ausdrücken?",
+              "questionText": "Was kann man niemals mit Worten ausdrücken?",
               "correctAnswerId": 3,
               "answers": [
                 "Liebe",
@@ -86,7 +91,7 @@
               ]
             },
             {
-              "questionText":"Was setzt der Gärtner als erstes in seinen Garten?",
+              "questionText": "Was setzt der Gärtner als erstes in seinen Garten?",
               "correctAnswerId": 2,
               "answers": [
                 "Samen",
@@ -96,7 +101,7 @@
               ]
             },
             {
-              "questionText":"Was hat zwei Beine und kann nicht laufen?",
+              "questionText": "Was hat zwei Beine und kann nicht laufen?",
               "correctAnswerId": 2,
               "answers": [
                 "Ente",
@@ -105,37 +110,71 @@
                 "Känguruh"
               ]
             }
-            ],
-          "resultText":"Du hast {0} von {1} Fragen richtig beantwortet.",
-          }
+          ],
+          "resultText": "Du hast {0} von {1} Fragen richtig beantwortet.",
+        }
       },
       {
-        "information" : "2 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf.",
-        "game" : "",
+        "infos": [
+          "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*",
+          "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*",
+          "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*",
+          "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*",
+          "*Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+        ],
+        "game": ""
       },
       {
-        "information" : "3 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf.",
-        "game" : "",
+        "infos": [
+          "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*",
+          "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*",
+          "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*",
+          "*Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+        ],
+        "game": ""
       },
       {
-        "information" : "4 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf.",
-        "game" : "",
+        "infos": [
+          "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*",
+          "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*",
+        ],
+        "game": ""
       },
       {
-        "information" : "5 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf.",
-        "game" : "",
+        "infos": [
+          "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*",
+          "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*",
+          "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*",
+          "*Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+        ],
+        "game": ""
       },
       {
-        "information" : "6 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf.",
-        "game" : "",
+        "infos": [
+          "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*",
+          "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*",
+          "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*",
+          "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*",
+        ],
+        "game": ""
       },
       {
-        "information" : "7 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf.",
-        "game" : "",
+        "infos": [
+          "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*",
+          "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*",
+          "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*",
+          "*Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+        ],
+        "game": ""
       },
       {
-        "information" : "8 Der enthauptete Argus trag laut griechsicher Mythologie 100 Augen auf seinem Kopf.",
-        "game" : "",
+        "infos": [
+          "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*",
+          "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*",
+          "*Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*",
+          "*Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+        ],
+        "game": ""
       }
     ]
   }
