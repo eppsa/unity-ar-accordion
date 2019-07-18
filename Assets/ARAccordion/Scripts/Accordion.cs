@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using Model;
-using System;
+using System.Linq;
 
 public class Accordion : MonoBehaviour
 {
@@ -52,6 +52,9 @@ public class Accordion : MonoBehaviour
         if (Application.isEditor) {
             UpdateAnchors();
         }
+
+        var dummys = Resources.FindObjectsOfTypeAll<GameObject>().Where(obj => obj.name == "DummyObject");
+        foreach (GameObject obj in dummys) obj.transform.gameObject.SetActive(false);
     }
 
     void Start()
