@@ -22,7 +22,7 @@ public class Accordion : MonoBehaviour
     [SerializeField] private Material defaultSpriteMaterial;
     [SerializeField] private Material dofSpriteMaterial;
 
-    private bool towardsCamera = true;
+    private bool towardsCamera = false;
 
     private List<GameObject> images = new List<GameObject>();
 

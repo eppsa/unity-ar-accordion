@@ -1,25 +1,61 @@
 using System;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class InfoPoint : Button
 {
     InfoTag infoTag;
 
-    string content;
-    string imagePath;
+    private string content;
+    private string imagePath;
+    private float delay;
+
+    private bool scaleRunning = false;
+
+    private float duration = 0.7f;
 
     protected override void OnEnable()
     {
-        Debug.Log("OnEnalbe()");
-
         infoTag = GetComponentInChildren<InfoTag>();
         infoTag.gameObject.SetActive(false);
 
         GetComponentInChildren<Canvas>().worldCamera = Camera.main;
 
-        // 1. Play Appear Animation
+        transform.localScale = Vector3.zero;
+
+        Invoke("StartScaling", this.delay);
+    }
+
+    private void StartScaling()
+    {
+        StartCoroutine(Scale(0.0f, 1.0f, duration));
+    }
+
+    private IEnumerator Scale(float from, float to, float duration)
+    {
+        float startTime = Time.time;
+        float currentDuration = 0.0f;
+        float progress = 0.0f;
+
+        while (true) {
+            currentDuration = Time.time - startTime;
+            progress = currentDuration / duration;
+
+            if (progress <= 1.0f) {
+                float value = Mathf.Lerp(from, to, progress);
+                transform.localScale = new Vector3(value, value, 1);
+                yield return new WaitForEndOfFrame();
+            } else {
+                transform.localScale = new Vector3(to, to, 1);
+                yield break;
+            }
+        }
+    }
+
+    internal void SetDelay(float delay)
+    {
+        this.delay = delay;
     }
 
     internal void SetContent(string content)

@@ -16,7 +16,6 @@ public class InfoTag : MonoBehaviour
     bool backgroundScaleRunning = false;
     bool imageScaleRunning = false;
 
-
     void OnEnable()
     {
         transform.Find("Background").localScale = new Vector3(0, 1, 1);

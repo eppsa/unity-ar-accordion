@@ -7,6 +7,11 @@ public class InfoFactory : MonoBehaviour
 
     private InfoPoint selectedInfoPoint;
 
+    void OnEnable()
+    {
+        infoPointPrefab.SetActive(false);
+    }
+
     public void Create(List<string> infos, Transform anchors, string imagePath)
     {
         for (int i = 0; i < infos.Count; i++) {
@@ -15,6 +20,9 @@ public class InfoFactory : MonoBehaviour
 
             infoPoint.SetContent(infos[i]);
             infoPoint.SetImagePath(imagePath);
+            infoPoint.SetDelay(i * 0.7f);
+
+            infoPoint.gameObject.SetActive(true);
 
             infoPoint.onClick.AddListener(() => OnInfoPointClick(infoPoint));
         }
@@ -22,8 +30,6 @@ public class InfoFactory : MonoBehaviour
 
     public void Clear(Transform anchors)
     {
-        Debug.Log("Clear");
-
         foreach (Transform anchor in anchors) {
             if (anchor.childCount > 0) {
                 GameObject infoPoint = anchor.GetChild(0).gameObject;
