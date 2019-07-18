@@ -73,8 +73,14 @@ public class InfoPoint : Button
         infoTag.Hide();
     }
 
-    internal void ShowInfoTag()
+    internal void ShowInfoTag(TagAnchor.Orientation orientation)
     {
+        float width = infoTag.transform.Find("Background").GetComponent<RectTransform>().sizeDelta.x + transform.Find("Canvas").GetComponent<RectTransform>().sizeDelta.x * 0.5f;
+
+        if (orientation == TagAnchor.Orientation.LEFT) {
+            infoTag.transform.localPosition = new Vector3(-width * infoTag.transform.localScale.x, infoTag.transform.localPosition.y, infoTag.transform.localPosition.z);
+        }
+
         infoTag.gameObject.SetActive(true);
         infoTag.Show(content, imagePath);
     }

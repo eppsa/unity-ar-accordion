@@ -54,7 +54,9 @@ public class InfoFactory : MonoBehaviour
 
         this.selectedInfoPoint = infoPoint;
 
-        this.selectedInfoPoint.ShowInfoTag();
+        TagAnchor.Orientation orientation = infoPoint.transform.GetComponentInParent<TagAnchor>().orientation;
+
+        this.selectedInfoPoint.ShowInfoTag(orientation);
     }
 
 }
