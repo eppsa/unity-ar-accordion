@@ -201,9 +201,7 @@ public class Accordion : MonoBehaviour
         }
 
         if (quiz.isActiveAndEnabled) {
-            quiz.transform.position = activeTile.transform.Find("TagAnchor").transform.position;
-            quiz.transform.rotation = activeTile.transform.Find("TagAnchor").transform.rotation;
-            quiz.transform.SetParent(activeTile.transform.Find("TagAnchor").transform);
+            quiz.transform.SetParent(activeTile.transform.Find("QuizAnchor").transform);
         }
     }
 

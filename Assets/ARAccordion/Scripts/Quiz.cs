@@ -69,6 +69,8 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         while (accordion.isMoving) yield return null;
 
         foreach (Transform child in transform) child.gameObject.SetActive(true);
+
+        UpdateQuizContent();
     }
 
 
@@ -90,7 +92,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         currentQuestionIndex = 0;
         correctAnswers = 0;
         pickedLayers = GetRandomLayers(maxQuestions);
-        UpdateQuizContent();
+
     }
 
     private List<Layer> GetRandomLayers(int count)
@@ -117,6 +119,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private void UpdateQuizContent()
     {
         foreach (Transform child in transform) child.gameObject.SetActive(true);
+        SetPositions();
 
         List<Question> questions = pickedLayers[currentQuestionIndex].questions;
         pickedId = UnityEngine.Random.Range(0, questions.Count);
@@ -230,4 +233,28 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         currentQuestionIndex++;
         StartCoroutine(UpdateQuiz());
     }
+
+    public void SetPositions()
+    {
+
+        GameObject quizAnchor = accordion.activeTile.transform.GetChild(1).gameObject;
+        Debug.Log(quizAnchor.transform.parent.parent.name);
+
+
+        GameObject.Find("QuestionContainer").transform.position = quizAnchor.transform.Find("QuestionAnchor").transform.position;
+        //QuestionObj.transform.position = GameObject.Find("QuestionAnchor").transform.TransformPoint(GameObject.Find("QuestionAnchor").transform.position);
+
+
+
+        GameObject.Find("AnswerContainer 1").transform.position = quizAnchor.transform.Find("AnswerAnchor1").transform.position;
+
+        GameObject.Find("AnswerContainer 2").transform.position = quizAnchor.transform.Find("AnswerAnchor2").transform.position;
+
+        GameObject.Find("AnswerContainer 3").transform.position = quizAnchor.transform.Find("AnswerAnchor3").transform.position;
+
+        GameObject.Find("AnswerContainer 4").transform.position = quizAnchor.transform.Find("AnswerAnchor4").transform.position;
+
+        GameObject.Find("DropArea").transform.position = quizAnchor.transform.Find("DropAnchor").transform.position;
+    }
+
 }
