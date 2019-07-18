@@ -46,6 +46,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     int pickedId;
 
+    bool isZPositionCorrected;
 
     public void Awake()
     {
@@ -163,7 +164,10 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
             if (hit && !questionAnswered) {
                 activeDraggable.transform.position = worldPoint;
-                activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, activeDraggable.transform.localPosition.z - 0.004f);
+                if (!isZPositionCorrected) {
+                    activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, activeDraggable.transform.localPosition.z - 0.2f);
+                    isZPositionCorrected = true;
+                }
             }
 
             if (eventData.pointerEnter && eventData.pointerEnter.gameObject == dropArea) {
@@ -190,15 +194,15 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         if (eventData.pointerEnter.gameObject == dropArea) {
             dropArea.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
             activeDraggable.transform.position = eventData.pointerEnter.transform.position;
-            activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, activeDraggable.transform.localPosition.z - 0.002f);
+            activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, dropArea.transform.localPosition.z - 0.01f);
             activeDraggable.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
             questionAnswered = true;
 
             CheckAnswer();
         } else {
             activeDraggable.transform.position = activeDraggableStartPosition;
-            activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, activeDraggable.transform.localPosition.z - 0.002f);
             activeDraggable.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
+            isZPositionCorrected = false;
             activeDraggable = null;
         }
     }
@@ -225,11 +229,12 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         foreach (Transform child in transform) child.gameObject.SetActive(false);
 
         activeDraggable.transform.position = activeDraggableStartPosition;
-        activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, activeDraggable.transform.localPosition.z - 0.002f);
+        activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -2f);
 
         activeDraggable.GetComponent<Image>().color = defaultColor;
         questionAnswered = false;
         activeDraggable = null;
+        isZPositionCorrected = false;
 
         currentQuestionIndex++;
         StartCoroutine(UpdateQuiz());
