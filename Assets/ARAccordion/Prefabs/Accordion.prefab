@@ -4742,6 +4742,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   infoPopUp: {fileID: 8066719451947384889}
   quiz: {fileID: 3508879756299385990}
+  activeTile: {fileID: 0}
   background: {fileID: 8639770171308828416}
   original: {fileID: 5889366291952359944}
   componentAnchors: {fileID: 6350211771760437025}
@@ -11732,6 +11733,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1586425330, guid: e10e596c10e674c8da084694614fd25c, type: 3}
+      propertyPath: questionContainer
+      value: 
+      objectReference: {fileID: 8908939910412306393}
     - target: {fileID: 7313388802489238176, guid: e10e596c10e674c8da084694614fd25c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11916,6 +11921,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78b72b10f4ea54244ba6cecef17d3b44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &8908939910412306393 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5409071822122210989, guid: e10e596c10e674c8da084694614fd25c,
+    type: 3}
+  m_PrefabInstance: {fileID: 3508879757599461748}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8066719452021175004
 PrefabInstance:
   m_ObjectHideFlags: 0
