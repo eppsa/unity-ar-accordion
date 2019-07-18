@@ -13,10 +13,11 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     private Accordion accordion;
 
+    [SerializeField] private GameObject questionContainer;
     [SerializeField] private GameObject[] answerContainers;
     [SerializeField] private GameObject dropArea;
 
-    [SerializeField] private Text questionText;
+    //[SerializeField] private Text questionText;
 
     [SerializeField] private Color rightColor = new Color(0, 200, 0);
     [SerializeField] private Color wrongColor = new Color(200, 0, 0);
@@ -119,12 +120,12 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private void UpdateQuizContent()
     {
         foreach (Transform child in transform) child.gameObject.SetActive(true);
-        SetPositions();
+        SetQuizTilePositiions();
 
         List<Question> questions = pickedLayers[currentQuestionIndex].questions;
         pickedId = UnityEngine.Random.Range(0, questions.Count);
         Question question = questions[pickedId];
-        questionText.text = question.questionText;
+        questionContainer.transform.GetChild(0).GetComponent<Text>().text = question.questionText;
 
         for (int i = 0; i < answerContainers.Length; i++) {
 
@@ -143,7 +144,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     {
         this.gameObject.transform.GetChild(0).gameObject.SetActive(true);
         string resultText = string.Format(this.content.resultText, correctAnswers, maxQuestions);
-        questionText.text = resultText;
+        questionContainer.transform.GetChild(0).GetComponent<Text>().text = resultText;
 
         dropArea.SetActive(false);
     }
@@ -234,27 +235,18 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         StartCoroutine(UpdateQuiz());
     }
 
-    public void SetPositions()
+    public void SetQuizTilePositiions()
     {
-
         GameObject quizAnchor = accordion.activeTile.transform.GetChild(1).gameObject;
-        Debug.Log(quizAnchor.transform.parent.parent.name);
 
+        questionContainer.transform.position = quizAnchor.transform.Find("QuestionAnchor").transform.position;
 
-        GameObject.Find("QuestionContainer").transform.position = quizAnchor.transform.Find("QuestionAnchor").transform.position;
-        //QuestionObj.transform.position = GameObject.Find("QuestionAnchor").transform.TransformPoint(GameObject.Find("QuestionAnchor").transform.position);
+        answerContainers[0].transform.position = quizAnchor.transform.Find("AnswerAnchor1").transform.position;
+        answerContainers[1].transform.position = quizAnchor.transform.Find("AnswerAnchor2").transform.position;
+        answerContainers[2].transform.position = quizAnchor.transform.Find("AnswerAnchor3").transform.position;
+        answerContainers[3].transform.position = quizAnchor.transform.Find("AnswerAnchor4").transform.position;
 
-
-
-        GameObject.Find("AnswerContainer 1").transform.position = quizAnchor.transform.Find("AnswerAnchor1").transform.position;
-
-        GameObject.Find("AnswerContainer 2").transform.position = quizAnchor.transform.Find("AnswerAnchor2").transform.position;
-
-        GameObject.Find("AnswerContainer 3").transform.position = quizAnchor.transform.Find("AnswerAnchor3").transform.position;
-
-        GameObject.Find("AnswerContainer 4").transform.position = quizAnchor.transform.Find("AnswerAnchor4").transform.position;
-
-        GameObject.Find("DropArea").transform.position = quizAnchor.transform.Find("DropAnchor").transform.position;
+        dropArea.transform.position = quizAnchor.transform.Find("DropAnchor").transform.position;
     }
 
 }
