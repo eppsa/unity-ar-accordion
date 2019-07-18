@@ -6,6 +6,7 @@ public class InfoTag : MonoBehaviour
 {
     private float duration = 0.7f;
 
+    [SerializeField] private GameObject background;
     [SerializeField] private GameObject image;
     [SerializeField] private Text text;
 
@@ -18,9 +19,10 @@ public class InfoTag : MonoBehaviour
 
     void OnEnable()
     {
-        transform.Find("Background").localScale = new Vector3(0, 1, 1);
-        transform.Find("Image").localScale = new Vector3(0, 0, 0);
-        transform.Find("Text").GetComponent<Text>().color = new Color(0, 0, 0, 0);
+        background.transform.localScale = new Vector3(0, 1, 1);
+        image.transform.localScale = new Vector3(0, 0, 0);
+
+        text.gameObject.SetActive(false);
     }
 
     public void Show(string content, string imagePath)
@@ -28,36 +30,27 @@ public class InfoTag : MonoBehaviour
         this.content = content;
         this.imagePath = imagePath;
 
-        DoShowBackground();
-        StartCoroutine(DoShowImage());
-        StartCoroutine(DoShowText());
+        ShowBackground();
+        StartCoroutine(ShowImage());
+        StartCoroutine(WriteText());
     }
 
-    private void DoShowBackground()
+    private void ShowBackground()
     {
         UpdateInformation();
-        StartCoroutine(ScaleBackground(0.0f, 1.0f, duration));
+        StartCoroutine(DoScale(background.transform, background.transform.localScale, Vector3.one, duration));
     }
 
-    private IEnumerator DoShowImage()
+    private IEnumerator ShowImage()
     {
         while (backgroundScaleRunning) {
             yield return null;
         }
 
-        StartCoroutine(ScaleImage(0.0f, 1.0f, duration));
+        StartCoroutine(DoScale(image.transform, image.transform.localScale, Vector3.one, duration));
     }
 
-    private IEnumerator DoShowText()
-    {
-        while (backgroundScaleRunning || imageScaleRunning) {
-            yield return null;
-        }
-
-        StartCoroutine(FadeText(0.0f, 1.0f, duration));
-    }
-
-    private IEnumerator ScaleBackground(float from, float to, float duration)
+    private IEnumerator DoScale(Transform transform, Vector3 from, Vector3 to, float duration)
     {
         backgroundScaleRunning = true;
 
@@ -70,59 +63,37 @@ public class InfoTag : MonoBehaviour
             progress = currentDuration / duration;
 
             if (progress <= 1.0f) {
-                transform.Find("Background").localScale = new Vector3(Mathf.Lerp(from, to, progress), 1, 1);
+                transform.localScale = Vector3.Lerp(from, to, progress);
                 yield return new WaitForEndOfFrame();
             } else {
-                transform.Find("Background").localScale = new Vector3(to, 1, 1);
+                transform.localScale = to;
                 backgroundScaleRunning = false;
                 yield break;
             }
         }
     }
 
-    private IEnumerator ScaleImage(float from, float to, float duration)
+    private IEnumerator WriteText()
     {
-        imageScaleRunning = true;
-
-        float startTime = Time.time;
-        float currentDuration = 0.0f;
-        float progress = 0.0f;
-
-        while (true) {
-            currentDuration = Time.time - startTime;
-            progress = currentDuration / duration;
-
-            if (progress <= 1.0f) {
-                float value = Mathf.Lerp(from, to, progress);
-                transform.Find("Image").localScale = new Vector3(value, value, 1);
-                yield return new WaitForEndOfFrame();
-            } else {
-                transform.Find("Image").localScale = new Vector3(to, to, 1);
-                imageScaleRunning = false;
-                yield break;
-            }
+        while (backgroundScaleRunning || imageScaleRunning) {
+            yield return null;
         }
+
+        StartCoroutine(DoWriteText(0.02f));
     }
 
-    private IEnumerator FadeText(float from, float to, float duration)
+    private IEnumerator DoWriteText(float letterDelay)
     {
-        float startTime = Time.time;
-        float currentDuration = 0.0f;
-        float progress = 0.0f;
+        string fullText = text.text;
 
-        while (true) {
-            currentDuration = Time.time - startTime;
-            progress = currentDuration / duration;
+        text.text = "";
 
-            Text text = transform.Find("Text").GetComponent<Text>();
+        text.gameObject.SetActive(true);
+        text.transform.localScale = Vector3.one;
 
-            if (progress <= 1.0f) {
-                text.color = new Color(text.color.r, text.color.g, text.color.b, Mathf.Lerp(from, to, progress));
-                yield return new WaitForEndOfFrame();
-            } else {
-                text.color = new Color(text.color.r, text.color.g, text.color.b, to);
-                yield break;
-            }
+        for (int i = 0; i < fullText.Length; i++) {
+            text.text = fullText.Substring(0, i);
+            yield return new WaitForSeconds(letterDelay);
         }
     }
 
@@ -139,9 +110,11 @@ public class InfoTag : MonoBehaviour
 
     public void Hide()
     {
-        StartCoroutine(ScaleBackground(1.0f, 0.0f, duration));
-        StartCoroutine(ScaleImage(1.0f, 0.0f, duration));
-        StartCoroutine(FadeText(1.0f, 0.0f, duration));
+        StopAllCoroutines();
+
+        StartCoroutine(DoScale(background.transform, background.transform.localScale, new Vector3(0, 1, 1), duration));
+        StartCoroutine(DoScale(image.transform, image.transform.localScale, Vector3.zero, 0.2f));
+        StartCoroutine(DoScale(text.transform, text.transform.localScale, Vector3.zero, 0.2f));
     }
 
     void OnDisable()
