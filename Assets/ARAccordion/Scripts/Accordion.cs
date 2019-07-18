@@ -9,6 +9,7 @@ public class Accordion : MonoBehaviour
     [Header("Canvas")] [SerializeField] private InfoPopup infoPopUp;
 
     [SerializeField] public Quiz quiz;
+    public GameObject activeTile;
 
     [SerializeField] private GameObject background;
     [SerializeField] private GameObject original;
@@ -190,10 +191,10 @@ public class Accordion : MonoBehaviour
         Highlight();
     }
 
-    private void UpdateLayerUI()
+    public void UpdateLayerUI()
     {
         int layer = components.Length - Mathf.CeilToInt(step);
-        GameObject activeTile = components[layer];
+        activeTile = components[layer];
 
         if (infoPopUp.isActiveAndEnabled) {
             infoPopUp.SetAnchor(activeTile.transform.Find("TagAnchor"));
