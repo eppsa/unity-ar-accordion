@@ -14,6 +14,7 @@ public class Accordion : MonoBehaviour
     [SerializeField] private GameObject background;
     [SerializeField] private GameObject original;
     [SerializeField] private GameObject components;
+    [SerializeField] private GameObject painter;
 
     [SerializeField] private float speed = 5.0f;
     private float distanceFactor = 0.5f;
@@ -38,6 +39,7 @@ public class Accordion : MonoBehaviour
     private Vector3 activeTilePosition;
 
     private Content content;
+    private int start = 0;
 
     public float Exponent { get => exponent; set => exponent = value; }
 
@@ -60,20 +62,41 @@ public class Accordion : MonoBehaviour
         background.SetActive(false);
     }
 
+    internal void SetStart(int startLayer)
+    {
+        this.start = startLayer;
+    }
+
     void LateUpdate()
     {
-        original.SetActive(step == 0);
-        background.SetActive(step > 0);
-        components.SetActive(step > 0);
+        if (step > 0) {
+            original.SetActive(false);
+            background.SetActive(true);
+            components.SetActive(true);
+            UpdatePositions();
 
-        if (step == 0) {
-            SetOriginPositions();
+            float focusDistance = Vector3.Distance(Camera.main.transform.position, images[images.Count - Mathf.CeilToInt(this.step)].transform.position);
+            Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(focusDistance);
+        } else if (step < 0) {
+            original.SetActive(true);
+            background.SetActive(false);
+            components.SetActive(false);
+
+            UpdatePainterPosition();
+
+            float focusDistance = Vector3.Distance(Camera.main.transform.position, painter.transform.position);
+            Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(focusDistance);
         } else {
-            SetNewPositions();
+            original.SetActive(true);
+            background.SetActive(false);
+            components.SetActive(false);
+
+            UpdateToOriginPositions();
+            UpdatePainterPosition();
         }
     }
 
-    private void SetOriginPositions()
+    private void UpdateToOriginPositions()
     {
         for (int i = 0; i < images.Count; i++) {
             GameObject tile = images[i];
@@ -83,7 +106,7 @@ public class Accordion : MonoBehaviour
         }
     }
 
-    private void SetNewPositions()
+    private void UpdatePositions()
     {
         for (int i = 0; i < images.Count; i++) {
             GameObject component = this.images[i];
@@ -96,10 +119,16 @@ public class Accordion : MonoBehaviour
                 moveFromOrigin(component, distance);
             }
         }
+    }
 
-        if (step > 0) {
-            float focusDistance = Vector3.Distance(Camera.main.transform.position, images[images.Count - Mathf.CeilToInt(this.step)].transform.position);
-            Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(focusDistance);
+    private void UpdatePainterPosition()
+    {
+        float distance = Mathf.Pow(step + images.Count + 1, exponent) / Mathf.Pow(images.Count, exponent);
+
+        if (towardsCamera) {
+            moveTowardsCamera(painter, distance);
+        } else {
+            moveFromOrigin(painter, distance);
         }
     }
 
@@ -108,33 +137,33 @@ public class Accordion : MonoBehaviour
         return Mathf.Pow(step + index, exponent) / Mathf.Pow(images.Count, exponent);
     }
 
-    private void moveFromOrigin(GameObject component, float stepDistance)
+    private void moveFromOrigin(GameObject go, float stepDistance)
     {
-        Vector3 origin = component.gameObject.transform.parent.transform.position;
+        Vector3 origin = go.transform.parent.transform.position;
 
         float distanceToCamera = Mathf.Abs(Vector3.Distance(this.initialCameraPosition, origin));
 
         Vector3 newLocalPosition = new Vector3(0, 0, -1) * stepDistance * distanceToCamera * distanceFactor;
 
-        component.transform.localPosition = newLocalPosition;
+        go.transform.localPosition = newLocalPosition;
     }
 
-    private void moveTowardsCamera(GameObject component, float stepDistance)
+    private void moveTowardsCamera(GameObject go, float stepDistance)
     {
-        Vector3 origin = component.gameObject.transform.parent.transform.position;
+        Vector3 origin = go.transform.parent.transform.position;
 
         Vector3 distanceVector = Camera.main.transform.position - origin;
 
         Vector3 newPosition = origin + distanceVector * distanceFactor * stepDistance;
 
-        component.transform.position = newPosition;
+        go.transform.position = newPosition;
 
-        if (Vector3.Distance(component.transform.position, origin) > 0.1f) {
-            Vector3 newDirection = Vector3.RotateTowards(component.transform.forward, Camera.main.transform.forward, speed * 0.001f * Time.deltaTime, 0.0f);
-            component.transform.rotation = Quaternion.LookRotation(newDirection, Camera.main.transform.up);
+        if (Vector3.Distance(go.transform.position, origin) > 0.1f) {
+            Vector3 newDirection = Vector3.RotateTowards(go.transform.forward, Camera.main.transform.forward, speed * 0.001f * Time.deltaTime, 0.0f);
+            go.transform.rotation = Quaternion.LookRotation(newDirection, Camera.main.transform.up);
         } else {
-            Vector3 newDirection = Vector3.RotateTowards(component.transform.forward, component.gameObject.transform.parent.transform.forward, speed * 0.01f * Time.deltaTime, 0.0f);
-            component.transform.rotation = Quaternion.LookRotation(newDirection, Camera.main.transform.up);
+            Vector3 newDirection = Vector3.RotateTowards(go.transform.forward, go.transform.parent.transform.forward, speed * 0.01f * Time.deltaTime, 0.0f);
+            go.transform.rotation = Quaternion.LookRotation(newDirection, Camera.main.transform.up);
         }
     }
 
@@ -146,6 +175,10 @@ public class Accordion : MonoBehaviour
 
         this.step = step;
 
+        if (this.step % 1 == 0) {
+            Debug.Log("Step " + step);
+        }
+
         if (step > 0) {
             if (step % 1 == 0) {
                 this.currentLayer = images.Count - Mathf.CeilToInt(step);
@@ -154,15 +187,15 @@ public class Accordion : MonoBehaviour
                 UpdateLayerUI();
             } else {
                 if (activeImage != null) {
-                    infoFactory.Clear(activeImage.transform.Find("Anchors"));
+                    Transform anchors = activeImage.transform.Find("Anchors");
+                    if (anchors) {
+                        infoFactory.Clear(activeImage.transform.Find("Anchors"));
+                    }
                 }
             }
-        } else {
-            if (quiz.isActiveAndEnabled) {
-                quiz.transform.gameObject.SetActive(false);
-            }
+        } else if (step < 0) {
 
-            activeImage = null;
+        } else {
             this.currentLayer = 0;
         }
 
@@ -257,6 +290,6 @@ public class Accordion : MonoBehaviour
     internal void SetContent(Content content)
     {
         this.content = content;
-        quiz.SetContent(content.accordion.layers[0].quiz);
+        quiz.SetContent(content.accordion.layers[2].quiz);
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
@@ -16,6 +17,7 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
     private bool dragging = false;
 
     private float step;
+    private float start = 0;
 
     internal void Init(int maxSteps)
     {
@@ -32,6 +34,17 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
         maxY = wheelElementHeight * maxSteps;
 
         nextStepLocalPosition = wheelContainer.transform.localPosition;
+    }
+
+    internal void SetStart(int start)
+    {
+        this.start = start;
+        nextStepLocalPosition = wheelContainer.transform.localPosition + new Vector3(
+            wheelContainer.transform.localPosition.x,
+            this.start * wheelElementHeight,
+            wheelContainer.transform.localPosition.z
+        );
+        wheelContainer.transform.localPosition = nextStepLocalPosition;
     }
 
     void Update()

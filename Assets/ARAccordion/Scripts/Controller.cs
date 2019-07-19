@@ -34,19 +34,23 @@ public class Controller : MonoBehaviour
 
     private Vector3 velocity = Vector3.zero;
 
+    private int startLayer = 1;
+
     void OnEnable()
     {
         trackedImageManager.enabled = true;
 
         arCamera.GetComponent<UnityEngine.XR.ARFoundation.ARCameraManager>().focusMode = CameraFocusMode.Fixed;
 
-        maxDistance = accordion.transform.Find("Components").childCount;
+        maxDistance = accordion.transform.Find("Components").childCount + 1;
 
         rotationWheel.Init(maxDistance);
+        rotationWheel.SetStart(startLayer);
 
         ReadJson();
 
         accordion.SetContent(this.content);
+        accordion.SetStart(startLayer);
 
         PostFX postFx = fxCamera.GetComponent<PostFX>();
         if (Application.isEditor) {
@@ -59,11 +63,11 @@ public class Controller : MonoBehaviour
 
             trackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
 
-            // postFx.UpdateAperture(1.0f); // Original Image 
-            // postFx.UpdateFocalLength(42.0f); // Original Image  
+            postFx.UpdateAperture(1.0f); // Original Image 
+            postFx.UpdateFocalLength(42.0f); // Original Image  
 
-            postFx.UpdateAperture(32.0f); // Desktop Image 
-            postFx.UpdateFocalLength(140.0f); // Desktop Image
+            // postFx.UpdateAperture(32.0f); // Desktop Image 
+            // postFx.UpdateFocalLength(140.0f); // Desktop Image
         }
 
         toggleButton.gameObject.SetActive(false);
@@ -105,7 +109,7 @@ public class Controller : MonoBehaviour
 
         accordion.transform.position = trackedImage.transform.position;
         accordion.transform.rotation = trackedImage.transform.rotation;
-        accordion.transform.localScale = new Vector3(this.trackedImage.size.y, 1f, this.trackedImage.size.y); //2.739377
+        accordion.transform.localScale = new Vector3(this.trackedImage.size.y, 1f, this.trackedImage.size.y);
     }
 
     void OnDisable()
@@ -190,12 +194,13 @@ public class Controller : MonoBehaviour
 
     public void OnUpdateRotationWheel(float value)
     {
-        toggleButton.gameObject.SetActive(value > 0);
-        accordion.UpdateStep(value);
-        debugView.UpdateStep(value);
+        float layerIndex = value - startLayer;
+
+        accordion.UpdateStep(layerIndex);
+        debugView.UpdateStep(layerIndex);
 
         if (dofEnabled) {
-            fxCamera.GetComponent<PostProcessLayer>().enabled = value > 0;
+            fxCamera.GetComponent<PostProcessLayer>().enabled = layerIndex != 0;
         }
     }
 
