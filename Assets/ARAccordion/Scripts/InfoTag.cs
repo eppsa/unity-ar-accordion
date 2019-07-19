@@ -31,7 +31,11 @@ public class InfoTag : MonoBehaviour
         this.imagePath = imagePath;
 
         ShowBackground();
-        StartCoroutine(ShowImage());
+
+        if (image) {
+            StartCoroutine(ShowImage());
+        }
+
         StartCoroutine(WriteText());
     }
 

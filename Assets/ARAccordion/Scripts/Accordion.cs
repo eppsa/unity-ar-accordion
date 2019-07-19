@@ -23,6 +23,9 @@ public class Accordion : MonoBehaviour
     [SerializeField] private Material defaultSpriteMaterial;
     [SerializeField] private Material dofSpriteMaterial;
 
+    [SerializeField] private GameObject infoTagPrefab;
+
+
     private bool towardsCamera = true;
 
     private List<GameObject> images = new List<GameObject>();
@@ -194,7 +197,12 @@ public class Accordion : MonoBehaviour
                 }
             }
         } else if (step < 0) {
+            if (step % 1 == 0) {
+                InfoTag infoTag = Instantiate(infoTagPrefab).GetComponent<InfoTag>();
+                infoTag.transform.SetParent(painter.transform.Find("Anchors").GetChild(0), false);
 
+                infoTag.Show("Bla bla bla bla bla bla bla bla bla bla bla bla bla ...", null);
+            }
         } else {
             this.currentLayer = 0;
         }
