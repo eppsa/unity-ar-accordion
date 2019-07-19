@@ -174,7 +174,9 @@ public class Accordion : MonoBehaviour
         if (infoFactory.isActiveAndEnabled) {
             Transform anchors = activeImage.transform.Find("Anchors");
 
-            infoFactory.Create(content.accordion.layers[this.currentLayer].infos, anchors, "Images/icon" + this.currentLayer);
+            if (anchors) {
+                infoFactory.Create(content.accordion.layers[this.currentLayer].infos, anchors, "Images/icon" + this.currentLayer);
+            }
         }
 
         if (quiz.isActiveAndEnabled) {
