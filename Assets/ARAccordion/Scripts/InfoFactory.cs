@@ -32,12 +32,11 @@ public class InfoFactory : MonoBehaviour
     {
         foreach (Transform anchor in anchors) {
             if (anchor.childCount > 0) {
-                GameObject infoPoint = anchor.GetChild(0).gameObject;
-                infoPoint.SetActive(false);
+                InfoPoint infoPoint = anchor.GetChild(0).gameObject.GetComponent<InfoPoint>();
 
-                anchor.DetachChildren();
-
-                Destroy(infoPoint);
+                if (infoPoint != null) {
+                    infoPoint.Hide();
+                }
             }
         }
     }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,6 +33,8 @@ public class InfoPoint : Button
 
     private IEnumerator Scale(float from, float to, float duration)
     {
+        scaleRunning = true;
+
         float startTime = Time.time;
         float currentDuration = 0.0f;
         float progress = 0.0f;
@@ -48,6 +49,7 @@ public class InfoPoint : Button
                 yield return new WaitForEndOfFrame();
             } else {
                 transform.localScale = new Vector3(to, to, 1);
+                scaleRunning = false;
                 yield break;
             }
         }
@@ -73,6 +75,23 @@ public class InfoPoint : Button
         infoTag.Hide();
     }
 
+    internal void Hide()
+    {
+        CancelInvoke();
+        StopAllCoroutines();
+        StartCoroutine(Scale(transform.localScale.x, 0.0f, 0.2f));
+        StartCoroutine(Delete());
+    }
+
+    IEnumerator Delete()
+    {
+        while (scaleRunning) {
+            yield return null;
+        }
+
+        gameObject.SetActive(false);
+    }
+
     internal void ShowInfoTag(TagAnchor.Orientation orientation)
     {
         float width = infoTag.transform.Find("Background").GetComponent<RectTransform>().sizeDelta.x + transform.Find("Canvas").GetComponent<RectTransform>().sizeDelta.x * 0.5f;
@@ -83,5 +102,10 @@ public class InfoPoint : Button
 
         infoTag.gameObject.SetActive(true);
         infoTag.Show(content, imagePath);
+    }
+
+    protected override void OnDisable()
+    {
+        Destroy(this.gameObject);
     }
 }

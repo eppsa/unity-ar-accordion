@@ -148,22 +148,16 @@ public class Accordion : MonoBehaviour
 
         if (step > 0) {
             if (step % 1 == 0) {
-                if (activeImage != null) {
-                    infoFactory.Clear(activeImage.transform.Find("Anchors"));
-                }
-
                 this.currentLayer = images.Count - Mathf.CeilToInt(step);
                 this.activeImage = images[currentLayer];
 
                 UpdateLayerUI();
-            }
-        } else {
-            if (infoFactory.isActiveAndEnabled) {
+            } else {
                 if (activeImage != null) {
                     infoFactory.Clear(activeImage.transform.Find("Anchors"));
                 }
             }
-
+        } else {
             if (quiz.isActiveAndEnabled) {
                 quiz.transform.gameObject.SetActive(false);
             }
