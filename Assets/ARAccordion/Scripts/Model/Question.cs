@@ -4,8 +4,8 @@ namespace Model
 {
     public class Question
     {
-        public string questionText { get; set; }
-        public int correctAnswerId { get; set; }
+        public string question { get; set; }
         public List<string> answers { get; set; }
+        public int correctAnswerIndex { get; set; }
     }
 }

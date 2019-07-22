@@ -7,8 +7,5 @@ namespace Model
         public int id { get; set; }
         public string information { get; set; }
         public List<Question> questions { get; set; }
-
-        public Quiz quiz { get; set; }
-
     }
 }

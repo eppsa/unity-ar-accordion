@@ -1,195 +1,196 @@
 {
-  "accordion" : {
-    "resultText":"Du hast {0} von {1} Fragen richtig beantwortet.",
-
-    "layers" : [
+  "accordion": {
+    "quiz": {
+      "resultText": "Du hast {0} von {1} Fragen richtig beantwortet."
+    },
+    "layers": [
       {
-        "id":1,
-        "information" : "Argus Body",
-        "questions" : [
-            {
-              "questionText":"Welches Tier bewachte Argus mit seinen “100 Augen”?",
-              "correctAnswerId": 1,
-              "answers": [
-                "Esel",
-                "Kuh",
-                "Gans",
-                "Pferd"
-              ]
-            },
-            {
-              "questionText":"Welche Göttin verbirgt sich hinter der Form einer Kuh?",
-              "correctAnswerId": 1,
-              "answers": [
-                "Juno",
-                "Io",
-                "Venus",
-                "Iris"
-              ]
-            },
-          ]
+        "id": 1,
+        "information": "Argus Body",
+        "questions": [
+          {
+            "question": "Welches Tier bewachte Argus mit seinen “100 Augen”?",
+            "answers": [
+              "Esel",
+              "Kuh",
+              "Gans",
+              "Pferd"
+            ],
+            "correctAnswerIndex": 1
+          },
+          {
+            "question": "Welche Göttin verbirgt sich hinter der Form einer Kuh?",
+            "answers": [
+              "Juno",
+              "Io",
+              "Venus",
+              "Iris"
+            ],
+            "correctAnswerIndex": 1
+          }
+        ]
       },
       {
-        "id":2,
-        "information" : "Angles",
-        "questions" : [
-            {
-              "questionText":"Welchen Sinn haben die Putten im Bild?",
-              "correctAnswerId": 1,
-              "answers": [
-                "Junos Kinder",
-                "Unterstreichen die Handlung",
-                "Helfen den Göttinnen",
-                "Himmlische Begleitung"
-              ]
-            }
-          ]
+        "id": 2,
+        "information": "Angles",
+        "questions": [
+          {
+            "question": "Welchen Sinn haben die Putten im Bild?",
+            "answers": [
+              "Junos Kinder",
+              "Unterstreichen die Handlung",
+              "Helfen den Göttinnen",
+              "Himmlische Begleitung"
+            ],
+            "correctAnswerIndex": 1
+          }
+        ]
       },
       {
-        "id":3,
-        "information" : "Peacock",
-        "questions" : [
-            {
-              "questionText":"Wozu stehen die beiden Pfauen in besonderem Kontrast?",
-              "correctAnswerId": 3,
-              "answers": [
-                "Zur traurigen Szenerie",
-                "Zur Verspieltheit der Putten",
-                "Zur Hautfarbe des Argus",
-                "Zur bläulich-grauen Helle des Bildgrundes"
-              ]
-            }
-          ]
+        "id": 3,
+        "information": "Peacock",
+        "questions": [
+          {
+            "question": "Wozu stehen die beiden Pfauen in besonderem Kontrast?",
+            "answers": [
+              "Zur traurigen Szenerie",
+              "Zur Verspieltheit der Putten",
+              "Zur Hautfarbe des Argus",
+              "Zur bläulich-grauen Helle des Bildgrundes"
+            ],
+            "correctAnswerIndex": 3
+          }
+        ]
       },
       {
-        "id":4,
-        "information" : "Juno",
-        "questions" : [
-            {
-              "questionText":"Wessen Gattin ist die eifersüchtige Juno?",
-              "correctAnswerId": 0,
-              "answers": [
-                "Jupiter",
-                "Merkur",
-                "Mars",
-                "Neptun"
-              ]
-            },
-            {
-              "questionText":"Wen beauftragte Juno mit der Bewachung der verdächtigen Kuh?",
-              "correctAnswerId": 1,
-              "answers": [
-                "Iris",
-                "Argus",
-                "Jupiter",
-                "Die Pfauen"
-              ]
-            },
-            {
-              "questionText":"Welches Symbol der Juno ist im Bild zu sehen?",
-              "correctAnswerId": 0,
-              "answers": [
-                "Pfauen",
-                "Augen",
-                "Regenbogen",
-                "Rote Seide"
-              ]
-            }
-          ]
+        "id": 4,
+        "information": "Juno",
+        "questions": [
+          {
+            "question": "Wessen Gattin ist die eifersüchtige Juno?",
+            "answers": [
+              "Jupiter",
+              "Merkur",
+              "Mars",
+              "Neptun"
+            ],
+            "correctAnswerIndex": 0
+          },
+          {
+            "question": "Wen beauftragte Juno mit der Bewachung der verdächtigen Kuh?",
+            "answers": [
+              "Iris",
+              "Argus",
+              "Jupiter",
+              "Die Pfauen"
+            ],
+            "correctAnswerIndex": 1
+          },
+          {
+            "question": "Welches Symbol der Juno ist im Bild zu sehen?",
+            "answers": [
+              "Pfauen",
+              "Augen",
+              "Regenbogen",
+              "Rote Seide"
+            ],
+            "correctAnswerIndex": 0
+          }
+        ]
       },
       {
-        "id":5,
-        "information" : "Argus Head",
-        "questions" : [
-            {
-              "questionText":"Was symbolisieren die “100 Augen” auf Argus Kopf?",
-              "correctAnswerId": 2,
-              "answers": [
-                "Macht",
-                "Zwiespalt",
-                "Kontrolle",
-                "Weisheit"
-              ]
-            },
-            {
-              "questionText":"Wie wird Argus überlistet?",
-              "correctAnswerId": 2,
-              "answers": [
-                "Weggelockt",
-                "Überrascht",
-                "In Schlaf versetzt",
-                "Abgelenkt"
-              ]
-            },
-            {
-              "questionText":"Ergänze das Sprichwort: “Etwas mit … .”",
-              "correctAnswerId": 0,
-              "answers": [
-                "Argusaugen beobachten",
-                "Argusohren hören",
-                "der Argusnase riechen",
-                "Argushänden erschaffen"
-              ]
-            }
-          ]
+        "id": 5,
+        "information": "Argus Head",
+        "questions": [
+          {
+            "question": "Was symbolisieren die “100 Augen” auf Argus Kopf?",
+            "answers": [
+              "Macht",
+              "Zwiespalt",
+              "Kontrolle",
+              "Weisheit"
+            ],
+            "correctAnswerIndex": 2
+          },
+          {
+            "question": "Wie wird Argus überlistet?",
+            "answers": [
+              "Weggelockt",
+              "Überrascht",
+              "In Schlaf versetzt",
+              "Abgelenkt"
+            ],
+            "correctAnswerIndex": 2
+          },
+          {
+            "question": "Ergänze das Sprichwort: “Etwas mit … .”",
+            "answers": [
+              "Argusaugen beobachten",
+              "Argusohren hören",
+              "der Argusnase riechen",
+              "Argushänden erschaffen"
+            ],
+            "correctAnswerIndex": 0
+          }
+        ]
       },
       {
-        "id":6,
-        "information" : "Woman Naked",
-        "questions" : [
-            {
-              "questionText":"Was bedeutet Iris übersetzt aus dem Griechischen?",
-              "correctAnswerId": 2,
-              "answers": [
-                "Traum",
-                "Sonnenschein",
-                "Regenbogen",
-                "Wachstum"
-              ]
-            },
-            {
-              "questionText":"Wieso wirkt das Gemälde besonders plastisch?",
-              "correctAnswerId": 0,
-              "answers": [
-                "Breite Pinselstriche und hoher Kontrast",
-                "Bildaufbau in unterschiedlichen Ebenen",
-                "Schönheit der Gesichter",
-                "Viele unterschiedliche Farben"
-              ]
-            }
-          ]
+        "id": 6,
+        "information": "Woman Naked",
+        "questions": [
+          {
+            "question": "Was bedeutet Iris übersetzt aus dem Griechischen?",
+            "answers": [
+              "Traum",
+              "Sonnenschein",
+              "Regenbogen",
+              "Wachstum"
+            ],
+            "correctAnswerIndex": 2
+          },
+          {
+            "question": "Wieso wirkt das Gemälde besonders plastisch?",
+            "answers": [
+              "Breite Pinselstriche und hoher Kontrast",
+              "Bildaufbau in unterschiedlichen Ebenen",
+              "Schönheit der Gesichter",
+              "Viele unterschiedliche Farben"
+            ],
+            "correctAnswerIndex": 0
+          }
+        ]
       },
       {
-        "id":7,
-        "information" : "Peacock Background",
-        "questions" : [
-            {
-              "questionText":"Von wem stammen die Augen im Federkleid des Pfaus?",
-              "correctAnswerId": 0,
-              "answers": [
-                "Argus",
-                "Jupiter",
-                "Iris",
-                "Juno"
-              ]
-            }
-          ]
+        "id": 7,
+        "information": "Peacock Background",
+        "questions": [
+          {
+            "question": "Von wem stammen die Augen im Federkleid des Pfaus?",
+            "answers": [
+              "Argus",
+              "Jupiter",
+              "Iris",
+              "Juno"
+            ],
+            "correctAnswerIndex": 0
+          }
+        ]
       },
       {
-        "id":8,
-        "information" : "Woman",
-        "questions" : [
-            {
-              "questionText":"Welchen Zweck hat die Anwesenheit der Dienerin?",
-              "correctAnswerId": 0,
-              "answers": [
-                "Bildkomposition",
-                "Anstandsdame",
-                "Zur Wache",
-                "Hält das Gewand"
-              ]
-            }
-          ]         
+        "id": 8,
+        "information": "Woman",
+        "questions": [
+          {
+            "question": "Welchen Zweck hat die Anwesenheit der Dienerin?",
+            "answers": [
+              "Bildkomposition",
+              "Anstandsdame",
+              "Zur Wache",
+              "Hält das Gewand"
+            ],
+            "correctAnswerIndex": 0
+          }
+        ]
       }
     ]
   }
