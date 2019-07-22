@@ -36,7 +36,6 @@ public class Accordion : MonoBehaviour
 
     private ARSessionOrigin sessionOrigin;
 
-    private Vector3 initialCameraPosition;
     private Vector3 activeTilePosition;
 
     private Content content;
@@ -48,10 +47,6 @@ public class Accordion : MonoBehaviour
     {
         foreach (Transform component in components.transform) {
             images.Add(component.Find("Image").gameObject);
-        }
-
-        if (Application.isEditor) {
-            UpdateAnchors();
         }
     }
 
@@ -142,7 +137,7 @@ public class Accordion : MonoBehaviour
     {
         Vector3 origin = go.transform.parent.transform.position;
 
-        float distanceToCamera = Mathf.Abs(Vector3.Distance(this.initialCameraPosition, origin));
+        float distanceToCamera = Mathf.Abs(Vector3.Distance(Camera.main.transform.position, origin));
 
         Vector3 newLocalPosition = new Vector3(0, 0, -1) * stepDistance * distanceToCamera * distanceFactor;
 
@@ -283,13 +278,6 @@ public class Accordion : MonoBehaviour
                 material.SetColor("_Color", new Color(color.r, color.g, color.b, fadeTo));
                 yield break;
             }
-        }
-    }
-
-    public void UpdateAnchors()
-    {
-        if (initialCameraPosition == null) {
-            this.initialCameraPosition = Camera.main.transform.position;
         }
     }
 

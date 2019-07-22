@@ -65,10 +65,6 @@ public class InfoFactory : MonoBehaviour
 
     private void OnInfoPointClick(InfoPoint infoPoint)
     {
-        Debug.Log("OnPointerClick()");
-
-        // 1. Play click aninmation
-
         if (selectedInfoPoint != null) {
             selectedInfoPoint.HideInfoTag();
         }
