@@ -239,16 +239,14 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     private void SetPositions()
     {
-        GameObject quizAnchor = accordion.activeTile.transform.GetChild(1).gameObject;
+        Transform quizAnchor = accordion.ActiveComponent.transform.Find("QuizAnchor");
 
-        questionContainer.transform.position = quizAnchor.transform.Find("QuestionAnchor").transform.position;
-
-        answerContainers[0].transform.position = quizAnchor.transform.Find("AnswerAnchor1").transform.position;
-        answerContainers[1].transform.position = quizAnchor.transform.Find("AnswerAnchor2").transform.position;
-        answerContainers[2].transform.position = quizAnchor.transform.Find("AnswerAnchor3").transform.position;
-        answerContainers[3].transform.position = quizAnchor.transform.Find("AnswerAnchor4").transform.position;
-
+        questionContainer.transform.position = quizAnchor.Find("QuestionAnchor").transform.position;
         dropArea.transform.position = quizAnchor.transform.Find("DropAnchor").transform.position;
+
+        for (int i = 0; i < answerContainers.Length; i++) {
+            answerContainers[i].transform.position = quizAnchor.Find("AnswerAnchor" + (i + 1)).transform.position;
+        }
     }
 
     public void SetContent(Model.Accordion content)

@@ -9,7 +9,6 @@ public class Accordion : MonoBehaviour
     [Header("Canvas")] [SerializeField] private InfoPopup infoPopUp;
 
     [SerializeField] public Quiz quiz;
-    [HideInInspector] public GameObject activeTile;
 
     [SerializeField] private GameObject background;
     [SerializeField] private GameObject original;
@@ -42,6 +41,10 @@ public class Accordion : MonoBehaviour
     public bool isMoving;
 
     public float Exponent { get => exponent; set => exponent = value; }
+
+    private GameObject activeComponent;
+
+    public GameObject ActiveComponent { get => activeComponent; }
 
     void OnEnable()
     {
@@ -194,15 +197,15 @@ public class Accordion : MonoBehaviour
     private void UpdateLayerUI()
     {
         int layer = components.Length - Mathf.CeilToInt(step);
-        activeTile = components[layer];
+        activeComponent = components[layer];
 
         if (infoPopUp.isActiveAndEnabled) {
-            infoPopUp.SetAnchor(activeTile.transform.Find("TagAnchor"));
+            infoPopUp.SetAnchor(activeComponent.transform.Find("TagAnchor"));
             infoPopUp.Show(content.accordion.layers[layer].information, "Images/icon" + layer);
         }
 
         if (quiz.isActiveAndEnabled) {
-            quiz.transform.SetParent(activeTile.transform.Find("QuizAnchor").transform);
+            quiz.transform.SetParent(activeComponent.transform.Find("QuizAnchor").transform);
         }
     }
 
