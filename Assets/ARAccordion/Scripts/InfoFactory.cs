@@ -1,18 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InfoFactory : MonoBehaviour
 {
     [SerializeField] GameObject infoPointPrefab;
+    [SerializeField] GameObject infoTagPrefab;
 
     private InfoPoint selectedInfoPoint;
 
     void OnEnable()
     {
         infoPointPrefab.SetActive(false);
+        infoTagPrefab.SetActive(false);
     }
 
-    public void Create(List<string> infos, Transform anchors, string imagePath)
+    public void CreateInfoPoints(List<string> infos, Transform anchors, string imagePath)
     {
         for (int i = 0; i < infos.Count; i++) {
             InfoPoint infoPoint = Instantiate(infoPointPrefab).GetComponent<InfoPoint>();
@@ -28,7 +31,7 @@ public class InfoFactory : MonoBehaviour
         }
     }
 
-    public void Clear(Transform anchors)
+    public void ClearInfoPoints(Transform anchors)
     {
         foreach (Transform anchor in anchors) {
             if (anchor.childCount > 0) {
@@ -38,6 +41,25 @@ public class InfoFactory : MonoBehaviour
                     infoPoint.Hide();
                 }
             }
+        }
+    }
+
+    public void CreateInfoTag(string content, Transform anchor)
+    {
+        InfoTag infoTag = Instantiate(infoTagPrefab).GetComponent<InfoTag>();
+        infoTag.transform.SetParent(anchor, false);
+
+        infoTag.gameObject.SetActive(true);
+
+        infoTag.Show(content, null);
+    }
+
+    internal void ClearInfoTag(Transform anchor)
+    {
+        InfoTag infoTag = anchor.GetComponentInChildren<InfoTag>();
+
+        if (infoTag != null) {
+            infoTag.Hide();
         }
     }
 
@@ -57,5 +79,4 @@ public class InfoFactory : MonoBehaviour
 
         this.selectedInfoPoint.ShowInfoTag(orientation);
     }
-
 }

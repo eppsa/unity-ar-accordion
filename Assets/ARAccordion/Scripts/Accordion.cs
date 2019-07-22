@@ -23,8 +23,6 @@ public class Accordion : MonoBehaviour
     [SerializeField] private Material defaultSpriteMaterial;
     [SerializeField] private Material dofSpriteMaterial;
 
-    [SerializeField] private GameObject infoTagPrefab;
-
 
     private bool towardsCamera = true;
 
@@ -183,31 +181,44 @@ public class Accordion : MonoBehaviour
         }
 
         if (step > 0) {
-            if (step % 1 == 0) {
-                this.currentLayer = images.Count - Mathf.CeilToInt(step);
-                this.activeImage = images[currentLayer];
-
-                UpdateLayerUI();
-            } else {
-                if (activeImage != null) {
-                    Transform anchors = activeImage.transform.Find("Anchors");
-                    if (anchors) {
-                        infoFactory.Clear(activeImage.transform.Find("Anchors"));
-                    }
-                }
-            }
+            ShowComponents();
         } else if (step < 0) {
-            if (step % 1 == 0) {
-                InfoTag infoTag = Instantiate(infoTagPrefab).GetComponent<InfoTag>();
-                infoTag.transform.SetParent(painter.transform.Find("Anchors").GetChild(0), false);
-
-                infoTag.Show("Bla bla bla bla bla bla bla bla bla bla bla bla bla ...", null);
-            }
+            ShowPainter();
         } else {
             this.currentLayer = 0;
         }
 
         Highlight();
+    }
+
+    private void ShowPainter()
+    {
+        this.activeImage = painter;
+        if (step % 1 == 0) {
+            infoFactory.CreateInfoTag("Bla bla bla bla bla bla bla bla bla bla bla bla bla ...", activeImage.transform.Find("Anchors").GetChild(0));
+        } else {
+            Transform anchor = activeImage.transform.Find("Anchors").GetChild(0);
+            if (anchor) {
+                infoFactory.ClearInfoTag(anchor);
+            }
+        }
+    }
+
+    private void ShowComponents()
+    {
+        if (step % 1 == 0) {
+            this.currentLayer = images.Count - Mathf.CeilToInt(step);
+            this.activeImage = images[currentLayer];
+
+            UpdateLayerUI();
+        } else {
+            if (activeImage != null) {
+                Transform anchors = activeImage.transform.Find("Anchors");
+                if (anchors) {
+                    infoFactory.ClearInfoPoints(activeImage.transform.Find("Anchors"));
+                }
+            }
+        }
     }
 
     private void UpdateLayerUI()
@@ -216,7 +227,7 @@ public class Accordion : MonoBehaviour
             Transform anchors = activeImage.transform.Find("Anchors");
 
             if (anchors) {
-                infoFactory.Create(content.accordion.layers[this.currentLayer].infos, anchors, "Avatars/" + this.activeImage.transform.parent.name);
+                infoFactory.CreateInfoPoints(content.accordion.layers[this.currentLayer].infos, anchors, "Avatars/" + this.activeImage.transform.parent.name);
             }
         }
 

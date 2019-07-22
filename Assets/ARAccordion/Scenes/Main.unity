@@ -886,7 +886,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dea56a9eaadd1c439095de4f9a371cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ReferenceLibrary: {fileID: 11400000, guid: 6440874f71ed24471934fe8fba893552, type: 2}
+  m_ReferenceLibrary: {fileID: 11400000, guid: a78855bff29b94eb7855419369b1a2c6, type: 2}
   m_MaxNumberOfMovingImages: 1
   m_TrackedImagePrefab: {fileID: 334245234023292731, guid: 6b449fbf66fc34d00a391441da4cb551,
     type: 3}
@@ -902,6 +902,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Accordion
       objectReference: {fileID: 0}
+    - target: {fileID: 2954553810835938383, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: infoTagPrefab
+      value: 
+      objectReference: {fileID: 3202324252294473636, guid: 95ab15f22c1864f90ab32a9bf9377306,
+        type: 3}
     - target: {fileID: 833716451203112805, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1442,11 +1448,51 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7893347873931745199, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_Name
+      value: Juno
+      objectReference: {fileID: 0}
+    - target: {fileID: 7641103865386925680, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_Name
+      value: ArgusBody
+      objectReference: {fileID: 0}
     - target: {fileID: 6665322775549591714, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: c0ab97d32d395411fa9096f535d4af6a, type: 2}
+    - target: {fileID: 6887297003679186065, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_Name
+      value: WomanLeft
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924775123304662031, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_Name
+      value: PeacockBackground
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882709934207832552, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_Name
+      value: PeacockFront
+      objectReference: {fileID: 0}
+    - target: {fileID: 4196176583195695663, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_Name
+      value: ArgusHead
+      objectReference: {fileID: 0}
+    - target: {fileID: 924108783691694235, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_Name
+      value: WomanRight
+      objectReference: {fileID: 0}
+    - target: {fileID: 1933602334798490536, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_Name
+      value: Angles
+      objectReference: {fileID: 0}
     - target: {fileID: 5352184273727301792, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -1487,6 +1533,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: c0ab97d32d395411fa9096f535d4af6a, type: 2}
+    - target: {fileID: 8112653918930367424, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 8112653918930367424, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.001
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df41b1ea74d2742f6ae80d7632c10506, type: 3}
 --- !u!114 &961593272 stripped

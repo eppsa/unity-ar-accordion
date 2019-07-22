@@ -14,8 +14,7 @@ public class InfoTag : MonoBehaviour
 
     private string imagePath;
 
-    bool backgroundScaleRunning = false;
-    bool imageScaleRunning = false;
+    bool scaleRunning = false;
 
     void OnEnable()
     {
@@ -32,7 +31,7 @@ public class InfoTag : MonoBehaviour
 
         ShowBackground();
 
-        if (image) {
+        if (imagePath != null) {
             StartCoroutine(ShowImage());
         }
 
@@ -47,7 +46,7 @@ public class InfoTag : MonoBehaviour
 
     private IEnumerator ShowImage()
     {
-        while (backgroundScaleRunning) {
+        while (scaleRunning) {
             yield return null;
         }
 
@@ -56,7 +55,7 @@ public class InfoTag : MonoBehaviour
 
     private IEnumerator DoScale(Transform transform, Vector3 from, Vector3 to, float duration)
     {
-        backgroundScaleRunning = true;
+        scaleRunning = true;
 
         float startTime = Time.time;
         float currentDuration = 0.0f;
@@ -71,7 +70,7 @@ public class InfoTag : MonoBehaviour
                 yield return new WaitForEndOfFrame();
             } else {
                 transform.localScale = to;
-                backgroundScaleRunning = false;
+                scaleRunning = false;
                 yield break;
             }
         }
@@ -79,7 +78,7 @@ public class InfoTag : MonoBehaviour
 
     private IEnumerator WriteText()
     {
-        while (backgroundScaleRunning || imageScaleRunning) {
+        while (scaleRunning) {
             yield return null;
         }
 
@@ -115,14 +114,34 @@ public class InfoTag : MonoBehaviour
     public void Hide()
     {
         StopAllCoroutines();
+        scaleRunning = false;
+
+        StartCoroutine(DoHide());
+        StartCoroutine(Delete());
+    }
+
+    IEnumerator DoHide()
+    {
+        while (scaleRunning) {
+            yield return null;
+        }
 
         StartCoroutine(DoScale(background.transform, background.transform.localScale, new Vector3(0, 1, 1), duration));
         StartCoroutine(DoScale(image.transform, image.transform.localScale, Vector3.zero, 0.2f));
         StartCoroutine(DoScale(text.transform, text.transform.localScale, Vector3.zero, 0.2f));
     }
 
+    IEnumerator Delete()
+    {
+        while (scaleRunning) {
+            yield return null;
+        }
+
+        gameObject.SetActive(false);
+    }
+
     void OnDisable()
     {
-        backgroundScaleRunning = false;
+        scaleRunning = false;
     }
 }
