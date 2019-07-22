@@ -2,7 +2,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using Model;
-using System;
 using System.Collections.Generic;
 
 public class Accordion : MonoBehaviour
