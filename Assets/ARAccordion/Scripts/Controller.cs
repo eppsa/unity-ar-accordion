@@ -10,7 +10,7 @@ using UnityEngine.SpatialTracking;
 
 public class Controller : MonoBehaviour
 {
-    [SerializeField] ARTrackedImageManager trackedImageManager;
+    [SerializeField] private ARTrackedImageManager trackedImageManager;
     [SerializeField] private GameObject axes;
     [SerializeField] private Camera arCamera;
     [SerializeField] private DebugView debugView;
@@ -19,7 +19,6 @@ public class Controller : MonoBehaviour
     [SerializeField] private Accordion accordion;
     [SerializeField] private RotationWheel rotationWheel;
     [SerializeField] private ARSession arSession;
-
     [SerializeField] private float smoothTime;
 
     private ARTrackedImage trackedImage;
