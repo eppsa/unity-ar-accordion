@@ -33,7 +33,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private List<KeyValuePair<int, Layer>> pickedLayers = new List<KeyValuePair<int, Layer>>();
     private int correctAnswerCount = 0;
 
-    int currentLayerId;
+    Question currentQuestion;
     private int currentQuestionIndex = 0;
     bool currentQuestionAnswered;
 
@@ -76,9 +76,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     IEnumerator StartQuiz()
     {
-        foreach (Transform child in transform) {
-            child.gameObject.SetActive(false);
-        }
+        Show(false);
 
         StartCoroutine(accordion.MoveToLayer(0));
         while (accordion.isMoving) {
@@ -87,66 +85,38 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
         yield return new WaitForSeconds(StartDelay);
 
+        accordion.MoveToLayer(pickedLayers[currentQuestionIndex].Key + 1);
+
         StartCoroutine(accordion.MoveToLayer(pickedLayers[currentQuestionIndex].Key + 1));
         while (accordion.isMoving) {
             yield return null;
         }
 
-        foreach (Transform child in transform) {
-            child.gameObject.SetActive(true);
-        }
-
+        SetPositions();
         UpdateQuizContent();
+
+        Show(true);
+    }
+
+    private void Show(bool show)
+    {
+        foreach (Transform child in transform) {
+            child.gameObject.SetActive(show);
+        }
     }
 
     private void UpdateQuizContent()
     {
-        foreach (Transform child in transform) {
-            child.gameObject.SetActive(true);
-        }
-
-        SetQuizTilePositions();
-
         List<Question> questions = pickedLayers[currentQuestionIndex].Value.questions;
+        int questionIndex = UnityEngine.Random.Range(0, questions.Count);
+        currentQuestion = questions[questionIndex];
 
-        currentLayerId = UnityEngine.Random.Range(0, questions.Count);
-        Question question = questions[currentLayerId];
-        questionContainer.transform.GetChild(1).GetComponent<Text>().text = question.question;
+        questionContainer.transform.GetChild(1).GetComponent<Text>().text = currentQuestion.question;
 
         for (int i = 0; i < answerContainers.Length; i++) {
-
             Text containerText = answerContainers[i].GetComponentInChildren<Text>();
-            containerText.text = question.answers[i];
+            containerText.text = currentQuestion.answers[i];
         }
-    }
-
-    public void SetContent(Model.Accordion content)
-    {
-        this.content = content;
-    }
-
-    IEnumerator UpdateQuiz()
-    {
-        if (currentQuestionIndex < maxQuestions) {
-            StartCoroutine(accordion.MoveToLayer(pickedLayers[currentQuestionIndex].Key + 1));
-
-            while (accordion.isMoving) {
-                yield return null;
-            }
-
-            UpdateQuizContent();
-        } else {
-            ShowResult();
-        }
-    }
-
-    private void ShowResult()
-    {
-        this.gameObject.transform.GetChild(0).gameObject.SetActive(true);
-        string resultText = string.Format(this.content.quiz.resultText, correctAnswerCount, maxQuestions);
-        questionContainer.transform.GetChild(1).GetComponent<Text>().text = resultText;
-
-        dropArea.SetActive(false);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -208,7 +178,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     private void CheckAnswer()
     {
-        int correctAnswerId = pickedLayers[currentQuestionIndex].Value.questions[currentLayerId].correctAnswerIndex;
+        int correctAnswerId = currentQuestion.correctAnswerIndex;
         int draggableIndex = Array.IndexOf(answerContainers, activeDraggable);
 
         if (draggableIndex == correctAnswerId) {
@@ -241,7 +211,33 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         StartCoroutine(UpdateQuiz());
     }
 
-    public void SetQuizTilePositions()
+    IEnumerator UpdateQuiz()
+    {
+        if (currentQuestionIndex < maxQuestions) {
+            StartCoroutine(accordion.MoveToLayer(pickedLayers[currentQuestionIndex].Key + 1));
+
+            while (accordion.isMoving) {
+                yield return null;
+            }
+
+            SetPositions();
+            UpdateQuizContent();
+            Show(true);
+        } else {
+            ShowResult();
+        }
+    }
+
+    private void ShowResult()
+    {
+        this.gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        string resultText = string.Format(this.content.quiz.resultText, correctAnswerCount, maxQuestions);
+        questionContainer.transform.GetChild(1).GetComponent<Text>().text = resultText;
+
+        dropArea.SetActive(false);
+    }
+
+    private void SetPositions()
     {
         GameObject quizAnchor = accordion.activeTile.transform.GetChild(1).gameObject;
 
@@ -255,4 +251,8 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         dropArea.transform.position = quizAnchor.transform.Find("DropAnchor").transform.position;
     }
 
+    public void SetContent(Model.Accordion content)
+    {
+        this.content = content;
+    }
 }
