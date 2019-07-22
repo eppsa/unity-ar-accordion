@@ -165,7 +165,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
             if (hit && !questionAnswered) {
                 activeDraggable.transform.position = worldPoint;
                 if (!isZPositionCorrected) {
-                    activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, activeDraggable.transform.localPosition.z - 0.2f);
+                    activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, activeDraggable.transform.localPosition.z - 0.1f);
                     isZPositionCorrected = true;
                 }
             }
