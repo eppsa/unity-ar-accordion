@@ -40,8 +40,6 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private GameObject activeDraggable;
     private Vector3 activeDraggableStartPosition;
 
-    bool isZPositionCorrected;
-
 
     public void Awake()
     {
@@ -133,10 +131,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
             if (hit && !currentQuestionAnswered) {
                 activeDraggable.transform.position = worldPoint;
-                if (!isZPositionCorrected) {
-                    activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, activeDraggable.transform.localPosition.z - 0.1f);
-                    isZPositionCorrected = true;
-                }
+                activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.004f);
             }
 
             if (eventData.pointerEnter && eventData.pointerEnter.gameObject == dropArea) {
@@ -163,15 +158,15 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         if (eventData.pointerEnter.gameObject == dropArea) {
             dropArea.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
             activeDraggable.transform.position = eventData.pointerEnter.transform.position;
-            activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, dropArea.transform.localPosition.z - 0.01f);
+            activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.002f);
             activeDraggable.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
             currentQuestionAnswered = true;
 
             CheckAnswer();
         } else {
             activeDraggable.transform.position = activeDraggableStartPosition;
+            activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.002f);
             activeDraggable.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
-            isZPositionCorrected = false;
             activeDraggable = null;
         }
     }
@@ -200,12 +195,11 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         }
 
         activeDraggable.transform.position = activeDraggableStartPosition;
-        activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -2f);
+        activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.002f);
 
         activeDraggable.GetComponent<Image>().color = defaultColor;
         currentQuestionAnswered = false;
         activeDraggable = null;
-        isZPositionCorrected = false;
 
         currentQuestionIndex++;
         StartCoroutine(UpdateQuiz());
@@ -237,15 +231,22 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         dropArea.SetActive(false);
     }
 
-    private void SetPositions()
+    public void SetPositions()
     {
-        Transform quizAnchor = accordion.ActiveComponent.transform.Find("QuizAnchor");
+        Transform anchor = accordion.ActiveComponent.transform.Find("QuizAnchor");
 
-        questionContainer.transform.position = quizAnchor.Find("QuestionAnchor").transform.position;
-        dropArea.transform.position = quizAnchor.transform.Find("DropAnchor").transform.position;
+        transform.position = anchor.position;
+        transform.SetParent(anchor);
+
+        Vector3 questionPosition = anchor.Find("QuestionAnchor").transform.position;
+        questionContainer.transform.position = new Vector3(questionPosition.x, questionPosition.y, questionContainer.transform.position.z);
+
+        Vector3 dropAreaPosition = anchor.transform.Find("DropAnchor").transform.position;
+        dropArea.transform.position = new Vector3(dropAreaPosition.x, dropAreaPosition.y, dropArea.transform.position.z);
 
         for (int i = 0; i < answerContainers.Length; i++) {
-            answerContainers[i].transform.position = quizAnchor.Find("AnswerAnchor" + (i + 1)).transform.position;
+            Vector3 answerPosition = anchor.Find("AnswerAnchor" + (i + 1)).transform.position;
+            answerContainers[i].transform.position = new Vector3(answerPosition.x, answerPosition.y, answerContainers[i].transform.position.z);
         }
     }
 

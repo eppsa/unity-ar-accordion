@@ -8,8 +8,6 @@ public class Accordion : MonoBehaviour
 {
     [Header("Canvas")] [SerializeField] private InfoPopup infoPopUp;
 
-    [SerializeField] public Quiz quiz;
-
     [SerializeField] private GameObject background;
     [SerializeField] private GameObject original;
     [SerializeField] private GameObject componentAnchors;
@@ -185,10 +183,6 @@ public class Accordion : MonoBehaviour
             if (infoPopUp.isActiveAndEnabled) {
                 infoPopUp.Hide();
             }
-
-            if (quiz.isActiveAndEnabled) {
-                quiz.transform.gameObject.SetActive(false);
-            }
         }
 
         Highlight();
@@ -202,10 +196,6 @@ public class Accordion : MonoBehaviour
         if (infoPopUp.isActiveAndEnabled) {
             infoPopUp.SetAnchor(activeComponent.transform.Find("TagAnchor"));
             infoPopUp.Show(content.accordion.layers[layer].information, "Images/icon" + layer);
-        }
-
-        if (quiz.isActiveAndEnabled) {
-            quiz.transform.SetParent(activeComponent.transform.Find("QuizAnchor").transform);
         }
     }
 
@@ -269,17 +259,13 @@ public class Accordion : MonoBehaviour
         this.towardsCamera = towardsCamera;
     }
 
-    internal void ShowQuiz(bool show)
+    internal void ShowInfoTag(bool show)
     {
-        this.quiz.gameObject.SetActive(show);
-        this.infoPopUp.gameObject.SetActive(!show);
-
-        UpdateStep(this.step);
+        this.infoPopUp.gameObject.SetActive(show);
     }
 
     internal void SetContent(Content content)
     {
         this.content = content;
-        quiz.SetContent(content.accordion);
     }
 }

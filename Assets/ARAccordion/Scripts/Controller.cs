@@ -19,6 +19,7 @@ public class Controller : MonoBehaviour
     [SerializeField] private Accordion accordion;
     [SerializeField] private RotationWheel rotationWheel;
     [SerializeField] private ARSession arSession;
+    [SerializeField] private Quiz quiz;
 
     [SerializeField] private float smoothTime;
 
@@ -47,6 +48,7 @@ public class Controller : MonoBehaviour
         ReadJson();
 
         accordion.SetContent(this.content);
+        quiz.SetContent(this.content.accordion);
 
         PostFX postFx = fxCamera.GetComponent<PostFX>();
         if (Application.isEditor) {
@@ -161,9 +163,11 @@ public class Controller : MonoBehaviour
     {
         if (!accordion.isMoving) {
             quizActive = !quizActive;
-            accordion.ShowQuiz(quizActive);
             rotationWheel.Toggle(!quizActive);
             toggleButton.Toggle(quizActive);
+
+            accordion.ShowInfoTag(!quizActive);
+            quiz.gameObject.SetActive(quizActive);
         }
     }
 

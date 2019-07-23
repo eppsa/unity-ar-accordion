@@ -8370,7 +8370,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &562678537463911143
 Transform:
   m_ObjectHideFlags: 0
@@ -11869,11 +11869,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Quiz
       objectReference: {fileID: 0}
-    - target: {fileID: 7313388802489238177, guid: e10e596c10e674c8da084694614fd25c,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7313388802489238176, guid: e10e596c10e674c8da084694614fd25c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11978,11 +11973,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7313388802489238176, guid: e10e596c10e674c8da084694614fd25c,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.0010000005
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e10e596c10e674c8da084694614fd25c, type: 3}
