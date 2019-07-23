@@ -29,6 +29,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     [SerializeField] private int maxQuestions = 5;
 
     private Accordion accordion;
+    private GameObject resultContainer;
 
     private Model.Accordion content;
 
@@ -46,6 +47,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     public void Awake()
     {
         accordion = this.transform.parent.GetComponent<Accordion>();
+        resultContainer = this.transform.Find("ResultContainer").gameObject;
     }
 
     public void OnEnable()
@@ -78,6 +80,8 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     {
         Show(false);
 
+        resultContainer.SetActive(false);
+
         StartCoroutine(accordion.MoveToLayer(0));
         while (accordion.isMoving) {
             yield return null;
@@ -101,7 +105,10 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private void Show(bool show)
     {
         foreach (Transform child in transform) {
-            child.gameObject.SetActive(show);
+            if (child.gameObject.name != "ResultContainer") {
+                child.gameObject.SetActive(show);
+            }
+
         }
     }
 
@@ -192,9 +199,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     private void Reset()
     {
-        foreach (Transform child in transform) {
-            child.gameObject.SetActive(false);
-        }
+        Show(false);
 
         activeDraggable.transform.position = activeDraggableStartPosition;
         activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.002f);
@@ -234,9 +239,13 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     private void ShowResult()
     {
-        this.gameObject.transform.GetChild(0).gameObject.SetActive(true);
         string resultText = string.Format(this.content.quiz.resultText, correctAnswerCount, maxQuestions);
-        questionContainer.transform.GetChild(0).GetComponent<Text>().text = resultText;
+        resultContainer.SetActive(true);
+
+        Vector3 resultContainerPosition = GameObject.Find("Accordion").transform.position;
+        resultContainer.transform.position = new Vector3(resultContainerPosition.x, resultContainerPosition.y, resultContainer.transform.position.z);
+
+        resultContainer.transform.GetChild(0).GetComponent<Text>().text = resultText;
 
         dropArea.SetActive(false);
     }
