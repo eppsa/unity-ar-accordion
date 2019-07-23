@@ -195,7 +195,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         }
 
         activeDraggable.transform.position = activeDraggableStartPosition;
-        activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.001f);
+        activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.002f);
 
         activeDraggable.GetComponent<Image>().color = defaultColor;
         currentQuestionAnswered = false;
