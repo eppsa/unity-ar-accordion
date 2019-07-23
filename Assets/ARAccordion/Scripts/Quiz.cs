@@ -12,6 +12,8 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 {
     private const float StartDelay = 0.5f;
 
+    private const float EndDelay = 0.5f;
+
     [SerializeField] private GameObject questionContainer;
     [SerializeField] private GameObject[] answerContainers;
     [SerializeField] private GameObject dropArea;
@@ -218,6 +220,14 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
             UpdateQuizContent();
             Show(true);
         } else {
+            StartCoroutine(accordion.MoveToLayer(0));
+
+            while (accordion.isMoving) {
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(EndDelay);
+
             ShowResult();
         }
     }
