@@ -236,12 +236,13 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         Transform anchor = accordion.ActiveComponent.transform.Find("QuizAnchor");
 
         transform.position = anchor.position;
+        transform.rotation = anchor.rotation;
         transform.SetParent(anchor);
 
         Vector3 questionPosition = anchor.Find("QuestionAnchor").transform.position;
         questionContainer.transform.position = new Vector3(questionPosition.x, questionPosition.y, questionContainer.transform.position.z);
 
-        Vector3 dropAreaPosition = anchor.transform.Find("DropAnchor").transform.position;
+        Vector3 dropAreaPosition = anchor.Find("DropAnchor").transform.position;
         dropArea.transform.position = new Vector3(dropAreaPosition.x, dropAreaPosition.y, dropArea.transform.position.z);
 
         for (int i = 0; i < answerContainers.Length; i++) {
