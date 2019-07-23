@@ -239,15 +239,28 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     private void ShowResult()
     {
-        string resultText = string.Format(this.content.quiz.resultText, correctAnswerCount, maxQuestions);
+
         resultContainer.SetActive(true);
 
         Vector3 resultContainerPosition = GameObject.Find("Accordion").transform.position;
         resultContainer.transform.position = new Vector3(resultContainerPosition.x, resultContainerPosition.y, resultContainer.transform.position.z);
 
+        string resultText = GetResultText();
         resultContainer.transform.GetChild(0).GetComponent<Text>().text = resultText;
 
         dropArea.SetActive(false);
+    }
+
+    private string GetResultText()
+    {
+        switch (correctAnswerCount) {
+            case 0:
+                return this.content.quiz.resultBad;
+            case 1:
+                return string.Format(this.content.quiz.resultOne, correctAnswerCount, maxQuestions);
+            default:
+                return string.Format(this.content.quiz.resultGood, correctAnswerCount, maxQuestions);
+        }
     }
 
     public void SetPositions()
