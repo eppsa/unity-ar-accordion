@@ -111,7 +111,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         int questionIndex = UnityEngine.Random.Range(0, questions.Count);
         currentQuestion = questions[questionIndex];
 
-        questionContainer.transform.GetChild(1).GetComponent<Text>().text = currentQuestion.question;
+        questionContainer.transform.GetChild(0).GetComponent<Text>().text = currentQuestion.question;
 
         for (int i = 0; i < answerContainers.Length; i++) {
             Text containerText = answerContainers[i].GetComponentInChildren<Text>();
@@ -232,7 +232,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     {
         this.gameObject.transform.GetChild(0).gameObject.SetActive(true);
         string resultText = string.Format(this.content.quiz.resultText, correctAnswerCount, maxQuestions);
-        questionContainer.transform.GetChild(1).GetComponent<Text>().text = resultText;
+        questionContainer.transform.GetChild(0).GetComponent<Text>().text = resultText;
 
         dropArea.SetActive(false);
     }
