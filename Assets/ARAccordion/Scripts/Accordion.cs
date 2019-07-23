@@ -13,13 +13,13 @@ public class Accordion : MonoBehaviour
     [SerializeField] private GameObject componentAnchors;
 
     [SerializeField] private float speed = 5.0f;
-    private float distanceFactor = 0.5f;
     [SerializeField] private float exponent = 1;
-
     [SerializeField] private float moveDuration = 1.5f;
 
     [SerializeField] private Material defaultSpriteMaterial;
     [SerializeField] private Material dofSpriteMaterial;
+
+    private float distanceFactor = 0.5f;
 
     private bool towardsCamera = true;
 
@@ -39,6 +39,7 @@ public class Accordion : MonoBehaviour
     public bool isMoving;
 
     public float Exponent { get => exponent; set => exponent = value; }
+    public float DistanceFactor { get => distanceFactor; set => distanceFactor = value; }
 
     private GameObject activeComponent;
 

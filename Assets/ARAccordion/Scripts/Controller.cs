@@ -167,6 +167,12 @@ public class Controller : MonoBehaviour
             toggleButton.Toggle(quizActive);
 
             accordion.ShowInfoTag(!quizActive);
+            if (quizActive) {
+                accordion.DistanceFactor = 0.3f;
+            } else {
+                accordion.DistanceFactor = 0.5f;
+            }
+
             quiz.gameObject.SetActive(quizActive);
         }
     }
