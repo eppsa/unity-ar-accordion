@@ -167,6 +167,7 @@ public class Controller : MonoBehaviour
             quizActive = !quizActive;
             rotationWheel.Toggle(!quizActive);
             toggleButton.Toggle(quizActive);
+            accordion.EnableInfoTags(!quizActive);
 
             if (quizActive) {
                 accordion.DistanceFactor = 0.3f;

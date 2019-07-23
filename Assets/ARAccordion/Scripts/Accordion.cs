@@ -4,6 +4,7 @@ using UnityEngine.XR.ARFoundation;
 using Model;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 public class Accordion : MonoBehaviour
 {
@@ -45,9 +46,7 @@ public class Accordion : MonoBehaviour
     public float Exponent { get => exponent; set => exponent = value; }
     public float DistanceFactor { get => distanceFactor; set => distanceFactor = value; }
 
-    private GameObject activeComponent;
-
-    public GameObject ActiveComponent { get => activeComponent; }
+    public GameObject ActiveImage { get => activeImage; }
 
     void OnEnable()
     {
@@ -197,6 +196,11 @@ public class Accordion : MonoBehaviour
         }
     }
 
+    internal void EnableInfoTags(bool enable)
+    {
+        infoFactory.enabled = enable;
+    }
+
     public void UpdateStep(float step)
     {
         if (this.step == step) {
@@ -254,12 +258,6 @@ public class Accordion : MonoBehaviour
             Transform anchors = activeImage.transform.Find("Anchors");
 
             if (anchors) {
-                Debug.Log(this.currentLayer);
-                Debug.Log(content);
-                Debug.Log(content.accordion);
-                Debug.Log(content.accordion.layers);
-                Debug.Log(content.accordion.layers[this.currentLayer]);
-
                 infoFactory.CreateInfoPoints(content.accordion.layers[this.currentLayer].infos, anchors, "Avatars/" + this.activeImage.transform.parent.name);
             }
         }
