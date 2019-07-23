@@ -11992,6 +11992,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2383171878091559480, guid: e10e596c10e674c8da084694614fd25c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2383171878091559480, guid: e10e596c10e674c8da084694614fd25c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnToggleQuiz
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e10e596c10e674c8da084694614fd25c, type: 3}
 --- !u!224 &1748087923485749901 stripped
