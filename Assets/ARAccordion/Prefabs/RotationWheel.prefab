@@ -173,7 +173,7 @@ RectTransform:
   m_GameObject: {fileID: 8287055429807173071}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 3787981550218184015}
   - {fileID: 5321918741474900519}
@@ -261,6 +261,7 @@ MonoBehaviour:
   wheelContainer: {fileID: 5303033367026794253}
   wheelElementPrefab: {fileID: 6134222849050149719, guid: 4860f7f0858914404962a59454a2ce47,
     type: 3}
+  focusFrame: {fileID: 8459497128831042955}
   controller: {fileID: 0}
 --- !u!1 &8459497128831042955
 GameObject:

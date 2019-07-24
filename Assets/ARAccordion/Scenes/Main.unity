@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.49641287, b: 0.5748173, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.49641275, b: 0.57481736, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -778,6 +778,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 785035777}
   m_CullTransparentMesh: 0
+--- !u!114 &808576639 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7549834600955582207, guid: df41b1ea74d2742f6ae80d7632c10506,
+    type: 3}
+  m_PrefabInstance: {fileID: 961593271}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7015ac4c6408348ceb907427f6326e28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &857573722
 GameObject:
   m_ObjectHideFlags: 0
@@ -847,6 +859,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7549834600955582207, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: toggleButton
+      value: 
+      objectReference: {fileID: 1138625222}
+    - target: {fileID: 7549834600955582207, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: accordion
+      value: 
+      objectReference: {fileID: 961593272}
+    - target: {fileID: 7549834600955582207, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: rotationWheel
+      value: 
+      objectReference: {fileID: 1530501504}
     - target: {fileID: 3236708473929559986, guid: df41b1ea74d2742f6ae80d7632c10506,
         type: 3}
       propertyPath: m_Name
@@ -907,6 +934,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4113677120138547642, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: toggleButton
+      value: 
+      objectReference: {fileID: 1138625217}
+    - target: {fileID: 4113677120138547642, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: mainCanvas
+      value: 
+      objectReference: {fileID: 497861613}
+    - target: {fileID: 6642438743681491477, guid: df41b1ea74d2742f6ae80d7632c10506,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 808576639}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df41b1ea74d2742f6ae80d7632c10506, type: 3}
 --- !u!114 &961593272 stripped
@@ -1436,6 +1478,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8459497128831042955, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df4ecf3b7d2cb4f40a0f5996b2dac2ca, type: 3}

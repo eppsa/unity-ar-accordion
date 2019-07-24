@@ -29,7 +29,7 @@ public class Controller : MonoBehaviour
 
     private Content content;
 
-    private bool quizActive;
+    public bool quizActive;
     private bool showReferenceImage = true;
     private bool dofEnabled = true;
 

@@ -4744,7 +4744,7 @@ MonoBehaviour:
   background: {fileID: 8639770171308828416}
   original: {fileID: 5889366291952359944}
   componentAnchors: {fileID: 6350211771760437025}
-  toggleButton: {fileID: 0}
+  mainCanvas: {fileID: 0}
   speed: 100
   exponent: 20
   moveDuration: 1.5
@@ -12000,8 +12000,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2383171878091559480, guid: e10e596c10e674c8da084694614fd25c,
         type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnToggleQuiz
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e10e596c10e674c8da084694614fd25c, type: 3}
