@@ -4744,6 +4744,8 @@ MonoBehaviour:
   background: {fileID: 8639770171308828416}
   original: {fileID: 5889366291952359944}
   componentAnchors: {fileID: 6350211771760437025}
+  toggleButton: {fileID: 4882375797236725638, guid: 98cc00ac111bb4dbfa6000101be8eeb5,
+    type: 3}
   speed: 100
   exponent: 20
   moveDuration: 1.5
