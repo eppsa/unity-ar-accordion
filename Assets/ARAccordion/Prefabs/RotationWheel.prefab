@@ -84,6 +84,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1816402032613909171}
   - component: {fileID: 7739744083365840587}
+  - component: {fileID: 5303033367026794254}
   m_Layer: 5
   m_Name: WheelContainer
   m_TagString: Untagged
@@ -118,6 +119,31 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5303033367026794253}
   m_CullTransparentMesh: 0
+--- !u!114 &5303033367026794254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5303033367026794253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1297475563, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 70
+    m_Right: 70
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
 --- !u!1 &8287055429807173071
 GameObject:
   m_ObjectHideFlags: 0
@@ -147,7 +173,7 @@ RectTransform:
   m_GameObject: {fileID: 8287055429807173071}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3787981550218184015}
   - {fileID: 5321918741474900519}
@@ -233,8 +259,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wheelContainer: {fileID: 5303033367026794253}
-  wheelElementPrefab: {fileID: 0}
-  wheelRectTransform: {fileID: 5321918741474900519}
+  wheelElementPrefab: {fileID: 6134222849050149719, guid: 4860f7f0858914404962a59454a2ce47,
+    type: 3}
+  controller: {fileID: 0}
 --- !u!1 &8459497128831042955
 GameObject:
   m_ObjectHideFlags: 0
