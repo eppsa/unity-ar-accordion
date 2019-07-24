@@ -87,6 +87,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
             yield return null;
         }
 
+        accordion.toggleButton.SetActive(false);
         yield return new WaitForSeconds(StartDelay);
 
         accordion.MoveToLayer(pickedLayers[currentQuestionIndex].Key + 1);

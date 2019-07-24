@@ -11,6 +11,7 @@ public class Accordion : MonoBehaviour
     [SerializeField] private GameObject background;
     [SerializeField] private GameObject original;
     [SerializeField] private GameObject componentAnchors;
+    [SerializeField] public GameObject toggleButton;
 
     [SerializeField] private float speed = 5.0f;
     [SerializeField] private float exponent = 1;
@@ -72,6 +73,7 @@ public class Accordion : MonoBehaviour
     public IEnumerator MoveToLayer(float moveTo)
     {
         isMoving = true;
+        toggleButton.SetActive(false);
 
         float moveFrom = step;
 
@@ -89,6 +91,7 @@ public class Accordion : MonoBehaviour
             } else {
                 if (moveTo > 0) UpdateStep(moveTo);
                 isMoving = false;
+                toggleButton.SetActive(true);
                 yield break;
             }
         }
