@@ -14,6 +14,7 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
     private Vector3 nextStepLocalPosition;
     private float wheelElementHeight;
     private bool dragging = false;
+    private bool reset = false;
 
     private float step;
 
@@ -36,7 +37,7 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
 
     void Update()
     {
-        if (!dragging) {
+        if (!dragging && !reset) {
             wheelContainer.transform.localPosition = Vector3.MoveTowards(wheelContainer.transform.localPosition, nextStepLocalPosition, Time.deltaTime * 200f);
         }
 
@@ -51,6 +52,7 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
     void IDragHandler.OnDrag(PointerEventData eventData)
     {
         dragging = true;
+        reset = false;
 
         float newLocalY = Mathf.Max(Mathf.Min(wheelContainer.transform.localPosition.y + eventData.delta.y, maxY), 0);
 
@@ -78,6 +80,13 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public void Toggle(bool active)
     {
+        reset = true;
         this.gameObject.SetActive(active);
+
+        wheelContainer.transform.localPosition = new Vector3(
+            wheelContainer.transform.localPosition.x,
+            0,
+            wheelContainer.transform.localPosition.z
+        );
     }
 }
