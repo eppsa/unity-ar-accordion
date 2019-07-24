@@ -11,7 +11,6 @@ using System.Linq;
 public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 {
     private const float StartDelay = 0.5f;
-
     private const float EndDelay = 0.5f;
 
     [SerializeField] private GameObject questionContainer;
@@ -244,7 +243,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         resultContainer.SetActive(true);
 
         Vector3 resultContainerPosition = GameObject.Find("Accordion").transform.position;
-        resultContainer.transform.position = new Vector3(resultContainerPosition.x, resultContainerPosition.y, resultContainer.transform.position.z);
+        resultContainer.transform.position = new Vector3(resultContainerPosition.x, resultContainerPosition.y, resultContainerPosition.z - 0.13f);
 
         string resultText = GetResultText();
         resultContainer.transform.GetChild(0).GetComponent<Text>().text = resultText;
