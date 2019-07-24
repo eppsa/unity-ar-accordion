@@ -170,6 +170,10 @@ public class Controller : MonoBehaviour
             accordion.DistanceFactor = 0.3f;
         } else {
             accordion.DistanceFactor = 0.5f;
+
+            if (accordion.step > 0) {
+                StartCoroutine(accordion.MoveToLayer(0));
+            }
         }
 
         quiz.gameObject.SetActive(quizActive);
