@@ -161,20 +161,18 @@ public class Controller : MonoBehaviour
 
     public void OnToggleQuiz()
     {
-        if (!accordion.isMoving) {
-            quizActive = !quizActive;
-            rotationWheel.Toggle(!quizActive);
-            toggleButton.Toggle(quizActive);
+        quizActive = !quizActive;
+        rotationWheel.Toggle(!quizActive);
+        toggleButton.Toggle(quizActive);
 
-            accordion.ShowInfoTag(!quizActive);
-            if (quizActive) {
-                accordion.DistanceFactor = 0.3f;
-            } else {
-                accordion.DistanceFactor = 0.5f;
-            }
-
-            quiz.gameObject.SetActive(quizActive);
+        accordion.ShowInfoTag(!quizActive);
+        if (quizActive) {
+            accordion.DistanceFactor = 0.3f;
+        } else {
+            accordion.DistanceFactor = 0.5f;
         }
+
+        quiz.gameObject.SetActive(quizActive);
     }
 
     public void OnEnableDofDebugging(bool enable)
