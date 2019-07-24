@@ -175,7 +175,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
             CheckAnswer();
         } else {
             activeDraggable.transform.position = activeDraggableStartPosition;
-            activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.002f);
+            activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.001f);
             activeDraggable.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
             activeDraggable = null;
         }
@@ -270,18 +270,8 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
         transform.position = anchor.position;
         transform.rotation = anchor.rotation;
+
         transform.SetParent(anchor);
-
-        Vector3 questionPosition = anchor.Find("QuestionAnchor").transform.position;
-        questionContainer.transform.position = new Vector3(questionPosition.x, questionPosition.y, questionContainer.transform.position.z);
-
-        Vector3 dropAreaPosition = anchor.Find("DropAnchor").transform.position;
-        dropArea.transform.position = new Vector3(dropAreaPosition.x, dropAreaPosition.y, dropArea.transform.position.z);
-
-        for (int i = 0; i < answerContainers.Length; i++) {
-            Vector3 answerPosition = anchor.Find("AnswerAnchor" + (i + 1)).transform.position;
-            answerContainers[i].transform.position = new Vector3(answerPosition.x, answerPosition.y, answerContainers[i].transform.position.z);
-        }
     }
 
     public void SetContent(Model.Accordion content)
