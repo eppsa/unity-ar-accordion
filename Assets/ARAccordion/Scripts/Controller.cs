@@ -171,7 +171,7 @@ public class Controller : MonoBehaviour
         } else {
             accordion.DistanceFactor = 0.5f;
 
-            if (accordion.step > 0) {
+            if (accordion.step > 0.1f) {
                 StartCoroutine(accordion.MoveToLayer(0));
             }
         }
