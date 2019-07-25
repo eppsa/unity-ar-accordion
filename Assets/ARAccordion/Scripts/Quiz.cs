@@ -242,7 +242,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
         resultContainer.SetActive(true);
 
-        Vector3 resultContainerPosition = GameObject.Find("Accordion").transform.position;
+        Vector3 resultContainerPosition = accordion.transform.Find("QuizResultAnchor").transform.position;
         resultContainer.transform.position = new Vector3(resultContainerPosition.x, resultContainerPosition.y, resultContainerPosition.z - 0.13f);
 
         string resultText = GetResultText();
