@@ -47,8 +47,6 @@ public class Controller : MonoBehaviour
 
         rotationWheel.Init(maxDistance);
 
-        backButton.SetActive(false);
-        rotationWheel.gameObject.SetActive(false);
 
         ReadJson();
 
@@ -74,6 +72,8 @@ public class Controller : MonoBehaviour
         }
 
         toggleButton.gameObject.SetActive(false);
+        backButton.SetActive(false);
+        rotationWheel.gameObject.SetActive(false);
 
         debugView.gameObject.SetActive(false);
         debugView.UpdateSmoothTime(smoothTime);
