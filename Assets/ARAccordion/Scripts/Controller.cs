@@ -87,7 +87,6 @@ public class Controller : MonoBehaviour
 
     public void OnStart()
     {
-        backButton.SetActive(true);
         rotationWheel.gameObject.SetActive(true);
     }
 
@@ -216,6 +215,7 @@ public class Controller : MonoBehaviour
     public void OnUpdateRotationWheel(float value)
     {
         toggleButton.gameObject.SetActive(value > 0);
+        backButton.gameObject.SetActive(value > 0);
         accordion.UpdateStep(value);
         debugView.UpdateStep(value);
 
