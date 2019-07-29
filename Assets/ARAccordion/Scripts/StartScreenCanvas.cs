@@ -4,6 +4,6 @@ public class StartScreenCanvas : MonoBehaviour
 {
     public void OnStartButton()
     {
-        Destroy(this.gameObject);
+        this.transform.gameObject.SetActive(false);
     }
 }
