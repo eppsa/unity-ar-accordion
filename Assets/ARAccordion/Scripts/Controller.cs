@@ -12,9 +12,11 @@ public class Controller : MonoBehaviour
 {
     [SerializeField] ARTrackedImageManager trackedImageManager;
     [SerializeField] private GameObject axes;
+    [SerializeField] private StartScreenCanvas StartScreenCanvas;
     [SerializeField] private Camera arCamera;
     [SerializeField] private DebugView debugView;
     [SerializeField] private ToggleButton toggleButton;
+    [SerializeField] private GameObject backButton;
     [SerializeField] private Camera fxCamera;
     [SerializeField] private Accordion accordion;
     [SerializeField] private RotationWheel rotationWheel;
@@ -163,6 +165,7 @@ public class Controller : MonoBehaviour
     {
         if (!accordion.isMoving) {
             quizActive = !quizActive;
+            backButton.SetActive(!quizActive);
             rotationWheel.Toggle(!quizActive);
             toggleButton.Toggle(quizActive);
 
@@ -222,5 +225,10 @@ public class Controller : MonoBehaviour
     {
         dofEnabled = enable;
         fxCamera.GetComponent<PostProcessLayer>().enabled = enable;
+    }
+
+    public void OnBackButton()
+    {
+        StartScreenCanvas.gameObject.SetActive(true);
     }
 }
