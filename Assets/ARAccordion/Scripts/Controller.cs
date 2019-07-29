@@ -47,6 +47,9 @@ public class Controller : MonoBehaviour
 
         rotationWheel.Init(maxDistance);
 
+        backButton.SetActive(false);
+        rotationWheel.gameObject.SetActive(false);
+
         ReadJson();
 
         accordion.SetContent(this.content);
@@ -80,6 +83,12 @@ public class Controller : MonoBehaviour
         debugView.UpdateDOF(enabled);
 
         fxCamera.GetComponent<PostProcessLayer>().enabled = false;
+    }
+
+    public void OnStart()
+    {
+        backButton.SetActive(true);
+        rotationWheel.gameObject.SetActive(true);
     }
 
     void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs eventArgs)
