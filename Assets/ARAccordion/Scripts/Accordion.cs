@@ -3,12 +3,11 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using Model;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Accordion : MonoBehaviour
 {
     [Header("Canvas")] [SerializeField] private InfoFactory infoFactory;
-
-    [SerializeField] private Quiz quiz;
 
     [SerializeField] private GameObject background;
     [SerializeField] private GameObject original;
@@ -16,12 +15,13 @@ public class Accordion : MonoBehaviour
     [SerializeField] private GameObject painter;
 
     [SerializeField] private float speed = 5.0f;
-    private float distanceFactor = 0.5f;
     [SerializeField] private float exponent = 1;
+    [SerializeField] private float moveDuration = 1.5f;
 
     [SerializeField] private Material defaultSpriteMaterial;
     [SerializeField] private Material dofSpriteMaterial;
 
+    private float distanceFactor = 0.5f;
 
     private bool towardsCamera = true;
 
@@ -40,13 +40,23 @@ public class Accordion : MonoBehaviour
     private Content content;
     private int start = 0;
 
+    public bool isMoving;
+
     public float Exponent { get => exponent; set => exponent = value; }
+    public float DistanceFactor { get => distanceFactor; set => distanceFactor = value; }
+
+    private GameObject activeComponent;
+
+    public GameObject ActiveComponent { get => activeComponent; }
 
     void OnEnable()
     {
         foreach (Transform component in components.transform) {
             images.Add(component.Find("Image").gameObject);
         }
+
+        var dummys = Resources.FindObjectsOfTypeAll<GameObject>().Where(obj => obj.name == "DummyObject");
+        foreach (GameObject obj in dummys) obj.transform.gameObject.SetActive(false);
     }
 
     void Start()
@@ -60,6 +70,31 @@ public class Accordion : MonoBehaviour
     internal void SetStart(int startLayer)
     {
         this.start = startLayer;
+    }
+
+    public IEnumerator MoveToLayer(float moveTo)
+    {
+        isMoving = true;
+
+        float moveFrom = step;
+
+        float startTime = Time.time;
+        float currentDuration = 0.0f;
+        float progress = 0.0f;
+
+        while (true) {
+            currentDuration = Time.time - startTime;
+            progress = currentDuration / moveDuration;
+
+            if (progress <= 1.0f) {
+                UpdateStep(Mathf.Lerp(moveFrom, moveTo, progress));
+                yield return new WaitForEndOfFrame();
+            } else {
+                if (moveTo > 0) UpdateStep(moveTo);
+                isMoving = false;
+                yield break;
+            }
+        }
     }
 
     void LateUpdate()
@@ -178,8 +213,6 @@ public class Accordion : MonoBehaviour
             ShowComponents();
         } else if (step < 0) {
             ShowPainter();
-        } else {
-            this.currentLayer = 0;
         }
 
         Highlight();
@@ -221,14 +254,14 @@ public class Accordion : MonoBehaviour
             Transform anchors = activeImage.transform.Find("Anchors");
 
             if (anchors) {
+                Debug.Log(this.currentLayer);
+                Debug.Log(content);
+                Debug.Log(content.accordion);
+                Debug.Log(content.accordion.layers);
+                Debug.Log(content.accordion.layers[this.currentLayer]);
+
                 infoFactory.CreateInfoPoints(content.accordion.layers[this.currentLayer].infos, anchors, "Avatars/" + this.activeImage.transform.parent.name);
             }
-        }
-
-        if (quiz.isActiveAndEnabled) {
-            quiz.transform.position = activeImage.transform.Find("TagAnchor").transform.position;
-            quiz.transform.rotation = activeImage.transform.Find("TagAnchor").transform.rotation;
-            quiz.transform.SetParent(activeImage.transform.Find("TagAnchor").transform);
         }
     }
 
@@ -285,17 +318,8 @@ public class Accordion : MonoBehaviour
         this.towardsCamera = towardsCamera;
     }
 
-    internal void ShowQuiz(bool show)
-    {
-        this.quiz.gameObject.SetActive(show);
-        this.infoFactory.gameObject.SetActive(!show);
-
-        UpdateStep(this.step);
-    }
-
     internal void SetContent(Content content)
     {
         this.content = content;
-        quiz.SetContent(content.accordion.layers[2].quiz);
     }
 }

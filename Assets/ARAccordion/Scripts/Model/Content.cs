@@ -2,6 +2,6 @@
 {
     public class Content
     {
-        public Accordion accordion { get; set; }
+        public Accordion accordion;
     }
 }

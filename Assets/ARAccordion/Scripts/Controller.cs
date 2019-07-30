@@ -19,6 +19,8 @@ public class Controller : MonoBehaviour
     [SerializeField] private Accordion accordion;
     [SerializeField] private RotationWheel rotationWheel;
     [SerializeField] private ARSession arSession;
+    [SerializeField] private Quiz quiz;
+
     [SerializeField] private float smoothTime;
 
     private ARTrackedImage trackedImage;
@@ -50,6 +52,7 @@ public class Controller : MonoBehaviour
 
         accordion.SetContent(this.content);
         accordion.SetStart(startLayer);
+        quiz.SetContent(this.content.accordion);
 
         PostFX postFx = fxCamera.GetComponent<PostFX>();
         if (Application.isEditor) {
@@ -68,8 +71,6 @@ public class Controller : MonoBehaviour
             postFx.UpdateAperture(32.0f); // Desktop Image 
             postFx.UpdateFocalLength(140.0f); // Desktop Image
         }
-
-        toggleButton.gameObject.SetActive(false);
 
         debugView.gameObject.SetActive(false);
         debugView.UpdateSmoothTime(smoothTime);
@@ -162,9 +163,19 @@ public class Controller : MonoBehaviour
 
     public void OnToggleQuiz()
     {
-        quizActive = !quizActive;
-        accordion.ShowQuiz(quizActive);
-        toggleButton.Toggle(quizActive);
+        if (!accordion.isMoving) {
+            quizActive = !quizActive;
+            rotationWheel.Toggle(!quizActive);
+            toggleButton.Toggle(quizActive);
+
+            if (quizActive) {
+                accordion.DistanceFactor = 0.3f;
+            } else {
+                accordion.DistanceFactor = 0.5f;
+            }
+
+            quiz.gameObject.SetActive(quizActive);
+        }
     }
 
     public void OnEnableDofDebugging(bool enable)
