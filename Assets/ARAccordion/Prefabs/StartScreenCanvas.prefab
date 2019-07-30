@@ -381,6 +381,7 @@ GameObject:
   - component: {fileID: 6272450631050131918}
   - component: {fileID: 7223497800980038154}
   - component: {fileID: 7560235547969270300}
+  - component: {fileID: 6933517388856533375}
   m_Layer: 0
   m_Name: StartScreenCanvas
   m_TagString: Untagged
@@ -489,6 +490,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca0330fe327ad45d7acf54c05a682c49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!225 &6933517388856533375
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3497876540892761975}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3993826097314903187
 GameObject:
   m_ObjectHideFlags: 0
