@@ -3803,6 +3803,7 @@ Transform:
   - {fileID: 6183333315626608710}
   - {fileID: 1932082017417598851}
   - {fileID: 490157685600401234}
+  - {fileID: 1507679343755366176}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3819,6 +3820,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   infoFactory: {fileID: 2954553810835938383}
+  mainCanvas: {fileID: 0}
   background: {fileID: 8639770171308828416}
   original: {fileID: 5889366291952359944}
   components: {fileID: 6350211771760437025}
@@ -3828,6 +3830,7 @@ MonoBehaviour:
   moveDuration: 1.5
   defaultSpriteMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   dofSpriteMaterial: {fileID: 2100000, guid: c0ab97d32d395411fa9096f535d4af6a, type: 2}
+  step: 0
   isMoving: 0
 --- !u!1 &3251409751503514013
 GameObject:
@@ -5531,6 +5534,36 @@ Transform:
   - {fileID: 46303994334865340}
   m_Father: {fileID: 7105306823368836699}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4276902761172933109
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1507679343755366176}
+  m_Layer: 0
+  m_Name: QuizResultAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1507679343755366176
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4276902761172933109}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 833716451203112805}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4279937318898388945
 GameObject:
@@ -13476,15 +13509,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 833716451203112805}
     m_Modifications:
-    - target: {fileID: 1755435414144711363, guid: c4460f3788b1e4080af9984a5b7d6caf,
-        type: 3}
-      propertyPath: m_Name
-      value: InfoFactory
-      objectReference: {fileID: 0}
     - target: {fileID: 1543664031081366562, guid: c4460f3788b1e4080af9984a5b7d6caf,
         type: 3}
       propertyPath: m_RootOrder
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1755435414144711363, guid: c4460f3788b1e4080af9984a5b7d6caf,
+        type: 3}
+      propertyPath: m_Name
+      value: InfoFactory
       objectReference: {fileID: 0}
     - target: {fileID: 5257733936955077788, guid: c4460f3788b1e4080af9984a5b7d6caf,
         type: 3}
@@ -13568,16 +13601,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 833716451203112805}
     m_Modifications:
-    - target: {fileID: 7313388802489238177, guid: e10e596c10e674c8da084694614fd25c,
-        type: 3}
-      propertyPath: m_Name
-      value: Quiz
-      objectReference: {fileID: 0}
-    - target: {fileID: 7313388802489238177, guid: e10e596c10e674c8da084694614fd25c,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7313388802489238176, guid: e10e596c10e674c8da084694614fd25c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -13682,6 +13705,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7313388802489238177, guid: e10e596c10e674c8da084694614fd25c,
+        type: 3}
+      propertyPath: m_Name
+      value: Quiz
+      objectReference: {fileID: 0}
+    - target: {fileID: 7313388802489238177, guid: e10e596c10e674c8da084694614fd25c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e10e596c10e674c8da084694614fd25c, type: 3}
