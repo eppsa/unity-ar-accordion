@@ -179,7 +179,6 @@ public class Controller : MonoBehaviour
     {
         if (!accordion.isMoving) {
             quizActive = !quizActive;
-            backButton.SetActive(!quizActive);
             rotationWheel.Toggle(!quizActive);
             toggleButton.Toggle(quizActive);
             accordion.EnableInfoTags(!quizActive);
@@ -248,6 +247,11 @@ public class Controller : MonoBehaviour
 
     public void OnBackButton()
     {
-        StartScreenCanvas.gameObject.SetActive(true);
+        if (quizActive) {
+            OnToggleQuiz();
+        } else {
+            StartScreenCanvas.gameObject.SetActive(true);
+        }
+
     }
 }
