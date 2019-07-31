@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Model
 {
     public class Layer
     {
-        public string information;
+        public List<string> infos;
         public List<Question> questions;
     }
 }
