@@ -96,8 +96,9 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
 
         wheelContainer.transform.localPosition = new Vector3(
             wheelContainer.transform.localPosition.x,
-            0,
+            1 * wheelElementHeight,
             wheelContainer.transform.localPosition.z
         );
+
     }
 }
