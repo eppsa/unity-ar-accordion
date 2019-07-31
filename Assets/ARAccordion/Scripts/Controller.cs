@@ -74,6 +74,10 @@ public class Controller : MonoBehaviour
             postFx.UpdateFocalLength(140.0f); // Desktop Image
         }
 
+        toggleButton.gameObject.SetActive(false);
+        backButton.SetActive(false);
+        rotationWheel.gameObject.SetActive(false);
+
         debugView.gameObject.SetActive(false);
         debugView.UpdateSmoothTime(smoothTime);
         debugView.UpdateAxes(axes.activeInHierarchy);
@@ -87,6 +91,9 @@ public class Controller : MonoBehaviour
     public void OnStart()
     {
         rotationWheel.gameObject.SetActive(true);
+        toggleButton.gameObject.SetActive(true);
+        backButton.gameObject.SetActive(true);
+
     }
 
     void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs eventArgs)
