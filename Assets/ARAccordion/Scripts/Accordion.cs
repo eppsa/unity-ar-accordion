@@ -203,7 +203,7 @@ public class Accordion : MonoBehaviour
 
     internal void EnableInfoTags(bool enable)
     {
-        infoFactory.enabled = enable;
+        infoFactory.transform.gameObject.SetActive(enable);
     }
 
     public void UpdateStep(float step)
