@@ -10,7 +10,7 @@ using UnityEngine.SpatialTracking;
 
 public class Controller : MonoBehaviour
 {
-    [SerializeField] ARTrackedImageManager trackedImageManager;
+    [SerializeField] private ARTrackedImageManager trackedImageManager;
     [SerializeField] private GameObject axes;
     [SerializeField] private StartScreenCanvas StartScreenCanvas;
     [SerializeField] private Camera arCamera;
@@ -37,20 +37,23 @@ public class Controller : MonoBehaviour
 
     private Vector3 velocity = Vector3.zero;
 
+    private int startLayer = 1;
+
     void OnEnable()
     {
         trackedImageManager.enabled = true;
 
         arCamera.GetComponent<UnityEngine.XR.ARFoundation.ARCameraManager>().focusMode = CameraFocusMode.Fixed;
 
-        maxDistance = accordion.transform.Find("ComponentAnchors").childCount;
+        maxDistance = accordion.transform.Find("Components").childCount + 1;
 
         rotationWheel.Init(maxDistance);
-
+        rotationWheel.SetStart(startLayer);
 
         ReadJson();
 
         accordion.SetContent(this.content);
+        accordion.SetStart(startLayer);
         quiz.SetContent(this.content.accordion);
 
         PostFX postFx = fxCamera.GetComponent<PostFX>();
@@ -64,16 +67,12 @@ public class Controller : MonoBehaviour
 
             trackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
 
-            postFx.UpdateAperture(1.0f); // Original Image 
-            postFx.UpdateFocalLength(42.0f); // Original Image 
+            // postFx.UpdateAperture(1.0f); // Original Image 
+            // postFx.UpdateFocalLength(42.0f); // Original Image  
 
-            // postFx.UpdateAperture(32.0f); // Desktop Image 
-            // postFx.UpdateFocalLength(140.0f); // Desktop Image
+            postFx.UpdateAperture(32.0f); // Desktop Image 
+            postFx.UpdateFocalLength(140.0f); // Desktop Image
         }
-
-        toggleButton.gameObject.SetActive(false);
-        backButton.SetActive(false);
-        rotationWheel.gameObject.SetActive(false);
 
         debugView.gameObject.SetActive(false);
         debugView.UpdateSmoothTime(smoothTime);
@@ -176,8 +175,8 @@ public class Controller : MonoBehaviour
             backButton.SetActive(!quizActive);
             rotationWheel.Toggle(!quizActive);
             toggleButton.Toggle(quizActive);
+            accordion.EnableInfoTags(!quizActive);
 
-            accordion.ShowInfoTag(!quizActive);
             if (quizActive) {
                 accordion.DistanceFactor = 0.3f;
             } else {
@@ -214,13 +213,13 @@ public class Controller : MonoBehaviour
 
     public void OnUpdateRotationWheel(float value)
     {
-        toggleButton.gameObject.SetActive(value > 0);
-        backButton.gameObject.SetActive(value > 0);
-        accordion.UpdateStep(value);
-        debugView.UpdateStep(value);
+        float layerIndex = value - startLayer;
+
+        accordion.UpdateStep(layerIndex);
+        debugView.UpdateStep(layerIndex);
 
         if (dofEnabled) {
-            fxCamera.GetComponent<PostProcessLayer>().enabled = value > 0;
+            fxCamera.GetComponent<PostProcessLayer>().enabled = layerIndex != 0;
         }
     }
 

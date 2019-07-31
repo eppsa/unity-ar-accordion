@@ -5,8 +5,18 @@
     },
     "layers": [
       {
-        "id": 1,
-        "information": "Argus Body",
+        "infos": []
+      },
+      {
+        "infos": []
+      },
+      {
+        "infos": [
+          "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*",
+          "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*",
+          "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*",
+          "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+        ],
         "questions": [
           {
             "question": "Welches Tier bewachte Argus mit seinen “100 Augen”?",
@@ -31,7 +41,12 @@
         ]
       },
       {
-        "information": "Angles",
+        "infos": [
+          "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*",
+          "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*",
+          "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*",
+          "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+        ],
         "questions": [
           {
             "question": "Welchen Sinn haben die Putten im Bild?",
@@ -46,7 +61,12 @@
         ]
       },
       {
-        "information": "Peacock",
+        "infos": [
+          "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*",
+          "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*",
+          "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*",
+          "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+        ],
         "questions": [
           {
             "question": "Wozu stehen die beiden Pfauen in besonderem Kontrast?",
@@ -61,7 +81,12 @@
         ]
       },
       {
-        "information": "Juno",
+        "infos": [
+          "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*",
+          "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*",
+          "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*",
+          "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+        ],
         "questions": [
           {
             "question": "Wessen Gattin ist die eifersüchtige Juno?",
@@ -96,7 +121,12 @@
         ]
       },
       {
-        "information": "Argus Head",
+        "infos": [
+          "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*",
+          "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*",
+          "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*",
+          "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+        ],
         "questions": [
           {
             "question": "Was symbolisieren die “100 Augen” auf Argus Kopf?",
@@ -131,7 +161,12 @@
         ]
       },
       {
-        "information": "Woman Naked",
+        "infos": [
+          "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*",
+          "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*",
+          "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*",
+          "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+        ],
         "questions": [
           {
             "question": "Was bedeutet Iris übersetzt aus dem Griechischen?",
@@ -156,7 +191,12 @@
         ]
       },
       {
-        "information": "Peacock Background",
+        "infos": [
+          "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*",
+          "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*",
+          "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*",
+          "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+        ],
         "questions": [
           {
             "question": "Von wem stammen die Augen im Federkleid des Pfaus?",
@@ -171,7 +211,12 @@
         ]
       },
       {
-        "information": "Woman",
+        "infos": [
+          "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*",
+          "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*",
+          "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*",
+          "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+        ],
         "questions": [
           {
             "question": "Welchen Zweck hat die Anwesenheit der Dienerin?",

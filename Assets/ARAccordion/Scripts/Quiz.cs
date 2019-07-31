@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Model;
 using System;
 using System.Linq;
+using System.Collections;
 
 [RequireComponent(typeof(Image))]
 public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
@@ -64,6 +64,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         System.Random random = new System.Random();
 
         return this.content.layers
+            .Where((item) => item.questions != null)
             .Select((layer, index) => new KeyValuePair<int, Layer>(index, layer))
             .OrderBy(entry => random.Next())
             .ToList()
@@ -233,7 +234,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     public void SetPositions()
     {
-        Transform anchor = accordion.ActiveComponent.transform.Find("QuizAnchor");
+        Transform anchor = accordion.ActiveImage.transform.Find("QuizAnchor");
 
         transform.position = anchor.position;
         transform.rotation = anchor.rotation;
