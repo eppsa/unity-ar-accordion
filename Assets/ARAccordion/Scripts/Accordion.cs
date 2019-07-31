@@ -10,6 +10,8 @@ public class Accordion : MonoBehaviour
 {
     [Header("Canvas")] [SerializeField] private InfoFactory infoFactory;
 
+    [SerializeField] public GameObject mainCanvas;
+
     [SerializeField] private GameObject background;
     [SerializeField] private GameObject original;
     [SerializeField] private GameObject components;
@@ -28,7 +30,7 @@ public class Accordion : MonoBehaviour
 
     private List<GameObject> images = new List<GameObject>();
 
-    private float step = 0f;
+    public float step = 0f;
     private int currentLayer = 0;
     private GameObject activeImage = null;
 
@@ -75,7 +77,7 @@ public class Accordion : MonoBehaviour
     {
         isMoving = true;
         mainCanvas.SetActive(false);
-        infoPopUp.gameObject.SetActive(false);
+        infoFactory.gameObject.SetActive(false);
 
         float moveFrom = step;
 
