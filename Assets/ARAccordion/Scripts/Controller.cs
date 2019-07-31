@@ -12,9 +12,11 @@ public class Controller : MonoBehaviour
 {
     [SerializeField] private ARTrackedImageManager trackedImageManager;
     [SerializeField] private GameObject axes;
+    [SerializeField] private StartScreenCanvas StartScreenCanvas;
     [SerializeField] private Camera arCamera;
     [SerializeField] private DebugView debugView;
     [SerializeField] private ToggleButton toggleButton;
+    [SerializeField] private GameObject backButton;
     [SerializeField] private Camera fxCamera;
     [SerializeField] private Accordion accordion;
     [SerializeField] private RotationWheel rotationWheel;
@@ -73,6 +75,8 @@ public class Controller : MonoBehaviour
         }
 
         toggleButton.gameObject.SetActive(false);
+        backButton.SetActive(false);
+        rotationWheel.gameObject.SetActive(false);
 
         debugView.gameObject.SetActive(false);
         debugView.UpdateSmoothTime(smoothTime);
@@ -82,6 +86,14 @@ public class Controller : MonoBehaviour
         debugView.UpdateDOF(enabled);
 
         fxCamera.GetComponent<PostProcessLayer>().enabled = false;
+    }
+
+    public void OnStart()
+    {
+        rotationWheel.gameObject.SetActive(true);
+        toggleButton.gameObject.SetActive(true);
+        backButton.gameObject.SetActive(true);
+
     }
 
     void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs eventArgs)
@@ -167,6 +179,7 @@ public class Controller : MonoBehaviour
     {
         if (!accordion.isMoving) {
             quizActive = !quizActive;
+            backButton.SetActive(!quizActive);
             rotationWheel.Toggle(!quizActive);
             toggleButton.Toggle(quizActive);
             accordion.EnableInfoTags(!quizActive);
@@ -231,5 +244,10 @@ public class Controller : MonoBehaviour
     {
         dofEnabled = enable;
         fxCamera.GetComponent<PostProcessLayer>().enabled = enable;
+    }
+
+    public void OnBackButton()
+    {
+        StartScreenCanvas.gameObject.SetActive(true);
     }
 }
