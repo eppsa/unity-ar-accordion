@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Model;
 using System.IO;
 using System;
+using System.Collections;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.SpatialTracking;
 
@@ -249,8 +250,21 @@ public class Controller : MonoBehaviour
         if (quizActive) {
             OnToggleQuiz();
         } else {
-            startScreen.gameObject.SetActive(true);
-            startScreen.Show(true);
+            StartCoroutine(ResetAccordion());
         }
+    }
+
+    IEnumerator ResetAccordion()
+    {
+        if (accordion.step != 0) {
+            StartCoroutine(accordion.MoveToLayer(0));
+            while (accordion.isMoving) {
+                yield return null;
+            }
+        }
+
+        startScreen.gameObject.SetActive(true);
+        startScreen.Show(true);
+        rotationWheel.Toggle(false);
     }
 }
