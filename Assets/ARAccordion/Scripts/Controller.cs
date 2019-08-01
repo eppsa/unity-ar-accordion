@@ -93,7 +93,6 @@ public class Controller : MonoBehaviour
         rotationWheel.gameObject.SetActive(true);
         toggleButton.gameObject.SetActive(true);
         backButton.gameObject.SetActive(true);
-
     }
 
     void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs eventArgs)
@@ -251,7 +250,7 @@ public class Controller : MonoBehaviour
             OnToggleQuiz();
         } else {
             startScreen.gameObject.SetActive(true);
+            startScreen.Show(true);
         }
-
     }
 }

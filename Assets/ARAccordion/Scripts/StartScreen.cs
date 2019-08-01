@@ -1,43 +1,38 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System;
 
 public class StartScreen : MonoBehaviour
 {
-    private Controller Controller;
+    private Controller controller;
 
     private bool isFadeing;
     private float duration = 0.7f;
 
 
-    public void OnEnable()
+    void OnEnable()
     {
-        StartCoroutine(Fade(0.0f, 1.0f, duration));
+        controller = GameObject.Find("Controller").GetComponent<Controller>();
     }
 
-    void Start()
+    public void Show(bool show)
     {
-        Controller = GameObject.Find("Controller").GetComponent<Controller>();
+        StartCoroutine(DoShow(show));
     }
 
-    public void OnStartButton()
+    private IEnumerator DoShow(bool show)
     {
-        if (!isFadeing) {
-            StartCoroutine(PrepareMainView());
+        if (show) {
+            StartCoroutine(Fade(0.0f, 1.0f, duration));
+        } else {
+            StartCoroutine(Fade(1.0f, 0.0f, duration));
+            while (isFadeing) {
+                yield return null;
+            }
+
+            this.transform.gameObject.SetActive(false);
+            controller.OnStart();
         }
-
-    }
-
-    private IEnumerator PrepareMainView()
-    {
-
-        StartCoroutine(Fade(1.0f, 0.0f, duration));
-        while (isFadeing) {
-            yield return null;
-        }
-
-        this.transform.gameObject.SetActive(false);
-        Controller.OnStart();
     }
 
     private IEnumerator Fade(float fadeFrom, float fadeTo, float duration)
@@ -60,6 +55,13 @@ public class StartScreen : MonoBehaviour
                 isFadeing = false;
                 yield break;
             }
+        }
+    }
+
+    public void OnStartButton()
+    {
+        if (!isFadeing) {
+            StartCoroutine(DoShow(false));
         }
     }
 }
