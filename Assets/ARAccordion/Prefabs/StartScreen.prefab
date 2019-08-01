@@ -383,7 +383,7 @@ GameObject:
   - component: {fileID: 7560235547969270300}
   - component: {fileID: 6933517388856533375}
   m_Layer: 0
-  m_Name: StartScreenCanvas
+  m_Name: StartScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -968,7 +968,7 @@ GameObject:
   - component: {fileID: 2068300823453734654}
   - component: {fileID: 8492752712969879320}
   m_Layer: 5
-  m_Name: background
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

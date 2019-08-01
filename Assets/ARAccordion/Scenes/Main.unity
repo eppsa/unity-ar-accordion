@@ -1006,6 +1006,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Accordion
       objectReference: {fileID: 0}
+    - target: {fileID: 9200363681347975377, guid: fb1958ded59ba4982ad305db035a3dff,
+        type: 3}
+      propertyPath: maxQuestions
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9200363681347975377, guid: fb1958ded59ba4982ad305db035a3dff,
+        type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 1737283999}
     - target: {fileID: 833716451203112805, guid: fb1958ded59ba4982ad305db035a3dff,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1072,16 +1082,6 @@ PrefabInstance:
       propertyPath: mainCanvas
       value: 
       objectReference: {fileID: 497861613}
-    - target: {fileID: 9200363681347975377, guid: fb1958ded59ba4982ad305db035a3dff,
-        type: 3}
-      propertyPath: maxQuestions
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9200363681347975377, guid: fb1958ded59ba4982ad305db035a3dff,
-        type: 3}
-      propertyPath: controller
-      value: 
-      objectReference: {fileID: 1737283999}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb1958ded59ba4982ad305db035a3dff, type: 3}
 --- !u!1001 &1135496294
@@ -1094,7 +1094,7 @@ PrefabInstance:
     - target: {fileID: 3497876540892761975, guid: 4b3fe047024164d90bf4106b177707d6,
         type: 3}
       propertyPath: m_Name
-      value: StartScreenCanvas
+      value: StartScreen
       objectReference: {fileID: 0}
     - target: {fileID: 6255610713647858152, guid: 4b3fe047024164d90bf4106b177707d6,
         type: 3}
