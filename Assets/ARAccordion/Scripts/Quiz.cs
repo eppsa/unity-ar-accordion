@@ -283,11 +283,11 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
         transform.SetParent(anchor);
 
-        Vector3 questionPosition = anchor.Find("QuestionAnchor").transform.position;
-        questionContainer.transform.position = new Vector3(questionPosition.x, questionPosition.y, questionPosition.z);
+        Vector3 questionAnchorPosition = anchor.Find("QuestionAnchor").transform.position;
+        questionContainer.transform.position = new Vector3(questionAnchorPosition.x, questionAnchorPosition.y, questionAnchorPosition.z);
 
-        Vector3 dropAreaPosition = anchor.Find("DropAnchor").transform.position;
-        dropArea.transform.position = new Vector3(dropAreaPosition.x, dropAreaPosition.y, dropAreaPosition.z);
+        Vector3 dropAreaAnchorPosition = anchor.Find("DropAnchor").transform.position;
+        dropArea.transform.position = new Vector3(dropAreaAnchorPosition.x, dropAreaAnchorPosition.y, dropAreaAnchorPosition.z + dropArea.transform.localPosition.z);
 
         for (int i = 0; i < answerContainers.Length; i++) {
             Vector3 answerPosition = anchor.Find("AnswerAnchor" + (i + 1)).transform.position;
