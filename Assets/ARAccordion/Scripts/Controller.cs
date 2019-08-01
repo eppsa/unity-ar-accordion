@@ -220,9 +220,6 @@ public class Controller : MonoBehaviour
     public void OnUpdateRotationWheel(float value)
     {
 
-        toggleButton.gameObject.SetActive(value > 0);
-
-
         float layerIndex = value - startLayer;
 
         accordion.UpdateStep(layerIndex);
