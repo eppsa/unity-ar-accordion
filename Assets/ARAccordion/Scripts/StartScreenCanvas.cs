@@ -8,8 +8,6 @@ public class StartScreenCanvas : MonoBehaviour
 
     private bool isFadeing;
     private float duration = 0.7f;
-    private float prepareDelay = 0.5f;
-
 
 
     public void OnEnable()
@@ -24,7 +22,10 @@ public class StartScreenCanvas : MonoBehaviour
 
     public void OnStartButton()
     {
-        StartCoroutine(PrepareMainView());
+        if (!isFadeing) {
+            StartCoroutine(PrepareMainView());
+        }
+
     }
 
     private IEnumerator PrepareMainView()
@@ -34,8 +35,6 @@ public class StartScreenCanvas : MonoBehaviour
         while (isFadeing) {
             yield return null;
         }
-
-        yield return new WaitForSeconds(prepareDelay);
 
         this.transform.gameObject.SetActive(false);
         Controller.OnStart();
