@@ -929,7 +929,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca0330fe327ad45d7acf54c05a682c49, type: 3}
+  m_Script: {fileID: 11500000, guid: d15679b1a9d4e4b21be521a3a35b38e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &857573722
@@ -1800,7 +1800,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trackedImageManager: {fileID: 857573725}
   axes: {fileID: 1972314050}
-  StartScreenCanvas: {fileID: 819995822}
+  startScreen: {fileID: 819995822}
   arCamera: {fileID: 1247506530}
   debugView: {fileID: 1652453339}
   toggleButton: {fileID: 1138625222}

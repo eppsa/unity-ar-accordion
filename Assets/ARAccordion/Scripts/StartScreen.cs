@@ -2,7 +2,7 @@
 using System.Collections;
 
 
-public class StartScreenCanvas : MonoBehaviour
+public class StartScreen : MonoBehaviour
 {
     private Controller Controller;
 
@@ -63,5 +63,3 @@ public class StartScreenCanvas : MonoBehaviour
         }
     }
 }
-
-

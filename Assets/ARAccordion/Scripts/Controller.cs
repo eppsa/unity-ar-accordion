@@ -12,7 +12,7 @@ public class Controller : MonoBehaviour
 {
     [SerializeField] private ARTrackedImageManager trackedImageManager;
     [SerializeField] private GameObject axes;
-    [SerializeField] private StartScreenCanvas StartScreenCanvas;
+    [SerializeField] private StartScreen startScreen;
     [SerializeField] private Camera arCamera;
     [SerializeField] private DebugView debugView;
     [SerializeField] private ToggleButton toggleButton;
@@ -250,7 +250,7 @@ public class Controller : MonoBehaviour
         if (quizActive) {
             OnToggleQuiz();
         } else {
-            StartScreenCanvas.gameObject.SetActive(true);
+            startScreen.gameObject.SetActive(true);
         }
 
     }
