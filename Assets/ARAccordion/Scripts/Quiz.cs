@@ -282,6 +282,18 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         transform.rotation = anchor.rotation;
 
         transform.SetParent(anchor);
+
+        Vector3 questionPosition = anchor.Find("QuestionAnchor").transform.position;
+        questionContainer.transform.position = new Vector3(questionPosition.x, questionPosition.y, questionPosition.z);
+
+        Vector3 dropAreaPosition = anchor.Find("DropAnchor").transform.position;
+        dropArea.transform.position = new Vector3(dropAreaPosition.x, dropAreaPosition.y, dropAreaPosition.z);
+
+        for (int i = 0; i < answerContainers.Length; i++) {
+            Vector3 answerPosition = anchor.Find("AnswerAnchor" + (i + 1)).transform.position;
+            answerContainers[i].transform.position = new Vector3(answerPosition.x, answerPosition.y, answerPosition.z);
+        }
+
     }
 
     public void SetContent(Model.Accordion content)
