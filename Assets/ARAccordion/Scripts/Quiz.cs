@@ -301,7 +301,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         this.content = content;
     }
 
-    public void OnBackButton()
+    public void OnAccordionButton()
     {
         controller.OnToggleQuiz();
     }

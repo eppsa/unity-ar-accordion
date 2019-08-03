@@ -475,7 +475,7 @@ GameObject:
   - component: {fileID: 5091241021496494984}
   - component: {fileID: 2383171878091559480}
   m_Layer: 5
-  m_Name: BackButton
+  m_Name: AccordionButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -528,7 +528,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 9f3c16be8fa554d1f8245548c6e2548c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5b0d062da2a474f979372ffa02947236, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -581,7 +581,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1586425330}
-        m_MethodName: OnBackButton
+        m_MethodName: OnAccordionButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
