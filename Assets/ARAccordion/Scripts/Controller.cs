@@ -185,6 +185,7 @@ public class Controller : MonoBehaviour
 
             if (quizActive) {
                 accordion.DistanceFactor = 0.3f;
+                quiz.transform.SetParent(accordion.transform);
             } else {
                 accordion.DistanceFactor = 0.5f;
             }
