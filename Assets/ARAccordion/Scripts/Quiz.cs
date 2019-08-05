@@ -10,9 +10,9 @@ using System.Collections;
 [RequireComponent(typeof(Image))]
 public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 {
-    private float QuizStartDelay = 0.5f;
-    private const float InitialQuizStartDelay = 0.5f;
-    private const float QuizEndDelay = 0.5f;
+    private float quizStartDelay = 0.5f;
+    private const float initialQuizStartDelay = 0.5f;
+    private const float quizEndDelay = 0.5f;
 
     [SerializeField] private Controller controller;
 
@@ -55,7 +55,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     public void OnEnable()
     {
         ActivateQuiz();
-        QuizStartDelay = InitialQuizStartDelay;
+        quizStartDelay = initialQuizStartDelay;
     }
 
     public void ActivateQuiz()
@@ -100,7 +100,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         }
 
         accordion.mainCanvas.SetActive(false);
-        yield return new WaitForSeconds(QuizStartDelay);
+        yield return new WaitForSeconds(quizStartDelay);
 
         StartCoroutine(accordion.MoveToLayer(pickedLayers[currentQuestionIndex].Key + 1));
         while (accordion.isMoving) {
@@ -242,7 +242,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
                 yield return null;
             }
 
-            yield return new WaitForSeconds(QuizEndDelay);
+            yield return new WaitForSeconds(quizEndDelay);
 
             ShowResult();
         }
@@ -308,7 +308,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     public void OnRestartButton()
     {
-        QuizStartDelay = 0;
+        quizStartDelay = 0;
         ActivateQuiz();
     }
 }
