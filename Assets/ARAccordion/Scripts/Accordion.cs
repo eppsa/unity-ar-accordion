@@ -74,6 +74,8 @@ public class Accordion : MonoBehaviour
     {
         isMoving = true;
         mainCanvas.SetActive(false);
+        infoFactory.gameObject.SetActive(false);
+
 
         float moveFrom = step;
 
@@ -197,6 +199,12 @@ public class Accordion : MonoBehaviour
         }
     }
 
+    internal void EnableInfoTags(bool enable)
+    {
+        infoFactory.transform.gameObject.SetActive(enable);
+    }
+
+
     public void UpdateStep(float step)
     {
         if (this.step == step) {
@@ -250,10 +258,13 @@ public class Accordion : MonoBehaviour
 
     private void UpdateLayerUI()
     {
-        Transform anchors = activeImage.transform.Find("Anchors");
+        if (infoFactory.isActiveAndEnabled) {
 
-        if (anchors) {
-            infoFactory.CreateInfoPoints(content.accordion.layers[this.currentLayer].infos, anchors, "Avatars/" + this.activeImage.transform.parent.name);
+            Transform anchors = activeImage.transform.Find("Anchors");
+
+            if (anchors) {
+                infoFactory.CreateInfoPoints(content.accordion.layers[this.currentLayer].infos, anchors, "Avatars/" + this.activeImage.transform.parent.name);
+            }
         }
     }
 
