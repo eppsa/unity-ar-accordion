@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class InfoTag : MonoBehaviour
 {
+    private const float WRITE_LETTER_DELAY = 0.02f;
     private float duration = 0.7f;
 
     [SerializeField] private GameObject background;
@@ -24,6 +25,11 @@ public class InfoTag : MonoBehaviour
         text.gameObject.SetActive(false);
     }
 
+    public void Show(string content)
+    {
+        Show(content, null);
+    }
+
     public void Show(string content, string imagePath)
     {
         this.content = content;
@@ -40,7 +46,7 @@ public class InfoTag : MonoBehaviour
 
     private void ShowBackground()
     {
-        UpdateInformation();
+        UpdateContent();
         StartCoroutine(DoScale(background.transform, background.transform.localScale, Vector3.one, duration));
     }
 
@@ -82,7 +88,7 @@ public class InfoTag : MonoBehaviour
             yield return null;
         }
 
-        StartCoroutine(DoWriteText(0.02f));
+        StartCoroutine(DoWriteText(WRITE_LETTER_DELAY));
     }
 
     private IEnumerator DoWriteText(float letterDelay)
@@ -100,7 +106,7 @@ public class InfoTag : MonoBehaviour
         }
     }
 
-    private void UpdateInformation()
+    private void UpdateContent()
     {
         text.text = content;
         image.GetComponent<Image>().sprite = Resources.Load<Sprite>(imagePath);

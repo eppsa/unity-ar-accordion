@@ -12,14 +12,13 @@ public class InfoPoint : Button
 
     private bool scaleRunning = false;
 
-    private float duration = 0.7f;
+    private const float FADE_IN_DURATION = 0.7f;
+    private const float FADE_OUT_DURATION = 0.2f;
 
     protected override void OnEnable()
     {
         infoTag = GetComponentInChildren<InfoTag>();
         infoTag.gameObject.SetActive(false);
-
-        GetComponentInChildren<Canvas>().worldCamera = Camera.main;
 
         transform.localScale = Vector3.zero;
 
@@ -28,7 +27,7 @@ public class InfoPoint : Button
 
     private void StartScaling()
     {
-        StartCoroutine(Scale(0.0f, 1.0f, duration));
+        StartCoroutine(Scale(0.0f, 1.0f, FADE_IN_DURATION));
     }
 
     private IEnumerator Scale(float from, float to, float duration)
@@ -79,7 +78,7 @@ public class InfoPoint : Button
     {
         CancelInvoke();
         StopAllCoroutines();
-        StartCoroutine(Scale(transform.localScale.x, 0.0f, 0.2f));
+        StartCoroutine(Scale(transform.localScale.x, 0.0f, FADE_OUT_DURATION));
         StartCoroutine(Delete());
     }
 
@@ -94,10 +93,10 @@ public class InfoPoint : Button
 
     internal void ShowInfoTag(TagAnchor.Orientation orientation)
     {
-        float width = infoTag.transform.Find("Background").GetComponent<RectTransform>().sizeDelta.x + transform.Find("Canvas").GetComponent<RectTransform>().sizeDelta.x * 0.5f;
+        float offset = infoTag.transform.Find("Background").GetComponent<RectTransform>().sizeDelta.x + transform.Find("Canvas").GetComponent<RectTransform>().sizeDelta.x * 0.5f;
 
         if (orientation == TagAnchor.Orientation.LEFT) {
-            infoTag.transform.localPosition = new Vector3(-width * infoTag.transform.localScale.x, infoTag.transform.localPosition.y, infoTag.transform.localPosition.z);
+            infoTag.transform.localPosition = new Vector3(-offset * infoTag.transform.localScale.x, infoTag.transform.localPosition.y, infoTag.transform.localPosition.z);
         }
 
         infoTag.gameObject.SetActive(true);

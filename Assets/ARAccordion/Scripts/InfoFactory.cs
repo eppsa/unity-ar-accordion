@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class InfoFactory : MonoBehaviour
 {
+    private const float FADE_IN_DELAY = 0.7f;
     [SerializeField] GameObject infoPointPrefab;
     [SerializeField] GameObject infoTagPrefab;
 
@@ -22,7 +23,7 @@ public class InfoFactory : MonoBehaviour
 
             infoPoint.SetContent(infos[i]);
             infoPoint.SetImagePath(imagePath);
-            infoPoint.SetDelay(i * 0.7f);
+            infoPoint.SetDelay(i * FADE_IN_DELAY);
 
             infoPoint.gameObject.SetActive(true);
 
@@ -50,7 +51,7 @@ public class InfoFactory : MonoBehaviour
 
         infoTag.gameObject.SetActive(true);
 
-        infoTag.Show(content, null);
+        infoTag.Show(content);
     }
 
     internal void ClearInfoTag(Transform anchor)
