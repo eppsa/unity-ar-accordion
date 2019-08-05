@@ -68,11 +68,11 @@ public class Controller : MonoBehaviour
 
             trackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
 
-            // postFx.UpdateAperture(1.0f); // Original Image 
-            // postFx.UpdateFocalLength(42.0f); // Original Image  
+            postFx.UpdateAperture(1.0f); // Original Image 
+            postFx.UpdateFocalLength(42.0f); // Original Image  
 
-            postFx.UpdateAperture(32.0f); // Desktop Image 
-            postFx.UpdateFocalLength(140.0f); // Desktop Image
+            // postFx.UpdateAperture(32.0f); // Desktop Image 
+            // postFx.UpdateFocalLength(140.0f); // Desktop Image
         }
 
         toggleButton.gameObject.SetActive(false);
