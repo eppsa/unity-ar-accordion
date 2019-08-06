@@ -249,6 +249,11 @@ public class Controller : MonoBehaviour
         if (quizActive) {
             OnToggleQuiz();
         }
+
+        rotationWheel.gameObject.SetActive(false);
+        toggleButton.gameObject.SetActive(false);
+        backButton.gameObject.SetActive(false);
+
         StartCoroutine(ResetAccordion());
     }
 
