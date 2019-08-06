@@ -189,6 +189,7 @@ public class Controller : MonoBehaviour
                 quiz.transform.SetParent(accordion.transform);
             } else {
                 accordion.DistanceFactor = 0.5f;
+                StartCoroutine(ResetAccordion(false));
             }
 
             quiz.gameObject.SetActive(quizActive);
@@ -254,10 +255,10 @@ public class Controller : MonoBehaviour
         toggleButton.gameObject.SetActive(false);
         backButton.gameObject.SetActive(false);
 
-        StartCoroutine(ResetAccordion());
+        StartCoroutine(ResetAccordion(true));
     }
 
-    IEnumerator ResetAccordion()
+    IEnumerator ResetAccordion(bool showStartScreen)
     {
         if (accordion.step > 0.1 || accordion.step < 0) {
             StartCoroutine(accordion.MoveToLayer(0));
@@ -266,8 +267,11 @@ public class Controller : MonoBehaviour
             }
         }
 
-        startScreen.gameObject.SetActive(true);
-        startScreen.Show(true);
-        rotationWheel.Toggle(false);
+        if (showStartScreen) {
+            startScreen.gameObject.SetActive(true);
+            startScreen.Show(true);
+            rotationWheel.Toggle(false);
+        }
+
     }
 }
