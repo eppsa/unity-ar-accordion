@@ -248,14 +248,13 @@ public class Controller : MonoBehaviour
     {
         if (quizActive) {
             OnToggleQuiz();
-        } else {
-            StartCoroutine(ResetAccordion());
         }
+        StartCoroutine(ResetAccordion());
     }
 
     IEnumerator ResetAccordion()
     {
-        if (accordion.step != 0) {
+        if (accordion.step > 0.1 || accordion.step < 0) {
             StartCoroutine(accordion.MoveToLayer(0));
             while (accordion.isMoving) {
                 yield return null;
