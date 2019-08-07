@@ -94,6 +94,7 @@ public class Accordion : MonoBehaviour
                 if (moveTo > 0) UpdateStep(moveTo);
                 isMoving = false;
                 mainCanvas.SetActive(true);
+                infoFactory.gameObject.SetActive(true);
                 yield break;
             }
         }
