@@ -45,6 +45,11 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private GameObject activeDraggable;
     private Vector3 activeDraggableStartPosition;
 
+    private AudioSource clickSound;
+    private AudioSource dragSound;
+    private AudioSource dropSound;
+    private AudioSource quizCorrectSound;
+    private AudioSource quizWrongSound;
 
     public void Awake()
     {
@@ -56,6 +61,12 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     {
         ActivateQuiz();
         quizStartDelay = initialQuizStartDelay;
+
+        clickSound = GameObject.Find("Sounds/Click").GetComponent<AudioSource>();
+        dragSound = GameObject.Find("Sounds/Drag").GetComponent<AudioSource>();
+        dropSound = GameObject.Find("Sounds/Drop").GetComponent<AudioSource>();
+        quizCorrectSound = GameObject.Find("Sounds/QuizCorrect").GetComponent<AudioSource>();
+        quizWrongSound = GameObject.Find("Sounds/QuizWrong").GetComponent<AudioSource>();
     }
 
     public void ActivateQuiz()
@@ -161,6 +172,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
             }
         } else {
             if (eventData.pointerEnter && eventData.pointerEnter.tag == "AnswerContainer") {
+                dragSound.Play();
                 activeDraggable = eventData.pointerEnter;
                 activeDraggableStartPosition = activeDraggable.transform.position;
 
@@ -181,6 +193,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
             activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.002f);
             activeDraggable.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
             currentQuestionAnswered = true;
+            dropSound.Play();
 
             CheckAnswer();
         } else {
@@ -197,11 +210,13 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         int draggableIndex = Array.IndexOf(answerContainers, activeDraggable);
 
         if (draggableIndex == correctAnswerId) {
+            quizCorrectSound.Play();
             Debug.Log("Right");
             correctAnswerCount++;
             activeDraggable.GetComponent<Image>().color = rightColor;
             Invoke("Reset", nextQuestionDelay);
         } else {
+            quizWrongSound.Play();
             Debug.Log("Wrong");
             activeDraggable.GetComponent<Image>().color = wrongColor;
             Invoke("Reset", nextQuestionDelay);
@@ -307,11 +322,13 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     public void OnAccordionButton()
     {
+        clickSound.Play();
         controller.OnToggleQuiz();
     }
 
     public void OnRestartButton()
     {
+        clickSound.Play();
         quizStartDelay = 0;
         ActivateQuiz();
     }

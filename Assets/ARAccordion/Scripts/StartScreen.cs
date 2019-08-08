@@ -9,10 +9,12 @@ public class StartScreen : MonoBehaviour
     private bool isFadeing;
     private float duration = 0.7f;
 
+    private AudioSource clickSound;
 
     void OnEnable()
     {
         controller = GameObject.Find("Controller").GetComponent<Controller>();
+        clickSound = GameObject.Find("Sounds/Click").GetComponent<AudioSource>();
     }
 
     public void Show(bool show)
@@ -60,7 +62,10 @@ public class StartScreen : MonoBehaviour
 
     public void OnStartButton()
     {
+
+
         if (!isFadeing) {
+            clickSound.Play();
             StartCoroutine(DoShow(false));
         }
     }
