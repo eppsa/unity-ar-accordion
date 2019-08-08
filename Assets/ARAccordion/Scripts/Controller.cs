@@ -41,6 +41,8 @@ public class Controller : MonoBehaviour
 
     private int startLayer = 1;
 
+    private AudioSource clickSound;
+
     void OnEnable()
     {
         trackedImageManager.enabled = true;
@@ -88,6 +90,8 @@ public class Controller : MonoBehaviour
         debugView.UpdateDOF(enabled);
 
         fxCamera.GetComponent<PostProcessLayer>().enabled = false;
+
+        clickSound = GameObject.Find("Sounds/Click").GetComponent<AudioSource>();
     }
 
     public void OnStart()
@@ -251,6 +255,8 @@ public class Controller : MonoBehaviour
         if (quizActive) {
             OnToggleQuiz();
         }
+
+        clickSound.Play();
 
         rotationWheel.gameObject.SetActive(false);
         toggleButton.gameObject.SetActive(false);

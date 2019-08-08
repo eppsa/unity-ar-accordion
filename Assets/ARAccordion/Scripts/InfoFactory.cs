@@ -7,12 +7,17 @@ public class InfoFactory : MonoBehaviour
     [SerializeField] GameObject infoPointPrefab;
     [SerializeField] GameObject infoTagPrefab;
 
+    private AudioSource clickSound;
+
+
     private InfoPoint selectedInfoPoint;
 
     void OnEnable()
     {
         infoPointPrefab.SetActive(false);
         infoTagPrefab.SetActive(false);
+
+        clickSound = GameObject.Find("Sounds/Click").GetComponent<AudioSource>();
     }
 
     public void CreateInfoPoints(List<string> infos, Transform anchors, string imagePath)
@@ -65,6 +70,8 @@ public class InfoFactory : MonoBehaviour
 
     private void OnInfoPointClick(InfoPoint infoPoint)
     {
+        clickSound.Play();
+
         if (selectedInfoPoint != null) {
             selectedInfoPoint.HideInfoTag();
         }
