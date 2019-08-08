@@ -407,7 +407,7 @@ GameObject:
   - component: {fileID: 497861614}
   - component: {fileID: 5692244666281876516}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: ScreenUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1008,11 +1008,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9200363681347975377, guid: fb1958ded59ba4982ad305db035a3dff,
         type: 3}
-      propertyPath: maxQuestions
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9200363681347975377, guid: fb1958ded59ba4982ad305db035a3dff,
-        type: 3}
       propertyPath: controller
       value: 
       objectReference: {fileID: 1737283999}
@@ -1071,17 +1066,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2954553810835938383, guid: fb1958ded59ba4982ad305db035a3dff,
+    - target: {fileID: 1507679343755366176, guid: fb1958ded59ba4982ad305db035a3dff,
         type: 3}
-      propertyPath: infoTagPrefab
-      value: 
-      objectReference: {fileID: 3202324252294473636, guid: 95ab15f22c1864f90ab32a9bf9377306,
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507679343755366176, guid: fb1958ded59ba4982ad305db035a3dff,
         type: 3}
-    - target: {fileID: 4113677120138547642, guid: fb1958ded59ba4982ad305db035a3dff,
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507679343755366176, guid: fb1958ded59ba4982ad305db035a3dff,
         type: 3}
-      propertyPath: mainCanvas
-      value: 
-      objectReference: {fileID: 497861613}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507679343755366176, guid: fb1958ded59ba4982ad305db035a3dff,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507679343755366176, guid: fb1958ded59ba4982ad305db035a3dff,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb1958ded59ba4982ad305db035a3dff, type: 3}
 --- !u!1001 &1135496294
@@ -1810,6 +1819,7 @@ MonoBehaviour:
   rotationWheel: {fileID: 1530501504}
   arSession: {fileID: 1338354116}
   quiz: {fileID: 567363776}
+  screenUI: {fileID: 497861613}
   smoothTime: 0.1
 --- !u!4 &1737284000
 Transform:

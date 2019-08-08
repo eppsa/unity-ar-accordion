@@ -23,6 +23,7 @@ public class Controller : MonoBehaviour
     [SerializeField] private RotationWheel rotationWheel;
     [SerializeField] private ARSession arSession;
     [SerializeField] private Quiz quiz;
+    [SerializeField] private GameObject screenUI;
 
     [SerializeField] private float smoothTime;
 
@@ -48,7 +49,7 @@ public class Controller : MonoBehaviour
 
         arCamera.GetComponent<UnityEngine.XR.ARFoundation.ARCameraManager>().focusMode = CameraFocusMode.Fixed;
 
-        maxDistance = accordion.transform.Find("Components").childCount + 1;
+        maxDistance = GameObject.FindGameObjectsWithTag("Layer").Length;
 
         rotationWheel.Init(maxDistance);
         rotationWheel.SetStart(startLayer);
@@ -183,10 +184,10 @@ public class Controller : MonoBehaviour
     {
         if (!accordion.isMoving) {
             quizActive = !quizActive;
+
             rotationWheel.Toggle(!quizActive);
             toggleButton.Toggle(quizActive);
             accordion.EnableInfoTags(!quizActive);
-
 
             if (quizActive) {
                 accordion.DistanceFactor = 0.3f;
@@ -267,10 +268,13 @@ public class Controller : MonoBehaviour
     IEnumerator ResetAccordion(bool showStartScreen)
     {
         if (accordion.step > 0.1 || accordion.step < 0) {
+            screenUI.SetActive(false);
             StartCoroutine(accordion.MoveToLayer(0));
             while (accordion.isMoving) {
                 yield return null;
             }
+
+            screenUI.SetActive(true);
         }
 
         if (showStartScreen) {
@@ -278,6 +282,5 @@ public class Controller : MonoBehaviour
             startScreen.Show(true);
             rotationWheel.Toggle(false);
         }
-
     }
 }
