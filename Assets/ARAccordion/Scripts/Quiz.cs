@@ -248,11 +248,15 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     private void ShowResult()
     {
+        Transform anchor = accordion.transform.Find("QuizResultAnchor");
+
+        transform.position = anchor.position;
+        transform.rotation = anchor.rotation;
+
+        transform.SetParent(anchor);
 
         resultContainer.SetActive(true);
-
-        Vector3 resultContainerPosition = accordion.transform.Find("QuizResultAnchor").transform.position;
-        resultContainer.transform.position = new Vector3(resultContainerPosition.x, resultContainerPosition.y, resultContainerPosition.z);
+        resultContainer.transform.localPosition = new Vector3(0, 0, 0);
 
         string resultText = GetResultText();
         resultContainer.transform.GetChild(0).GetComponent<Text>().text = resultText;
