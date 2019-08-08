@@ -1291,7 +1291,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7313388802489238176
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1402,7 +1402,7 @@ MonoBehaviour:
   scaleFactor: 1.25
   defaultScaleFactor: 1
   nextQuestionDelay: 1.5
-  maxQuestions: 1
+  maxQuestions: 5
 --- !u!1 &7313388803310147199
 GameObject:
   m_ObjectHideFlags: 0

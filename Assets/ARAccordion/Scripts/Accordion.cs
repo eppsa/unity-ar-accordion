@@ -8,14 +8,11 @@ using System;
 
 public class Accordion : MonoBehaviour
 {
-    [Header("Canvas")] [SerializeField] private InfoFactory infoFactory;
-
-    [SerializeField] public GameObject mainCanvas;
-
     [SerializeField] private GameObject background;
     [SerializeField] private GameObject original;
-    [SerializeField] private GameObject components;
+    [SerializeField] private GameObject imageSections;
     [SerializeField] private GameObject painter;
+    [SerializeField] private GameObject infrared;
 
     [SerializeField] private float speed = 5.0f;
     [SerializeField] private float exponent = 1;
@@ -23,6 +20,8 @@ public class Accordion : MonoBehaviour
 
     [SerializeField] private Material defaultSpriteMaterial;
     [SerializeField] private Material dofSpriteMaterial;
+
+    private InfoFactory infoFactory;
 
     private float distanceFactor = 0.5f;
 
@@ -33,12 +32,10 @@ public class Accordion : MonoBehaviour
     public float step = 0f;
     private int currentLayer = 0;
     private GameObject activeImage = null;
-
     private bool savedOrigins = false;
 
-    private ARSessionOrigin sessionOrigin;
-
     private Vector3 activeTilePosition;
+    private float distanceOfActiveTile;
 
     private Content content;
     private int start = 0;
@@ -52,17 +49,22 @@ public class Accordion : MonoBehaviour
 
     void OnEnable()
     {
-        foreach (Transform component in components.transform) {
+        foreach (Transform component in imageSections.transform) {
             images.Add(component.Find("Image").gameObject);
         }
 
         var dummys = Resources.FindObjectsOfTypeAll<GameObject>().Where(obj => obj.name == "DummyObject");
         foreach (GameObject obj in dummys) obj.transform.gameObject.SetActive(false);
+
+        infoFactory = GetComponent<InfoFactory>();
     }
 
     void Start()
     {
         background.SetActive(false);
+
+        this.distanceOfActiveTile = GetDistance(images.Count, 0);
+        Debug.Log(distanceOfActiveTile);
     }
 
     internal void SetStart(int startLayer)
@@ -73,9 +75,8 @@ public class Accordion : MonoBehaviour
     public IEnumerator MoveToLayer(float moveTo)
     {
         isMoving = true;
-        mainCanvas.SetActive(false);
-        infoFactory.gameObject.SetActive(false);
 
+        infoFactory.enabled = false;
 
         float moveFrom = step;
 
@@ -93,7 +94,6 @@ public class Accordion : MonoBehaviour
             } else {
                 if (moveTo > 0) UpdateStep(moveTo);
                 isMoving = false;
-                mainCanvas.SetActive(true);
                 yield break;
             }
         }
@@ -101,30 +101,40 @@ public class Accordion : MonoBehaviour
 
     void LateUpdate()
     {
-        if (step > 0) {
+        if (step > images.Count) {
             original.SetActive(false);
             background.SetActive(true);
-            components.SetActive(true);
-            UpdatePositions();
+            imageSections.SetActive(true);
 
-            float focusDistance = Vector3.Distance(Camera.main.transform.position, images[images.Count - Mathf.CeilToInt(this.step)].transform.position);
+            UpdatePositions();
+            UpdateInfraredPosition();
+
+            float focusDistance = Vector3.Distance(Camera.main.transform.position, infrared.transform.position);
             Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(focusDistance);
+        } else if (step > 0) {
+            original.SetActive(false);
+            background.SetActive(true);
+            imageSections.SetActive(true);
+
+            UpdatePositions();
+            UpdateInfraredPosition();
         } else if (step < 0) {
             original.SetActive(true);
             background.SetActive(false);
-            components.SetActive(false);
+            imageSections.SetActive(false);
 
             UpdatePainterPosition();
 
             float focusDistance = Vector3.Distance(Camera.main.transform.position, painter.transform.position);
             Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(focusDistance);
-        } else {
+        } else if (step == 0) {
             original.SetActive(true);
             background.SetActive(false);
-            components.SetActive(false);
+            imageSections.SetActive(false);
 
             UpdateToOriginPositions();
             UpdatePainterPosition();
+            UpdateInfraredPosition();
         }
     }
 
@@ -141,14 +151,14 @@ public class Accordion : MonoBehaviour
     private void UpdatePositions()
     {
         for (int i = 0; i < images.Count; i++) {
-            GameObject component = this.images[i];
+            GameObject image = this.images[i];
 
             float distance = GetDistance(step, i);
 
             if (towardsCamera) {
-                moveTowardsCamera(component, distance);
+                moveTowardsCamera(image, distance);
             } else {
-                moveFromOrigin(component, distance);
+                moveFromOrigin(image, distance);
             }
         }
     }
@@ -161,6 +171,17 @@ public class Accordion : MonoBehaviour
             moveTowardsCamera(painter, distance);
         } else {
             moveFromOrigin(painter, distance);
+        }
+    }
+
+    private void UpdateInfraredPosition()
+    {
+        float distance = GetDistance(step, -1);
+
+        if (towardsCamera) {
+            moveTowardsCamera(infrared, distance);
+        } else {
+            moveFromOrigin(infrared, distance);
         }
     }
 
@@ -182,15 +203,15 @@ public class Accordion : MonoBehaviour
 
     private void moveTowardsCamera(GameObject go, float stepDistance)
     {
-        Vector3 origin = go.transform.parent.transform.position;
+        Vector3 originPosition = go.transform.parent.transform.position;
 
-        Vector3 distanceVector = Camera.main.transform.position - origin;
+        Vector3 distanceVector = Camera.main.transform.position - originPosition;
 
-        Vector3 newPosition = origin + distanceVector * distanceFactor * stepDistance;
+        Vector3 newPosition = originPosition + distanceVector * distanceFactor * stepDistance;
 
         go.transform.position = newPosition;
 
-        if (Vector3.Distance(go.transform.position, origin) > 0.1f) {
+        if (Vector3.Distance(newPosition, originPosition) > 0.1f) {
             Vector3 newDirection = Vector3.RotateTowards(go.transform.forward, Camera.main.transform.forward, speed * 0.001f * Time.deltaTime, 0.0f);
             go.transform.rotation = Quaternion.LookRotation(newDirection, Camera.main.transform.up);
         } else {
@@ -201,9 +222,8 @@ public class Accordion : MonoBehaviour
 
     internal void EnableInfoTags(bool enable)
     {
-        infoFactory.transform.gameObject.SetActive(enable);
+        infoFactory.enabled = enable;
     }
-
 
     public void UpdateStep(float step)
     {
@@ -217,13 +237,17 @@ public class Accordion : MonoBehaviour
             Debug.Log("Step " + step);
         }
 
-        if (step > 0) {
-            ShowComponents();
+        if (step > images.Count) {
+            ShowInfrared(true);
+            HighlightImageSections();
+        } else if (step > 0) {
+            ShowInfrared(false);
+            ShowImageSections();
+            HighlightImageSections();
         } else if (step < 0) {
+            ShowInfrared(false);
             ShowPainter();
         }
-
-        Highlight();
     }
 
     private void ShowPainter()
@@ -239,11 +263,14 @@ public class Accordion : MonoBehaviour
         }
     }
 
-    private void ShowComponents()
+    private void ShowImageSections()
     {
         if (step % 1 == 0) {
             this.currentLayer = images.Count - Mathf.CeilToInt(step);
             this.activeImage = images[currentLayer];
+
+            float focusDistance = Vector3.Distance(Camera.main.transform.position, activeImage.transform.position);
+            Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(focusDistance);
 
             UpdateLayerUI();
         } else {
@@ -254,6 +281,33 @@ public class Accordion : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void ShowInfrared(bool show)
+    {
+        if (show) {
+            infrared.SetActive(true);
+            if (step % 1 != 0) {
+                infrared.GetComponentInChildren<Renderer>().material = defaultSpriteMaterial;
+                Material material = infrared.GetComponentInChildren<Renderer>().material;
+                Color color = material.GetColor("_Color");
+
+                material.SetColor("_Color", new Color(color.r, color.g, color.b, step % 1));
+            } else {
+                infrared.GetComponentInChildren<Renderer>().material = dofSpriteMaterial;
+                Material material = infrared.GetComponentInChildren<Renderer>().material;
+                Color color = material.GetColor("_Color");
+
+                material.SetColor("_Color", new Color(color.r, color.g, color.b, 1));
+            }
+        } else {
+            infrared.SetActive(false);
+            infrared.GetComponentInChildren<Renderer>().material = defaultSpriteMaterial;
+            Material material = infrared.GetComponentInChildren<Renderer>().material;
+            Color color = material.GetColor("_Color");
+            material.SetColor("_Color", new Color(color.r, color.g, color.b, 0));
+        }
+
     }
 
     private void UpdateLayerUI()
@@ -268,28 +322,25 @@ public class Accordion : MonoBehaviour
         }
     }
 
-    private void Highlight()
+    private void HighlightImageSections()
     {
-        int activeTileIndex = images.Count - Mathf.CeilToInt(step);
-
-        float distanceOfActiveTile = GetDistance(step, activeTileIndex);
-
         for (int i = 0; i < images.Count; i++) {
-            GameObject component = images[i];
-            Color color = component.GetComponentInChildren<Renderer>().material.GetColor("_Color");
-
-            if (i == activeTileIndex) {
-                component.GetComponentInChildren<Renderer>().material = dofSpriteMaterial;
-                // infos.SetAnchor(tile.transform.Find("TagAnchor"));
-            }
+            GameObject image = images[i];
 
             float distanceOfTile = GetDistance(step, i);
-            if (distanceOfTile > distanceOfActiveTile) {
-                component.GetComponentInChildren<Renderer>().material = defaultSpriteMaterial;
-                StartCoroutine(Fade(color.a, 0.5f, 1.0f, component.GetComponentInChildren<Renderer>().material));
+
+            if (distanceOfTile > this.distanceOfActiveTile) {
+                image.GetComponentInChildren<Renderer>().material = defaultSpriteMaterial;
+
+                Material material = image.GetComponentInChildren<Renderer>().material;
+                Color color = material.GetColor("_Color");
+                material.SetColor("_Color", new Color(color.r, color.g, color.b, 1 - (step % 1)));
             } else {
-                component.GetComponentInChildren<Renderer>().material = dofSpriteMaterial;
-                StartCoroutine(Fade(color.a, 1.0f, 1.0f, component.GetComponentInChildren<Renderer>().material));
+                image.GetComponentInChildren<Renderer>().material = dofSpriteMaterial;
+
+                Material material = image.GetComponentInChildren<Renderer>().material;
+                Color color = material.GetColor("_Color");
+                material.SetColor("_Color", new Color(color.r, color.g, color.b, 1));
             }
         }
     }

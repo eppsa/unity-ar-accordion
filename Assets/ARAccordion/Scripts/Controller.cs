@@ -180,10 +180,10 @@ public class Controller : MonoBehaviour
     {
         if (!accordion.isMoving) {
             quizActive = !quizActive;
+
             rotationWheel.Toggle(!quizActive);
             toggleButton.Toggle(quizActive);
             accordion.EnableInfoTags(!quizActive);
-
 
             if (quizActive) {
                 accordion.DistanceFactor = 0.3f;
@@ -276,6 +276,5 @@ public class Controller : MonoBehaviour
             startScreen.Show(true);
             rotationWheel.Toggle(false);
         }
-
     }
 }

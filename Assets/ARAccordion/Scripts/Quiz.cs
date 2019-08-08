@@ -58,7 +58,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         quizStartDelay = initialQuizStartDelay;
     }
 
-    public void ActivateQuiz()
+    private void ActivateQuiz()
     {
         InitQuiz();
         StartCoroutine(StartQuiz());
@@ -91,7 +91,6 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
         resultContainer.SetActive(false);
 
-
         if (accordion.step > 0.1 || accordion.step < 0) {
             StartCoroutine(accordion.MoveToLayer(0));
         }
@@ -99,7 +98,6 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
             yield return null;
         }
 
-        accordion.mainCanvas.SetActive(false);
         yield return new WaitForSeconds(quizStartDelay);
 
         StartCoroutine(accordion.MoveToLayer(pickedLayers[currentQuestionIndex].Key + 1));
