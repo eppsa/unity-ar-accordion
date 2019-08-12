@@ -51,6 +51,8 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private AudioSource quizCorrectSound;
     private AudioSource quizWrongSound;
 
+    private bool waiting = false;
+
     public void Awake()
     {
         accordion = this.transform.parent.GetComponent<Accordion>();
@@ -148,7 +150,13 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (waiting) {
+            return;
+        }
+
         if (activeDraggable) {
+            activeDraggable.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+
             Vector3 worldPoint;
 
             bool hit = RectTransformUtility.ScreenPointToWorldPointInRectangle(
@@ -171,17 +179,16 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         } else {
             if (eventData.pointerEnter && eventData.pointerEnter.tag == "AnswerContainer") {
                 dragSound.Play();
+
                 activeDraggable = eventData.pointerEnter;
                 activeDraggableStartPosition = activeDraggable.transform.position;
-
-                activeDraggable.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
             }
         }
     }
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (activeDraggable == null) {
+        if (activeDraggable == null || waiting) {
             return;
         }
 
@@ -212,11 +219,15 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
             Debug.Log("Right");
             correctAnswerCount++;
             activeDraggable.GetComponent<Image>().color = rightColor;
+
+            waiting = true;
             Invoke("Reset", nextQuestionDelay);
         } else {
             quizWrongSound.Play();
             Debug.Log("Wrong");
             activeDraggable.GetComponent<Image>().color = wrongColor;
+
+            waiting = true;
             Invoke("Reset", nextQuestionDelay);
         }
     }
@@ -234,6 +245,8 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
         currentQuestionIndex++;
         StartCoroutine(UpdateQuiz());
+
+        waiting = false;
     }
 
     IEnumerator UpdateQuiz()
