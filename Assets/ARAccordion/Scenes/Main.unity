@@ -1174,6 +1174,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: StartScreen
       objectReference: {fileID: 0}
+    - target: {fileID: 7560235547969270300, guid: 4b3fe047024164d90bf4106b177707d6,
+        type: 3}
+      propertyPath: onStart.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1737283999}
     - target: {fileID: 6255610713647858152, guid: 4b3fe047024164d90bf4106b177707d6,
         type: 3}
       propertyPath: m_LocalPosition.x

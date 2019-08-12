@@ -1,19 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
+using UnityEngine.Events;
 
 public class StartScreen : MonoBehaviour
 {
-    private Controller controller;
-
     private bool isFadeing;
     private float duration = 0.7f;
 
     private AudioSource clickSound;
 
+    public UnityEvent onStart;
+
     void OnEnable()
     {
-        controller = GameObject.Find("Controller").GetComponent<Controller>();
         clickSound = GameObject.Find("Sounds/Click").GetComponent<AudioSource>();
     }
 
@@ -33,7 +32,7 @@ public class StartScreen : MonoBehaviour
             }
 
             this.transform.gameObject.SetActive(false);
-            controller.OnStart();
+            onStart.Invoke();
         }
     }
 
@@ -62,8 +61,6 @@ public class StartScreen : MonoBehaviour
 
     public void OnStartButton()
     {
-
-
         if (!isFadeing) {
             clickSound.Play();
             StartCoroutine(DoShow(false));

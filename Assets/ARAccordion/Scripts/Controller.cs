@@ -94,13 +94,6 @@ public class Controller : MonoBehaviour
         clickSound = GameObject.Find("Sounds/Click").GetComponent<AudioSource>();
     }
 
-    public void OnStart()
-    {
-        rotationWheel.gameObject.SetActive(true);
-        toggleButton.gameObject.SetActive(true);
-        backButton.gameObject.SetActive(true);
-    }
-
     void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs eventArgs)
     {
         foreach (var trackedImage in eventArgs.added) {
@@ -171,6 +164,13 @@ public class Controller : MonoBehaviour
             axes.transform.position = Vector3.SmoothDamp(axes.transform.position, this.trackedImage.transform.position, ref velocity, smoothTime);
             axes.transform.rotation = Quaternion.RotateTowards(axes.transform.rotation, this.trackedImage.transform.rotation, smoothTime);
         }
+    }
+
+    public void OnStart()
+    {
+        rotationWheel.gameObject.SetActive(true);
+        toggleButton.gameObject.SetActive(true);
+        backButton.gameObject.SetActive(true);
     }
 
     public void OnActivateTowardsCamera(bool active)
