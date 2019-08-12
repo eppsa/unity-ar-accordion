@@ -21,13 +21,12 @@ public class Accordion : MonoBehaviour
     [SerializeField] private Material defaultSpriteMaterial;
     [SerializeField] private Material dofSpriteMaterial;
 
+    private int imageSectionsCount;
     private InfoFactory infoFactory;
 
     private float distanceFactor = 0.5f;
 
     private bool towardsCamera = true;
-
-    private List<GameObject> images = new List<GameObject>();
 
     public float step = 0f;
     private int currentLayer = 0;
@@ -49,12 +48,10 @@ public class Accordion : MonoBehaviour
 
     void OnEnable()
     {
-        foreach (Transform component in imageSections.transform) {
-            images.Add(component.Find("Image").gameObject);
-        }
-
         var dummys = Resources.FindObjectsOfTypeAll<GameObject>().Where(obj => obj.name == "DummyObject");
         foreach (GameObject obj in dummys) obj.transform.gameObject.SetActive(false);
+
+        this.imageSectionsCount = imageSections.transform.childCount;
 
         infoFactory = GetComponent<InfoFactory>();
     }
@@ -63,8 +60,7 @@ public class Accordion : MonoBehaviour
     {
         background.SetActive(false);
 
-        this.distanceOfActiveTile = GetDistance(images.Count, 0);
-        Debug.Log(distanceOfActiveTile);
+        this.distanceOfActiveTile = GetDistance(this.imageSectionsCount, 0);
     }
 
     internal void SetStart(int startLayer)
@@ -72,86 +68,80 @@ public class Accordion : MonoBehaviour
         this.start = startLayer;
     }
 
-    public IEnumerator MoveToLayer(float moveTo)
+    public void OnUpdateStep(float step)
     {
-        isMoving = true;
-
-        infoFactory.enabled = false;
-
-        float moveFrom = step;
-
-        float startTime = Time.time;
-        float currentDuration = 0.0f;
-        float progress = 0.0f;
-
-        while (true) {
-            currentDuration = Time.time - startTime;
-            progress = currentDuration / moveDuration;
-
-            if (progress <= 1.0f) {
-                UpdateStep(Mathf.Lerp(moveFrom, moveTo, progress));
-                yield return new WaitForEndOfFrame();
-            } else {
-                if (moveTo > 0) UpdateStep(moveTo);
-                isMoving = false;
-                yield break;
-            }
+        if (this.step == step) {
+            return;
         }
+
+        this.step = step;
+
+        if (step > this.imageSectionsCount) {
+            ShowInfrared();
+        } else if (step > 0) {
+            ShowImageSections();
+        } else if (step < 0) {
+            ShowPainter();
+        }
+
+        HighlightImageSections();
     }
 
     void LateUpdate()
     {
-        if (step > images.Count) {
+        if (step > this.imageSectionsCount) {
             original.SetActive(false);
             background.SetActive(true);
             imageSections.SetActive(true);
-
-            UpdatePositions();
-            UpdateInfraredPosition();
-
-            float focusDistance = Vector3.Distance(Camera.main.transform.position, infrared.transform.position);
-            Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(focusDistance);
+            infrared.SetActive(true);
         } else if (step > 0) {
             original.SetActive(false);
             background.SetActive(true);
             imageSections.SetActive(true);
-
-            UpdatePositions();
-            UpdateInfraredPosition();
+            infrared.SetActive(false);
         } else if (step < 0) {
             original.SetActive(true);
             background.SetActive(false);
             imageSections.SetActive(false);
-
-            UpdatePainterPosition();
-
-            float focusDistance = Vector3.Distance(Camera.main.transform.position, painter.transform.position);
-            Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(focusDistance);
+            infrared.SetActive(false);
         } else if (step == 0) {
             original.SetActive(true);
             background.SetActive(false);
             imageSections.SetActive(false);
+            infrared.SetActive(false);
 
-            UpdateToOriginPositions();
-            UpdatePainterPosition();
-            UpdateInfraredPosition();
+            ResetToOriginPositions();
+        }
+
+        UpdateImageSectionPositions();
+        UpdateInfraredPosition();
+        UpdatePainterPosition();
+
+        FocusActiveImage();
+    }
+
+    private void FocusActiveImage()
+    {
+        if (this.activeImage && this.step > 0 && this.step % 1 == 0) {
+            float focusDistance = Vector3.Distance(Camera.main.transform.position, activeImage.transform.position);
+            Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(focusDistance);
         }
     }
 
-    private void UpdateToOriginPositions()
+    private void ResetToOriginPositions()
     {
-        for (int i = 0; i < images.Count; i++) {
-            GameObject tile = images[i];
+        for (int i = 0; i < this.imageSectionsCount; i++) {
+            GameObject image = this.imageSections.transform.GetChild(i).Find("Image").gameObject;
 
-            tile.transform.localRotation = Quaternion.Euler(0, 0, 0);
-            tile.transform.position = Vector3.zero;
+            image.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            image.transform.position = Vector3.zero;
         }
     }
 
-    private void UpdatePositions()
+    private void UpdateImageSectionPositions()
     {
-        for (int i = 0; i < images.Count; i++) {
-            GameObject image = this.images[i];
+        for (int i = 0; i < this.imageSectionsCount; i++) {
+            GameObject image = this.imageSections.transform.GetChild(i).Find("Image").gameObject;
 
             float distance = GetDistance(step, i);
 
@@ -165,7 +155,7 @@ public class Accordion : MonoBehaviour
 
     private void UpdatePainterPosition()
     {
-        float distance = Mathf.Pow(step + images.Count + 1, exponent) / Mathf.Pow(images.Count, exponent);
+        float distance = Mathf.Pow(step + this.imageSectionsCount + 1, exponent) / Mathf.Pow(this.imageSectionsCount, exponent);
 
         if (towardsCamera) {
             moveTowardsCamera(painter, distance);
@@ -187,7 +177,7 @@ public class Accordion : MonoBehaviour
 
     private float GetDistance(float step, int index)
     {
-        return Mathf.Pow(step + index, exponent) / Mathf.Pow(images.Count, exponent);
+        return Mathf.Pow(step + index, exponent) / Mathf.Pow(this.imageSectionsCount, exponent);
     }
 
     private void moveFromOrigin(GameObject go, float stepDistance)
@@ -225,34 +215,10 @@ public class Accordion : MonoBehaviour
         infoFactory.enabled = enable;
     }
 
-    public void UpdateStep(float step)
-    {
-        if (this.step == step) {
-            return;
-        }
-
-        this.step = step;
-
-        if (this.step % 1 == 0) {
-            Debug.Log("Step " + step);
-        }
-
-        if (step > images.Count) {
-            ShowInfrared(true);
-            HighlightImageSections();
-        } else if (step > 0) {
-            ShowInfrared(false);
-            ShowImageSections();
-            HighlightImageSections();
-        } else if (step < 0) {
-            ShowInfrared(false);
-            ShowPainter();
-        }
-    }
-
     private void ShowPainter()
     {
         this.activeImage = painter;
+
         if (step % 1 == 0) {
             infoFactory.CreateInfoTag("Bla bla bla bla bla bla bla bla bla bla bla bla bla ...", activeImage.transform.Find("Anchors").GetChild(0));
         } else {
@@ -265,10 +231,10 @@ public class Accordion : MonoBehaviour
 
     private void ShowImageSections()
     {
-        if (step % 1 == 0) {
-            this.currentLayer = images.Count - Mathf.CeilToInt(step);
-            this.activeImage = images[currentLayer];
+        this.currentLayer = this.imageSectionsCount - Mathf.CeilToInt(step);
+        this.activeImage = this.imageSections.transform.GetChild(currentLayer).Find("Image").gameObject;
 
+        if (step % 1 == 0) {
             float focusDistance = Vector3.Distance(Camera.main.transform.position, activeImage.transform.position);
             Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(focusDistance);
 
@@ -283,31 +249,23 @@ public class Accordion : MonoBehaviour
         }
     }
 
-    private void ShowInfrared(bool show)
+    private void ShowInfrared()
     {
-        if (show) {
-            infrared.SetActive(true);
-            if (step % 1 != 0) {
-                infrared.GetComponentInChildren<Renderer>().material = defaultSpriteMaterial;
-                Material material = infrared.GetComponentInChildren<Renderer>().material;
-                Color color = material.GetColor("_Color");
+        this.activeImage = infrared;
 
-                material.SetColor("_Color", new Color(color.r, color.g, color.b, step % 1));
-            } else {
-                infrared.GetComponentInChildren<Renderer>().material = dofSpriteMaterial;
-                Material material = infrared.GetComponentInChildren<Renderer>().material;
-                Color color = material.GetColor("_Color");
-
-                material.SetColor("_Color", new Color(color.r, color.g, color.b, 1));
-            }
-        } else {
-            infrared.SetActive(false);
+        if (step % 1 != 0) {
             infrared.GetComponentInChildren<Renderer>().material = defaultSpriteMaterial;
             Material material = infrared.GetComponentInChildren<Renderer>().material;
             Color color = material.GetColor("_Color");
-            material.SetColor("_Color", new Color(color.r, color.g, color.b, 0));
-        }
 
+            material.SetColor("_Color", new Color(color.r, color.g, color.b, step % 1));
+        } else {
+            infrared.GetComponentInChildren<Renderer>().material = dofSpriteMaterial;
+            Material material = infrared.GetComponentInChildren<Renderer>().material;
+            Color color = material.GetColor("_Color");
+
+            material.SetColor("_Color", new Color(color.r, color.g, color.b, 1));
+        }
     }
 
     private void UpdateLayerUI()
@@ -324,8 +282,8 @@ public class Accordion : MonoBehaviour
 
     private void HighlightImageSections()
     {
-        for (int i = 0; i < images.Count; i++) {
-            GameObject image = images[i];
+        for (int i = 0; i < this.imageSectionsCount; i++) {
+            GameObject image = this.imageSections.transform.GetChild(i).Find("Image").gameObject;
 
             float distanceOfTile = GetDistance(step, i);
 
@@ -345,28 +303,6 @@ public class Accordion : MonoBehaviour
         }
     }
 
-    private IEnumerator Fade(float fadeFrom, float fadeTo, float duration, Material material)
-    {
-        float startTime = Time.time;
-        float currentDuration = 0.0f;
-        float progress = 0.0f;
-
-        Color color = material.GetColor("_Color");
-
-        while (true) {
-            currentDuration = Time.time - startTime;
-            progress = currentDuration / duration;
-
-            if (progress <= 1.0f) {
-                material.SetColor("_Color", new Color(color.r, color.g, color.b, Mathf.Lerp(fadeFrom, fadeTo, progress)));
-                yield return new WaitForEndOfFrame();
-            } else {
-                material.SetColor("_Color", new Color(color.r, color.g, color.b, fadeTo));
-                yield break;
-            }
-        }
-    }
-
     internal void SetMoveTowardsCamera(bool towardsCamera)
     {
         this.towardsCamera = towardsCamera;
@@ -375,5 +311,32 @@ public class Accordion : MonoBehaviour
     internal void SetContent(Content content)
     {
         this.content = content;
+    }
+
+    public IEnumerator MoveToLayer(float moveTo)
+    {
+        isMoving = true;
+
+        infoFactory.enabled = false;
+
+        float moveFrom = step;
+
+        float startTime = Time.time;
+        float currentDuration = 0.0f;
+        float progress = 0.0f;
+
+        while (true) {
+            currentDuration = Time.time - startTime;
+            progress = currentDuration / moveDuration;
+
+            if (progress <= 1.0f) {
+                OnUpdateStep(Mathf.Lerp(moveFrom, moveTo, progress));
+                yield return new WaitForEndOfFrame();
+            } else {
+                if (moveTo > 0) OnUpdateStep(moveTo);
+                isMoving = false;
+                yield break;
+            }
+        }
     }
 }

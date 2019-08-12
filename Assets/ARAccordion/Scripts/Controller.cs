@@ -227,10 +227,9 @@ public class Controller : MonoBehaviour
 
     public void OnUpdateRotationWheel(float value)
     {
-
         float layerIndex = value - startLayer;
 
-        accordion.UpdateStep(layerIndex);
+        accordion.OnUpdateStep(layerIndex);
         debugView.UpdateStep(layerIndex);
 
         if (dofEnabled) {
