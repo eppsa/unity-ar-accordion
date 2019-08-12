@@ -136,6 +136,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5829507582111877925}
+  - component: {fileID: 295902914}
   m_Layer: 0
   m_Name: Sounds
   m_TagString: Untagged
@@ -163,6 +164,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &295902914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2333011271898640720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fe4bef61f6934f3180bc0e06a99eea0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  click: {fileID: 3532338722891639923}
+  drag: {fileID: 7284746060452737718}
+  drop: {fileID: 8599389719317445105}
+  quizRight: {fileID: 1497014262371648880}
+  quizWrong: {fileID: 5122248333143749745}
+  rotationWheelSnap: {fileID: 5048121181340333492}
 --- !u!1 &3656271236970256298
 GameObject:
   m_ObjectHideFlags: 0
@@ -301,7 +320,7 @@ GameObject:
   - component: {fileID: 2339832026651948668}
   - component: {fileID: 1497014262371648880}
   m_Layer: 0
-  m_Name: QuizCorrect
+  m_Name: QuizRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -555,7 +574,7 @@ GameObject:
   - component: {fileID: 7941504194405007229}
   - component: {fileID: 5048121181340333492}
   m_Layer: 0
-  m_Name: RotationWheel
+  m_Name: RotationWheelSnap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

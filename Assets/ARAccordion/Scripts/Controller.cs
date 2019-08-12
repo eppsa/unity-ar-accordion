@@ -90,8 +90,6 @@ public class Controller : MonoBehaviour
         debugView.UpdateDOF(enabled);
 
         fxCamera.GetComponent<PostProcessLayer>().enabled = false;
-
-        clickSound = GameObject.Find("Sounds/Click").GetComponent<AudioSource>();
     }
 
     void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs eventArgs)
@@ -254,8 +252,6 @@ public class Controller : MonoBehaviour
         if (quizActive) {
             OnToggleQuiz();
         }
-
-        clickSound.Play();
 
         rotationWheel.gameObject.SetActive(false);
         toggleButton.gameObject.SetActive(false);

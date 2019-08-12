@@ -85,6 +85,7 @@ GameObject:
   - component: {fileID: 1816402032613909171}
   - component: {fileID: 7739744083365840587}
   - component: {fileID: 5303033367026794254}
+  - component: {fileID: 308247663685126}
   m_Layer: 5
   m_Name: WheelContainer
   m_TagString: Untagged
@@ -144,6 +145,31 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+--- !u!114 &308247663685126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5303033367026794253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1297475563, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 70
+    m_Right: 70
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
 --- !u!1 &8287055429807173071
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,7 +199,7 @@ RectTransform:
   m_GameObject: {fileID: 8287055429807173071}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3787981550218184015}
   - {fileID: 5321918741474900519}
@@ -274,6 +300,7 @@ GameObject:
   - component: {fileID: 1918244723144591970}
   - component: {fileID: 689795505902007957}
   - component: {fileID: 8190377848217988388}
+  - component: {fileID: 8312586313025578546}
   m_Layer: 5
   m_Name: Focus
   m_TagString: Untagged
@@ -363,3 +390,31 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 344.07568, y: 0.1}
   m_EdgeRadius: 0
+--- !u!114 &8312586313025578546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8459497128831042955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b840172e49142f1977ae0aa502e868, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationWheelSnapEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: OnRotationWheelSnap
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null

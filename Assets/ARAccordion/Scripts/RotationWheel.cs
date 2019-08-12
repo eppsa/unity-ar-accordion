@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
@@ -17,6 +18,7 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
 
     private float step;
     private float start = 0;
+
 
     internal void Init(int maxSteps)
     {
@@ -99,6 +101,5 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
             1 * wheelElementHeight,
             wheelContainer.transform.localPosition.z
         );
-
     }
 }
