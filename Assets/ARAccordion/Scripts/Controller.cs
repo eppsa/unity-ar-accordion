@@ -5,9 +5,15 @@ using Newtonsoft.Json;
 using Model;
 using System.IO;
 using System;
-using System.Collections;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.SpatialTracking;
+
+public enum State
+{
+    START,
+    ACCORDION,
+    QUIZ
+}
 
 public class Controller : MonoBehaviour
 {
@@ -43,16 +49,24 @@ public class Controller : MonoBehaviour
 
     private AudioSource clickSound;
 
+    private State state;
+
+
     void OnEnable()
     {
-        trackedImageManager.enabled = true;
+        Init();
 
+        this.state = State.START;
+        UpdateState();
+    }
+
+    void Init()
+    {
         arCamera.GetComponent<UnityEngine.XR.ARFoundation.ARCameraManager>().focusMode = CameraFocusMode.Fixed;
 
         maxDistance = GameObject.FindGameObjectsWithTag("Layer").Length;
 
         rotationWheel.Init(maxDistance, startLayer);
-        rotationWheel.Reset();
 
         ReadJson();
 
@@ -62,25 +76,14 @@ public class Controller : MonoBehaviour
 
         PostFX postFx = fxCamera.GetComponent<PostFX>();
         if (Application.isEditor) {
-            accordion.gameObject.SetActive(true);
-
             postFx.UpdateAperture(4f);
             postFx.UpdateFocalLength(80.0f);
         } else {
-            accordion.gameObject.SetActive(false);
+            postFx.UpdateAperture(1.0f);
+            postFx.UpdateFocalLength(42.0f);
 
             trackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
-
-            postFx.UpdateAperture(1.0f); // Original Image 
-            postFx.UpdateFocalLength(42.0f); // Original Image  
-
-            // postFx.UpdateAperture(32.0f); // Desktop Image 
-            // postFx.UpdateFocalLength(140.0f); // Desktop Image
         }
-
-        toggleButton.gameObject.SetActive(false);
-        backButton.SetActive(false);
-        rotationWheel.gameObject.SetActive(false);
 
         debugView.gameObject.SetActive(false);
         debugView.UpdateSmoothTime(smoothTime);
@@ -164,13 +167,6 @@ public class Controller : MonoBehaviour
         }
     }
 
-    public void OnStart()
-    {
-        rotationWheel.gameObject.SetActive(true);
-        toggleButton.gameObject.SetActive(true);
-        backButton.gameObject.SetActive(true);
-    }
-
     public void OnActivateTowardsCamera(bool active)
     {
         if (accordion) {
@@ -178,38 +174,84 @@ public class Controller : MonoBehaviour
         }
     }
 
-    public void OnToggleQuiz()
+    public void OnToggleMode()
     {
-        if (!accordion.isMoving) {
-            quizActive = !quizActive;
+        if (this.state == State.ACCORDION) {
+            this.state = State.QUIZ;
+        } else if (this.state == State.QUIZ) {
+            this.state = State.ACCORDION;
+        }
 
-            toggleButton.Toggle(quizActive);
+        UpdateState();
+    }
 
-            if (quizActive) {
-                quiz.gameObject.SetActive(true);
-                rotationWheel.gameObject.SetActive(false);
-                accordion.EnableInfoTags(false);
-
-                accordion.DistanceFactor = 0.3f;
-                quiz.transform.SetParent(accordion.transform);
-            } else {
-                quiz.gameObject.SetActive(false);
-                rotationWheel.gameObject.SetActive(true);
-                rotationWheel.Reset();
-
-                accordion.EnableInfoTags(true);
-                accordion.DistanceFactor = 0.5f;
-
-                screenUI.SetActive(false);
-                accordion.MoveTo(0);
-            }
+    private void UpdateState()
+    {
+        switch (this.state) {
+            case State.START:
+                ShowStart();
+                break;
+            case State.ACCORDION:
+                ShowAccordion();
+                break;
+            case State.QUIZ:
+                ShowQuiz();
+                break;
         }
     }
 
-    public void OnAccordionMovementFinish()
+    private void ShowStart()
     {
+        DeactivateTracking();
+
+        screenUI.SetActive(false);
+        startScreen.gameObject.SetActive(true);
+        startScreen.Show(true);
+
+        accordion.gameObject.SetActive(false);
+        quiz.gameObject.SetActive(false);
+
+        accordion.Reset();
+    }
+
+    private void ShowQuiz()
+    {
+        ActivateTracking();
+
+        quiz.transform.SetParent(accordion.gameObject.transform);
+        quiz.gameObject.SetActive(true);
+
         screenUI.SetActive(true);
-        quiz.OnAccordionMovementFinsh();
+        rotationWheel.gameObject.SetActive(false);
+        accordion.EnableInfoTags(false);
+
+        accordion.DistanceFactor = 0.3f;
+
+        toggleButton.Toggle(state);
+
+        accordion.MoveTo(0, accordion.step >= 1 ? 1.5f : 0);
+    }
+
+    private void ShowAccordion()
+    {
+        ActivateTracking();
+
+        quiz.gameObject.SetActive(false);
+        screenUI.SetActive(true);
+        rotationWheel.gameObject.SetActive(true);
+        accordion.EnableInfoTags(true);
+
+        if (startScreen.isActiveAndEnabled) {
+            startScreen.Show(false);
+        }
+
+        accordion.DistanceFactor = 0.5f;
+
+        rotationWheel.Reset();
+
+        toggleButton.Toggle(state);
+
+        accordion.MoveTo(0, accordion.step >= 1 ? 1.5f : 0);
     }
 
     public void OnEnableDofDebugging(bool enable)
@@ -262,24 +304,38 @@ public class Controller : MonoBehaviour
 
     public void OnBackButton()
     {
-        if (quizActive) {
-            OnToggleQuiz();
-        }
-
-        rotationWheel.gameObject.SetActive(false);
-        toggleButton.gameObject.SetActive(false);
-        backButton.gameObject.SetActive(false);
-
-        // StartCoroutine(ResetAccordion());
+        this.state = State.START;
+        UpdateState();
     }
 
-
-
-    void ShowStartScreen(bool show)
+    public void OnStart()
     {
-        screenUI.gameObject.SetActive(!show);
+        this.state = State.ACCORDION;
+        UpdateState();
+    }
 
-        startScreen.gameObject.SetActive(show);
-        startScreen.Show(show);
+    private void DeactivateTracking()
+    {
+        trackedImageManager.enabled = false;
+    }
+
+    private void ActivateTracking()
+    {
+        trackedImageManager.enabled = true;
+
+        if (Application.isEditor) {
+            accordion.gameObject.SetActive(true);
+        } else {
+            accordion.gameObject.SetActive(false);
+        }
+    }
+
+    public void OnAccordionMovementFinish()
+    {
+        switch (state) {
+            case State.QUIZ:
+                quiz.OnAccordionMovementFinsh();
+                break;
+        }
     }
 }

@@ -1,20 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class StartScreen : MonoBehaviour
 {
+    [SerializeField] Button startButton;
+
     private bool isFadeing;
     private float duration = 0.7f;
 
-    private AudioSource clickSound;
-
     public UnityEvent onStart;
 
-    void OnEnable()
-    {
-        clickSound = GameObject.Find("Sounds/Click").GetComponent<AudioSource>();
-    }
 
     public void Show(bool show)
     {
@@ -27,12 +24,15 @@ public class StartScreen : MonoBehaviour
             StartCoroutine(Fade(0.0f, 1.0f, duration));
         } else {
             StartCoroutine(Fade(1.0f, 0.0f, duration));
+
+            startButton.interactable = false;
+
             while (isFadeing) {
                 yield return null;
             }
 
+            startButton.interactable = true;
             this.transform.gameObject.SetActive(false);
-            onStart.Invoke();
         }
     }
 
@@ -56,14 +56,6 @@ public class StartScreen : MonoBehaviour
                 isFadeing = false;
                 yield break;
             }
-        }
-    }
-
-    public void OnStartButton()
-    {
-        if (!isFadeing) {
-            clickSound.Play();
-            StartCoroutine(DoShow(false));
         }
     }
 }

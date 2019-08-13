@@ -14,7 +14,6 @@ public class Accordion : MonoBehaviour
 
     [SerializeField] private float speed = 5.0f;
     [SerializeField] private float exponent = 1;
-    [SerializeField] private float moveDuration = 1.5f;
 
     [SerializeField] private Material defaultSpriteMaterial;
     [SerializeField] private Material dofSpriteMaterial;
@@ -61,6 +60,12 @@ public class Accordion : MonoBehaviour
         background.SetActive(false);
 
         this.distanceOfActiveTile = GetDistance(this.imageSectionsCount, 0);
+    }
+
+    public void Reset()
+    {
+        StopAllCoroutines();
+        this.step = 0;
     }
 
     internal void SetStart(int startLayer)
@@ -313,12 +318,12 @@ public class Accordion : MonoBehaviour
         this.content = content;
     }
 
-    public void MoveTo(float to)
+    public void MoveTo(float to, float duration)
     {
-        StartCoroutine(DoMoveTo(to));
+        StartCoroutine(DoMoveTo(to, duration));
     }
 
-    public IEnumerator DoMoveTo(float to)
+    public IEnumerator DoMoveTo(float to, float duration)
     {
         isMoving = true;
 
@@ -332,7 +337,7 @@ public class Accordion : MonoBehaviour
 
         while (true) {
             currentDuration = Time.time - startTime;
-            progress = currentDuration / moveDuration;
+            progress = currentDuration / duration;
 
             if (progress <= 1.0f) {
                 OnUpdateStep(Mathf.Lerp(from, to, progress));

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Collections;
 using UnityEngine.Events;
 
-enum State
+enum QuizState
 {
     START,
     NEXT_QUESTION,
@@ -18,10 +18,6 @@ enum State
 [RequireComponent(typeof(Image))]
 public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 {
-    private float quizStartDelay = 0.5f;
-    private const float initialQuizStartDelay = 0.5f;
-    private const float quizEndDelay = 0.5f;
-
     [SerializeField] private GameObject questionContainer;
     [SerializeField] private GameObject[] answerContainers;
     [SerializeField] private GameObject resultContainer;
@@ -58,7 +54,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     private bool waiting = false;
 
-    private State state;
+    private QuizState state;
 
 
     public void Awake()
@@ -69,7 +65,6 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     public void OnEnable()
     {
         ActivateQuiz();
-        quizStartDelay = initialQuizStartDelay;
     }
 
     private void ActivateQuiz()
@@ -77,8 +72,6 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         InitQuiz();
 
         Show(false);
-
-        accordion.MoveTo(0);
     }
 
     private void InitQuiz()
@@ -88,20 +81,20 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         pickedLayers = GetRandomLayers(maxQuestions);
         resultContainer.SetActive(false);
 
-        state = State.START;
+        state = QuizState.START;
     }
 
     public void OnAccordionMovementFinsh()
     {
         switch (state) {
-            case State.START:
-                this.state = State.NEXT_QUESTION;
-                accordion.MoveTo(pickedLayers[currentQuestionIndex].Key + 1);
+            case QuizState.START:
+                this.state = QuizState.NEXT_QUESTION;
+                accordion.MoveTo(pickedLayers[currentQuestionIndex].Key + 1, nextQuestionDelay);
                 break;
-            case State.NEXT_QUESTION:
+            case QuizState.NEXT_QUESTION:
                 ShowNextQuestion();
                 break;
-            case State.RESULT:
+            case QuizState.RESULT:
                 ShowResult();
                 break;
         }
@@ -256,10 +249,10 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     void UpdateQuiz()
     {
         if (currentQuestionIndex < maxQuestions) {
-            accordion.MoveTo(pickedLayers[currentQuestionIndex].Key + 1);
+            accordion.MoveTo(pickedLayers[currentQuestionIndex].Key + 1, nextQuestionDelay);
         } else {
-            this.state = State.RESULT;
-            accordion.MoveTo(0);
+            this.state = QuizState.RESULT;
+            accordion.MoveTo(0, nextQuestionDelay);
         }
     }
 
@@ -322,7 +315,6 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     public void OnRestartButton()
     {
-        quizStartDelay = 0;
         ActivateQuiz();
     }
 }

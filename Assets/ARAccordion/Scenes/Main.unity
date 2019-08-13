@@ -1108,6 +1108,16 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 295902914}
+    - target: {fileID: 6826604053681751835, guid: fb1958ded59ba4982ad305db035a3dff,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1737283999}
+    - target: {fileID: 6826604053681751835, guid: fb1958ded59ba4982ad305db035a3dff,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnToggleMode
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb1958ded59ba4982ad305db035a3dff, type: 3}
 --- !u!1001 &1134550765
@@ -1196,6 +1206,11 @@ PrefabInstance:
       propertyPath: onStart.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1737283999}
+    - target: {fileID: 7560235547969270300, guid: 4b3fe047024164d90bf4106b177707d6,
+        type: 3}
+      propertyPath: startButton
+      value: 
+      objectReference: {fileID: 1249780278}
     - target: {fileID: 6255610713647858152, guid: 4b3fe047024164d90bf4106b177707d6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1306,6 +1321,16 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 295902914}
+    - target: {fileID: 5774862283661909804, guid: 4b3fe047024164d90bf4106b177707d6,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1737283999}
+    - target: {fileID: 5774862283661909804, guid: 4b3fe047024164d90bf4106b177707d6,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnStart
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b3fe047024164d90bf4106b177707d6, type: 3}
 --- !u!1 &1138625217
@@ -1393,7 +1418,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1737283999}
-        m_MethodName: OnToggleQuiz
+        m_MethodName: OnToggleMode
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1602,6 +1627,18 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1247506529}
   m_Enabled: 1
+--- !u!114 &1249780278 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5774862283661909804, guid: 4b3fe047024164d90bf4106b177707d6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1135496294}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1310241198 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3905528866275726228, guid: 7380ac22561144ee79bd31641af2f398,

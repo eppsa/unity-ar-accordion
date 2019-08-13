@@ -5,9 +5,17 @@ public class ToggleButton : MonoBehaviour
     [SerializeField] GameObject quizImage;
     [SerializeField] GameObject accordionImage;
 
-    public void Toggle(bool active)
+    public void Toggle(State state)
     {
-        accordionImage.SetActive(active);
-        quizImage.SetActive(!active);
+        switch (state) {
+            case State.ACCORDION:
+                accordionImage.SetActive(false);
+                quizImage.SetActive(true);
+                break;
+            case State.QUIZ:
+                accordionImage.SetActive(true);
+                quizImage.SetActive(false);
+                break;
+        }
     }
 }
