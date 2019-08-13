@@ -1,12 +1,17 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
+
+[System.Serializable] public class UnityEventFloat : UnityEvent<float> { }
 
 public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
 {
     [SerializeField] private GameObject wheelContainer;
     [SerializeField] private GameObject wheelElementPrefab;
-    [SerializeField] private Controller controller;
     [SerializeField] private BoxCollider2D focusCollider;
+
+    [SerializeField] private UnityEventFloat onUpdateRotationWheel;
+
 
     private float minY;
     private float maxY;
@@ -67,7 +72,7 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
                 focusCollider.enabled = true;
             }
 
-            controller.OnUpdateRotationWheel(step);
+            onUpdateRotationWheel.Invoke(step);
         }
     }
 
