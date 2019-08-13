@@ -51,8 +51,8 @@ public class Controller : MonoBehaviour
 
         maxDistance = GameObject.FindGameObjectsWithTag("Layer").Length;
 
-        rotationWheel.Init(maxDistance);
-        rotationWheel.SetStart(startLayer);
+        rotationWheel.Init(maxDistance, startLayer);
+        rotationWheel.Reset();
 
         ReadJson();
 
@@ -183,20 +183,33 @@ public class Controller : MonoBehaviour
         if (!accordion.isMoving) {
             quizActive = !quizActive;
 
-            rotationWheel.Toggle(!quizActive);
             toggleButton.Toggle(quizActive);
-            accordion.EnableInfoTags(!quizActive);
 
             if (quizActive) {
+                quiz.gameObject.SetActive(true);
+                rotationWheel.gameObject.SetActive(false);
+                accordion.EnableInfoTags(false);
+
                 accordion.DistanceFactor = 0.3f;
                 quiz.transform.SetParent(accordion.transform);
             } else {
-                accordion.DistanceFactor = 0.5f;
-                StartCoroutine(ResetAccordion(false));
-            }
+                quiz.gameObject.SetActive(false);
+                rotationWheel.gameObject.SetActive(true);
+                rotationWheel.Reset();
 
-            quiz.gameObject.SetActive(quizActive);
+                accordion.EnableInfoTags(true);
+                accordion.DistanceFactor = 0.5f;
+
+                screenUI.SetActive(false);
+                accordion.MoveTo(0);
+            }
         }
+    }
+
+    public void OnAccordionMovementFinish()
+    {
+        screenUI.SetActive(true);
+        quiz.OnAccordionMovementFinsh();
     }
 
     public void OnEnableDofDebugging(bool enable)
@@ -257,25 +270,16 @@ public class Controller : MonoBehaviour
         toggleButton.gameObject.SetActive(false);
         backButton.gameObject.SetActive(false);
 
-        StartCoroutine(ResetAccordion(true));
+        // StartCoroutine(ResetAccordion());
     }
 
-    IEnumerator ResetAccordion(bool showStartScreen)
+
+
+    void ShowStartScreen(bool show)
     {
-        if (accordion.step > 0.1 || accordion.step < 0) {
-            screenUI.SetActive(false);
-            StartCoroutine(accordion.MoveToLayer(0));
-            while (accordion.isMoving) {
-                yield return null;
-            }
+        screenUI.gameObject.SetActive(!show);
 
-            screenUI.SetActive(true);
-        }
-
-        if (showStartScreen) {
-            startScreen.gameObject.SetActive(true);
-            startScreen.Show(true);
-            rotationWheel.Toggle(false);
-        }
+        startScreen.gameObject.SetActive(show);
+        startScreen.Show(show);
     }
 }

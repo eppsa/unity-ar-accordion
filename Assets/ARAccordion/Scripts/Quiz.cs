@@ -8,6 +8,13 @@ using System.Linq;
 using System.Collections;
 using UnityEngine.Events;
 
+enum State
+{
+    START,
+    NEXT_QUESTION,
+    RESULT
+}
+
 [RequireComponent(typeof(Image))]
 public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 {
@@ -15,10 +22,9 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private const float initialQuizStartDelay = 0.5f;
     private const float quizEndDelay = 0.5f;
 
-    [SerializeField] private Controller controller;
-
     [SerializeField] private GameObject questionContainer;
     [SerializeField] private GameObject[] answerContainers;
+    [SerializeField] private GameObject resultContainer;
     [SerializeField] private GameObject dropArea;
 
     [SerializeField] private Color rightColor = new Color(0, 200, 0);
@@ -31,8 +37,12 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     [SerializeField] private int maxQuestions = 5;
 
+    [SerializeField] private UnityEvent dragStartEvent;
+    [SerializeField] private UnityEvent dropEvent;
+    [SerializeField] private UnityEvent quizRightEvent;
+    [SerializeField] private UnityEvent quizWrongEvent;
+
     private Accordion accordion;
-    private GameObject resultContainer;
 
     private Model.Accordion content;
 
@@ -48,16 +58,12 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     private bool waiting = false;
 
-    public UnityEvent dragStartEvent;
-    public UnityEvent dropEvent;
-    public UnityEvent quizRightEvent;
-    public UnityEvent quizWrongEvent;
+    private State state;
 
 
     public void Awake()
     {
         accordion = this.transform.parent.GetComponent<Accordion>();
-        resultContainer = this.transform.Find("ResultContainer").gameObject;
     }
 
     public void OnEnable()
@@ -69,7 +75,10 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private void ActivateQuiz()
     {
         InitQuiz();
-        StartCoroutine(StartQuiz());
+
+        Show(false);
+
+        accordion.MoveTo(0);
     }
 
     private void InitQuiz()
@@ -77,6 +86,32 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         currentQuestionIndex = 0;
         correctAnswerCount = 0;
         pickedLayers = GetRandomLayers(maxQuestions);
+        resultContainer.SetActive(false);
+
+        state = State.START;
+    }
+
+    public void OnAccordionMovementFinsh()
+    {
+        switch (state) {
+            case State.START:
+                this.state = State.NEXT_QUESTION;
+                accordion.MoveTo(pickedLayers[currentQuestionIndex].Key + 1);
+                break;
+            case State.NEXT_QUESTION:
+                ShowNextQuestion();
+                break;
+            case State.RESULT:
+                ShowResult();
+                break;
+        }
+    }
+
+    private void ShowNextQuestion()
+    {
+        SetPositions();
+        UpdateQuizContent();
+        Show(true);
     }
 
     private List<KeyValuePair<int, Layer>> GetRandomLayers(int count)
@@ -93,39 +128,12 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
             .ToList();
     }
 
-    IEnumerator StartQuiz()
-    {
-        Show(false);
-
-        resultContainer.SetActive(false);
-
-        if (accordion.step > 0.1 || accordion.step < 0) {
-            StartCoroutine(accordion.MoveToLayer(0));
-        }
-        while (accordion.isMoving) {
-            yield return null;
-        }
-
-        yield return new WaitForSeconds(quizStartDelay);
-
-        StartCoroutine(accordion.MoveToLayer(pickedLayers[currentQuestionIndex].Key + 1));
-        while (accordion.isMoving) {
-            yield return null;
-        }
-
-        SetPositions();
-        UpdateQuizContent();
-
-        Show(true);
-    }
-
     private void Show(bool show)
     {
         foreach (Transform child in transform) {
             if (child.gameObject.name != "ResultContainer") {
                 child.gameObject.SetActive(show);
             }
-
         }
     }
 
@@ -239,33 +247,19 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         activeDraggable = null;
 
         currentQuestionIndex++;
-        StartCoroutine(UpdateQuiz());
+
+        UpdateQuiz();
 
         waiting = false;
     }
 
-    IEnumerator UpdateQuiz()
+    void UpdateQuiz()
     {
         if (currentQuestionIndex < maxQuestions) {
-            StartCoroutine(accordion.MoveToLayer(pickedLayers[currentQuestionIndex].Key + 1));
-
-            while (accordion.isMoving) {
-                yield return null;
-            }
-
-            SetPositions();
-            UpdateQuizContent();
-            Show(true);
+            accordion.MoveTo(pickedLayers[currentQuestionIndex].Key + 1);
         } else {
-            StartCoroutine(accordion.MoveToLayer(0));
-
-            while (accordion.isMoving) {
-                yield return null;
-            }
-
-            yield return new WaitForSeconds(quizEndDelay);
-
-            ShowResult();
+            this.state = State.RESULT;
+            accordion.MoveTo(0);
         }
     }
 
@@ -324,11 +318,6 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     public void SetContent(Model.Accordion content)
     {
         this.content = content;
-    }
-
-    public void OnAccordionButton()
-    {
-        controller.OnToggleQuiz();
     }
 
     public void OnRestartButton()

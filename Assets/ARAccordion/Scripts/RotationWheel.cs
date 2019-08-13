@@ -29,9 +29,10 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
         focusCollider.enabled = false;
     }
 
-    internal void Init(int maxSteps)
+    internal void Init(int maxSteps, int start)
     {
         this.maxSteps = maxSteps;
+        this.start = start;
 
         for (int i = 0; i <= maxSteps; i++) {
             GameObject wheelElement = Instantiate(wheelElementPrefab);
@@ -44,17 +45,6 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
         maxY = wheelElementHeight * maxSteps;
 
         nextStepLocalPosition = wheelContainer.transform.localPosition;
-    }
-
-    internal void SetStart(int start)
-    {
-        this.start = start;
-        nextStepLocalPosition = wheelContainer.transform.localPosition + new Vector3(
-            wheelContainer.transform.localPosition.x,
-            this.start * wheelElementHeight,
-            wheelContainer.transform.localPosition.z
-        );
-        wheelContainer.transform.localPosition = nextStepLocalPosition;
     }
 
     void Update()
@@ -104,16 +94,14 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
         moving = false;
     }
 
-    public void Toggle(bool active)
+    public void Reset()
     {
-        this.gameObject.SetActive(active);
-
-        moving = true;
-
-        wheelContainer.transform.localPosition = new Vector3(
+        nextStepLocalPosition = new Vector3(
             wheelContainer.transform.localPosition.x,
-            1 * wheelElementHeight,
+            this.start * wheelElementHeight,
             wheelContainer.transform.localPosition.z
         );
+
+        wheelContainer.transform.localPosition = nextStepLocalPosition;
     }
 }

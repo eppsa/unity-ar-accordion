@@ -1,10 +1,8 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.XR.ARFoundation;
 using Model;
-using System.Collections.Generic;
 using System.Linq;
-using System;
+using UnityEngine.Events;
 
 public class Accordion : MonoBehaviour
 {
@@ -20,6 +18,8 @@ public class Accordion : MonoBehaviour
 
     [SerializeField] private Material defaultSpriteMaterial;
     [SerializeField] private Material dofSpriteMaterial;
+
+    [SerializeField] private UnityEvent onMovementFinish;
 
     private int imageSectionsCount;
     private InfoFactory infoFactory;
@@ -313,13 +313,18 @@ public class Accordion : MonoBehaviour
         this.content = content;
     }
 
-    public IEnumerator MoveToLayer(float moveTo)
+    public void MoveTo(float to)
+    {
+        StartCoroutine(DoMoveTo(to));
+    }
+
+    public IEnumerator DoMoveTo(float to)
     {
         isMoving = true;
 
         infoFactory.enabled = false;
 
-        float moveFrom = step;
+        float from = step;
 
         float startTime = Time.time;
         float currentDuration = 0.0f;
@@ -330,11 +335,14 @@ public class Accordion : MonoBehaviour
             progress = currentDuration / moveDuration;
 
             if (progress <= 1.0f) {
-                OnUpdateStep(Mathf.Lerp(moveFrom, moveTo, progress));
+                OnUpdateStep(Mathf.Lerp(from, to, progress));
                 yield return new WaitForEndOfFrame();
             } else {
-                if (moveTo > 0) OnUpdateStep(moveTo);
+                if (to > 0) {
+                    OnUpdateStep(to);
+                }
                 isMoving = false;
+                onMovementFinish.Invoke();
                 yield break;
             }
         }

@@ -1417,6 +1417,7 @@ MonoBehaviour:
   - {fileID: 1036750899}
   - {fileID: 2064054908}
   - {fileID: 1856698391}
+  resultContainer: {fileID: 6229103327985187872}
   dropArea: {fileID: 7313388803348010657}
   rightColor: {r: 0.43128344, g: 0.7924528, b: 0.16820934, a: 1}
   wrongColor: {r: 0.8962264, g: 0.2240566, b: 0.2660672, a: 1}
