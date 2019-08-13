@@ -90,7 +90,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 50.1, y: -71.32}
+  m_Offset: {x: 55, y: -75}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -101,7 +101,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 100, y: 100}
+  m_Size: {x: 250, y: 50}
   m_EdgeRadius: 0
 --- !u!50 &1946357551686259841
 Rigidbody2D:
@@ -136,3 +136,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2b840172e49142f1977ae0aa502e868, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotationWheelSnapEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null

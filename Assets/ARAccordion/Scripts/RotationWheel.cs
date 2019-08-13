@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
@@ -7,6 +6,7 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
     [SerializeField] private GameObject wheelContainer;
     [SerializeField] private GameObject wheelElementPrefab;
     [SerializeField] private Controller controller;
+    [SerializeField] private BoxCollider2D focusCollider;
 
     private float minY;
     private float maxY;
@@ -19,6 +19,10 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
     private float step;
     private float start = 0;
 
+    void OnEnable()
+    {
+        focusCollider.enabled = false;
+    }
 
     internal void Init(int maxSteps)
     {
@@ -57,8 +61,13 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
         float step = wheelContainer.transform.localPosition.y / wheelElementHeight;
 
         if (step != this.step) {
-            controller.OnUpdateRotationWheel(step);
             this.step = step;
+
+            if (this.step % 1 > 0.9) {
+                focusCollider.enabled = true;
+            }
+
+            controller.OnUpdateRotationWheel(step);
         }
     }
 
