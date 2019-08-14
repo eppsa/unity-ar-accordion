@@ -217,6 +217,8 @@ public class Controller : MonoBehaviour
 
     private void ShowAccordion()
     {
+        accordion.StopAllCoroutines();
+
         quiz.gameObject.SetActive(false);
         screenUI.SetActive(true);
         rotationWheel.gameObject.SetActive(true);
@@ -232,11 +234,13 @@ public class Controller : MonoBehaviour
 
         toggleButton.Toggle(state);
 
-        accordion.MoveTo(0, accordion.step >= 1 ? 1.5f : 0);
+        accordion.MoveTo(0, accordion.step >= 0 ? 1.5f : 0);
     }
 
     private void ShowQuiz()
     {
+        accordion.StopAllCoroutines();
+
         quiz.transform.SetParent(accordion.gameObject.transform);
         quiz.gameObject.SetActive(true);
         screenUI.SetActive(true);
