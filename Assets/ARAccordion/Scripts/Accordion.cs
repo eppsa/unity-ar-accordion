@@ -280,7 +280,9 @@ public class Accordion : MonoBehaviour
 
         if (anchors) {
             this.currentInfoPointAnchors = anchors;
-            infoFactory.CreateInfoPoints(content.accordion.layers[this.currentLayer].infos, this.currentInfoPointAnchors, "Avatars/" + this.activeImageAnchor.transform.parent.name);
+            string imagePath = "Avatars/" + this.activeImageAnchor.transform.parent.name;
+            imagePath = imagePath.Replace("Layer", "");
+            infoFactory.CreateInfoPoints(content.accordion.layers[this.currentLayer].infos, this.currentInfoPointAnchors, imagePath);
         }
     }
 
