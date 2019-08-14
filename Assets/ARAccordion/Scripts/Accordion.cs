@@ -3,6 +3,7 @@ using UnityEngine;
 using Model;
 using System.Linq;
 using UnityEngine.Events;
+using System;
 
 public class Accordion : MonoBehaviour
 {
@@ -80,6 +81,11 @@ public class Accordion : MonoBehaviour
     }
 
     public void OnUpdateStep(float step)
+    {
+        UpdateStep(step);
+    }
+
+    private void UpdateStep(float step)
     {
         if (this.step == step) {
             return;
@@ -338,11 +344,11 @@ public class Accordion : MonoBehaviour
             progress = currentDuration / duration;
 
             if (progress <= 1.0f) {
-                OnUpdateStep(Mathf.Lerp(from, to, progress));
+                UpdateStep(Mathf.Lerp(from, to, progress));
                 yield return new WaitForEndOfFrame();
             } else {
                 if (to > 0) {
-                    OnUpdateStep(to);
+                    UpdateStep(to);
                 }
                 isMoving = false;
                 onMovementFinish.Invoke();

@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using Model;
 using System;
 using System.Linq;
-using System.Collections;
 using UnityEngine.Events;
 
 enum QuizState
