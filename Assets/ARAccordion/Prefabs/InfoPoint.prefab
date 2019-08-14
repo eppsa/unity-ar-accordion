@@ -59,7 +59,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: c0ab97d32d395411fa9096f535d4af6a, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -103,7 +103,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8076274599695383736}
-  - {fileID: 4729823508598531543}
+  - {fileID: 8257514512985324732}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -146,7 +146,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 4630606996516420675}
+  m_TargetGraphic: {fileID: 4936074937981112434}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -481,7 +481,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95ab15f22c1864f90ab32a9bf9377306, type: 3}
---- !u!224 &4729823508598531543 stripped
+--- !u!224 &8257514512985324732 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3691580435576511092, guid: 95ab15f22c1864f90ab32a9bf9377306,
     type: 3}
