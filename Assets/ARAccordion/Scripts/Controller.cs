@@ -189,12 +189,15 @@ public class Controller : MonoBehaviour
     {
         switch (this.state) {
             case State.START:
+                DeactivateTracking();
                 ShowStart();
                 break;
             case State.ACCORDION:
+                ActivateTracking();
                 ShowAccordion();
                 break;
             case State.QUIZ:
+                ActivateTracking();
                 ShowQuiz();
                 break;
         }
@@ -202,8 +205,6 @@ public class Controller : MonoBehaviour
 
     private void ShowStart()
     {
-        DeactivateTracking();
-
         screenUI.SetActive(false);
         startScreen.gameObject.SetActive(true);
         startScreen.Show(true);
@@ -214,32 +215,12 @@ public class Controller : MonoBehaviour
         accordion.Reset();
     }
 
-    private void ShowQuiz()
-    {
-        ActivateTracking();
-
-        quiz.transform.SetParent(accordion.gameObject.transform);
-        quiz.gameObject.SetActive(true);
-
-        screenUI.SetActive(true);
-        rotationWheel.gameObject.SetActive(false);
-        accordion.EnableInfoTags(false);
-
-        accordion.DistanceFactor = 0.3f;
-
-        toggleButton.Toggle(state);
-
-        accordion.MoveTo(0, accordion.step >= 1 ? 1.5f : 0);
-    }
-
     private void ShowAccordion()
     {
-        ActivateTracking();
-
         quiz.gameObject.SetActive(false);
         screenUI.SetActive(true);
         rotationWheel.gameObject.SetActive(true);
-        accordion.EnableInfoTags(true);
+        accordion.InfoPoinsEnabled = true;
 
         if (startScreen.isActiveAndEnabled) {
             startScreen.Show(false);
@@ -248,6 +229,21 @@ public class Controller : MonoBehaviour
         accordion.DistanceFactor = 0.5f;
 
         rotationWheel.Reset();
+
+        toggleButton.Toggle(state);
+
+        accordion.MoveTo(0, accordion.step >= 1 ? 1.5f : 0);
+    }
+
+    private void ShowQuiz()
+    {
+        quiz.transform.SetParent(accordion.gameObject.transform);
+        quiz.gameObject.SetActive(true);
+        screenUI.SetActive(true);
+        rotationWheel.gameObject.SetActive(false);
+        accordion.InfoPoinsEnabled = false;
+
+        accordion.DistanceFactor = 0.3f;
 
         toggleButton.Toggle(state);
 
@@ -321,12 +317,14 @@ public class Controller : MonoBehaviour
 
     private void ActivateTracking()
     {
-        trackedImageManager.enabled = true;
+        if (!trackedImageManager.enabled) {
+            if (Application.isEditor) {
+                accordion.gameObject.SetActive(true);
+            } else {
+                accordion.gameObject.SetActive(false);
+            }
 
-        if (Application.isEditor) {
-            accordion.gameObject.SetActive(true);
-        } else {
-            accordion.gameObject.SetActive(false);
+            trackedImageManager.enabled = true;
         }
     }
 

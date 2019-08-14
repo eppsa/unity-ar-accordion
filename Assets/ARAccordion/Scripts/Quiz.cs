@@ -27,7 +27,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     [SerializeField] private Color wrongColor = new Color(200, 0, 0);
     [SerializeField] private Color defaultColor = new Color(255, 255, 255);
 
-    [SerializeField] private float scaleFactor = 1.2f;
+    [SerializeField] private float dragScaleFactor;
     [SerializeField] private float defaultScaleFactor = 1.0f;
     [SerializeField] private float nextQuestionDelay = 1.5f;
 
@@ -151,7 +151,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         }
 
         if (activeDraggable) {
-            activeDraggable.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+            activeDraggable.transform.localScale = new Vector3(dragScaleFactor, dragScaleFactor, dragScaleFactor);
 
             Vector3 worldPoint;
 
@@ -168,7 +168,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
             }
 
             if (eventData.pointerEnter && eventData.pointerEnter.gameObject == dropArea) {
-                dropArea.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+                dropArea.transform.localScale = new Vector3(dragScaleFactor, dragScaleFactor, dragScaleFactor);
             } else {
                 dropArea.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
             }
