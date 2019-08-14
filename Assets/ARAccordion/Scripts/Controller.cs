@@ -214,24 +214,6 @@ public class Controller : MonoBehaviour
         accordion.Reset();
     }
 
-    private void ShowQuiz()
-    {
-        ActivateTracking();
-
-        quiz.transform.SetParent(accordion.gameObject.transform);
-        quiz.gameObject.SetActive(true);
-
-        screenUI.SetActive(true);
-        rotationWheel.gameObject.SetActive(false);
-        accordion.EnableInfoTags(false);
-
-        accordion.DistanceFactor = 0.3f;
-
-        toggleButton.Toggle(state);
-
-        accordion.MoveTo(0, accordion.step >= 1 ? 1.5f : 0);
-    }
-
     private void ShowAccordion()
     {
         ActivateTracking();
@@ -239,7 +221,7 @@ public class Controller : MonoBehaviour
         quiz.gameObject.SetActive(false);
         screenUI.SetActive(true);
         rotationWheel.gameObject.SetActive(true);
-        accordion.EnableInfoTags(true);
+        accordion.InfoPoinsEnabled = true;
 
         if (startScreen.isActiveAndEnabled) {
             startScreen.Show(false);
@@ -248,6 +230,23 @@ public class Controller : MonoBehaviour
         accordion.DistanceFactor = 0.5f;
 
         rotationWheel.Reset();
+
+        toggleButton.Toggle(state);
+
+        accordion.MoveTo(0, accordion.step >= 1 ? 1.5f : 0);
+    }
+
+    private void ShowQuiz()
+    {
+        ActivateTracking();
+
+        quiz.transform.SetParent(accordion.gameObject.transform);
+        quiz.gameObject.SetActive(true);
+        screenUI.SetActive(true);
+        rotationWheel.gameObject.SetActive(false);
+        accordion.InfoPoinsEnabled = false;
+
+        accordion.DistanceFactor = 0.3f;
 
         toggleButton.Toggle(state);
 

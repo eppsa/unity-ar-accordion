@@ -21,6 +21,7 @@ public class Accordion : MonoBehaviour
     [SerializeField] private UnityEvent onMovementFinish;
 
     private int imageSectionsCount;
+
     private InfoFactory infoFactory;
 
     private float distanceFactor = 0.5f;
@@ -29,7 +30,10 @@ public class Accordion : MonoBehaviour
 
     public float step = 0f;
     private int currentLayer = 0;
+
     private GameObject activeImage = null;
+    private Transform currentInfoPointAnchors = null;
+
     private bool savedOrigins = false;
 
     private Vector3 activeTilePosition;
@@ -39,11 +43,13 @@ public class Accordion : MonoBehaviour
     private int start = 0;
 
     public bool isMoving;
+    private bool infoPointsEnabled;
 
     public float Exponent { get => exponent; set => exponent = value; }
     public float DistanceFactor { get => distanceFactor; set => distanceFactor = value; }
 
     public GameObject ActiveImage { get => activeImage; }
+    public bool InfoPoinsEnabled { get => infoPointsEnabled; set => infoPointsEnabled = value; }
 
     void OnEnable()
     {
@@ -215,11 +221,6 @@ public class Accordion : MonoBehaviour
         }
     }
 
-    internal void EnableInfoTags(bool enable)
-    {
-        infoFactory.enabled = enable;
-    }
-
     private void ShowPainter()
     {
         this.activeImage = painter;
@@ -243,14 +244,11 @@ public class Accordion : MonoBehaviour
             float focusDistance = Vector3.Distance(Camera.main.transform.position, activeImage.transform.position);
             Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(focusDistance);
 
-            UpdateLayerUI();
-        } else {
-            if (activeImage != null) {
-                Transform anchors = activeImage.transform.Find("Anchors");
-                if (anchors) {
-                    infoFactory.ClearInfoPoints(activeImage.transform.Find("Anchors"));
-                }
+            if (infoPointsEnabled) {
+                ShowInfoPoints();
             }
+        } else {
+            HideInfoPoints();
         }
     }
 
@@ -273,15 +271,20 @@ public class Accordion : MonoBehaviour
         }
     }
 
-    private void UpdateLayerUI()
+    private void ShowInfoPoints()
     {
-        if (infoFactory.isActiveAndEnabled) {
+        Transform anchors = activeImage.transform.Find("Anchors");
 
-            Transform anchors = activeImage.transform.Find("Anchors");
+        if (anchors) {
+            this.currentInfoPointAnchors = anchors;
+            infoFactory.CreateInfoPoints(content.accordion.layers[this.currentLayer].infos, this.currentInfoPointAnchors, "Avatars/" + this.activeImage.transform.parent.name);
+        }
+    }
 
-            if (anchors) {
-                infoFactory.CreateInfoPoints(content.accordion.layers[this.currentLayer].infos, anchors, "Avatars/" + this.activeImage.transform.parent.name);
-            }
+    private void HideInfoPoints()
+    {
+        if (this.currentInfoPointAnchors) {
+            infoFactory.ClearInfoPoints(this.currentInfoPointAnchors);
         }
     }
 
@@ -326,8 +329,6 @@ public class Accordion : MonoBehaviour
     public IEnumerator DoMoveTo(float to, float duration)
     {
         isMoving = true;
-
-        infoFactory.enabled = false;
 
         float from = step;
 
