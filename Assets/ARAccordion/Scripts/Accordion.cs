@@ -133,7 +133,7 @@ public class Accordion : MonoBehaviour
 
     private void FocusActiveLayer()
     {
-        if (this.activeImageAnchor && this.step > 0 && this.step % 1 == 0) {
+        if (this.activeImageAnchor && this.step != 0 && this.step % 1 == 0) {
             float focusDistance = Vector3.Distance(Camera.main.transform.position, activeImageAnchor.transform.position);
             Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(focusDistance);
         }
