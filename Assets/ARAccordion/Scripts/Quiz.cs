@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using Model;
 using System;
 using System.Linq;
-using System.Collections;
 using UnityEngine.Events;
 
 enum QuizState
@@ -288,7 +287,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     public void SetPositions()
     {
-        Transform anchor = accordion.ActiveImage.transform.Find("QuizAnchor");
+        Transform anchor = accordion.ActiveImageAnchor.transform.Find("QuizAnchor");
 
         transform.position = anchor.position;
         transform.rotation = anchor.rotation;

@@ -3,6 +3,7 @@ using UnityEngine;
 using Model;
 using System.Linq;
 using UnityEngine.Events;
+using System;
 
 public class Accordion : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class Accordion : MonoBehaviour
     public float step = 0f;
     private int currentLayer = 0;
 
-    private GameObject activeImage = null;
+    private GameObject activeImageAnchor = null;
     private Transform currentInfoPointAnchors = null;
 
     private bool savedOrigins = false;
@@ -48,7 +49,7 @@ public class Accordion : MonoBehaviour
     public float Exponent { get => exponent; set => exponent = value; }
     public float DistanceFactor { get => distanceFactor; set => distanceFactor = value; }
 
-    public GameObject ActiveImage { get => activeImage; }
+    public GameObject ActiveImageAnchor { get => activeImageAnchor; }
     public bool InfoPoinsEnabled { get => infoPointsEnabled; set => infoPointsEnabled = value; }
 
     void OnEnable()
@@ -80,6 +81,11 @@ public class Accordion : MonoBehaviour
     }
 
     public void OnUpdateStep(float step)
+    {
+        UpdateStep(step);
+    }
+
+    private void UpdateStep(float step)
     {
         if (this.step == step) {
             return;
@@ -128,13 +134,13 @@ public class Accordion : MonoBehaviour
         UpdateInfraredPosition();
         UpdatePainterPosition();
 
-        FocusActiveImage();
+        FocusActiveLayer();
     }
 
-    private void FocusActiveImage()
+    private void FocusActiveLayer()
     {
-        if (this.activeImage && this.step > 0 && this.step % 1 == 0) {
-            float focusDistance = Vector3.Distance(Camera.main.transform.position, activeImage.transform.position);
+        if (this.activeImageAnchor && this.step != 0 && this.step % 1 == 0) {
+            float focusDistance = Vector3.Distance(Camera.main.transform.position, activeImageAnchor.transform.position);
             Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(focusDistance);
         }
     }
@@ -142,24 +148,24 @@ public class Accordion : MonoBehaviour
     private void ResetToOriginPositions()
     {
         for (int i = 0; i < this.imageSectionsCount; i++) {
-            GameObject image = this.imageSections.transform.GetChild(i).Find("Image").gameObject;
+            GameObject imageAnchor = this.imageSections.transform.GetChild(i).Find("ImageAnchor").gameObject;
 
-            image.transform.localRotation = Quaternion.Euler(0, 0, 0);
-            image.transform.position = Vector3.zero;
+            imageAnchor.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            imageAnchor.transform.position = Vector3.zero;
         }
     }
 
     private void UpdateImageSectionPositions()
     {
         for (int i = 0; i < this.imageSectionsCount; i++) {
-            GameObject image = this.imageSections.transform.GetChild(i).Find("Image").gameObject;
+            GameObject imageAnchor = this.imageSections.transform.GetChild(i).Find("ImageAnchor").gameObject;
 
             float distance = GetDistance(step, i);
 
             if (towardsCamera) {
-                moveTowardsCamera(image, distance);
+                moveTowardsCamera(imageAnchor, distance);
             } else {
-                moveFromOrigin(image, distance);
+                moveFromOrigin(imageAnchor, distance);
             }
         }
     }
@@ -223,12 +229,12 @@ public class Accordion : MonoBehaviour
 
     private void ShowPainter()
     {
-        this.activeImage = painter;
+        this.activeImageAnchor = painter;
 
         if (step % 1 == 0) {
-            infoFactory.CreateInfoTag("Bla bla bla bla bla bla bla bla bla bla bla bla bla ...", activeImage.transform.Find("Anchors").GetChild(0));
+            infoFactory.CreateInfoTag("Bla bla bla bla bla bla bla bla bla bla bla bla bla ...", activeImageAnchor.transform.Find("Anchors").GetChild(0));
         } else {
-            Transform anchor = activeImage.transform.Find("Anchors").GetChild(0);
+            Transform anchor = activeImageAnchor.transform.Find("Anchors").GetChild(0);
             if (anchor) {
                 infoFactory.ClearInfoTag(anchor);
             }
@@ -238,12 +244,9 @@ public class Accordion : MonoBehaviour
     private void ShowImageSections()
     {
         this.currentLayer = this.imageSectionsCount - Mathf.CeilToInt(step);
-        this.activeImage = this.imageSections.transform.GetChild(currentLayer).Find("Image").gameObject;
+        this.activeImageAnchor = this.imageSections.transform.GetChild(currentLayer).Find("ImageAnchor").gameObject;
 
         if (step % 1 == 0) {
-            float focusDistance = Vector3.Distance(Camera.main.transform.position, activeImage.transform.position);
-            Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(focusDistance);
-
             if (infoPointsEnabled) {
                 ShowInfoPoints();
             }
@@ -254,7 +257,7 @@ public class Accordion : MonoBehaviour
 
     private void ShowInfrared()
     {
-        this.activeImage = infrared;
+        this.activeImageAnchor = infrared;
 
         if (step % 1 != 0) {
             infrared.GetComponentInChildren<Renderer>().material = defaultSpriteMaterial;
@@ -273,11 +276,11 @@ public class Accordion : MonoBehaviour
 
     private void ShowInfoPoints()
     {
-        Transform anchors = activeImage.transform.Find("Anchors");
+        Transform anchors = activeImageAnchor.transform.Find("Anchors");
 
         if (anchors) {
             this.currentInfoPointAnchors = anchors;
-            infoFactory.CreateInfoPoints(content.accordion.layers[this.currentLayer].infos, this.currentInfoPointAnchors, "Avatars/" + this.activeImage.transform.parent.name);
+            infoFactory.CreateInfoPoints(content.accordion.layers[this.currentLayer].infos, this.currentInfoPointAnchors, "Avatars/" + this.activeImageAnchor.transform.parent.name);
         }
     }
 
@@ -291,20 +294,20 @@ public class Accordion : MonoBehaviour
     private void HighlightImageSections()
     {
         for (int i = 0; i < this.imageSectionsCount; i++) {
-            GameObject image = this.imageSections.transform.GetChild(i).Find("Image").gameObject;
+            GameObject imageAnchor = this.imageSections.transform.GetChild(i).Find("ImageAnchor").gameObject;
 
             float distanceOfTile = GetDistance(step, i);
 
             if (distanceOfTile > this.distanceOfActiveTile) {
-                image.GetComponentInChildren<Renderer>().material = defaultSpriteMaterial;
+                imageAnchor.GetComponentInChildren<Renderer>().material = defaultSpriteMaterial;
 
-                Material material = image.GetComponentInChildren<Renderer>().material;
+                Material material = imageAnchor.GetComponentInChildren<Renderer>().material;
                 Color color = material.GetColor("_Color");
                 material.SetColor("_Color", new Color(color.r, color.g, color.b, 1 - (step % 1)));
             } else {
-                image.GetComponentInChildren<Renderer>().material = dofSpriteMaterial;
+                imageAnchor.GetComponentInChildren<Renderer>().material = dofSpriteMaterial;
 
-                Material material = image.GetComponentInChildren<Renderer>().material;
+                Material material = imageAnchor.GetComponentInChildren<Renderer>().material;
                 Color color = material.GetColor("_Color");
                 material.SetColor("_Color", new Color(color.r, color.g, color.b, 1));
             }
@@ -341,11 +344,11 @@ public class Accordion : MonoBehaviour
             progress = currentDuration / duration;
 
             if (progress <= 1.0f) {
-                OnUpdateStep(Mathf.Lerp(from, to, progress));
+                UpdateStep(Mathf.Lerp(from, to, progress));
                 yield return new WaitForEndOfFrame();
             } else {
                 if (to > 0) {
-                    OnUpdateStep(to);
+                    UpdateStep(to);
                 }
                 isMoving = false;
                 onMovementFinish.Invoke();
