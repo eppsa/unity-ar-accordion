@@ -341,7 +341,12 @@ public class Accordion : MonoBehaviour
 
         while (true) {
             currentDuration = Time.time - startTime;
-            progress = currentDuration / duration;
+
+            if (duration > 0) {
+                progress = currentDuration / duration;
+            } else {
+                progress = 1.1f;
+            }
 
             if (progress <= 1.0f) {
                 UpdateStep(Mathf.Lerp(from, to, progress));
