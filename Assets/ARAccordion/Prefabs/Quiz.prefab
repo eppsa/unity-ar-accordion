@@ -475,6 +475,7 @@ GameObject:
   - component: {fileID: 5091241021496494984}
   - component: {fileID: 2383171878091559480}
   - component: {fileID: 2224269719355789861}
+  - component: {fileID: 4977338831266506584}
   m_Layer: 5
   m_Name: AccordionButton
   m_TagString: Untagged
@@ -625,6 +626,18 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &4977338831266506584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 342855246482217689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 164402b5876f545a0ae29a1ee5524108, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &856032417099492490
 GameObject:
   m_ObjectHideFlags: 0
@@ -1026,6 +1039,7 @@ GameObject:
   - component: {fileID: 2957478143846693107}
   - component: {fileID: 6993898136152557205}
   - component: {fileID: 8882814292439957247}
+  - component: {fileID: 6320305196498718408}
   m_Layer: 5
   m_Name: RetryButton
   m_TagString: Untagged
@@ -1176,6 +1190,18 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &6320305196498718408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5872469040188843499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 164402b5876f545a0ae29a1ee5524108, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6229103327985187872
 GameObject:
   m_ObjectHideFlags: 0
@@ -1410,7 +1436,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78b72b10f4ea54244ba6cecef17d3b44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 0}
   questionContainer: {fileID: 5409071822122210989}
   answerContainers:
   - {fileID: 7313388803310147199}
