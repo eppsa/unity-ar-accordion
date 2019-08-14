@@ -1410,7 +1410,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78b72b10f4ea54244ba6cecef17d3b44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 0}
   questionContainer: {fileID: 5409071822122210989}
   answerContainers:
   - {fileID: 7313388803310147199}
@@ -1422,7 +1421,7 @@ MonoBehaviour:
   rightColor: {r: 0.43128344, g: 0.7924528, b: 0.16820934, a: 1}
   wrongColor: {r: 0.8962264, g: 0.2240566, b: 0.2660672, a: 1}
   defaultColor: {r: 255, g: 255, b: 255, a: 1}
-  scaleFactor: 1.25
+  dragScaleFactor: 1.25
   defaultScaleFactor: 1
   nextQuestionDelay: 1.5
   maxQuestions: 5
