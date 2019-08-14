@@ -11370,7 +11370,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8142109529619397363}
   m_Layer: 8
-  m_Name: JunoAnchorLayer
+  m_Name: JunoLayer
   m_TagString: Layer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
