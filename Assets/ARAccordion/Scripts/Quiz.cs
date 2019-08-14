@@ -288,7 +288,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
 
     public void SetPositions()
     {
-        Transform anchor = accordion.ActiveImage.transform.Find("QuizAnchor");
+        Transform anchor = accordion.ActiveImageAnchor.transform.Find("QuizAnchor");
 
         transform.position = anchor.position;
         transform.rotation = anchor.rotation;
