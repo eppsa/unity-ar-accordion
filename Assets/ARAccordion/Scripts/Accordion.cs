@@ -241,9 +241,6 @@ public class Accordion : MonoBehaviour
         this.activeImage = this.imageSections.transform.GetChild(currentLayer).Find("Image").gameObject;
 
         if (step % 1 == 0) {
-            float focusDistance = Vector3.Distance(Camera.main.transform.position, activeImage.transform.position);
-            Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(focusDistance);
-
             if (infoPointsEnabled) {
                 ShowInfoPoints();
             }
