@@ -74,6 +74,11 @@ public class InfoFactory : MonoBehaviour
 
         if (selectedInfoPoint != null) {
             selectedInfoPoint.HideInfoTag();
+
+            if (selectedInfoPoint == infoPoint) {
+                selectedInfoPoint = null;
+                return;
+            }
         }
 
         this.selectedInfoPoint = infoPoint;
