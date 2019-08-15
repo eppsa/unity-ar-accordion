@@ -218,13 +218,13 @@ public class Accordion : MonoBehaviour
 
         go.transform.position = newPosition;
 
-        if (Vector3.Distance(newPosition, originPosition) > 0.1f) {
-            Vector3 newDirection = Vector3.RotateTowards(go.transform.forward, Camera.main.transform.forward, speed * 0.001f * Time.deltaTime, 0.0f);
-            go.transform.rotation = Quaternion.LookRotation(newDirection, Camera.main.transform.up);
+        Vector3 newDirection;
+        if (Vector3.Distance(newPosition, originPosition) > 0.2f) {
+            newDirection = Vector3.RotateTowards(go.transform.forward, Camera.main.transform.forward, speed * 0.002f * Time.deltaTime, 0.0f);
         } else {
-            Vector3 newDirection = Vector3.RotateTowards(go.transform.forward, go.transform.parent.transform.forward, speed * 0.01f * Time.deltaTime, 0.0f);
-            go.transform.rotation = Quaternion.LookRotation(newDirection, Camera.main.transform.up);
+            newDirection = Vector3.RotateTowards(go.transform.forward, go.transform.parent.transform.forward, speed * 0.02f * Time.deltaTime, 0.0f);
         }
+        go.transform.rotation = Quaternion.LookRotation(newDirection, new Vector3(0, Camera.main.transform.up.y, 0));
     }
 
     private void ShowPainter()
