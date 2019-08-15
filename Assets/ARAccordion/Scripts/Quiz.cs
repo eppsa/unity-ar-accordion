@@ -61,12 +61,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
         accordion = this.transform.parent.GetComponent<Accordion>();
     }
 
-    public void OnEnable()
-    {
-        ActivateQuiz();
-    }
-
-    private void ActivateQuiz()
+    public void Reset()
     {
         InitQuiz();
 
@@ -216,18 +211,18 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
             activeDraggable.GetComponent<Image>().color = rightColor;
 
             waiting = true;
-            Invoke("Reset", nextQuestionDelay);
+            Invoke("NextQuestion", nextQuestionDelay);
         } else {
             quizWrongEvent.Invoke();
             Debug.Log("Wrong");
             activeDraggable.GetComponent<Image>().color = wrongColor;
 
             waiting = true;
-            Invoke("Reset", nextQuestionDelay);
+            Invoke("NextQuestion", nextQuestionDelay);
         }
     }
 
-    private void Reset()
+    private void NextQuestion()
     {
         Show(false);
 
@@ -310,10 +305,5 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     public void SetContent(Model.Accordion content)
     {
         this.content = content;
-    }
-
-    public void OnRestartButton()
-    {
-        ActivateQuiz();
     }
 }

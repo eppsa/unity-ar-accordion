@@ -185,6 +185,12 @@ public class Controller : MonoBehaviour
         UpdateState();
     }
 
+    public void OnStartQuiz()
+    {
+        this.state = State.QUIZ;
+        UpdateState();
+    }
+
     private void UpdateState()
     {
         switch (this.state) {
@@ -239,6 +245,7 @@ public class Controller : MonoBehaviour
 
     private void ShowQuiz()
     {
+        quiz.Reset();
         accordion.StopAllCoroutines();
 
         quiz.transform.SetParent(accordion.gameObject.transform);

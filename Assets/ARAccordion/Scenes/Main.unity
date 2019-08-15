@@ -1254,6 +1254,16 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 295902914}
+    - target: {fileID: 2207066497330418614, guid: fb1958ded59ba4982ad305db035a3dff,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1737283999}
+    - target: {fileID: 2207066497330418614, guid: fb1958ded59ba4982ad305db035a3dff,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnStartQuiz
+      objectReference: {fileID: 0}
     - target: {fileID: 6826604053681751835, guid: fb1958ded59ba4982ad305db035a3dff,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
