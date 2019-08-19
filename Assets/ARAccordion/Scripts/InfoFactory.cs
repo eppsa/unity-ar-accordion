@@ -9,7 +9,6 @@ public class InfoFactory : MonoBehaviour
 
     private AudioSource clickSound;
 
-
     private InfoPoint selectedInfoPoint;
 
     void OnEnable()
