@@ -74,13 +74,10 @@ public class InfoFactory : MonoBehaviour
 
         if (selectedInfoPoint != null) {
             selectedInfoPoint.HideInfoTag();
-
-            if (selectedInfoPoint == infoPoint) {
-                selectedInfoPoint = null;
-                return;
-            }
+            selectedInfoPoint.interactable = true;
         }
 
+        infoPoint.interactable = false;
         this.selectedInfoPoint = infoPoint;
 
         TagAnchor.Orientation orientation = infoPoint.transform.GetComponentInParent<TagAnchor>().orientation;
