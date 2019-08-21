@@ -17,6 +17,8 @@ public enum State
 
 public class Controller : MonoBehaviour
 {
+    private const int RESET_TIMEOUT = 60;
+
     [SerializeField] private ARTrackedImageManager trackedImageManager;
     [SerializeField] private GameObject axes;
     [SerializeField] private StartScreen startScreen;
@@ -51,6 +53,11 @@ public class Controller : MonoBehaviour
 
     private State state;
 
+    private Vector3 savedCameraPosition;
+    private Quaternion savedCameraRotation;
+
+    bool resetTimerStarted;
+    float timerStartTime;
 
     void OnEnable()
     {
@@ -158,6 +165,8 @@ public class Controller : MonoBehaviour
 
     void Update()
     {
+        UpdateResetTimer();
+
         if (this.trackedImage != null) {
             accordion.transform.position = Vector3.SmoothDamp(accordion.transform.position, this.trackedImage.transform.position, ref velocity, smoothTime);
             accordion.transform.rotation = Quaternion.RotateTowards(accordion.transform.rotation, this.trackedImage.transform.rotation, smoothTime);
@@ -165,6 +174,51 @@ public class Controller : MonoBehaviour
             axes.transform.position = Vector3.SmoothDamp(axes.transform.position, this.trackedImage.transform.position, ref velocity, smoothTime);
             axes.transform.rotation = Quaternion.RotateTowards(axes.transform.rotation, this.trackedImage.transform.rotation, smoothTime);
         }
+    }
+
+    private void UpdateResetTimer()
+    {
+        if (Application.isEditor) {
+            return;
+        }
+
+        if (this.state == State.START) {
+            return;
+        }
+
+        if (!resetTimerStarted) {
+            savedCameraPosition = arCamera.transform.position;
+            savedCameraRotation = arCamera.transform.rotation;
+            timerStartTime = Time.time;
+            resetTimerStarted = true;
+
+            Debug.Log("Saved position: " + savedCameraPosition);
+            Debug.Log("Saved rotation: " + savedCameraRotation);
+        }
+
+        if (Time.time > timerStartTime + RESET_TIMEOUT) {
+            Debug.Log("Current position: " + arCamera.transform.position);
+            Debug.Log("Current rotation: " + arCamera.transform.rotation);
+
+            float distance = Vector3.Distance(arCamera.transform.position, savedCameraPosition);
+            Debug.Log("Position distance: " + distance);
+
+            float angle = Quaternion.Angle(arCamera.transform.rotation, savedCameraRotation);
+            Debug.Log("Rotation angle change: " + angle);
+
+            if (distance < 0.1f && angle < 1.0f) {
+                this.state = State.START;
+                UpdateState();
+
+                Debug.Log("Reset.");
+            } else {
+                Debug.Log("Pose changed. Restart timer.");
+            }
+
+            Debug.Log("---");
+
+            resetTimerStarted = false;
+        };
     }
 
     public void OnActivateTowardsCamera(bool active)
