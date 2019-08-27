@@ -196,6 +196,11 @@ public class Controller : MonoBehaviour
             Debug.Log("Saved rotation: " + savedCameraRotation);
         }
 
+        if (Input.touchCount > 0 || Input.GetMouseButton(0)) {
+            Debug.Log("Touched. Reset timer");
+            resetTimerStarted = false;
+        }
+
         if (Time.time > timerStartTime + RESET_TIMEOUT) {
             Debug.Log("Current position: " + arCamera.transform.position);
             Debug.Log("Current rotation: " + arCamera.transform.rotation);
