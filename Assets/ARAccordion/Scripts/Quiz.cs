@@ -48,8 +48,8 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerDownHandl
     private int currentQuestionIndex = 0;
     bool currentQuestionAnswered;
 
-    private GameObject activeDraggable;
-    private Vector3 activeDraggableStartPosition;
+    private GameObject selectedAnswer;
+    private Vector3 selectedAnswerStartPosition;
 
     private bool waiting = false;
 
@@ -144,21 +144,21 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerDownHandl
             return;
         }
 
-        if (activeDraggable) {
-            activeDraggable.transform.localScale = new Vector3(dragScaleFactor, dragScaleFactor, dragScaleFactor);
+        if (selectedAnswer) {
+            selectedAnswer.transform.localScale = new Vector3(dragScaleFactor, dragScaleFactor, dragScaleFactor);
 
             Vector3 worldPoint;
 
             bool hit = RectTransformUtility.ScreenPointToWorldPointInRectangle(
-                activeDraggable.GetComponent<RectTransform>(),
+                selectedAnswer.GetComponent<RectTransform>(),
                 eventData.position,
                 eventData.pressEventCamera,
                 out worldPoint
             );
 
             if (hit && !currentQuestionAnswered) {
-                activeDraggable.transform.position = worldPoint;
-                activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.004f);
+                selectedAnswer.transform.position = worldPoint;
+                selectedAnswer.transform.localPosition = new Vector3(selectedAnswer.transform.localPosition.x, selectedAnswer.transform.localPosition.y, -0.004f);
             }
 
             if (eventData.pointerEnter && eventData.pointerEnter.gameObject == dropArea) {
@@ -170,32 +170,32 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerDownHandl
             if (eventData.pointerEnter && eventData.pointerEnter.tag == "AnswerContainer") {
                 dragStartEvent.Invoke();
 
-                activeDraggable = eventData.pointerEnter;
-                activeDraggableStartPosition = activeDraggable.transform.position;
+                selectedAnswer = eventData.pointerEnter;
+                selectedAnswerStartPosition = selectedAnswer.transform.position;
             }
         }
     }
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (activeDraggable == null || waiting) {
+        if (selectedAnswer == null || waiting) {
             return;
         }
 
         if (eventData.pointerEnter.gameObject == dropArea) {
             dropArea.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
-            activeDraggable.transform.position = eventData.pointerEnter.transform.position;
-            activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.002f);
-            activeDraggable.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
+            selectedAnswer.transform.position = eventData.pointerEnter.transform.position;
+            selectedAnswer.transform.localPosition = new Vector3(selectedAnswer.transform.localPosition.x, selectedAnswer.transform.localPosition.y, -0.002f);
+            selectedAnswer.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
             currentQuestionAnswered = true;
             dropEvent.Invoke();
 
             CheckAnswer();
         } else {
-            activeDraggable.transform.position = activeDraggableStartPosition;
-            activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.001f);
-            activeDraggable.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
-            activeDraggable = null;
+            selectedAnswer.transform.position = selectedAnswerStartPosition;
+            selectedAnswer.transform.localPosition = new Vector3(selectedAnswer.transform.localPosition.x, selectedAnswer.transform.localPosition.y, -0.001f);
+            selectedAnswer.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
+            selectedAnswer = null;
         }
     }
 
@@ -208,7 +208,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerDownHandl
     {
         if (Vector3.Distance(this.pointerDownPosition, eventData.position) == 0) {
             if (eventData.pointerEnter && eventData.pointerEnter.tag == "AnswerContainer") {
-                activeDraggable = eventData.pointerEnter;
+                selectedAnswer = eventData.pointerEnter;
                 currentQuestionAnswered = true;
 
                 CheckAnswer();
@@ -221,20 +221,20 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerDownHandl
     private void CheckAnswer()
     {
         int correctAnswerId = currentQuestion.correctAnswerIndex;
-        int draggableIndex = Array.IndexOf(answerContainers, activeDraggable);
+        int draggableIndex = Array.IndexOf(answerContainers, selectedAnswer);
 
         if (draggableIndex == correctAnswerId) {
             quizRightEvent.Invoke();
             Debug.Log("Right");
             correctAnswerCount++;
-            activeDraggable.GetComponent<Image>().color = rightColor;
+            selectedAnswer.GetComponent<Image>().color = rightColor;
 
             waiting = true;
             Invoke("NextQuestion", nextQuestionDelay);
         } else {
             quizWrongEvent.Invoke();
             Debug.Log("Wrong");
-            activeDraggable.GetComponent<Image>().color = wrongColor;
+            selectedAnswer.GetComponent<Image>().color = wrongColor;
 
             waiting = true;
             Invoke("NextQuestion", nextQuestionDelay);
@@ -245,12 +245,12 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerDownHandl
     {
         Show(false);
 
-        activeDraggable.transform.position = activeDraggableStartPosition;
-        activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.002f);
+        selectedAnswer.transform.position = selectedAnswerStartPosition;
+        selectedAnswer.transform.localPosition = new Vector3(selectedAnswer.transform.localPosition.x, selectedAnswer.transform.localPosition.y, -0.002f);
 
-        activeDraggable.GetComponent<Image>().color = defaultColor;
+        selectedAnswer.GetComponent<Image>().color = defaultColor;
         currentQuestionAnswered = false;
-        activeDraggable = null;
+        selectedAnswer = null;
 
         currentQuestionIndex++;
 
