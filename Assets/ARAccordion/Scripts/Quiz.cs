@@ -15,7 +15,7 @@ enum QuizState
 }
 
 [RequireComponent(typeof(Image))]
-public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
+public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] private GameObject questionContainer;
     [SerializeField] private GameObject[] answerContainers;
@@ -54,7 +54,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
     private bool waiting = false;
 
     private QuizState state;
-
+    private Vector2 pointerDownPosition;
 
     public void Awake()
     {
@@ -196,6 +196,25 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler
             activeDraggable.transform.localPosition = new Vector3(activeDraggable.transform.localPosition.x, activeDraggable.transform.localPosition.y, -0.001f);
             activeDraggable.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
             activeDraggable = null;
+        }
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        this.pointerDownPosition = eventData.position;
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if (Vector3.Distance(this.pointerDownPosition, eventData.position) == 0) {
+            if (eventData.pointerEnter && eventData.pointerEnter.tag == "AnswerContainer") {
+                activeDraggable = eventData.pointerEnter;
+                currentQuestionAnswered = true;
+
+                CheckAnswer();
+
+                this.pointerDownPosition = Vector2.zero;
+            }
         }
     }
 
