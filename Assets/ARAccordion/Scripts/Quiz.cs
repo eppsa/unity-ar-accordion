@@ -6,6 +6,7 @@ using Model;
 using System;
 using System.Linq;
 using UnityEngine.Events;
+using System.Collections;
 
 enum QuizState
 {
@@ -17,6 +18,8 @@ enum QuizState
 [RequireComponent(typeof(Image))]
 public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerDownHandler, IPointerUpHandler
 {
+    private const float ANSWER_MOVE_SPEED = 1f;
+
     [SerializeField] private GameObject questionContainer;
     [SerializeField] private GameObject[] answerContainers;
     [SerializeField] private GameObject resultContainer;
@@ -209,11 +212,32 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerDownHandl
         if (Vector3.Distance(this.pointerDownPosition, eventData.position) == 0) {
             if (eventData.pointerEnter && eventData.pointerEnter.tag == "AnswerContainer") {
                 selectedAnswer = eventData.pointerEnter;
+                selectedAnswer.transform.localPosition = new Vector3(selectedAnswer.transform.localPosition.x, selectedAnswer.transform.localPosition.y, -0.004f);
+
                 currentQuestionAnswered = true;
 
-                CheckAnswer();
-
                 this.pointerDownPosition = Vector2.zero;
+
+                StartCoroutine(MoveAnswerToDropArea());
+            }
+        }
+    }
+
+    private IEnumerator MoveAnswerToDropArea()
+    {
+        float speed = ANSWER_MOVE_SPEED;
+        float step = speed * Time.deltaTime;
+
+        while (true) {
+            selectedAnswer.transform.position = Vector3.MoveTowards(selectedAnswer.transform.position, dropArea.transform.position, step);
+
+            if (Vector3.Distance(selectedAnswer.transform.position, dropArea.transform.position) < 0.001f) {
+                selectedAnswer.transform.localPosition = new Vector3(selectedAnswer.transform.localPosition.x, selectedAnswer.transform.localPosition.y, -0.002f);
+
+                CheckAnswer();
+                yield break;
+            } else {
+                yield return new WaitForEndOfFrame();
             }
         }
     }
