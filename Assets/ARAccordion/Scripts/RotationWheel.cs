@@ -11,7 +11,7 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
     [SerializeField] private BoxCollider2D focusCollider;
 
     [SerializeField] private UnityEventFloat onUpdateRotationWheel;
-
+    [SerializeField] private float speed = 0.5f;
 
     private float minY;
     private float maxY;
@@ -23,6 +23,8 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
 
     private float step;
     private float start = 0;
+
+    public float Speed { get => speed; set => speed = value; }
 
     void OnEnable()
     {
@@ -70,7 +72,7 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
     {
         moving = true;
 
-        float newLocalY = Mathf.Max(Mathf.Min(wheelContainer.transform.localPosition.y + eventData.delta.y, maxY), 0);
+        float newLocalY = Mathf.Max(Mathf.Min(wheelContainer.transform.localPosition.y + eventData.delta.y * Speed, maxY), 0);
 
         wheelContainer.transform.localPosition = new Vector3(
             wheelContainer.transform.localPosition.x,

@@ -98,6 +98,7 @@ public class Controller : MonoBehaviour
         debugView.UpdateXRUpdateType((int)arCamera.GetComponent<TrackedPoseDriver>().updateType);
         debugView.UpdateAccordionExponent(accordion.Exponent);
         debugView.UpdateDOF(enabled);
+        debugView.UpdateRotationWheelSpeed(0.5f);
 
         fxCamera.GetComponent<PostProcessLayer>().enabled = false;
     }
@@ -360,6 +361,12 @@ public class Controller : MonoBehaviour
     {
         accordion.Exponent = exponent;
         debugView.UpdateAccordionExponent(exponent);
+    }
+
+    public void OnRotationWheelSpeedChange(float speed)
+    {
+        rotationWheel.Speed = speed;
+        debugView.UpdateRotationWheelSpeed(speed);
     }
 
     public void OnEnableDof(bool enable)

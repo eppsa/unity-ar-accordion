@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 
@@ -16,11 +17,15 @@ public class DebugView : MonoBehaviour
     [SerializeField] Text smoothTimeValue;
     [SerializeField] Slider exponentSlider;
     [SerializeField] Text exponentValue;
+    [SerializeField] Slider rotationWheelSpeedSlider;
+    [SerializeField] Text rotationWheelSpeedValue;
 
     [SerializeField] Toggle axes;
     [SerializeField] Toggle dof;
 
     [SerializeField] Dropdown updateType;
+
+    [SerializeField] private UnityEvent onRotationWheelSpeedChange;
 
 
     void Awake()
@@ -73,6 +78,12 @@ public class DebugView : MonoBehaviour
     {
         exponentSlider.value = exponent;
         exponentValue.text = string.Format("Accordion Exponent {0}", exponent);
+    }
+
+    internal void UpdateRotationWheelSpeed(float speed)
+    {
+        rotationWheelSpeedSlider.value = speed;
+        rotationWheelSpeedValue.text = string.Format("Rotation Wheel Speed {0}", speed);
     }
 
     internal void UpdateDOF(bool enabled)
