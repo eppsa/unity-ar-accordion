@@ -95,7 +95,6 @@ public class Controller : MonoBehaviour
         debugView.gameObject.SetActive(false);
         debugView.UpdateSmoothTime(smoothTime);
         debugView.UpdateAxes(axes.activeInHierarchy);
-        debugView.UpdateXRUpdateType((int)arCamera.GetComponent<TrackedPoseDriver>().updateType);
         debugView.UpdateAccordionExponent(accordion.Exponent);
         debugView.UpdateDOF(enabled);
         debugView.UpdateRotationWheelSpeed(0.5f);

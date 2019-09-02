@@ -101,9 +101,4 @@ public class DebugView : MonoBehaviour
         smoothTimeSlider.value = smoothTime;
         smoothTimeValue.text = string.Format("Smooth time {0}", smoothTime);
     }
-
-    public void UpdateXRUpdateType(int type)
-    {
-        updateType.value = type;
-    }
 }
