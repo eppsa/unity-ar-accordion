@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Model;
 using UnityEngine;
 
 public class InfoFactory : MonoBehaviour
@@ -19,13 +20,16 @@ public class InfoFactory : MonoBehaviour
         clickSound = GameObject.Find("Sounds/Click").GetComponent<AudioSource>();
     }
 
-    public void CreateInfoPoints(List<string> infos, Transform anchors, string imagePath)
+    public void CreateInfoPoints(List<Info> infos, Transform anchors)
     {
         for (int i = 0; i < infos.Count; i++) {
             InfoPoint infoPoint = Instantiate(infoPointPrefab).GetComponent<InfoPoint>();
             infoPoint.transform.SetParent(anchors.GetChild(i), false);
 
-            infoPoint.SetContent(infos[i]);
+            string imagePath = "Avatars/" + infos[i].image;
+            imagePath = imagePath.Replace("Layer", "");
+
+            infoPoint.SetContent(infos[i].text);
             infoPoint.SetImagePath(imagePath);
             infoPoint.SetDelay(i * FADE_IN_DELAY);
 

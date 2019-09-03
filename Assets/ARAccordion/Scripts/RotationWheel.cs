@@ -1,6 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using Model;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 [System.Serializable] public class UnityEventFloat : UnityEvent<float> { }
 
@@ -31,14 +34,17 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
         focusCollider.enabled = false;
     }
 
-    internal void Init(int maxSteps, int start)
+    internal void Init(List<Layer> layers, int start)
     {
-        this.maxSteps = maxSteps;
+        this.maxSteps = layers.Count;
         this.start = start;
 
-        for (int i = 0; i <= maxSteps; i++) {
+        for (int i = 0; i < layers.Count; i++) {
             GameObject wheelElement = Instantiate(wheelElementPrefab);
             wheelElement.transform.SetParent(wheelContainer.transform, false);
+
+            Color color = new Color(layers[i].color[0], layers[i].color[1], layers[i].color[2], layers[i].color[3]);
+            wheelElement.GetComponent<Image>().color = color;
 
             wheelElement.name = "WheelElement" + i;
         }

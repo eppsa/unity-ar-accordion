@@ -7,11 +7,50 @@
     },
     "layers": [
       {
+        "id": "painter",
         "infos": [
-          "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*",
-          "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*",
-          "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*",
-          "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+          {
+            "image": "painter",
+            "text": "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*"
+          }
+        ],
+        "color": [
+          255,
+          0,
+          0,
+          255
+        ],
+        "type": "before"
+      },
+      {
+        "id": "start",
+        "color": [
+          0,
+          255,
+          255,
+          255
+        ],
+        "type": "start"
+      },
+      {
+        "id": "argus-body",
+        "infos": [
+          {
+            "image": "argus-body",
+            "text": "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*"
+          },
+          {
+            "image": "painter",
+            "text": "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*"
+          },
+          {
+            "image": "painting",
+            "text": "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*"
+          },
+          {
+            "image": "argus-body",
+            "text": "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+          }
         ],
         "questions": [
           {
@@ -34,14 +73,34 @@
             ],
             "correctAnswerIndex": 1
           }
-        ]
+        ],
+        "color": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "type": "section"
       },
       {
+        "id": "angles",
         "infos": [
-          "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*",
-          "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*",
-          "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*",
-          "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+          {
+            "image": "angles",
+            "text": "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*"
+          },
+          {
+            "image": "angles",
+            "text": "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*"
+          },
+          {
+            "image": "angles",
+            "text": "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*"
+          },
+          {
+            "image": "painting",
+            "text": "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+          }
         ],
         "questions": [
           {
@@ -54,14 +113,84 @@
             ],
             "correctAnswerIndex": 1
           }
-        ]
+        ],
+        "color": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "type": "section"
       },
       {
+        "id": "peacock-front",
         "infos": [
-          "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*",
-          "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*",
-          "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*",
-          "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+          {
+            "image": "argus",
+            "text": "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*"
+          },
+          {
+            "image": "argus",
+            "text": "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*"
+          },
+          {
+            "image": "argus",
+            "text": "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*"
+          },
+          {
+            "image": "argus",
+            "text": "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+          }
+        ],
+        "questions": [
+          {
+            "question": "Was bedeutet Iris übersetzt aus dem Griechischen?",
+            "answers": [
+              "Traum",
+              "Sonnenschein",
+              "Regenbogen",
+              "Wachstum"
+            ],
+            "correctAnswerIndex": 2
+          },
+          {
+            "question": "Wieso wirkt das Gemälde besonders plastisch?",
+            "answers": [
+              "Breite Pinselstriche und hoher Kontrast",
+              "Bildaufbau in unterschiedlichen Ebenen",
+              "Schönheit der Gesichter",
+              "Viele unterschiedliche Farben"
+            ],
+            "correctAnswerIndex": 0
+          }
+        ],
+        "color": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "type": "section"
+      },
+      {
+        "id": "juno",
+        "infos": [
+          {
+            "image": "peacock-front",
+            "text": "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*"
+          },
+          {
+            "image": "peacock-front",
+            "text": "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*"
+          },
+          {
+            "image": "painter",
+            "text": "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*"
+          },
+          {
+            "image": "painting",
+            "text": "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+          }
         ],
         "questions": [
           {
@@ -74,14 +203,34 @@
             ],
             "correctAnswerIndex": 3
           }
-        ]
+        ],
+        "color": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "type": "section"
       },
       {
+        "id": "argus-head",
         "infos": [
-          "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*",
-          "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*",
-          "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*",
-          "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+          {
+            "image": "juno",
+            "text": "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*"
+          },
+          {
+            "image": "juno",
+            "text": "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*"
+          },
+          {
+            "image": "painter",
+            "text": "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*"
+          },
+          {
+            "image": "painting",
+            "text": "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+          }
         ],
         "questions": [
           {
@@ -114,14 +263,34 @@
             ],
             "correctAnswerIndex": 0
           }
-        ]
+        ],
+        "color": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "type": "section"
       },
       {
+        "id": "woman-left",
         "infos": [
-          "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*",
-          "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*",
-          "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*",
-          "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+          {
+            "image": "woman-left",
+            "text": "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*"
+          },
+          {
+            "image": "woman-left",
+            "text": "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*"
+          },
+          {
+            "image": "painter",
+            "text": "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*"
+          },
+          {
+            "image": "painting",
+            "text": "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+          }
         ],
         "questions": [
           {
@@ -154,44 +323,34 @@
             ],
             "correctAnswerIndex": 0
           }
-        ]
+        ],
+        "color": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "type": "section"
       },
       {
+        "id": "peacock-background",
         "infos": [
-          "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*",
-          "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*",
-          "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*",
-          "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
-        ],
-        "questions": [
           {
-            "question": "Was bedeutet Iris übersetzt aus dem Griechischen?",
-            "answers": [
-              "Traum",
-              "Sonnenschein",
-              "Regenbogen",
-              "Wachstum"
-            ],
-            "correctAnswerIndex": 2
+            "image": "peacock-background",
+            "text": "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*"
           },
           {
-            "question": "Wieso wirkt das Gemälde besonders plastisch?",
-            "answers": [
-              "Breite Pinselstriche und hoher Kontrast",
-              "Bildaufbau in unterschiedlichen Ebenen",
-              "Schönheit der Gesichter",
-              "Viele unterschiedliche Farben"
-            ],
-            "correctAnswerIndex": 0
+            "image": "peacock-background",
+            "text": "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*"
+          },
+          {
+            "image": "painter",
+            "text": "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*"
+          },
+          {
+            "image": "painting",
+            "text": "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
           }
-        ]
-      },
-      {
-        "infos": [
-          "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*",
-          "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*",
-          "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*",
-          "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
         ],
         "questions": [
           {
@@ -204,14 +363,34 @@
             ],
             "correctAnswerIndex": 0
           }
-        ]
+        ],
+        "color": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "type": "section"
       },
       {
+        "id": "woman-right",
         "infos": [
-          "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*",
-          "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*",
-          "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*",
-          "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+          {
+            "image": "woman-right",
+            "text": "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*"
+          },
+          {
+            "image": "paiwoman-rightnter",
+            "text": "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*"
+          },
+          {
+            "image": "painter",
+            "text": "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*"
+          },
+          {
+            "image": "painting",
+            "text": "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+          }
         ],
         "questions": [
           {
@@ -224,7 +403,42 @@
             ],
             "correctAnswerIndex": 0
           }
-        ]
+        ],
+        "color": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "type": "section"
+      },
+      {
+        "id": "infrared",
+        "infos": [
+          {
+            "image": "infrared",
+            "text": "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*"
+          },
+          {
+            "image": "painter",
+            "text": "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*"
+          },
+          {
+            "image": "painting",
+            "text": "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*"
+          },
+          {
+            "image": "infrared",
+            "text": "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+          }
+        ],
+        "color": [
+          255,
+          0,
+          0,
+          255
+        ],
+        "type": "behind"
       }
     ]
   }

@@ -37,8 +37,6 @@ public class Controller : MonoBehaviour
 
     private ARTrackedImage trackedImage;
 
-    private int maxDistance;
-
     private Content content;
 
     private bool quizActive;
@@ -71,14 +69,12 @@ public class Controller : MonoBehaviour
     {
         arCamera.GetComponent<UnityEngine.XR.ARFoundation.ARCameraManager>().focusMode = CameraFocusMode.Fixed;
 
-        maxDistance = GameObject.FindGameObjectsWithTag("Layer").Length;
-
-        rotationWheel.Init(maxDistance, startLayer);
-
         ReadJson();
 
+        rotationWheel.Init(content.accordion.layers, startLayer);
+
         accordion.SetContent(this.content);
-        accordion.SetStart(startLayer);
+        accordion.SetStartOffset(startLayer);
         quiz.SetContent(this.content.accordion);
 
         PostFX postFx = fxCamera.GetComponent<PostFX>();
@@ -299,7 +295,7 @@ public class Controller : MonoBehaviour
 
         toggleButton.Toggle(state);
 
-        accordion.MoveTo(0, accordion.step >= 0 ? 1.5f : 0);
+        // accordion.MoveTo(startLayer, accordion.step >= 0 ? 1.5f : 0);
     }
 
     private void ShowQuiz()
@@ -317,7 +313,7 @@ public class Controller : MonoBehaviour
 
         toggleButton.Toggle(state);
 
-        accordion.MoveTo(0, accordion.step >= 1 ? 1.5f : 0);
+        accordion.MoveTo(startLayer, accordion.step >= 1 ? 1.5f : 0);
     }
 
     public void OnEnableDofDebugging(bool enable)
@@ -346,13 +342,11 @@ public class Controller : MonoBehaviour
 
     public void OnUpdateRotationWheel(float value)
     {
-        float layerIndex = value - startLayer;
-
-        accordion.OnUpdateStep(layerIndex);
-        debugView.UpdateStep(layerIndex);
+        accordion.OnUpdateStep(value);
+        debugView.UpdateStep(value);
 
         if (dofEnabled) {
-            fxCamera.GetComponent<PostProcessLayer>().enabled = layerIndex != 0;
+            fxCamera.GetComponent<PostProcessLayer>().enabled = value != 0;
         }
     }
 
