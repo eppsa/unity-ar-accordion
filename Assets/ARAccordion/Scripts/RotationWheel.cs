@@ -43,14 +43,23 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
             GameObject wheelElement = Instantiate(wheelElementPrefab);
             wheelElement.transform.SetParent(wheelContainer.transform, false);
 
-            Color color = new Color(layers[i].color[0], layers[i].color[1], layers[i].color[2], layers[i].color[3]);
+            Layer layer = layers[i];
+
+            Color color = new Color(layer.color[0], layer.color[1], layer.color[2], layer.color[3]);
             wheelElement.GetComponent<Image>().color = color;
+
+            if (layer.icon != null) {
+                GameObject icon = wheelElement.transform.Find("Icon").gameObject;
+                icon.SetActive(true);
+
+                icon.transform.GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/" + layer.icon);
+            }
 
             wheelElement.name = "WheelElement" + i;
         }
 
         wheelElementHeight = wheelElementPrefab.GetComponent<RectTransform>().sizeDelta.y;
-        maxY = wheelElementHeight * maxSteps;
+        maxY = wheelElementHeight * (maxSteps - 1);
 
         nextStepLocalPosition = wheelContainer.transform.localPosition;
     }

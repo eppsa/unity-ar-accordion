@@ -9,6 +9,7 @@ namespace Model
         public List<Info> infos;
         public List<Question> questions;
         public int[] color;
+        public string icon;
         public string type;
     }
 }

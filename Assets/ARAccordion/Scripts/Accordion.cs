@@ -2,13 +2,13 @@ using System.Collections;
 using UnityEngine;
 using Model;
 using UnityEngine.Events;
+using System;
 
 public class Accordion : MonoBehaviour
 {
     [SerializeField] private GameObject background;
     [SerializeField] private GameObject original;
-    [SerializeField] private GameObject sections;
-    [SerializeField] private GameObject painter;
+    [SerializeField] private GameObject layers;
 
     [SerializeField] private float speed = 5.0f;
     [SerializeField] private float exponent = 1;
@@ -17,10 +17,6 @@ public class Accordion : MonoBehaviour
     [SerializeField] private Material dofSpriteMaterial;
 
     [SerializeField] private UnityEvent onMovementFinish;
-
-    private GameObject[] layers;
-
-    private int sectionsCount;
 
     private InfoFactory infoFactory;
 
@@ -37,14 +33,14 @@ public class Accordion : MonoBehaviour
     private bool savedOrigins = false;
 
     private Vector3 activeTilePosition;
-    private float distanceOfActiveTile;
+    private float currentLayerDistance;
 
     private Content content;
     private int startOffset = 0;
 
     public bool isMoving;
     private bool infoPointsEnabled;
-    private Layer currentLayerData;
+    private Layer layerData;
 
     public float Exponent { get => exponent; set => exponent = value; }
     public float DistanceFactor { get => distanceFactor; set => distanceFactor = value; }
@@ -54,127 +50,124 @@ public class Accordion : MonoBehaviour
 
     void OnEnable()
     {
-        this.sectionsCount = sections.transform.childCount;
-
-        this.layers = GameObject.FindGameObjectsWithTag("Layer");
-
         infoFactory = GetComponent<InfoFactory>();
     }
 
     void Start()
     {
-        background.SetActive(false);
-
-        this.distanceOfActiveTile = GetDistance(this.sectionsCount, 0);
-    }
-
-    public void Reset()
-    {
-        StopAllCoroutines();
-        this.step = 0;
-    }
-
-    internal void SetStartOffset(int offset)
-    {
-        this.startOffset = offset;
-    }
-
-    public void OnUpdateStep(float step)
-    {
-        UpdateStep(step);
+        UpdateStep(0);
+        this.currentLayerDistance = GetDistance(1, 0);
     }
 
     private void UpdateStep(float step)
     {
         this.step = step - startOffset;
-        Debug.Log(this.step);
+        Debug.Log("Step: " + this.step);
 
         this.currentLayerIndex = Mathf.CeilToInt(this.step) + startOffset;
-        Debug.Log("Current layer: " + this.currentLayerIndex);
+        Debug.Log("Current layer index: " + this.currentLayerIndex);
 
-        this.currentLayerData = this.content.accordion.layers[this.currentLayerIndex];
-        Debug.Log("Id: " + this.currentLayerData.id);
-        Debug.Log("Type: " + this.currentLayerData.type);
+        this.layerData = this.content.accordion.layers[this.currentLayerIndex];
+        Debug.Log("Id: " + this.layerData.id);
 
-        this.currentLayerAnchor = this.layers[currentLayerIndex].transform.Find("ImageAnchor").gameObject;
+        this.currentLayerAnchor = this.layers.transform.GetChild(currentLayerIndex).Find("ImageAnchor").gameObject;
 
-        UpdateInfoPoints();
-        HighlightImageSections();
+        // UpdateInfoPoints();
     }
 
-    void LateUpdate()
+    void Update()
     {
-        if (this.step > 0) {
-            original.SetActive(false);
-            background.SetActive(true);
-            sections.SetActive(true);
-        } else if (this.step < 0) {
+        String currentType = this.layerData.type;
+
+        if (currentType.Equals("start")) {
             original.SetActive(true);
             background.SetActive(false);
-            sections.SetActive(false);
-        } else if (this.step == 0) {
-            original.SetActive(true);
-            background.SetActive(false);
-            sections.SetActive(false);
+            layers.SetActive(false);
 
             ResetToOriginPositions();
+        } else if (currentType.Equals("behind")) {
+            original.SetActive(false);
+            background.SetActive(true);
+            layers.SetActive(true);
+        } else if (currentType.Equals("before")) {
+            original.SetActive(true);
+            background.SetActive(false);
+            layers.SetActive(false);
+        } else if (currentType.Equals("section")) {
+            original.SetActive(false);
+            background.SetActive(true);
+            layers.SetActive(true);
         }
 
-        UpdateImageSectionPositions();
-        UpdatePainterPosition();
+        UpdateLayers();
 
-        FocusActiveLayer();
-    }
-
-    private void FocusActiveLayer()
-    {
-        if (this.currentLayerAnchor && this.step != 0 && this.step % 1 == 0) {
-            float focusDistance = Vector3.Distance(Camera.main.transform.position, currentLayerAnchor.transform.position);
-            Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(focusDistance);
-        }
+        FocusCurrentLayer();
     }
 
     private void ResetToOriginPositions()
     {
-        for (int i = 0; i < this.sectionsCount; i++) {
-            GameObject imageAnchor = this.sections.transform.GetChild(i).Find("ImageAnchor").gameObject;
+        for (int i = 0; i < this.layers.transform.childCount; i++) {
+            GameObject imageAnchor = this.layers.transform.GetChild(i).Find("ImageAnchor").gameObject;
 
             imageAnchor.transform.localRotation = Quaternion.Euler(0, 0, 0);
             imageAnchor.transform.position = Vector3.zero;
         }
     }
 
-    private void UpdateImageSectionPositions()
+    private void UpdateLayers()
     {
-        for (int i = 0; i < this.sectionsCount; i++) {
-            GameObject imageAnchor = this.sections.transform.GetChild(i).Find("ImageAnchor").gameObject;
+        for (int i = 0; i < this.layers.transform.childCount; i++) {
+            Layer layerData = this.content.accordion.layers[i];
 
-            float distance = GetDistance(step, i);
+            // if (layerData.type.Equals("section")) {
+            //     // HighlightImageSection(i);
+            // } else if (layerData.type.Equals("before")) {
+            //     UpdateBeforePosition(i);
+            // } else if (layerData.type.Equals("behind")) {
+            //     UpdateSectionPosition(i);
+            //     UpdateMaterial(i);
+            // }
 
-            if (towardsCamera) {
-                moveTowardsCamera(imageAnchor, distance);
-            } else {
-                moveFromOrigin(imageAnchor, distance);
-            }
-
-            UpdateMaterial(imageAnchor, i);
+            UpdatePosition(i);
         }
     }
 
-    private void UpdatePainterPosition()
+    private void UpdatePosition(int layerIndex)
     {
-        float distance = Mathf.Pow(step + this.sectionsCount + 1, exponent) / Mathf.Pow(this.sectionsCount, exponent);
+        GameObject imageAnchor = this.layers.transform.GetChild(layerIndex).Find("ImageAnchor").gameObject;
+
+        float distance = GetDistance(step, layerIndex);
 
         if (towardsCamera) {
-            moveTowardsCamera(painter, distance);
+            moveTowardsCamera(imageAnchor, distance);
         } else {
-            moveFromOrigin(painter, distance);
+            moveFromOrigin(imageAnchor, distance);
+        }
+    }
+
+    private void UpdateBeforePosition(int layerIndex)
+    {
+        GameObject imageAnchor = this.layers.transform.GetChild(layerIndex).Find("ImageAnchor").gameObject;
+
+        float distance = Mathf.Pow(step + this.layers.transform.childCount + 1, exponent) / Mathf.Pow(this.layers.transform.childCount, exponent);
+
+        if (towardsCamera) {
+            moveTowardsCamera(imageAnchor, distance);
+        } else {
+            moveFromOrigin(imageAnchor, distance);
         }
     }
 
     private float GetDistance(float step, int index)
     {
-        return Mathf.Pow(step + (this.sectionsCount - 1 - index), exponent) / Mathf.Pow(this.sectionsCount, exponent);
+        // return Mathf.Pow(step + (this.sectionsCount - 1 - index), exponent) / Mathf.Pow(this.sectionsCount, exponent);
+
+        if (index == 1 && step == 1) {
+
+            Debug.Log("GetDistance: " + Mathf.Pow(step + (this.layers.transform.childCount - index), exponent) / Mathf.Pow(this.layers.transform.childCount, exponent));
+        }
+
+        return Mathf.Pow(step + (this.layers.transform.childCount - index), exponent) / Mathf.Pow(this.layers.transform.childCount, exponent);
     }
 
     private void moveFromOrigin(GameObject go, float stepDistance)
@@ -207,23 +200,13 @@ public class Accordion : MonoBehaviour
         go.transform.rotation = Quaternion.LookRotation(newDirection, new Vector3(0, Camera.main.transform.up.y, 0));
     }
 
-    private void UpdateInfoPoints()
+    private void UpdateMaterial(int layerIndex)
     {
-        if (step % 1 == 0) {
-            if (infoPointsEnabled) {
-                ShowInfoPoints();
-            }
-        } else {
-            HideInfoPoints();
-        }
-    }
-
-    private void UpdateMaterial(GameObject imageAnchor, int index)
-    {
-        Layer layerData = this.content.accordion.layers[index + startOffset + 1];
+        Layer layerData = this.content.accordion.layers[layerIndex];
+        GameObject imageAnchor = this.layers.transform.GetChild(layerIndex).Find("ImageAnchor").gameObject;
 
         if (layerData.type == "behind") {
-            if (this.currentLayerIndex == index + startOffset + 1) {
+            if (this.currentLayerIndex == layerIndex) {
                 if (this.step >= 9) {
                     imageAnchor.GetComponentInChildren<Renderer>().material = dofSpriteMaterial;
                     Material material = imageAnchor.GetComponentInChildren<Renderer>().material;
@@ -247,6 +230,38 @@ public class Accordion : MonoBehaviour
         }
     }
 
+    private void HighlightImageSection(int layerIndex)
+    {
+        GameObject imageAnchor = this.layers.transform.GetChild(layerIndex).Find("ImageAnchor").gameObject;
+
+        float layerDistance = GetDistance(this.currentLayerIndex, layerIndex);
+
+        if (layerDistance > this.currentLayerDistance) {
+            imageAnchor.GetComponentInChildren<Renderer>().material = defaultSpriteMaterial;
+
+            Material material = imageAnchor.GetComponentInChildren<Renderer>().material;
+            Color color = material.GetColor("_Color");
+            material.SetColor("_Color", new Color(color.r, color.g, color.b, 1 - (step % 1)));
+        } else {
+            imageAnchor.GetComponentInChildren<Renderer>().material = dofSpriteMaterial;
+
+            Material material = imageAnchor.GetComponentInChildren<Renderer>().material;
+            Color color = material.GetColor("_Color");
+            material.SetColor("_Color", new Color(color.r, color.g, color.b, 1));
+        }
+    }
+
+    private void UpdateInfoPoints()
+    {
+        if (step % 1 == 0) {
+            if (infoPointsEnabled) {
+                ShowInfoPoints();
+            }
+        } else {
+            HideInfoPoints();
+        }
+    }
+
     private void ShowInfoPoints()
     {
         Transform infoPointAnchors = currentLayerAnchor.transform.Find("Anchors");
@@ -264,26 +279,11 @@ public class Accordion : MonoBehaviour
         }
     }
 
-    private void HighlightImageSections()
+    private void FocusCurrentLayer()
     {
-        for (int i = 0; i < this.sectionsCount; i++) {
-            GameObject imageAnchor = this.sections.transform.GetChild(i).Find("ImageAnchor").gameObject;
-
-            float distanceOfTile = GetDistance(this.currentLayerIndex, i);
-
-            if (distanceOfTile > this.distanceOfActiveTile) {
-                imageAnchor.GetComponentInChildren<Renderer>().material = defaultSpriteMaterial;
-
-                Material material = imageAnchor.GetComponentInChildren<Renderer>().material;
-                Color color = material.GetColor("_Color");
-                material.SetColor("_Color", new Color(color.r, color.g, color.b, 1 - (step % 1)));
-            } else {
-                imageAnchor.GetComponentInChildren<Renderer>().material = dofSpriteMaterial;
-
-                Material material = imageAnchor.GetComponentInChildren<Renderer>().material;
-                Color color = material.GetColor("_Color");
-                material.SetColor("_Color", new Color(color.r, color.g, color.b, 1));
-            }
+        if (this.currentLayerAnchor && this.step != 0 && this.step % 1 == 0) {
+            float focusDistance = Vector3.Distance(Camera.main.transform.position, currentLayerAnchor.transform.position);
+            Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(focusDistance);
         }
     }
 
@@ -333,5 +333,21 @@ public class Accordion : MonoBehaviour
                 yield break;
             }
         }
+    }
+
+    public void OnUpdateStep(float step)
+    {
+        UpdateStep(step);
+    }
+
+    internal void SetStartOffset(int offset)
+    {
+        this.startOffset = offset;
+    }
+
+    public void Reset()
+    {
+        StopAllCoroutines();
+        this.step = 0;
     }
 }

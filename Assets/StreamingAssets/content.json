@@ -16,16 +16,17 @@
         ],
         "color": [
           255,
-          0,
-          0,
+          255,
+          255,
           255
         ],
-        "type": "before"
+        "type": "before",
+        "icon": "painter"
       },
       {
         "id": "start",
         "color": [
-          0,
+          255,
           255,
           255,
           255
@@ -434,11 +435,12 @@
         ],
         "color": [
           255,
-          0,
-          0,
+          255,
+          255,
           255
         ],
-        "type": "behind"
+        "type": "behind",
+        "icon": "restoration"
       }
     ]
   }

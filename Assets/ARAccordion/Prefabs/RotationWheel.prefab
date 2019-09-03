@@ -229,6 +229,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEventFloat, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  speed: 0.5
 --- !u!1 &8459497128831042955
 GameObject:
   m_ObjectHideFlags: 0
