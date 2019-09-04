@@ -75,6 +75,8 @@ public class Controller : MonoBehaviour
 
         accordion.SetContent(this.content);
         accordion.SetStartOffset(startLayer);
+        accordion.SetStep(startLayer);
+
         quiz.SetContent(this.content.accordion);
 
         PostFX postFx = fxCamera.GetComponent<PostFX>();
@@ -295,7 +297,7 @@ public class Controller : MonoBehaviour
 
         toggleButton.Toggle(state);
 
-        accordion.MoveTo(startLayer, accordion.step != startLayer ? 1.5f : 0);
+        accordion.MoveTo(startLayer, accordion.Step != startLayer ? 1.5f : 0);
     }
 
     private void ShowQuiz()
@@ -313,7 +315,7 @@ public class Controller : MonoBehaviour
 
         toggleButton.Toggle(state);
 
-        accordion.MoveTo(startLayer, accordion.step != startLayer ? 1.5f : 0);
+        accordion.MoveTo(startLayer, accordion.Step != startLayer ? 1.5f : 0);
     }
 
     public void OnEnableDofDebugging(bool enable)

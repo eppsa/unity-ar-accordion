@@ -24,7 +24,7 @@ public class Accordion : MonoBehaviour
 
     private bool towardsCamera = true;
 
-    public float step = 0f;
+    private float step = 0f;
     private int currentLayerIndex = 0;
 
     private GameObject currentLayerAnchor = null;
@@ -44,6 +44,7 @@ public class Accordion : MonoBehaviour
     private float focusDistance;
     private float cameraDistance;
 
+    public float Step { get => step; }
     public float Exponent { get => exponent; set => exponent = value; }
     public float DistanceFactor { get => distanceFactor; set => this.SetFocusDistance(value); }
 
@@ -69,7 +70,7 @@ public class Accordion : MonoBehaviour
         this.focusDistance = Vector3.Distance(Camera.main.transform.position, focusPosition);
     }
 
-    private void SetStep(float step)
+    public void SetStep(float step)
     {
         this.step = step;
 
@@ -298,7 +299,9 @@ public class Accordion : MonoBehaviour
     {
         isMoving = true;
 
-        float from = step;
+        float from = this.step;
+        Debug.Log("From: " + from);
+        Debug.Log("To: " + to);
 
         float startTime = Time.time;
         float currentDuration = 0.0f;
@@ -340,6 +343,6 @@ public class Accordion : MonoBehaviour
     public void Reset()
     {
         StopAllCoroutines();
-        this.step = 0;
+        SetStep(startOffset);
     }
 }
