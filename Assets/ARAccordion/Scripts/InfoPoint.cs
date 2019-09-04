@@ -12,7 +12,7 @@ public class InfoPoint : Button
 
     private bool scaleRunning = false;
 
-    private const float FADE_IN_DURATION = 0.7f;
+    private const float FADE_IN_DURATION = 0.35f;
     private const float FADE_OUT_DURATION = 0.2f;
 
     protected override void OnEnable()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InfoFactory : MonoBehaviour
 {
-    private const float FADE_IN_DELAY = 0.7f;
+    private const float FADE_IN_DELAY = 0.35f;
     [SerializeField] GameObject infoPointPrefab;
     [SerializeField] GameObject infoTagPrefab;
 
