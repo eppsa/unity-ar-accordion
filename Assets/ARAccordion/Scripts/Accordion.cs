@@ -140,15 +140,6 @@ public class Accordion : MonoBehaviour
         for (int i = 0; i < this.layers.transform.childCount; i++) {
             Layer layerData = this.content.accordion.layers[i];
 
-            // if (layerData.type.Equals("section")) {
-            //     // HighlightImageSection(i);
-            // } else if (layerData.type.Equals("before")) {
-            //     UpdateBeforePosition(i);
-            // } else if (layerData.type.Equals("behind")) {
-            //     UpdateSectionPosition(i);
-            //     UpdateMaterial(i);
-            // }
-
             UpdatePosition(i);
             UpdateMaterial(i);
         }
@@ -202,36 +193,6 @@ public class Accordion : MonoBehaviour
         go.transform.rotation = Quaternion.LookRotation(newDirection, new Vector3(0, Camera.main.transform.up.y, 0));
     }
 
-    // private void UpdateMaterial(int layerIndex)
-    // {
-    //     Layer layerData = this.content.accordion.layers[layerIndex];
-    //     GameObject imageAnchor = this.layers.transform.GetChild(layerIndex).Find("ImageAnchor").gameObject;
-
-    //     if (layerData.type == "behind") {
-    //         if (this.currentLayerIndex == layerIndex) {
-    //             if (this.step >= 9) {
-    //                 imageAnchor.GetComponentInChildren<Renderer>().material = dofSpriteMaterial;
-    //                 Material material = imageAnchor.GetComponentInChildren<Renderer>().material;
-    //                 Color color = material.GetColor("_Color");
-
-    //                 material.SetColor("_Color", new Color(color.r, color.g, color.b, 1));
-    //             } else if (this.step >= 8) {
-    //                 imageAnchor.GetComponentInChildren<Renderer>().material = defaultSpriteMaterial;
-    //                 Material material = imageAnchor.GetComponentInChildren<Renderer>().material;
-    //                 Color color = material.GetColor("_Color");
-
-    //                 material.SetColor("_Color", new Color(color.r, color.g, color.b, step % 1));
-    //             }
-    //         } else {
-    //             imageAnchor.GetComponentInChildren<Renderer>().material = defaultSpriteMaterial;
-    //             Material material = imageAnchor.GetComponentInChildren<Renderer>().material;
-    //             Color color = material.GetColor("_Color");
-
-    //             material.SetColor("_Color", new Color(color.r, color.g, color.b, 0));
-    //         }
-    //     }
-    // }
-
     private void UpdateMaterial(int layerIndex)
     {
         Renderer renderer = this.layers.transform.GetChild(layerIndex).GetComponentInChildren<Renderer>();
@@ -240,18 +201,44 @@ public class Accordion : MonoBehaviour
             return;
         }
 
-        if (GetRelativeDistance(this.step, layerIndex) <= 1) {
-            renderer.material = dofSpriteMaterial;
+        Layer layerData = this.content.accordion.layers[layerIndex];
 
-            Material material = renderer.material;
-            Color color = material.GetColor("_Color");
-            material.SetColor("_Color", new Color(color.r, color.g, color.b, 1));
+        if (layerData.type == "behind") {
+            if (this.currentLayerIndex == layerIndex) {
+                if (this.step >= layerIndex) {
+                    renderer.material = dofSpriteMaterial;
+
+                    Material material = renderer.material;
+                    Color color = material.GetColor("_Color");
+                    material.SetColor("_Color", new Color(color.r, color.g, color.b, 1));
+                } else if (this.step >= layerIndex - 1) {
+                    renderer.material = defaultSpriteMaterial;
+
+                    Material material = renderer.material;
+                    Color color = material.GetColor("_Color");
+                    material.SetColor("_Color", new Color(color.r, color.g, color.b, step % 1));
+                }
+            } else {
+                renderer.material = defaultSpriteMaterial;
+                Material material = renderer.material;
+                Color color = material.GetColor("_Color");
+
+                material.SetColor("_Color", new Color(color.r, color.g, color.b, 0));
+            }
         } else {
-            renderer.material = defaultSpriteMaterial;
+            if (GetRelativeDistance(this.step, layerIndex) <= 1) {
+                renderer.material = dofSpriteMaterial;
 
-            Material material = renderer.material;
-            Color color = material.GetColor("_Color");
-            material.SetColor("_Color", new Color(color.r, color.g, color.b, 1 - (step % 1)));
+                Material material = renderer.material;
+                Color color = material.GetColor("_Color");
+                material.SetColor("_Color", new Color(color.r, color.g, color.b, 1));
+            } else {
+                renderer.material = defaultSpriteMaterial;
+
+                Material material = renderer.material;
+                Color color = material.GetColor("_Color");
+                material.SetColor("_Color", new Color(color.r, color.g, color.b, 1 - (step % 1)));
+            }
         }
     }
 
