@@ -121,8 +121,7 @@ public class Accordion : MonoBehaviour
         }
 
         UpdateLayers();
-
-        // UpdateInfoPoints();
+        UpdateInfoPoints();
     }
 
     private void ResetToOriginPositions()
@@ -255,6 +254,10 @@ public class Accordion : MonoBehaviour
 
     private void ShowInfoPoints()
     {
+        if (this.currentInfoPointAnchors) {
+            return;
+        }
+
         Transform infoPointAnchors = currentLayerAnchor.transform.Find("Anchors");
 
         if (infoPointAnchors) {
@@ -267,6 +270,7 @@ public class Accordion : MonoBehaviour
     {
         if (this.currentInfoPointAnchors) {
             infoFactory.ClearInfoPoints(this.currentInfoPointAnchors);
+            this.currentInfoPointAnchors = null;
         }
     }
 
