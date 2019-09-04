@@ -95,7 +95,7 @@ public class Controller : MonoBehaviour
         debugView.UpdateDOF(enabled);
         debugView.UpdateRotationWheelSpeed(0.5f);
 
-        fxCamera.GetComponent<PostProcessLayer>().enabled = false;
+        fxCamera.GetComponent<PostProcessLayer>().enabled = true;
     }
 
     void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs eventArgs)
@@ -344,10 +344,6 @@ public class Controller : MonoBehaviour
     {
         accordion.OnUpdateStep(value);
         debugView.UpdateStep(value);
-
-        if (dofEnabled) {
-            fxCamera.GetComponent<PostProcessLayer>().enabled = value != 0;
-        }
     }
 
     public void OnAccordionExponentChange(float exponent)
