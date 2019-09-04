@@ -295,7 +295,7 @@ public class Controller : MonoBehaviour
 
         toggleButton.Toggle(state);
 
-        // accordion.MoveTo(startLayer, accordion.step >= 0 ? 1.5f : 0);
+        accordion.MoveTo(startLayer, accordion.step != startLayer ? 1.5f : 0);
     }
 
     private void ShowQuiz()
@@ -313,7 +313,7 @@ public class Controller : MonoBehaviour
 
         toggleButton.Toggle(state);
 
-        accordion.MoveTo(startLayer, accordion.step >= 1 ? 1.5f : 0);
+        accordion.MoveTo(startLayer, accordion.step != startLayer ? 1.5f : 0);
     }
 
     public void OnEnableDofDebugging(bool enable)

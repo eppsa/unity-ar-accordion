@@ -42,12 +42,12 @@ public class Accordion : MonoBehaviour
     private Layer currentLayerData;
 
     private float focusDistance;
-    private float startFocusDistance;
+    private float cameraDistance;
 
     public float Exponent { get => exponent; set => exponent = value; }
-    public float DistanceFactor { get => distanceFactor; set => distanceFactor = value; }
+    public float DistanceFactor { get => distanceFactor; set => this.SetFocusDistance(value); }
 
-    public GameObject ActiveImageAnchor { get => currentLayerAnchor; }
+    public GameObject CurrentLayerAnchor { get => currentLayerAnchor; }
     public bool InfoPoinsEnabled { get => infoPointsEnabled; set => infoPointsEnabled = value; }
 
     void OnEnable()
@@ -57,7 +57,12 @@ public class Accordion : MonoBehaviour
 
     void Start()
     {
-        this.startFocusDistance = Vector3.Distance(Camera.main.transform.position, transform.position);
+        this.cameraDistance = Vector3.Distance(Camera.main.transform.position, transform.position);
+    }
+
+    private void SetFocusDistance(float focusDistance)
+    {
+        distanceFactor = focusDistance;
 
         Vector3 distanceVector = Camera.main.transform.position - transform.position;
         Vector3 focusPosition = transform.position + distanceVector * distanceFactor;
@@ -67,7 +72,6 @@ public class Accordion : MonoBehaviour
     private void SetStep(float step)
     {
         this.step = step;
-        Debug.Log("Step: " + this.step);
 
         if (this.step < startOffset) {
             this.currentLayerIndex = Mathf.FloorToInt(this.step);
@@ -75,11 +79,7 @@ public class Accordion : MonoBehaviour
             this.currentLayerIndex = Mathf.CeilToInt(this.step);
         }
 
-        Debug.Log("Current layer index: " + this.currentLayerIndex);
-
         this.currentLayerData = this.content.accordion.layers[this.currentLayerIndex];
-        Debug.Log("Id: " + this.currentLayerData.id);
-
         this.currentLayerAnchor = this.layers.transform.GetChild(currentLayerIndex).Find("ImageAnchor").gameObject;
     }
 
@@ -98,7 +98,7 @@ public class Accordion : MonoBehaviour
 
             ResetToOriginPositions();
 
-            Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(this.startFocusDistance);
+            Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(this.cameraDistance);
         } else {
             layers.SetActive(true);
 
@@ -282,6 +282,11 @@ public class Accordion : MonoBehaviour
     internal void SetContent(Content content)
     {
         this.content = content;
+    }
+
+    public void MoveToStart(float duration)
+    {
+        MoveTo(startOffset, duration);
     }
 
     public void MoveTo(float to, float duration)

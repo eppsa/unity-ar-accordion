@@ -76,6 +76,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerDownHandl
         currentQuestionIndex = 0;
         correctAnswerCount = 0;
         pickedLayers = GetRandomLayers(maxQuestions);
+
         resultContainer.SetActive(false);
 
         state = QuizState.START;
@@ -86,7 +87,7 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerDownHandl
         switch (state) {
             case QuizState.START:
                 this.state = QuizState.NEXT_QUESTION;
-                accordion.MoveTo(pickedLayers[currentQuestionIndex].Key + 1, nextQuestionDelay);
+                accordion.MoveTo(pickedLayers[currentQuestionIndex].Key, nextQuestionDelay);
                 break;
             case QuizState.NEXT_QUESTION:
                 ShowNextQuestion();
@@ -109,8 +110,8 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerDownHandl
         System.Random random = new System.Random();
 
         return this.content.layers
-            .Where((item) => item.questions != null)
             .Select((layer, index) => new KeyValuePair<int, Layer>(index, layer))
+            .Where((item) => item.Value.questions != null)
             .OrderBy(entry => random.Next())
             .ToList()
             .GetRange(0, count)
@@ -286,10 +287,10 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerDownHandl
     void UpdateQuiz()
     {
         if (currentQuestionIndex < maxQuestions) {
-            accordion.MoveTo(pickedLayers[currentQuestionIndex].Key + 1, nextQuestionDelay);
+            accordion.MoveTo(pickedLayers[currentQuestionIndex].Key, nextQuestionDelay);
         } else {
             this.state = QuizState.RESULT;
-            accordion.MoveTo(0, nextQuestionDelay);
+            accordion.MoveToStart(nextQuestionDelay);
         }
     }
 
@@ -325,7 +326,9 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerDownHandl
 
     public void SetPositions()
     {
-        Transform anchor = accordion.ActiveImageAnchor.transform.Find("QuizAnchor");
+        Transform anchor = accordion.CurrentLayerAnchor.transform.Find("QuizAnchor");
+
+        Debug.Log(accordion.CurrentLayerAnchor.transform.parent.name);
 
         transform.position = anchor.position;
         transform.rotation = anchor.rotation;
