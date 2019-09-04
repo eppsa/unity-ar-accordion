@@ -300,8 +300,6 @@ public class Accordion : MonoBehaviour
         isMoving = true;
 
         float from = this.step;
-        Debug.Log("From: " + from);
-        Debug.Log("To: " + to);
 
         float startTime = Time.time;
         float currentDuration = 0.0f;
