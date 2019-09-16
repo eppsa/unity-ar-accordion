@@ -189,9 +189,6 @@ public class Controller : MonoBehaviour
             savedCameraRotation = arCamera.transform.rotation;
             timerStartTime = Time.time;
             resetTimerStarted = true;
-
-            Debug.Log("Saved position: " + savedCameraPosition);
-            Debug.Log("Saved rotation: " + savedCameraRotation);
         }
 
         if (Input.touchCount > 0 || Input.GetMouseButton(0)) {
@@ -200,25 +197,15 @@ public class Controller : MonoBehaviour
         }
 
         if (Time.time > timerStartTime + RESET_TIMEOUT) {
-            Debug.Log("Current position: " + arCamera.transform.position);
-            Debug.Log("Current rotation: " + arCamera.transform.rotation);
-
             float distance = Vector3.Distance(arCamera.transform.position, savedCameraPosition);
-            Debug.Log("Position distance: " + distance);
-
             float angle = Quaternion.Angle(arCamera.transform.rotation, savedCameraRotation);
-            Debug.Log("Rotation angle change: " + angle);
 
             if (distance < 0.1f && angle < 1.0f) {
                 this.state = State.START;
                 UpdateState();
 
                 Debug.Log("Reset.");
-            } else {
-                Debug.Log("Pose changed. Restart timer.");
             }
-
-            Debug.Log("---");
 
             resetTimerStarted = false;
         };
@@ -238,6 +225,8 @@ public class Controller : MonoBehaviour
         } else if (this.state == State.QUIZ) {
             this.state = State.ACCORDION;
         }
+
+        Debug.Log("OnToggleMode()");
 
         UpdateState();
     }
