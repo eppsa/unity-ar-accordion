@@ -273,6 +273,7 @@ public class Controller : MonoBehaviour
 
         quiz.gameObject.SetActive(false);
         screenUI.SetActive(true);
+
         rotationWheel.gameObject.SetActive(true);
         accordion.InfoPoinsEnabled = true;
 
@@ -363,6 +364,7 @@ public class Controller : MonoBehaviour
 
     public void OnStart()
     {
+        Debug.Log("OnStart");
         this.state = State.ACCORDION;
         UpdateState();
     }

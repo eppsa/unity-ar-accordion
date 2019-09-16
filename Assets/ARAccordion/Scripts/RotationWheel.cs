@@ -37,6 +37,7 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
     void OnEnable()
     {
         focusCollider.enabled = false;
+        interactionTip.SetActive(false);
     }
 
     internal void Init(List<Layer> layers, int start)

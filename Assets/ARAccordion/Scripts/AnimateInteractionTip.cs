@@ -14,12 +14,12 @@ public class AnimateInteractionTip : MonoBehaviour
     [SerializeField] private AnimationCurve moveCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
     [SerializeField] private AnimationCurve fadeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
-    public void OnEnable()
+    public void Start()
     {
-        this.startPosition = transform.localPosition - Vector3.up * 100;
-        Debug.Log(startPosition);
-        this.endPosition = transform.localPosition - Vector3.down * 200;
-        Debug.Log(endPosition);
+        this.startPosition = new Vector3(0, transform.localPosition.y - 150, transform.localPosition.z);
+        Debug.Log("Start: " + startPosition);
+        this.endPosition = new Vector3(0, transform.localPosition.y + 150, transform.localPosition.z);
+        Debug.Log("End: " + endPosition);
 
         this.transform.localPosition = this.startPosition;
 
@@ -39,6 +39,7 @@ public class AnimateInteractionTip : MonoBehaviour
 
             if (progress <= 1.0f) {
                 transform.localPosition = Vector3.Lerp(from, to, moveCurve.Evaluate(progress));
+                Debug.Log(transform.localPosition);
 
                 yield return new WaitForEndOfFrame();
             } else {
@@ -82,6 +83,9 @@ public class AnimateInteractionTip : MonoBehaviour
 
     public void OnDisable()
     {
+        Debug.Log("OnDisable");
         StopAllCoroutines();
+
+        transform.localPosition = Vector3.zero;
     }
 }
