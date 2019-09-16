@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class AnimateInteractionTip : MonoBehaviour
 {
+    public const int START_TIME_OFFSET = 5;
     private const float DURATION = 2f;
 
     private Vector3 startPosition;
@@ -16,7 +17,9 @@ public class AnimateInteractionTip : MonoBehaviour
     public void OnEnable()
     {
         this.startPosition = transform.localPosition - Vector3.up * 100;
+        Debug.Log(startPosition);
         this.endPosition = transform.localPosition - Vector3.down * 200;
+        Debug.Log(endPosition);
 
         this.transform.localPosition = this.startPosition;
 

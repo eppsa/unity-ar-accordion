@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Model;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,6 +13,8 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
     [SerializeField] private GameObject wheelContainer;
     [SerializeField] private GameObject wheelElementPrefab;
     [SerializeField] private BoxCollider2D focusCollider;
+
+    [SerializeField] private GameObject interactionTip;
 
     [SerializeField] private UnityEventFloat onUpdateRotationWheel;
     [SerializeField] private float speed = 0.5f;
@@ -28,6 +31,8 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
     private float start = 0;
 
     public float Speed { get => speed; set => speed = value; }
+
+    float timerStartTime;
 
     void OnEnable()
     {
@@ -66,6 +71,12 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
 
     void Update()
     {
+        if (ShowInteractionTip()) {
+            interactionTip.SetActive(true);
+        } else {
+            interactionTip.SetActive(false);
+        }
+
         if (!moving) {
             wheelContainer.transform.localPosition = Vector3.MoveTowards(wheelContainer.transform.localPosition, nextStepLocalPosition, Time.deltaTime * 200f);
         }
@@ -80,6 +91,21 @@ public class RotationWheel : MonoBehaviour, IDragHandler, IEndDragHandler
             }
 
             onUpdateRotationWheel.Invoke(step);
+        }
+    }
+
+    private bool ShowInteractionTip()
+    {
+        if (this.step == this.start) {
+            if (timerStartTime == -1) {
+                this.timerStartTime = Time.time;
+                return false;
+            } else {
+                return Time.time > timerStartTime + AnimateInteractionTip.START_TIME_OFFSET;
+            }
+        } else {
+            timerStartTime = -1;
+            return false;
         }
     }
 

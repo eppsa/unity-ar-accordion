@@ -277,7 +277,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7155693989485210039
 RectTransform:
   m_ObjectHideFlags: 0
@@ -287,7 +287,7 @@ RectTransform:
   m_GameObject: {fileID: 8287055429807173071}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 3787981550218184015}
   - {fileID: 1816402032613909171}
@@ -376,6 +376,7 @@ MonoBehaviour:
   wheelElementPrefab: {fileID: 6134222849050149719, guid: 4860f7f0858914404962a59454a2ce47,
     type: 3}
   focusCollider: {fileID: 8190377848217988388}
+  interactionTip: {fileID: 6877729227494294703}
   onUpdateRotationWheel:
     m_PersistentCalls:
       m_Calls:
