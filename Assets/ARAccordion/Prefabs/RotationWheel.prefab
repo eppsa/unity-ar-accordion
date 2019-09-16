@@ -132,7 +132,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 200, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &447576006141922196
 CanvasRenderer:
@@ -162,9 +162,9 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 407226729784343cbbcf1c5c7d20d1d2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 098c457e7bc0b4953a34c28300dc7c6f, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -183,6 +183,81 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea49c4e6913f64dc29200db296aa8256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  fadeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0000005736947
+      value: -0.0013022411
+      inSlope: 0.013832224
+      outSlope: 0.013832224
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.18808925
+    - serializedVersion: 3
+      time: 0.17522645
+      value: 0.19562006
+      inSlope: 2.6828592
+      outSlope: 2.6828592
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5038452
+      value: 0.98443985
+      inSlope: 0.33449784
+      outSlope: 0.33449784
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.10627703
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.8752502
+      value: 0.5869333
+      inSlope: -3.5132687
+      outSlope: -3.5132687
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.09361722
+    - serializedVersion: 3
+      time: 0.9984239
+      value: -0.0012919897
+      inSlope: 0.010450461
+      outSlope: 0.010450461
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.25055772
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &8287055429807173071
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,7 +287,7 @@ RectTransform:
   m_GameObject: {fileID: 8287055429807173071}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3787981550218184015}
   - {fileID: 1816402032613909171}
