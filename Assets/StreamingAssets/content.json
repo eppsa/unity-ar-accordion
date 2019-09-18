@@ -1,9 +1,9 @@
 {
   "accordion": {
     "quiz": {
-      "resultOne": "Gut, du hast eine von {1} Fragen richtig beantwortet.",
-      "resultGood": "Super, du hast {0} von {1} Fragen richtig beantwortet.",
-      "resultBad": "Schade, du hast keine einzige Frage richtig beantwortet. Versuch es noch einmal!"
+      "resultOne": "Gut, sie haben eine von {1} Fragen richtig beantwortet.",
+      "resultGood": "Super, sie haben {0} von {1} Fragen richtig beantwortet.",
+      "resultBad": "Schade, sie haben keine Frage richtig beantwortet. Versuchen sie es nochmal!"
     },
     "layers": [
       {
@@ -11,7 +11,7 @@
         "infos": [
           {
             "image": "painter",
-            "text": "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*"
+            "text": "Als ich meinen Argus malte, hatte ich diese Bilderfindung Michelangelos im Kopf, der einen Giganten zeichnet, wie er von einem Adler gequält wird."
           }
         ],
         "color": [
@@ -37,23 +37,43 @@
         "id": "argus-body",
         "infos": [
           {
-            "image": "argus-body",
-            "text": "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*"
-          },
-          {
             "image": "painter",
-            "text": "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*"
-          },
-          {
-            "image": "painting",
-            "text": "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*"
+            "text": "Wie mein großes Vorbild, so wollte auch ich einen muskulösen Körper wiedergeben, der sich in Todesqualen gewunden hat."
           },
           {
             "image": "composition",
-            "text": "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+            "text": "In der Drehung und perspektivischen Verkürzung war das nicht ganz einfach..."
+          },
+          {
+            "image": "history",
+            "text": "Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen."
+          },
+          {
+            "image": "painting",
+            "text": "Der Leichnam des enthauptete Argus hat bereits die fahlen Farben des Todes angenommen."
           }
         ],
         "questions": [
+          {
+            "question": "Von welchem Künstler hat sich Rubens hier inspirieren lassen?",
+            "answers": [
+              "Dürer",
+              "Turner",
+              "Rembrandt",
+              "Michelangelo"
+            ],
+            "correctAnswerIndex": 3
+          },
+          {
+            "question": "Was wollte Rubens mit seiner Argus-Figur darstellen?",
+            "answers": [
+              "Leichnam eines Verlierers",
+              "Naturgetreuen weiblichen Körper",
+              "Eine Sagenfigur",
+              "Vom Kampf gezeichneten muskulösen Körper"
+            ],
+            "correctAnswerIndex": 3
+          },          
           {
             "question": "Welches Tier bewachte Argus mit seinen “100 Augen”?",
             "answers": [
@@ -87,32 +107,48 @@
         "id": "angles",
         "infos": [
           {
-            "image": "angles",
-            "text": "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*"
+            "image": "painter",
+            "text": "Beim Malen habe ich entschieden, das Bild nach links zu vergrößern: Das gibt der Figurengruppe rechts mehr Raum!"
           },
           {
-            "image": "angles",
-            "text": "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*"
-          },
-          {
-            "image": "history",
-            "text": "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*"
+            "image": "composition",
+            "text": "Die grausige Tat der Göttergattin und ihrer Begleiterinnen erhält ein Gegengewicht. Die schönen Pfauen und die putzigen Kinderfiguren, die mit deren Gefieder spielen, heitern die Stimmung auf…"
           },
           {
             "image": "painting",
-            "text": "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+            "text": "Außerdem konnte ich mit deren rosiger Haut meine Spezialität unter Beweis stellen. Sie kontrastiert doch wunderbar mit der fahlen Hautfarbe des leblosen Argus."
           }
         ],
         "questions": [
           {
+            "question": "Warum hat Rubens das Bild vergrößert?",
+            "answers": [
+              "Platz für den Abtransport des Toten",
+              "Platz für Pracht und Schönheit der Pfauen",
+              "Um die Kinder auf Abstand zum Tatort zuhalten",
+              "Um Leinwandreste zu verarbeiten"
+            ],
+            "correctAnswerIndex": 1
+          },
+          {
+            "question": "Welchen Vorteil hatte die Vergrößerung des Bildes?",
+            "answers": [
+              "Die schönen Frauen bekommen mehr Bühne",
+              "Rubens konnte restliche Farbe vermalen",
+              "Um alle 1000 Augen des Argus zu zeigen",
+              "Der Regenbogen fand Platz"
+            ],
+            "correctAnswerIndex": 0
+          },          
+          {
             "question": "Welchen Sinn haben die Putten im Bild?",
             "answers": [
               "Junos Kinder",
-              "Unterstreichen die Handlung",
               "Helfen den Göttinnen",
+              "Heitern die Stimmung auf",
               "Himmlische Begleitung"
             ],
-            "correctAnswerIndex": 1
+            "correctAnswerIndex": 2
           }
         ],
         "color": [
@@ -127,42 +163,20 @@
         "id": "peacock-front",
         "infos": [
           {
-            "image": "argus",
-            "text": "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*"
-          },
-          {
-            "image": "argus",
-            "text": "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*"
-          },
-          {
-            "image": "argus",
-            "text": "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*"
-          },
-          {
-            "image": "argus",
-            "text": "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+            "image": "painter",
+            "text": "Die putzigen Kinderfiguren spielen mit dem Pfauengefieder. Sie heitern mit den schönen Pfauen die Stimmung auf."
           }
         ],
         "questions": [
           {
-            "question": "Was bedeutet Iris übersetzt aus dem Griechischen?",
+            "question": "Warum hat das Bild über die Jahrhunderte sehr gelitten?",
             "answers": [
-              "Traum",
-              "Sonnenschein",
-              "Regenbogen",
-              "Wachstum"
+              "Weil es vernachlässigt wurde",
+              "Weil es den Besitzer oft wechseln und reisen musste",
+              "Weil es in alten Kellern vergessen wurde",
+              "Weil es früher keine Bügeleisen gab"
             ],
-            "correctAnswerIndex": 2
-          },
-          {
-            "question": "Wieso wirkt das Gemälde besonders plastisch?",
-            "answers": [
-              "Breite Pinselstriche und hoher Kontrast",
-              "Bildaufbau in unterschiedlichen Ebenen",
-              "Schönheit der Gesichter",
-              "Viele unterschiedliche Farben"
-            ],
-            "correctAnswerIndex": 0
+            "correctAnswerIndex": 1
           }
         ],
         "color": [
@@ -177,33 +191,53 @@
         "id": "juno",
         "infos": [
           {
-            "image": "peacock-front",
-            "text": "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*"
-          },
-          {
-            "image": "peacock-front",
-            "text": "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*"
+            "image": "painter",
+            "text": "Ich habe die Farbenlehre und optischen Studien von Franciscus Aguilonius gelesen und war fasziniert..."
           },
           {
             "image": "painter",
-            "text": "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*"
+            "text": "Sehen Sie wie man im Dreiklang der Primärfarben die Farbkraft des ganzen Bildes steigern kann!"
+          },          
+          {
+            "image": "painting",
+            "text": "Das leuchtende Rot klingt mit dem Blau der Iris und dem Gold-Gelb des Wagens ganz wunderbar zusammen – wie in einem Farbakkord!"
           },
           {
             "image": "painting",
-            "text": "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+            "text": "Alle Elemente die in den Primärfarben (Rot - Blau - Gelb) gemalt wurden, sind besonders bedeutsam."
           }
         ],
-        "questions": [
+        "questions": [ 
           {
-            "question": "Wozu stehen die beiden Pfauen in besonderem Kontrast?",
+            "question": "Was sind die wichtigsten Farben des Bildes?",
             "answers": [
-              "Zur traurigen Szenerie",
-              "Zur Verspieltheit der Putten",
-              "Zur Hautfarbe des Argus",
-              "Zur bläulich-grauen Helle des Bildgrundes"
+              "Grau und Grün",
+              "Rot – Blau – Gelb",
+              "Kostbares Gold",
+              "Schwarz - Rot - Gold"
             ],
-            "correctAnswerIndex": 3
-          }
+            "correctAnswerIndex": 1
+          },
+          {
+            "question": "Was wollte Rubens mit den Farben betonen?",
+            "answers": [
+              "Echtheit",
+              "Detailreichtum",
+              "Leuchtkraft und Pracht",
+              "Gedämpfte Bescheidenheit"
+            ],
+            "correctAnswerIndex": 2
+          },
+          {
+            "question": "Welches Symbol der Juno ist im Bild zu sehen?",
+            "answers": [
+              "Pfauen",
+              "Augen",
+              "Regenbogen",
+              "Rote Seide"
+            ],
+            "correctAnswerIndex": 0
+          }                    
         ],
         "color": [
           255,
@@ -217,23 +251,29 @@
         "id": "argus-head",
         "infos": [
           {
-            "image": "juno",
-            "text": "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*"
-          },
-          {
-            "image": "juno",
-            "text": "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*"
-          },
-          {
             "image": "painter",
-            "text": "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*"
+            "text": "Sie wollen wissen, wem der abgeschlagene Kopf mit den vielen Augen gehört?"
           },
           {
-            "image": "painting",
-            "text": "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+            "image": "history",
+            "text": "Der 100-äugige Argus hatte Jupiters Geliebte (Io) bewacht. Jetzt hat Jupiter den Argus töten lassen, um die schöne Io zurück zu gewinnen."
+          },          
+          {
+          "image": "painter",
+            "text": "Seine Gattin Juno nutzt die Situation für sich: Sie entnimmt dem Argus die schönen Augen, die sie gleich in das Gefieder ihres Pfauen einsetzen will."
           }
         ],
         "questions": [
+          {
+            "question": "Weshalb geschah der Mord?",
+            "answers": [
+            "Aus Eifersucht",
+            "Aus Liebesverlangen",
+            "Aus Habgier",
+            "Aus Rache"
+          ],
+          "correctAnswerIndex": 1
+          },
           {
             "question": "Wessen Gattin ist die eifersüchtige Juno?",
             "answers": [
@@ -245,7 +285,7 @@
             "correctAnswerIndex": 0
           },
           {
-            "question": "Wen beauftragte Juno mit der Bewachung der verdächtigen Kuh?",
+            "question": "Wen beauftragte Juno mit der Bewachung der Io in Form einer verdächtigen Kuh?",
             "answers": [
               "Iris",
               "Argus",
@@ -253,66 +293,6 @@
               "Die Pfauen"
             ],
             "correctAnswerIndex": 1
-          },
-          {
-            "question": "Welches Symbol der Juno ist im Bild zu sehen?",
-            "answers": [
-              "Pfauen",
-              "Augen",
-              "Regenbogen",
-              "Rote Seide"
-            ],
-            "correctAnswerIndex": 0
-          }
-        ],
-        "color": [
-          255,
-          255,
-          255,
-          255
-        ],
-        "type": "section"
-      },
-      {
-        "id": "woman-left",
-        "infos": [
-          {
-            "image": "woman-left",
-            "text": "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*"
-          },
-          {
-            "image": "woman-left",
-            "text": "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*"
-          },
-          {
-            "image": "painter",
-            "text": "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*"
-          },
-          {
-            "image": "painting",
-            "text": "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
-          }
-        ],
-        "questions": [
-          {
-            "question": "Was symbolisieren die “100 Augen” auf Argus Kopf?",
-            "answers": [
-              "Macht",
-              "Zwiespalt",
-              "Kontrolle",
-              "Weisheit"
-            ],
-            "correctAnswerIndex": 2
-          },
-          {
-            "question": "Wie wird Argus überlistet?",
-            "answers": [
-              "Weggelockt",
-              "Überrascht",
-              "In Schlaf versetzt",
-              "Abgelenkt"
-            ],
-            "correctAnswerIndex": 2
           },
           {
             "question": "Ergänze das Sprichwort: “Etwas mit … .”",
@@ -334,23 +314,61 @@
         "type": "section"
       },
       {
-        "id": "peacock-background",
+        "id": "woman-left", 
         "infos": [
           {
-            "image": "peacock-background",
-            "text": "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*"
-          },
-          {
-            "image": "peacock-background",
-            "text": "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*"
-          },
-          {
-            "image": "painter",
-            "text": "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*"
+            "image": "history",
+            "text": "Iris ist die Botin der Götter des Olymps. Sie unterstützt Juno bei ihrer grausigen Aufgabe."
           },
           {
             "image": "painting",
-            "text": "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+            "text": "Die zarte, weiße Haut der Göttinnen und der optische Eindruck schwerer, fester Seide sind Meisterleistungen des Künstlers Rubens."
+          },
+          {
+            "image": "history",
+            "text": "Der Name Iris bedeutet im griechischen Regenbogen. Sie stellt die Verbindung zum Himmel dar."
+          }
+        ],
+        "questions": [
+          {
+            "question": "Was bedeutet Iris übersetzt aus dem griechischen?",
+            "answers": [
+              "Traum",
+              "Sonnenschein",
+              "Regenbogen",
+              "Auge"
+            ],
+            "correctAnswerIndex": 2
+          },          
+          {
+            "question": "Welchen Zweck hat die Anwesenheit der Dienerin?",
+            "answers": [
+              "Bildkomposition",
+              "Anstandsdame",
+              "Lückenfüllerin",
+              "Hält das Gewand"
+            ],
+            "correctAnswerIndex": 0
+          }
+        ],
+        "color": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "type": "section"
+      },
+      {
+        "id": "peacock-background",
+        "infos": [
+          {
+            "image": "painter",
+            "text": "Die putzigen Kinderfiguren spielen mit dem Pfauengefieder. Sie heitern mit den schönen Pfauen die Stimmung auf."
+          },
+          {
+            "image": "juno",
+            "text": "Ich entnehme die Augen des schönen Argus und setze sie gleich in das Gefieder meiner Pfauen ein."
           }
         ],
         "questions": [
@@ -377,20 +395,8 @@
         "id": "woman-right",
         "infos": [
           {
-            "image": "woman-right",
-            "text": "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*"
-          },
-          {
-            "image": "paiwoman-rightnter",
-            "text": "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*"
-          },
-          {
-            "image": "painter",
-            "text": "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*"
-          },
-          {
             "image": "painting",
-            "text": "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+            "text": "Die gelb-goldene Farbfläche beginnt bei der Dienerin und wird im Wagen weitergeführt."
           }
         ],
         "questions": [
@@ -399,7 +405,7 @@
             "answers": [
               "Bildkomposition",
               "Anstandsdame",
-              "Zur Wache",
+              "Fortbewegungsmittel",
               "Hält das Gewand"
             ],
             "correctAnswerIndex": 0
@@ -417,20 +423,20 @@
         "id": "infrared",
         "infos": [
           {
-            "image": "infrared",
-            "text": "*Argus wurde von Merkur überlistet und in den Schlaf gebracht. Anschließend hat Merkur dem Schlafenden den Kopf abgeschlagen.*"
+            "image": "painter",
+            "text": "Und jetzt schauen Sie sich mal all diese Schäden und Risse an! Sie sind Zeugen dafür, wie oft die Leinwand zusammengerollt wurde."
           },
           {
             "image": "painter",
-            "text": "*Alle Elemente die besonders in den Primärfarben (rot, blau, gelb) gemalt wurden, sind besonders bedeutsam.*"
+            "text": "Das Bild hat oft den Besitzer gewechselt. Es war viel auf Reisen und wurde deshalb oft zusammengerollt. "
           },
           {
-            "image": "painting",
-            "text": "*Die drei Hauptfarben rot, gelb und blau gemischt ergeben den leichenhaften Hautton Argus.*"
+            "image": "painter",
+            "text": "Ja, es war schon früh begehrt und hoch bezahlt. Ich darf mit Stolz sagen: Man hat sich in allen Zeiten darum gerissen!"
           },
           {
-            "image": "infrared",
-            "text": "*Der enthauptete Argus. Sein Leichnam hat bereits die fahlen Farben des Todes angenommen.*"
+            "image": "painter",
+            "text": "Wie gut, dass es im Wallraf-Richartz-Museum so wunderbar restauriert werden konnte, dass es heute wieder in seinem ursprünglichen Glanz auftreten kann!"
           }
         ],
         "color": [
