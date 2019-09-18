@@ -29,6 +29,7 @@ public class Accordion : MonoBehaviour
 
     private GameObject currentLayerAnchor = null;
     private Transform currentInfoPointAnchors = null;
+    private Transform currentExtraImages = null;
 
     private bool savedOrigins = false;
 
@@ -123,6 +124,7 @@ public class Accordion : MonoBehaviour
 
         UpdateLayers();
         UpdateInfoPoints();
+        UpdateExtraImages();
     }
 
     private void ResetToOriginPositions()
@@ -253,6 +255,38 @@ public class Accordion : MonoBehaviour
         }
     }
 
+    private void UpdateExtraImages()
+    {
+        if (step % 1 == 0) {
+            Transform extraImages = currentLayerAnchor.transform.Find("ExtraImages");
+
+            if (extraImages) {
+                ShowExtraImages(extraImages);
+            }
+        } else {
+            HideCurrentExtraImages();
+        }
+    }
+
+    private void ShowExtraImages(Transform extraImages)
+    {
+        if (this.currentExtraImages) {
+            return;
+        }
+
+        this.currentExtraImages = extraImages;
+
+        StartCoroutine(DoFade(this.currentExtraImages, 0, 1, 1));
+    }
+
+    private void HideCurrentExtraImages()
+    {
+        if (this.currentExtraImages) {
+            StartCoroutine(DoFade(this.currentExtraImages, 1, 0, 1));
+            this.currentExtraImages = null;
+        }
+    }
+
     private void ShowInfoPoints()
     {
         if (this.currentInfoPointAnchors) {
@@ -266,6 +300,38 @@ public class Accordion : MonoBehaviour
             infoFactory.CreateInfoPoints(content.accordion.layers[this.currentLayerIndex].infos, this.currentInfoPointAnchors);
         }
     }
+
+
+    private IEnumerator DoFade(Transform extraImages, float from, float to, float duration)
+    {
+        Debug.Log(extraImages);
+
+        float startTime = Time.time;
+        float currentDuration = 0.0f;
+        float progress = 0.0f;
+
+        while (true) {
+            currentDuration = Time.time - startTime;
+            progress = currentDuration / duration;
+
+            if (progress <= 1.0f) {
+                float alpha = Mathf.Lerp(from, to, progress);
+
+                Color color = extraImages.GetComponentInChildren<SpriteRenderer>().color;
+                color = new Color(color.r, color.g, color.b, alpha);
+                extraImages.GetComponentInChildren<SpriteRenderer>().color = color;
+
+                yield return new WaitForEndOfFrame();
+            } else {
+                Color color = extraImages.GetComponentInChildren<SpriteRenderer>().color;
+                color = new Color(color.r, color.g, color.b, to);
+                extraImages.GetComponentInChildren<SpriteRenderer>().color = color;
+
+                yield break;
+            }
+        }
+    }
+
 
     private void HideInfoPoints()
     {
