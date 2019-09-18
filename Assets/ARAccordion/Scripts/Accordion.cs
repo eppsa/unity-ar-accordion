@@ -29,6 +29,7 @@ public class Accordion : MonoBehaviour
 
     private GameObject currentLayerAnchor = null;
     private Transform currentInfoPointAnchors = null;
+    private Transform currentExtraImages = null;
 
     private bool savedOrigins = false;
 
@@ -123,6 +124,7 @@ public class Accordion : MonoBehaviour
 
         UpdateLayers();
         UpdateInfoPoints();
+        UpdateExtraImages();
     }
 
     private void ResetToOriginPositions()
@@ -195,9 +197,9 @@ public class Accordion : MonoBehaviour
 
     private void UpdateMaterial(int layerIndex)
     {
-        Renderer renderer = this.layers.transform.GetChild(layerIndex).GetComponentInChildren<Renderer>();
+        Renderer[] renderers = this.layers.transform.GetChild(layerIndex).GetComponentsInChildren<Renderer>();
 
-        if (renderer == null) {
+        if (renderers.Length == 0) {
             return;
         }
 
@@ -206,38 +208,48 @@ public class Accordion : MonoBehaviour
         if (layerData.type == "behind") {
             if (this.currentLayerIndex == layerIndex) {
                 if (this.step >= layerIndex) {
+                    foreach (Renderer renderer in renderers) {
+                        renderer.material = dofSpriteMaterial;
+
+                        Material material = renderer.material;
+                        Color color = material.GetColor("_Color");
+                        material.SetColor("_Color", new Color(color.r, color.g, color.b, 1));
+                    }
+                } else if (this.step >= layerIndex - 1) {
+                    foreach (Renderer renderer in renderers) {
+                        renderer.material = defaultSpriteMaterial;
+
+                        Material material = renderer.material;
+                        Color color = material.GetColor("_Color");
+                        material.SetColor("_Color", new Color(color.r, color.g, color.b, step % 1));
+                    }
+                }
+            } else {
+                foreach (Renderer renderer in renderers) {
+                    renderer.material = defaultSpriteMaterial;
+                    Material material = renderer.material;
+                    Color color = material.GetColor("_Color");
+
+                    material.SetColor("_Color", new Color(color.r, color.g, color.b, 0));
+                }
+            }
+        } else {
+            if (GetRelativeDistance(this.step, layerIndex) <= 1) {
+                foreach (Renderer renderer in renderers) {
                     renderer.material = dofSpriteMaterial;
 
                     Material material = renderer.material;
                     Color color = material.GetColor("_Color");
                     material.SetColor("_Color", new Color(color.r, color.g, color.b, 1));
-                } else if (this.step >= layerIndex - 1) {
+                }
+            } else {
+                foreach (Renderer renderer in renderers) {
                     renderer.material = defaultSpriteMaterial;
 
                     Material material = renderer.material;
                     Color color = material.GetColor("_Color");
-                    material.SetColor("_Color", new Color(color.r, color.g, color.b, step % 1));
+                    material.SetColor("_Color", new Color(color.r, color.g, color.b, 1 - (step % 1)));
                 }
-            } else {
-                renderer.material = defaultSpriteMaterial;
-                Material material = renderer.material;
-                Color color = material.GetColor("_Color");
-
-                material.SetColor("_Color", new Color(color.r, color.g, color.b, 0));
-            }
-        } else {
-            if (GetRelativeDistance(this.step, layerIndex) <= 1) {
-                renderer.material = dofSpriteMaterial;
-
-                Material material = renderer.material;
-                Color color = material.GetColor("_Color");
-                material.SetColor("_Color", new Color(color.r, color.g, color.b, 1));
-            } else {
-                renderer.material = defaultSpriteMaterial;
-
-                Material material = renderer.material;
-                Color color = material.GetColor("_Color");
-                material.SetColor("_Color", new Color(color.r, color.g, color.b, 1 - (step % 1)));
             }
         }
     }
@@ -253,6 +265,38 @@ public class Accordion : MonoBehaviour
         }
     }
 
+    private void UpdateExtraImages()
+    {
+        if (step % 1 == 0) {
+            Transform extraImages = currentLayerAnchor.transform.Find("ExtraImages");
+
+            if (extraImages) {
+                ShowExtraImages(extraImages);
+            }
+        } else {
+            HideCurrentExtraImages();
+        }
+    }
+
+    private void ShowExtraImages(Transform extraImages)
+    {
+        if (this.currentExtraImages) {
+            return;
+        }
+
+        this.currentExtraImages = extraImages;
+
+        StartCoroutine(DoFade(this.currentExtraImages, 0, 1, 1));
+    }
+
+    private void HideCurrentExtraImages()
+    {
+        if (this.currentExtraImages) {
+            StartCoroutine(DoFade(this.currentExtraImages, 1, 0, 1));
+            this.currentExtraImages = null;
+        }
+    }
+
     private void ShowInfoPoints()
     {
         if (this.currentInfoPointAnchors) {
@@ -264,6 +308,36 @@ public class Accordion : MonoBehaviour
         if (infoPointAnchors) {
             this.currentInfoPointAnchors = infoPointAnchors;
             infoFactory.CreateInfoPoints(content.accordion.layers[this.currentLayerIndex].infos, this.currentInfoPointAnchors);
+        }
+    }
+
+    private IEnumerator DoFade(Transform extraImages, float from, float to, float duration)
+    {
+        Debug.Log(extraImages);
+
+        float startTime = Time.time;
+        float currentDuration = 0.0f;
+        float progress = 0.0f;
+
+        while (true) {
+            currentDuration = Time.time - startTime;
+            progress = currentDuration / duration;
+
+            if (progress <= 1.0f) {
+                float alpha = Mathf.Lerp(from, to, progress);
+
+                Color color = extraImages.GetComponentInChildren<SpriteRenderer>().color;
+                color = new Color(color.r, color.g, color.b, alpha);
+                extraImages.GetComponentInChildren<SpriteRenderer>().color = color;
+
+                yield return new WaitForEndOfFrame();
+            } else {
+                Color color = extraImages.GetComponentInChildren<SpriteRenderer>().color;
+                color = new Color(color.r, color.g, color.b, to);
+                extraImages.GetComponentInChildren<SpriteRenderer>().color = color;
+
+                yield break;
+            }
         }
     }
 
