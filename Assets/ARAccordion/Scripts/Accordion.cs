@@ -197,9 +197,9 @@ public class Accordion : MonoBehaviour
 
     private void UpdateMaterial(int layerIndex)
     {
-        Renderer renderer = this.layers.transform.GetChild(layerIndex).GetComponentInChildren<Renderer>();
+        Renderer[] renderers = this.layers.transform.GetChild(layerIndex).GetComponentsInChildren<Renderer>();
 
-        if (renderer == null) {
+        if (renderers.Length == 0) {
             return;
         }
 
@@ -208,38 +208,48 @@ public class Accordion : MonoBehaviour
         if (layerData.type == "behind") {
             if (this.currentLayerIndex == layerIndex) {
                 if (this.step >= layerIndex) {
+                    foreach (Renderer renderer in renderers) {
+                        renderer.material = dofSpriteMaterial;
+
+                        Material material = renderer.material;
+                        Color color = material.GetColor("_Color");
+                        material.SetColor("_Color", new Color(color.r, color.g, color.b, 1));
+                    }
+                } else if (this.step >= layerIndex - 1) {
+                    foreach (Renderer renderer in renderers) {
+                        renderer.material = defaultSpriteMaterial;
+
+                        Material material = renderer.material;
+                        Color color = material.GetColor("_Color");
+                        material.SetColor("_Color", new Color(color.r, color.g, color.b, step % 1));
+                    }
+                }
+            } else {
+                foreach (Renderer renderer in renderers) {
+                    renderer.material = defaultSpriteMaterial;
+                    Material material = renderer.material;
+                    Color color = material.GetColor("_Color");
+
+                    material.SetColor("_Color", new Color(color.r, color.g, color.b, 0));
+                }
+            }
+        } else {
+            if (GetRelativeDistance(this.step, layerIndex) <= 1) {
+                foreach (Renderer renderer in renderers) {
                     renderer.material = dofSpriteMaterial;
 
                     Material material = renderer.material;
                     Color color = material.GetColor("_Color");
                     material.SetColor("_Color", new Color(color.r, color.g, color.b, 1));
-                } else if (this.step >= layerIndex - 1) {
+                }
+            } else {
+                foreach (Renderer renderer in renderers) {
                     renderer.material = defaultSpriteMaterial;
 
                     Material material = renderer.material;
                     Color color = material.GetColor("_Color");
-                    material.SetColor("_Color", new Color(color.r, color.g, color.b, step % 1));
+                    material.SetColor("_Color", new Color(color.r, color.g, color.b, 1 - (step % 1)));
                 }
-            } else {
-                renderer.material = defaultSpriteMaterial;
-                Material material = renderer.material;
-                Color color = material.GetColor("_Color");
-
-                material.SetColor("_Color", new Color(color.r, color.g, color.b, 0));
-            }
-        } else {
-            if (GetRelativeDistance(this.step, layerIndex) <= 1) {
-                renderer.material = dofSpriteMaterial;
-
-                Material material = renderer.material;
-                Color color = material.GetColor("_Color");
-                material.SetColor("_Color", new Color(color.r, color.g, color.b, 1));
-            } else {
-                renderer.material = defaultSpriteMaterial;
-
-                Material material = renderer.material;
-                Color color = material.GetColor("_Color");
-                material.SetColor("_Color", new Color(color.r, color.g, color.b, 1 - (step % 1)));
             }
         }
     }
@@ -301,7 +311,6 @@ public class Accordion : MonoBehaviour
         }
     }
 
-
     private IEnumerator DoFade(Transform extraImages, float from, float to, float duration)
     {
         Debug.Log(extraImages);
@@ -331,7 +340,6 @@ public class Accordion : MonoBehaviour
             }
         }
     }
-
 
     private void HideInfoPoints()
     {
