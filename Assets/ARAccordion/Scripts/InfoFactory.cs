@@ -110,6 +110,7 @@ public class InfoFactory : MonoBehaviour
         Transform extraImages = this.selectedInfoPoint.transform.parent.Find("ExtraImages");
 
         if (extraImages) {
+            extraImages.gameObject.SetActive(true);
             StartCoroutine(DoFade(extraImages, 1, 1));
         }
     }
@@ -140,8 +141,13 @@ public class InfoFactory : MonoBehaviour
                 yield return new WaitForEndOfFrame();
             } else {
                 Color color = extraImages.GetComponentInChildren<SpriteRenderer>().color;
+
                 color = new Color(color.r, color.g, color.b, to);
                 extraImages.GetComponentInChildren<SpriteRenderer>().color = color;
+
+                if (to == 0) {
+                    extraImages.gameObject.SetActive(false);
+                }
 
                 yield break;
             }

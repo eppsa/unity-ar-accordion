@@ -101,7 +101,7 @@ public class InfoTag : MonoBehaviour
         text.gameObject.SetActive(true);
         text.transform.localScale = Vector3.one;
 
-        for (int i = 0; i < fullText.Length; i++) {
+        for (int i = 0; i <= fullText.Length; i++) {
             text.text = fullText.Substring(0, i);
             yield return new WaitForSeconds(letterDelay);
         }
