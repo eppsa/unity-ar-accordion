@@ -4,5 +4,6 @@ namespace Model
     {
         public string text;
         public string image;
+        public string[] extraImages;
     }
 }
