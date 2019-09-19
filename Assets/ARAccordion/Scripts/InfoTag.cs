@@ -95,7 +95,6 @@ public class InfoTag : MonoBehaviour
     private IEnumerator DoWriteText(float letterDelay)
     {
         string fullText = text.text;
-        Debug.Log(fullText);
 
         text.text = "";
 
