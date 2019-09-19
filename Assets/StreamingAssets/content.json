@@ -73,7 +73,7 @@
               "Vom Kampf gezeichneten muskulösen Körper"
             ],
             "correctAnswerIndex": 3
-          },          
+          },
           {
             "question": "Welches Tier bewachte Argus mit seinen “100 Augen”?",
             "answers": [
@@ -108,7 +108,10 @@
         "infos": [
           {
             "image": "painter",
-            "text": "Beim Malen habe ich entschieden, das Bild nach links zu vergrößern: Das gibt der Figurengruppe rechts mehr Raum!"
+            "text": "Beim Malen habe ich entschieden, das Bild nach links zu vergrößern: Das gibt der Figurengruppe rechts mehr Raum!",
+            "extraImages": [
+              "angles-extension"
+            ]
           },
           {
             "image": "composition",
@@ -143,7 +146,7 @@
               "Der Regenbogen fand Platz"
             ],
             "correctAnswerIndex": 0
-          },          
+          },
           {
             "question": "Welchen Sinn haben die Putten im Bild?",
             "answers": [
@@ -201,7 +204,7 @@
           {
             "image": "painter",
             "text": "Sehen Sie wie man im Dreiklang der Primärfarben die Farbkraft des ganzen Bildes steigern kann!"
-          },          
+          },
           {
             "image": "painting",
             "text": "Das leuchtende Rot klingt mit dem Blau der Iris und dem Gold-Gelb des Wagens ganz wunderbar zusammen – wie in einem Farbakkord!"
@@ -211,7 +214,7 @@
             "text": "Alle Elemente die in den Primärfarben (Rot - Blau - Gelb) gemalt wurden, sind besonders bedeutsam."
           }
         ],
-        "questions": [ 
+        "questions": [
           {
             "question": "Was sind die wichtigsten Farben des Bildes?",
             "answers": [
@@ -241,7 +244,7 @@
               "Rote Seide"
             ],
             "correctAnswerIndex": 0
-          }                    
+          }
         ],
         "color": [
           255,
@@ -261,9 +264,9 @@
           {
             "image": "history",
             "text": "Der 100-äugige Argus hatte Jupiters Geliebte (Io) bewacht. Jetzt hat Jupiter den Argus töten lassen, um die schöne Io zurück zu gewinnen."
-          },          
+          },
           {
-          "image": "painter",
+            "image": "painter",
             "text": "Seine Gattin Juno nutzt die Situation für sich: Sie entnimmt dem Argus die schönen Augen, die sie gleich in das Gefieder ihres Pfauen einsetzen will."
           }
         ],
@@ -271,12 +274,12 @@
           {
             "question": "Weshalb geschah der Mord?",
             "answers": [
-            "Aus Eifersucht",
-            "Aus Liebesverlangen",
-            "Aus Habgier",
-            "Aus Rache"
-          ],
-          "correctAnswerIndex": 1
+              "Aus Eifersucht",
+              "Aus Liebesverlangen",
+              "Aus Habgier",
+              "Aus Rache"
+            ],
+            "correctAnswerIndex": 1
           },
           {
             "question": "Wessen Gattin ist die eifersüchtige Juno?",
@@ -318,7 +321,7 @@
         "type": "section"
       },
       {
-        "id": "woman-left", 
+        "id": "woman-left",
         "infos": [
           {
             "image": "history",
@@ -343,7 +346,7 @@
               "Auge"
             ],
             "correctAnswerIndex": 2
-          },          
+          },
           {
             "question": "Welchen Zweck hat die Anwesenheit der Dienerin?",
             "answers": [

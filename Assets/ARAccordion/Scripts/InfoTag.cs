@@ -1,4 +1,5 @@
 using System.Collections;
+using Model;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +12,7 @@ public class InfoTag : MonoBehaviour
     [SerializeField] private GameObject image;
     [SerializeField] private Text text;
 
-    string content;
+    Info content;
 
     private string imagePath;
 
@@ -25,12 +26,12 @@ public class InfoTag : MonoBehaviour
         text.gameObject.SetActive(false);
     }
 
-    public void Show(string content)
+    public void Show(Info content)
     {
         Show(content, null);
     }
 
-    public void Show(string content, string imagePath)
+    public void Show(Info content, string imagePath)
     {
         this.content = content;
         this.imagePath = imagePath;
@@ -108,7 +109,7 @@ public class InfoTag : MonoBehaviour
 
     private void UpdateContent()
     {
-        text.text = content;
+        text.text = content.text;
         image.GetComponent<Image>().sprite = Resources.Load<Sprite>(imagePath);
     }
 

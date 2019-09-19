@@ -1,4 +1,5 @@
 using System.Collections;
+using Model;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,7 +7,7 @@ public class InfoPoint : Button
 {
     InfoTag infoTag;
 
-    private string content;
+    private Info content;
     private string imagePath;
     private float delay;
 
@@ -59,7 +60,7 @@ public class InfoPoint : Button
         this.delay = delay;
     }
 
-    internal void SetContent(string content)
+    internal void SetContent(Info content)
     {
         this.content = content;
     }
