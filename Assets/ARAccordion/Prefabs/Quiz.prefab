@@ -1418,8 +1418,8 @@ MonoBehaviour:
   - {fileID: 1856698391}
   resultContainer: {fileID: 6229103327985187872}
   dropArea: {fileID: 7313388803348010657}
-  rightColor: {r: 0.43128344, g: 0.7924528, b: 0.16820934, a: 1}
-  wrongColor: {r: 0.8962264, g: 0.2240566, b: 0.2660672, a: 1}
+  rightColor: {r: 0.5058824, g: 0.9098039, b: 0.29411766, a: 1}
+  wrongColor: {r: 0.9882353, g: 0.32156864, b: 0.3137255, a: 1}
   defaultColor: {r: 255, g: 255, b: 255, a: 1}
   dragScaleFactor: 1.25
   defaultScaleFactor: 1
