@@ -3,6 +3,7 @@ using UnityEngine;
 using Model;
 using UnityEngine.Events;
 using System;
+using UnityEngine.Rendering.PostProcessing;
 
 public class Accordion : MonoBehaviour
 {
@@ -43,7 +44,6 @@ public class Accordion : MonoBehaviour
     private Layer currentLayerData;
 
     private float focusDistance;
-    private float cameraDistance;
 
     public float Step { get => step; }
     public float Exponent { get => exponent; set => exponent = value; }
@@ -55,11 +55,6 @@ public class Accordion : MonoBehaviour
     void OnEnable()
     {
         infoFactory = GetComponent<InfoFactory>();
-    }
-
-    void Start()
-    {
-        this.cameraDistance = Vector3.Distance(Camera.main.transform.position, transform.position);
     }
 
     private void SetFocusDistance(float focusDistance)
@@ -100,10 +95,11 @@ public class Accordion : MonoBehaviour
 
             ResetToOriginPositions();
 
-            Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(this.cameraDistance);
+            Camera.main.GetComponentInChildren<PostProcessLayer>().enabled = false;
         } else {
             layers.SetActive(true);
 
+            Camera.main.GetComponentInChildren<PostProcessLayer>().enabled = true;
             Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(this.focusDistance);
         }
 
