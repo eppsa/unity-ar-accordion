@@ -84,7 +84,7 @@ public class Controller : MonoBehaviour
             postFx.UpdateAperture(4f);
             postFx.UpdateFocalLength(80.0f);
         } else {
-            postFx.UpdateAperture(1.0f);
+            postFx.UpdateAperture(1.5f);
             postFx.UpdateFocalLength(42.0f);
 
             trackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
@@ -225,8 +225,6 @@ public class Controller : MonoBehaviour
         } else if (this.state == State.QUIZ) {
             this.state = State.ACCORDION;
         }
-
-        Debug.Log("OnToggleMode()");
 
         UpdateState();
     }

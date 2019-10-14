@@ -47,7 +47,7 @@ public class Accordion : MonoBehaviour
 
     public float Step { get => step; }
     public float Exponent { get => exponent; set => exponent = value; }
-    public float DistanceFactor { get => distanceFactor; set => this.SetFocusDistance(value); }
+    public float DistanceFactor { get => distanceFactor; set => this.distanceFactor = value; }
 
     public GameObject CurrentLayerAnchor { get => currentLayerAnchor; }
     public bool InfoPoinsEnabled { get => infoPointsEnabled; set => infoPointsEnabled = value; }
@@ -55,15 +55,6 @@ public class Accordion : MonoBehaviour
     void OnEnable()
     {
         infoFactory = GetComponent<InfoFactory>();
-    }
-
-    private void SetFocusDistance(float focusDistance)
-    {
-        distanceFactor = focusDistance;
-
-        Vector3 distanceVector = Camera.main.transform.position - transform.position;
-        Vector3 focusPosition = transform.position + distanceVector * distanceFactor;
-        this.focusDistance = Vector3.Distance(Camera.main.transform.position, focusPosition);
     }
 
     public void SetStep(float step)
@@ -100,7 +91,6 @@ public class Accordion : MonoBehaviour
             layers.SetActive(true);
 
             Camera.main.GetComponentInChildren<PostProcessLayer>().enabled = true;
-            Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(this.focusDistance);
         }
 
         if (currentType.Equals("behind")) {
@@ -118,8 +108,17 @@ public class Accordion : MonoBehaviour
             background.SetActive(true);
         }
 
+        UpdateFocusDistance();
         UpdateLayers();
         UpdateInfoPoints();
+    }
+
+    private void UpdateFocusDistance() {
+        Vector3 distanceVector = Camera.main.transform.position - transform.position;
+        Vector3 focusPosition = transform.position + distanceVector * distanceFactor;
+        this.focusDistance = Vector3.Distance(Camera.main.transform.position, focusPosition);
+
+        Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(this.focusDistance);
     }
 
     private void ResetToOriginPositions()
