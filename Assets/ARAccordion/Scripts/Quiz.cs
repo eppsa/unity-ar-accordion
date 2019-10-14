@@ -16,9 +16,9 @@ enum QuizState
 }
 
 [RequireComponent(typeof(Image))]
-public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerDownHandler, IPointerUpHandler
+public class Quiz : MonoBehaviour, IDragHandler, IEndDragHandler, IDropHandler, IPointerDownHandler, IPointerUpHandler
 {
-    private const float ANSWER_MOVE_SPEED = 1f;
+    private const float ANSWER_MOVE_SPEED = 1.0f;
 
     [SerializeField] private GameObject questionContainer;
     [SerializeField] private GameObject[] answerContainers;
@@ -144,7 +144,9 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerDownHandl
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (waiting) {
+        Debug.Log("OnDrag()");
+
+        if (waiting || currentQuestionAnswered) {
             return;
         }
 
@@ -176,17 +178,25 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerDownHandl
 
                 selectedAnswer = eventData.pointerEnter;
                 selectedAnswerStartPosition = selectedAnswer.transform.position;
+
+                Debug.Log("selectedAnswer " + selectedAnswer);
             }
         }
     }
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (selectedAnswer == null || waiting) {
+        Debug.Log("OnDrop()");
+
+        if (selectedAnswer == null || waiting || currentQuestionAnswered) {
             return;
         }
 
-        if (eventData.pointerEnter.gameObject == dropArea) {
+        Debug.Log(eventData);
+        Debug.Log(eventData.pointerEnter);
+        Debug.Log(eventData.pointerEnter.gameObject);
+
+        if (eventData.pointerEnter && eventData.pointerEnter.gameObject == dropArea) {
             dropArea.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
             selectedAnswer.transform.position = eventData.pointerEnter.transform.position;
             selectedAnswer.transform.localPosition = new Vector3(selectedAnswer.transform.localPosition.x, selectedAnswer.transform.localPosition.y, -0.002f);
@@ -195,33 +205,53 @@ public class Quiz : MonoBehaviour, IDragHandler, IDropHandler, IPointerDownHandl
             dropEvent.Invoke();
 
             CheckAnswer();
-        } else {
-            selectedAnswer.transform.position = selectedAnswerStartPosition;
-            selectedAnswer.transform.localPosition = new Vector3(selectedAnswer.transform.localPosition.x, selectedAnswer.transform.localPosition.y, -0.001f);
-            selectedAnswer.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
-            selectedAnswer = null;
+        } 
+    }
+
+    public void OnEndDrag(PointerEventData eventData) {
+        Debug.Log("OnEndDrag()");
+
+        if (currentQuestionAnswered || selectedAnswer == null) {
+            return;
         }
+
+        selectedAnswer.transform.position = selectedAnswerStartPosition;
+        selectedAnswer.transform.localPosition = new Vector3(selectedAnswer.transform.localPosition.x, selectedAnswer.transform.localPosition.y, -0.001f);
+        selectedAnswer.transform.localScale = new Vector3(defaultScaleFactor, defaultScaleFactor, defaultScaleFactor);
+        selectedAnswer = null;
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (currentQuestionAnswered || waiting) {
+            return;
+        }
+
         this.pointerDownPosition = eventData.position;
+        Debug.Log(this.pointerDownPosition);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (Vector3.Distance(this.pointerDownPosition, eventData.position) == 0) {
-            if (eventData.pointerEnter && eventData.pointerEnter.tag == "AnswerContainer") {
-                selectedAnswer = eventData.pointerEnter;
-                selectedAnswer.transform.localPosition = new Vector3(selectedAnswer.transform.localPosition.x, selectedAnswer.transform.localPosition.y, -0.004f);
-
-                currentQuestionAnswered = true;
-
-                this.pointerDownPosition = Vector2.zero;
-
-                StartCoroutine(MoveAnswerToDropArea());
-            }
+        
+        if (dragged(eventData.position) || currentQuestionAnswered || waiting) {
+            return;   
         }
+
+        if (eventData.pointerEnter && eventData.pointerEnter.tag == "AnswerContainer") {
+            selectedAnswer = eventData.pointerEnter;
+            selectedAnswer.transform.localPosition = new Vector3(selectedAnswer.transform.localPosition.x, selectedAnswer.transform.localPosition.y, -0.004f);
+
+            currentQuestionAnswered = true;
+
+            this.pointerDownPosition = Vector2.zero;
+
+            StartCoroutine(MoveAnswerToDropArea());
+        }
+    }
+
+    private bool dragged(Vector3 pointerUpPosition) {
+        return Vector3.Distance(this.pointerDownPosition, pointerUpPosition) != 0;
     }
 
     private IEnumerator MoveAnswerToDropArea()
