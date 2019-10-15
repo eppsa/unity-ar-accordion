@@ -85,6 +85,7 @@ GameObject:
   - component: {fileID: 6995614275982418103}
   - component: {fileID: 5199916178847618194}
   - component: {fileID: 1480295414334839336}
+  - component: {fileID: 5857740307913296008}
   m_Layer: 5
   m_Name: Introduction
   m_TagString: Untagged
@@ -109,7 +110,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 300, y: -700}
-  m_SizeDelta: {x: 800, y: 415}
+  m_SizeDelta: {x: 800, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &5199916178847618194
 CanvasRenderer:
@@ -155,6 +156,20 @@ MonoBehaviour:
   m_Text: "Erkunden Sie Rubens Meisterwerk \n\"Juno und Argus\u201C in seinen verschiedenen
     Bildebenen! \n\nHalten Sie einfach die Kamera des Tablets auf das Gem\xE4lde und
     lassen Sie sich \xFCberraschen, was passiert!"
+--- !u!114 &5857740307913296008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612254868675431959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
 --- !u!1 &2017162612429961445
 GameObject:
   m_ObjectHideFlags: 0
