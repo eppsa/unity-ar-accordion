@@ -187,7 +187,7 @@ public class Accordion : MonoBehaviour
         } else {
             newDirection = Vector3.RotateTowards(go.transform.forward, go.transform.parent.transform.forward, speed * 0.02f * Time.deltaTime, 0.0f);
         }
-        go.transform.rotation = Quaternion.LookRotation(newDirection, new Vector3(0, Camera.main.transform.up.y, 0));
+        go.transform.rotation = Quaternion.LookRotation(newDirection, new Vector3(0, 1, 0));
     }
 
     private void UpdateMaterial(int layerIndex)
