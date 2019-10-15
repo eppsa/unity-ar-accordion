@@ -362,7 +362,6 @@ public class Controller : MonoBehaviour
 
     public void OnStart()
     {
-        Debug.Log("OnStart");
         this.state = State.ACCORDION;
         UpdateState();
     }

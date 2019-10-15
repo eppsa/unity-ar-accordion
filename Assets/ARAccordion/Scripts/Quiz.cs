@@ -144,8 +144,6 @@ public class Quiz : MonoBehaviour, IDragHandler, IEndDragHandler, IDropHandler, 
 
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("OnDrag()");
-
         if (waiting || currentQuestionAnswered) {
             return;
         }
@@ -186,8 +184,6 @@ public class Quiz : MonoBehaviour, IDragHandler, IEndDragHandler, IDropHandler, 
 
     public void OnDrop(PointerEventData eventData)
     {
-        Debug.Log("OnDrop()");
-
         if (selectedAnswer == null || waiting || currentQuestionAnswered) {
             return;
         }
@@ -209,8 +205,6 @@ public class Quiz : MonoBehaviour, IDragHandler, IEndDragHandler, IDropHandler, 
     }
 
     public void OnEndDrag(PointerEventData eventData) {
-        Debug.Log("OnEndDrag()");
-
         if (currentQuestionAnswered || selectedAnswer == null) {
             return;
         }
@@ -357,8 +351,6 @@ public class Quiz : MonoBehaviour, IDragHandler, IEndDragHandler, IDropHandler, 
     public void SetPositions()
     {
         Transform anchor = accordion.CurrentLayerAnchor.transform.Find("QuizAnchor");
-
-        Debug.Log(accordion.CurrentLayerAnchor.transform.parent.name);
 
         transform.position = anchor.position;
         transform.rotation = anchor.rotation;

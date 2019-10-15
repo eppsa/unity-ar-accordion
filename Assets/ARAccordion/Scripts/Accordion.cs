@@ -108,16 +108,17 @@ public class Accordion : MonoBehaviour
             background.SetActive(true);
         }
 
-        UpdateFocusDistance();
         UpdateLayers();
         UpdateInfoPoints();
+
+        if (Camera.main.transform.hasChanged && this.step % 1 == 0) {
+            UpdateFocusDistance();
+            Camera.main.transform.hasChanged = false;
+        }
     }
 
     private void UpdateFocusDistance() {
-        Vector3 distanceVector = Camera.main.transform.position - transform.position;
-        Vector3 focusPosition = transform.position + distanceVector * distanceFactor;
-        this.focusDistance = Vector3.Distance(Camera.main.transform.position, focusPosition);
-
+        this.focusDistance = Vector3.Distance(Camera.main.transform.position, this.currentLayerAnchor.transform.position);
         Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(this.focusDistance);
     }
 
@@ -326,6 +327,7 @@ public class Accordion : MonoBehaviour
             } else {
                 if (to > 0) {
                     SetStep(to);
+                    UpdateFocusDistance();
                 }
                 isMoving = false;
                 onMovementFinish.Invoke();
