@@ -47,7 +47,7 @@ public class Accordion : MonoBehaviour
 
     public float Step { get => step; }
     public float Exponent { get => exponent; set => exponent = value; }
-    public float DistanceFactor { get => distanceFactor; set => this.SetFocusDistance(value); }
+    public float DistanceFactor { get => distanceFactor; set => this.distanceFactor = value; }
 
     public GameObject CurrentLayerAnchor { get => currentLayerAnchor; }
     public bool InfoPoinsEnabled { get => infoPointsEnabled; set => infoPointsEnabled = value; }
@@ -55,15 +55,6 @@ public class Accordion : MonoBehaviour
     void OnEnable()
     {
         infoFactory = GetComponent<InfoFactory>();
-    }
-
-    private void SetFocusDistance(float focusDistance)
-    {
-        distanceFactor = focusDistance;
-
-        Vector3 distanceVector = Camera.main.transform.position - transform.position;
-        Vector3 focusPosition = transform.position + distanceVector * distanceFactor;
-        this.focusDistance = Vector3.Distance(Camera.main.transform.position, focusPosition);
     }
 
     public void SetStep(float step)
@@ -100,7 +91,6 @@ public class Accordion : MonoBehaviour
             layers.SetActive(true);
 
             Camera.main.GetComponentInChildren<PostProcessLayer>().enabled = true;
-            Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(this.focusDistance);
         }
 
         if (currentType.Equals("behind")) {
@@ -120,6 +110,16 @@ public class Accordion : MonoBehaviour
 
         UpdateLayers();
         UpdateInfoPoints();
+
+        if (Camera.main.transform.hasChanged && this.step % 1 == 0) {
+            UpdateFocusDistance();
+            Camera.main.transform.hasChanged = false;
+        }
+    }
+
+    private void UpdateFocusDistance() {
+        this.focusDistance = Vector3.Distance(Camera.main.transform.position, this.currentLayerAnchor.transform.position);
+        Camera.main.GetComponentInChildren<PostFX>().UpdateFocusDistance(this.focusDistance);
     }
 
     private void ResetToOriginPositions()
@@ -187,7 +187,7 @@ public class Accordion : MonoBehaviour
         } else {
             newDirection = Vector3.RotateTowards(go.transform.forward, go.transform.parent.transform.forward, speed * 0.02f * Time.deltaTime, 0.0f);
         }
-        go.transform.rotation = Quaternion.LookRotation(newDirection, new Vector3(0, Camera.main.transform.up.y, 0));
+        go.transform.rotation = Quaternion.LookRotation(newDirection, new Vector3(0, 1, 0));
     }
 
     private void UpdateMaterial(int layerIndex)
@@ -327,6 +327,7 @@ public class Accordion : MonoBehaviour
             } else {
                 if (to > 0) {
                     SetStep(to);
+                    UpdateFocusDistance();
                 }
                 isMoving = false;
                 onMovementFinish.Invoke();

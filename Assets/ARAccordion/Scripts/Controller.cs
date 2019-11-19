@@ -84,8 +84,8 @@ public class Controller : MonoBehaviour
             postFx.UpdateAperture(4f);
             postFx.UpdateFocalLength(80.0f);
         } else {
-            postFx.UpdateAperture(1.0f);
-            postFx.UpdateFocalLength(42.0f);
+            postFx.UpdateAperture(1.4f);
+            postFx.UpdateFocalLength(65.0f);
 
             trackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
         }
