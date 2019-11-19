@@ -1,9 +1,9 @@
 {
   "accordion": {
     "quiz": {
-      "resultOne": "Gut, sie haben eine von {1} Fragen richtig beantwortet.",
-      "resultGood": "Super, sie haben {0} von {1} Fragen richtig beantwortet.",
-      "resultBad": "Schade, sie haben keine Frage richtig beantwortet. Versuchen sie es nochmal!"
+      "resultOne": "Gut, Sie haben eine von {1} Fragen richtig beantwortet.",
+      "resultGood": "Super, Sie haben {0} von {1} Fragen richtig beantwortet.",
+      "resultBad": "Schade, Sie haben keine Frage richtig beantwortet. Versuchen Sie es nochmal!"
     },
     "layers": [
       {
