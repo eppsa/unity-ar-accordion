@@ -4,13 +4,13 @@ A Unity application for mobile devices using ARFoundation to augment a picture b
 ## Requirements
 Currently supporting only iOS.
 
-- Unity >= 2019.1
+- Unity >= 2019.2.7
 - Packages (Preview)
   - AR Foundation >= 2.2.0 (preview.2)
   - ARKit XR Plugin >= 2.1.0 (preview.5)
   - Post Processing >= 2.2.1
-- XCode 10
-- iOS >= 11.3
+- XCode 10 (used 12.4)
+- iOS >= 11.3 (used 12)
 
 ## Usage
 1. Print or project the reference image.
@@ -25,4 +25,3 @@ Currently supporting only iOS.
 - Build project for XCode, open in XCode
 - Check, adjust signing with Distribution certificates (set PP)
 - Go to 'General / App Icons and Launch Images / App Icons Source'; click on the right arrow; link 'AppIcon-1024x1024.png' at AppIcon 1024 drop zone located at the bottom of the sheet.
-- Go to 'Info' and remove 'Application does not run in background' from Info.plist options
