@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.unity.package-manager-ui": "2.1.2",
-    "com.unity.postprocessing": "2.1.7",
+    "com.unity.postprocessing": "2.2.1",
     "com.unity.xr.arcore": "2.1.0-preview.5",
     "com.unity.xr.arfoundation": "2.2.0-preview.2",
     "com.unity.xr.arkit": "2.1.0-preview.5",
@@ -35,6 +35,5 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
-  },
-  "registry": "https://staging-packages.unity.com"
+  }
 }
