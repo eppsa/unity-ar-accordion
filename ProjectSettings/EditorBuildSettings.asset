@@ -5,13 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/ARAccordion/Scenes/MainARFoundation.unity
-    guid: ed9d1589071e04c0f86e0536c6364379
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/ARAccordion/Scenes/Main.unity
     guid: e0b018a3c3b5cfd4c8e316706ec0a18c
+  - enabled: 1
+    path: Assets/ARAccordion/Scenes/MoveTowardsCamera.unity
+    guid: bd0099aa0dea84264986119d67170d55
   m_configObjects: {}
