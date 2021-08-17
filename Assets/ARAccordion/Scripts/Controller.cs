@@ -130,19 +130,6 @@ public class Controller : MonoBehaviour
         accordion.transform.localScale = new Vector3(this.trackedImage.size.y, 1f, this.trackedImage.size.y); //2.739377
     }
 
-    void OnDisable()
-    {
-        StopTracking();
-    }
-
-    void StopTracking()
-    {
-        if (trackedImageManager) {
-            trackedImageManager.trackedImagesChanged -= OnTrackedImagesChanged;
-            trackedImageManager.enabled = false;
-        }
-    }
-
     private void UpdateTrackedImage(ARTrackedImage trackedImage)
     {
         if (trackedImage.trackingState != TrackingState.None) {
@@ -239,7 +226,6 @@ public class Controller : MonoBehaviour
     {
         switch (this.state) {
             case State.START:
-                DeactivateTracking();
                 ShowStart();
                 break;
             case State.ACCORDION:
@@ -362,13 +348,10 @@ public class Controller : MonoBehaviour
 
     public void OnStart()
     {
+        accordion.gameObject.SetActive(true);
+
         this.state = State.ACCORDION;
         UpdateState();
-    }
-
-    private void DeactivateTracking()
-    {
-        trackedImageManager.enabled = false;
     }
 
     private void ActivateTracking()
