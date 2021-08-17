@@ -24,4 +24,3 @@ Currently supporting only iOS.
 ## Distribution WRM
 - Build project for XCode, open in XCode
 - Check, adjust signing with Distribution certificates (set PP)
-- Go to 'General / App Icons and Launch Images / App Icons Source'; click on the right arrow; link 'AppIcon-1024x1024.png' at AppIcon 1024 drop zone located at the bottom of the sheet.
