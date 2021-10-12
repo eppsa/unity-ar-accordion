@@ -167,7 +167,7 @@ PlayerSettings:
     Android: com.ArtCom.Unity.ArAccordion
     iPhone: com.wallrafrichartzmuseum.eppsa.ar
   buildNumber:
-    iPhone: 20211011
+    iPhone: 20211012
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 24
   AndroidTargetSdkVersion: 0
@@ -524,7 +524,8 @@ PlayerSettings:
   enableInternalProfiler: 0
   logObjCUncaughtExceptions: 1
   enableCrashReportAPI: 0
-  cameraUsageDescription: Camera usage required.
+  cameraUsageDescription: Camera is used to detect the Rubens painting to use its
+    position for the AR infos. Camera data is not saved or used in any other way.
   locationUsageDescription: 
   microphoneUsageDescription: 
   switchNetLibKey: 
